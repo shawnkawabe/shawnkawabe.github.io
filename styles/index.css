@@ -1,0 +1,23 @@
+body{
+    margin: 0;
+}
+*{
+    font-family:        'Fira Sans',    sans-serif;
+}
+.container--main {
+    height:             100vh;
+    width:              100vw;
+    background:         rgb(111,0,255);
+    background:         linear-gradient(180deg, rgba(111,0,255,1) 0%, rgba(190,190,247,1) 100%);
+}
+.text--main{
+    font-weight:        lighter;
+    font-size:          50px;
+    color:              #ffeb3b;
+}
+.container--sub{
+    display:            flex;
+    height:             100%;
+    justify-content:    center;
+    align-items:        center;
+}

@@ -1,0 +1,8 @@
+{
+    "editor.insertSpaces": false,
+    "html.format.indentHandlebars": true,
+    "html.format.indentInnerHtml": true,
+    "html.format.wrapAttributesIndentSize": 4,
+    "prettier.useTabs": true,
+    "prettier.vueIndentScriptAndStyle": true
+}
