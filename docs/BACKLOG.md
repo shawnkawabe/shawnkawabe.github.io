@@ -6,6 +6,59 @@ Legend: **[H]** needs Shawn (content or decision) · **Deps** = tasks that must 
 
 ---
 
+## Prerequisites (from ARCHITECTURE)
+
+Things that must exist or be decided before the task in **Blocks** can start. Derived from ARCHITECTURE §2 (folders), §3 (content), §8 (CI/CD) and §9 (budget). Verified items carry the date checked.
+
+- [x] **PRE-01 Folder skeleton** — Blocks: P1-04 onward
+  Every directory in ARCHITECTURE §2 exists. Empty ones hold a `.gitkeep`; delete it when the first real file lands there.
+
+  | Folder | First filled by |
+  | --- | --- |
+  | `src/lib/` | P1-04 (`schemas.ts`, `content.ts`), P1-05, P3-03 |
+  | `src/styles/` | P0-01 (`global.css`), P1-01 (`tokens.css`), P1-02 (`covers.css`) |
+  | `src/components/ui/` | P1-06 |
+  | `src/components/patterns/` | P2-02, P2-03 |
+  | `src/components/three/` | P0-04 (spike), P3-01 |
+  | `src/layouts/` | P2-01 |
+  | `src/pages/work/` | P2-04, P2-05 |
+  | `src/dev/` | P1-06 (dev gallery, injected by the `devGallery` integration, §4.3) |
+  | `src/i18n/` | P2-01 (`en.json`) |
+  | `src/assets/icons/clouds/` | P1-07 |
+  | `tests/unit/`, `tests/unit/islands/` | P0-02, P1-04, P1-06 |
+  | `tests/e2e/` | P3-04 |
+  | `public/img/` | P1-08 |
+  | `public/og/` | P2-01, P3-05 |
+  | `.github/workflows/` | P0-03, P3-04 |
+
+- [x] **PRE-02 Line endings** — Blocks: P0-02
+  `.gitattributes` forces LF (`* text=auto eol=lf`) and marks images, fonts and zips binary. Without it, Windows checkouts get CRLF and `prettier --check` fails locally while passing in CI.
+
+- [x] **PRE-03 Local toolchain** — Blocks: P0-01
+  Node 24 LTS (`.nvmrc`), npm 11. Checked 2026-10-25: Node 24.22.1, npm 11.19.1.
+
+- [ ] **PRE-04 Approve npm install scripts** — Blocks: P1-08 (image conversion), CI parity
+  npm 11 skips install scripts not covered by `allowScripts`: currently `esbuild` and `sharp`. The build works without them today, but `sharp` is needed for image work. Run `npm install-scripts approve esbuild sharp` and commit the resulting config.
+
+- [x] **PRE-05 Version assumptions** — Blocks: the task named
+  Checked 2026-10-25, re-check before installing:
+  - `import { z } from 'astro/zod'` resolves in Astro 6.4 (P1-04).
+  - `actions/checkout@v7`, `withastro/action@v6`, `actions/deploy-pages@v5` tags exist (P0-03).
+  - Fontsource variable packages exist for all four fonts, including Orbitron, v5.3.0 (P1-03).
+  - `style-dictionary@5` is 5.7.1 (P1-01).
+  - `@react-three/fiber@9` (9.8.2) requires `react` and `react-dom` `>=19 <19.4`; installed React is 19.3.1. **Dependabot's minor group will try to raise React to 19.4 and break R3F** — hold React below 19.4 until R3F allows it (P0-03 dependabot config or P0-04).
+  - Stack drift already handled in P0-01: Astro 6 + Vite 7 + `@astrojs/react@5` + `overrides.vite`.
+
+- [ ] **PRE-06 GitHub repository settings [H]** — Blocks: P0-03
+  §8.2: Settings → Pages → Source = **GitHub Actions**. Settings → Secrets and variables → Actions → **Variables** → `PUBLIC_WEB3FORMS_KEY` (may be empty; a variable, not a secret). Branch protection on `main` requiring the `build` job: add after the first workflow run, since the check must exist before it can be required.
+
+- [ ] **PRE-07 Web3Forms access key [H]** — Blocks: P2-09 (not P0-03)
+  Create the key at web3forms.com for the contact email in `content/site.json`; store it in the repo variable from PRE-06 and in a local `.env` (git-ignored). Empty key is valid: the form is hidden and email/LinkedIn links remain (§10).
+
+- [ ] **PRE-08 Rescued project images [H]** — Blocks: P1-08
+  Copy the old repo's `assets/projects/` (26 PNGs + `_manifest.json`) into `docs/source-images/`. The folder is already git-ignored (§8.4) because originals may contain client data.
+
+
 ## Phase 0 — Foundation and spike
 
 - [x] **P0-01 Scaffold the project**
