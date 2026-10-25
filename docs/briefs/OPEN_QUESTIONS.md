@@ -1,0 +1,31 @@
+# Decisions log
+
+Every question raised while planning has been settled. The Code Agent follows these decisions and does not ask again. (File name kept so existing links still work.)
+
+| # | Question | Decision |
+| --- | --- | --- |
+| 1 | Dates on projects and companies | None anywhere. The site is a project showcase; the resume holds career history. |
+| 2 | Employer for BRF, Cooxupé, Orígeo, Lavoro Agro, Banco Master, Intelbras, Ihara, GDM Seeds | Delivered via Nescara · Globant. Volkswagen and Adtalem via CI&T. |
+| 3 | Public email | `kawabeshawn@gmail.com` (as on the resume). |
+| 4 | LinkedIn | `https://www.linkedin.com/in/shawnkawabe` (the resume's link). |
+| 5 | Certification verification link | None for now: certifications render as plain text chips. Add a URL to `site.links.credentials` later if wanted. |
+| 6 | Spoken languages | Portuguese (native), English (professional working proficiency). |
+| 7 | Profile photo | No photo; the About bio takes the full width. |
+| 8 | Ihara (+45%, −30%) and Orígeo (−80%) metrics | Not shown. Outcomes are worded qualitatively. |
+| 9 | BRF "increased engagement and quality leads" | Not shown (unmeasured). |
+| 10 | Adtalem: Gearset, Own Data, GRAX | Gearset and Own Data stay as skills (both were v1 tags). The gallery caption says "Backup and archival evaluation" without naming GRAX. |
+| 11 | Screenshot permission | The 16 gallery images were already public on the v1 site, so they are approved. Blur any personal or customer data during conversion (P1-08). |
+| 12 | Projects without gallery screenshots (Ihara, GDM Seeds, Banco Master, Orígeo, Intelbras, Lavoro Agro) | Show as cards with their cover. Lavoro Agro gets a written architecture section; the agent may draw a simple SVG diagram from it. |
+| 13 | Flagship case-study depth (team size, decisions, takeaway) | Optional. Sections render only when data exists; the site launches with challenge, gallery and outcomes. Add more later through briefs. |
+| 14 | Orchid industry | Omitted (field is optional). |
+| 15 | Third Republic | Shown as a card under its own name. |
+| 16 | Nimble AMS, Fonteva, Nonprofit Cloud | Post-MVP. The Membership cloud stays hidden until those projects are added. |
+| 17 | Old Experience Cloud site | Disposable: v2 replaces it. No metadata retrieval needed. |
+| 18 | Contact form without a Web3Forms key | The page shows email and LinkedIn; the form appears once the key is set. |
+
+## Setup steps only Shawn can do (not questions)
+
+1. Copy the rescued `assets/projects/` folder (26 PNGs + `_manifest.json`) from `C:\Users\kawab_\Documents\Personal\portfolio\` into the new repo as `docs/source-images/` (backlog P1-08).
+2. In GitHub: Settings → Pages → Source = GitHub Actions (P0-03).
+3. Create a free Web3Forms access key for `kawabeshawn@gmail.com` and save it as the repository variable `PUBLIC_WEB3FORMS_KEY` (any time; the site works without it).
+4. Optional, whenever convenient: fill `docs/briefs/{project}.md` from `_TEMPLATE.md` to deepen a case study.

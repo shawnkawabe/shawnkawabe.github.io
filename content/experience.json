@@ -1,0 +1,63 @@
+[
+  {
+    "id": "third-republic",
+    "employer": "Third Republic",
+    "role": "Data Cloud Consultant",
+    "projectIds": [
+      "third-republic-data-cloud"
+    ]
+  },
+  {
+    "id": "orchid",
+    "employer": "Orchid",
+    "role": "Senior Salesforce Developer",
+    "projectIds": [
+      "orchid-component-library"
+    ]
+  },
+  {
+    "id": "cit",
+    "employer": "CI&T",
+    "role": "Senior Salesforce Developer",
+    "projectIds": [
+      "adtalem-global-education",
+      "volkswagen-group-portal"
+    ]
+  },
+  {
+    "id": "globant",
+    "employer": "Globant",
+    "role": "Ssr. Adv. Salesforce Developer",
+    "projectIds": [
+      "brf",
+      "origeo",
+      "lavoro-agro",
+      "banco-master",
+      "intelbras",
+      "cooxupe",
+      "ihara",
+      "gdm-seeds"
+    ]
+  },
+  {
+    "id": "nescara",
+    "employer": "Nescara",
+    "role": "Salesforce Developer — Level 5",
+    "projectIds": [
+      "brf",
+      "origeo",
+      "lavoro-agro",
+      "banco-master",
+      "intelbras",
+      "cooxupe",
+      "ihara",
+      "gdm-seeds"
+    ]
+  },
+  {
+    "id": "myvillage",
+    "employer": "MyVillage",
+    "role": "Software Engineer Intern",
+    "projectIds": []
+  }
+]

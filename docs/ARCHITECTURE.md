@@ -1,0 +1,427 @@
+# Architecture
+
+## 1. Overview
+
+Static site built by Astro 6 and deployed to GitHub Pages by GitHub Actions. Every route is pre-rendered HTML. JavaScript ships only for React islands that need it.
+
+```
+content/projects|skills|experience|certifications.json ──► src/content.config.ts (collections, zod)
+content/site.json ──────────────────────────────────────► src/lib/content.ts (import + siteSchema.parse)
+                                    │
+                                    ▼
+                  src/lib/content.ts getters ──► src/lib/derive.ts (counts, sorting)
+                                    │
+                                    ▼
+   src/pages/*.astro ──► layouts ──► patterns (.astro / React islands) ──► ui primitives
+                                                │
+tokens/*.tokens.json ──► Style Dictionary ──► src/styles/tokens.css ──► Tailwind @theme ──► all components
+```
+
+Rule of dependency: **pages → layouts → patterns → ui → tokens**. A layer imports only from layers to its right. **Only pages, layouts and `src/lib/` read content** (through the getters in `src/lib/content.ts`); patterns and ui receive data as props.
+
+## 2. Folder map
+
+```
+.
+├── CLAUDE.md                     # agent instructions (read every session)
+├── CONTENT.md                    # how to edit content
+├── README.md
+├── astro.config.mjs              # site URL, integrations (react, sitemap, devGallery), output: 'static'
+├── style-dictionary.config.js
+├── tsconfig.json                 # strict, "@/*" → "src/*"
+├── .nvmrc                        # 24
+├── .env.example                  # PUBLIC_WEB3FORMS_KEY=
+├── content/                      # SINGLE SOURCE OF TRUTH for text and data
+│   ├── site.json                 # one object
+│   ├── projects.json             # array, each entry has "id"
+│   ├── skills.json               # array
+│   ├── experience.json           # array
+│   └── certifications.json       # array
+├── tokens/                       # DTCG 2025.10
+│   ├── base.tokens.json
+│   ├── theme.dark.tokens.json
+│   └── theme.light.tokens.json
+├── public/
+│   ├── img/{project-id}/         # cover.webp, 01.webp … (render only when approved)
+│   ├── og/default.png            # until P3-05 adds per-page images
+│   └── robots.txt
+├── src/
+│   ├── content.config.ts         # collections + zod schemas (projects, skills, experience, certifications)
+│   ├── lib/
+│   │   ├── schemas.ts            # all zod schemas, incl. siteSchema (imported by content.config.ts)
+│   │   ├── content.ts            # typed getters: getSite(), getProjects(), getProject(id), getSkills()…
+│   │   ├── derive.ts             # skillStats(), cloudStats(), sortProjects(), prevNext(), filterProjects()
+│   │   ├── motion.ts             # prefersReducedMotion(), gsap setup
+│   │   └── filters.ts            # parse/serialise ?cloud=&cap= URL state
+│   ├── styles/
+│   │   ├── tokens.css            # GENERATED, git-ignored — do not edit
+│   │   ├── global.css            # @import tailwind, @theme mapping, base styles
+│   │   └── covers.css            # cover gradient presets (only file allowed raw colours)
+│   ├── assets/icons/clouds/      # original SVG icons
+│   ├── components/
+│   │   ├── ui/                   # shadcn/ui source + small Astro primitives
+│   │   ├── patterns/             # pf-* components (.astro and .tsx)
+│   │   └── three/                # R3F scenes (React only)
+│   ├── layouts/
+│   │   ├── BaseLayout.astro      # <html>, head/SEO, theme script, skip link, nav, footer
+│   │   ├── PageLayout.astro
+│   │   └── CaseStudyLayout.astro
+│   ├── pages/
+│   │   ├── index.astro
+│   │   ├── work/index.astro
+│   │   ├── work/[id].astro       # getStaticPaths from projects
+│   │   ├── skills.astro
+│   │   ├── about.astro
+│   │   ├── contact.astro
+│   │   └── 404.astro
+│   ├── dev/components.astro      # component gallery, injected only by `astro dev` (§4.3)
+│   └── i18n/en.json              # UI strings (button labels, aria text, empty states)
+├── tests/
+│   ├── unit/                     # vitest: lib, content integrity, .astro via Container API
+│   │   └── islands/              # vitest + Testing Library: React islands
+│   └── e2e/                      # playwright: a11y + smoke per route (P3-04)
+├── docs/                         # specs, ADRs, briefs, reference images
+└── .github/
+    ├── workflows/deploy.yml
+    └── dependabot.yml
+```
+
+Route note: the case-study file is `work/[id].astro`; the project `id` is its slug.
+
+## 3. Content layer
+
+`projects`, `skills`, `experience` and `certifications` are Astro content collections loaded with the `file()` loader (each file is an array of objects with an `id`). `site.json` is a single object, so it is **not** a collection: `src/lib/content.ts` imports it and parses it with `siteSchema`. **Any schema error fails the build.** `npm run validate:content` runs `astro sync` (collections) plus `tests/unit/content.test.ts` is part of `npm test` (site schema + cross-file checks).
+
+> Zod: in Astro 6 import it from `astro/zod` (`import { z } from 'astro/zod'`). Check the Astro 6 content-collections docs when implementing and follow them if the import path differs.
+
+### 3.1 Schemas — `src/lib/schemas.ts` (implement exactly)
+
+```ts
+import { z } from 'astro/zod';
+
+export const id = z.string().regex(/^[a-z0-9-]+$/);
+export const todo = z.array(z.string()).default([]);                          // never rendered
+
+export const image = z.object({
+  src: z.string(),
+  alt: z.string().min(5),
+  caption: z.string().optional(),
+  approved: z.boolean().default(false),
+});
+
+export const skillGroup = z.enum(['clouds', 'development', 'integration', 'devops', 'data',
+  'delivery', 'products', 'tools', 'languages-programming']);
+
+export const skillSchema = z.object({
+  id, label: z.string(), group: skillGroup,
+  accent: z.string().regex(/^cloud-[a-z]+$/).optional(),   // clouds only → var(--pf-g-color-{accent})
+  aliases: z.array(z.string()).optional(),
+});
+
+const section = z.discriminatedUnion('type', [
+  z.object({ type: z.literal('challenge'), body: z.string() }),
+  z.object({ type: z.literal('architecture'), body: z.string().optional(), image: image.optional() }),
+  z.object({ type: z.literal('decisions'), items: z.array(z.object({
+    decision: z.string(), why: z.string(), tradeoff: z.string().optional() })).min(1).max(4) }),
+  z.object({ type: z.literal('gallery'), images: z.array(image) }),
+  z.object({ type: z.literal('outcomes'), items: z.array(z.object({
+    label: z.string(), value: z.string().optional(), measured: z.boolean().default(false) })) }),
+  z.object({ type: z.literal('takeaway'), body: z.string() }),
+]);
+
+export const projectSchema = z.object({
+  id, title: z.string(), subtitle: z.string(), client: z.string(),
+  employers: z.array(id).min(1),                  // experience ids; projects carry NO dates of their own
+  role: z.string(), teamSize: z.string().optional(), industry: z.string().optional(),
+  clouds: z.array(id).min(1), capabilities: z.array(id), category: z.string(),
+  featured: z.boolean().default(false),
+  depth: z.enum(['case-study', 'card']),
+  summary: z.string().max(220),
+  cover: z.object({ preset: z.enum(['aurora', 'indigo', 'violet-edge', 'solid-blue']), image: image.optional() }),
+  sections: z.array(section).default([]),
+  todo,
+});
+
+export const experienceSchema = z.object({          // companies delivered through; NO dates
+  id, employer: z.string(), role: z.string(),
+  projectIds: z.array(id).default([]),
+});
+
+export const certificationSchema = z.object({
+  id, label: z.string(), skills: z.array(id),       // no dates
+});
+
+const seoPage = z.object({ title: z.string(), description: z.string() });
+
+export const siteSchema = z.object({
+  name: z.string(), role: z.string(), location: z.string(),
+  intro: z.string(),                          // **term** = brighter highlight
+  bio: z.array(z.string()).min(1),
+  principles: z.array(z.object({ title: z.string(), body: z.string() })),
+  availability: z.string(),
+  workIntro: z.string(),
+  ctaLine: z.string(),
+  workFacets: z.object({ clouds: z.string(), capabilities: z.array(id) }),
+  skillGroups: z.array(z.object({ id: skillGroup, label: z.string() })),
+  notFound: z.object({ title: z.string(), body: z.string() }),
+  languages: z.array(z.object({ label: z.string(), level: z.string() })),
+  links: z.object({
+    email: z.string().email(), linkedin: z.string().url(), github: z.string().url(),
+    resume: z.string().url(), credentials: z.union([z.string().url(), z.literal('')]),
+  }),
+  contact: z.object({ intro: z.string(), projectTypes: z.array(z.string()).min(1),
+    successMessage: z.string(), errorMessage: z.string() }),
+  seo: z.object({ homeTitle: z.string(), description: z.string(),
+    pages: z.object({ work: seoPage, skills: seoPage, about: seoPage, contact: seoPage, notFound: seoPage }) }),
+  trademarkNotice: z.string(),
+  photo: image.nullable().default(null),
+  todo,
+});
+```
+
+`src/content.config.ts` defines four collections with `file('content/{name}.json')` and the matching schema.
+
+Cross-file integrity (checked in `tests/unit/content.test.ts`):
+- every project `clouds[]` / `capabilities[]` id exists in `skills.json`; every `clouds[]` id has `group: "clouds"`;
+- every id in a project's `employers` exists in `experience.json`, and each of those experiences lists the project in `projectIds` (and vice versa);
+- every certification `skills[]` id and every `site.workFacets.capabilities` id exists in `skills.json`;
+- every `site.skillGroups[].id` is a group used by at least one skill;
+- at most 4 projects with `featured: true`; ids unique.
+
+### 3.2 Derived data (`src/lib/derive.ts`, `format.ts`)
+
+| Function | Returns | Used by |
+| --- | --- | --- |
+| `sortProjects(projects)` | featured first, then file order of `projects.json` | Work, Home |
+| `skillStats(skills, projects)` | `{ id, projectCount, projectIds }[]` | Skills, constellation, chips |
+| `cloudStats(skills, projects, certifications)` | `skillStats` for `group === "clouds"` + linked certifications; excludes clouds with 0 projects and 0 certifications | Constellation, CloudCard, Work facets |
+| `prevNext(id)` | `{ prev, next }` by sort order | Case study footer |
+| `filterProjects(projects, state)` | OR within group, AND across groups | Work filter island |
+| `employerNames(project, experience)` | `"Nescara · Globant"` | Case study snapshot bar |
+
+**No dates anywhere.** The site is a project showcase; career dates live on the resume. Content has no date fields, and no component renders dates (except the footer copyright year).
+
+All pure functions, 100% line coverage.
+
+### 3.3 Rendering rules that depend on data
+
+- Outcomes: always render `label`; render `value` only when `measured: true`. Labels must read as complete statements on their own.
+- Images (gallery, cover image, photo): render only when `approved: true`. A cover image is used only when declared in `cover.image`; otherwise the gradient preset shows.
+- `todo` fields: never rendered. In `astro dev` only, `BaseLayout` logs the count of open todos to the console.
+
+## 4. Components
+
+### 4.1 Static (.astro) vs island (.tsx)
+
+| Component | Kind | Hydration | Notes |
+| --- | --- | --- | --- |
+| `NavRail` | astro | — | Tooltips CSS-only (`:hover`, `:focus-visible`); no shadcn Tooltip |
+| `MobileNav` | tsx | `client:media="(max-width: 1023px)"` | shadcn Sheet |
+| `ThemeToggle` | tsx | `client:idle` | Writes `data-theme` + localStorage; dispatches `pf-themechange` |
+| `Hero` | astro | — | Contains `DataCoreScene` slot |
+| `DataCoreScene` | tsx (R3F) | `client:visible` | Optional; poster first |
+| `CloudConstellation` | tsx (R3F) | `client:visible` | Accessible node list rendered as HTML sibling |
+| `CloudBento` / `CloudCard` | astro | — | Fallback + Skills page |
+| `CloudPanel` | tsx | inside constellation | Side panel |
+| `CoverCard`, `ProjectCard` | astro | — | Whole card is one link |
+| `WorkFilters` | tsx | `client:load` on /work | Reads/writes URL; filters server-rendered grid by `data-clouds` / `data-caps` |
+| `Marquee` | astro + CSS | — | CSS animation |
+| `SnapshotBar`, `SectionBand`, `DecisionCards`, `Outcomes`, `StackChips`, `Takeaway`, `PrevNext` | astro | — | Case study |
+| `Gallery` | astro | — | Grid |
+| `Lightbox` | tsx | `client:visible` | shadcn Dialog |
+| `CompanyList` | astro | — | About page: company + role + project chips |
+| `ContactForm` | tsx | `client:visible` | RHF + zod + Web3Forms; not rendered when key is empty |
+| `Reveal` | astro wrapper + tiny script | inline | GSAP ScrollTrigger, no-op on reduced motion |
+
+### 4.2 Key props contracts
+
+```ts
+type CoverCardProps = { title: string; subtitle: string; href: string;
+  cover: { preset: CoverPreset; image?: Image }; icon?: IconName };
+
+type ProjectCardProps = { project: Project; cloudLabels: Record<string, string> };
+
+type CloudNode = { id: string; label: string; accent: string;   // accent = "cloud-sales"
+  projectCount: number;
+  certifications: { id: string; label: string }[];
+  projects: { id: string; title: string }[] };
+type CloudConstellationProps = { nodes: CloudNode[]; centerLabel: string };
+
+type WorkFiltersProps = { clouds: FacetOption[]; capabilities: FacetOption[];
+  allSkills: Record<string, string>;   // id → label, for URL ids outside the facet lists
+  total: number };                     // grid items carry data-clouds="a,b" data-caps="c,d"
+type FacetOption = { id: string; label: string; count: number };
+
+type ContactFormProps = { accessKey: string; projectTypes: string[];
+  successMessage: string; errorMessage: string; fallbackEmail: string };
+```
+
+Islands receive plain serialisable props only (no functions, no class instances).
+
+### 4.3 Dev component gallery
+
+`src/dev/components.astro` lives outside `src/pages/`, so production builds never see it. A small inline integration in `astro.config.mjs` injects it only for the dev server:
+
+```js
+const devGallery = () => ({
+  name: 'dev-gallery',
+  hooks: {
+    'astro:config:setup': ({ command, injectRoute }) => {
+      if (command === 'dev') injectRoute({ pattern: '/dev/components', entrypoint: './src/dev/components.astro' });
+    },
+  },
+});
+```
+
+It is therefore never built, never deployed and never in the sitemap.
+
+## 5. Styling
+
+- `global.css`: `@import "tailwindcss"; @import "./tokens.css"; @import "./covers.css";` then `@theme` maps Tailwind names to tokens, e.g. `--color-surface-1: var(--pf-g-color-surface-1);`, `--font-heading: var(--pf-g-font-family-heading);`, `--radius-lg: var(--pf-g-radius-lg);`. Breakpoints in `@theme` are literal (`--breakpoint-lg: 1024px;` …) because media queries cannot use `var()`.
+- Components use those Tailwind names (`bg-surface-2 text-on-surface-1 rounded-lg`). No arbitrary values (`bg-[#123]`).
+- shadcn components: after `shadcn add`, replace their default CSS variables with token-mapped ones in `global.css`; do not keep shadcn's default palette.
+
+## 6. Theme
+
+Inline script in `BaseLayout` `<head>` (before CSS paints):
+
+```html
+<script is:inline>
+  try {
+    const s = localStorage.getItem('pf-theme');
+    const t = s ?? (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+    document.documentElement.dataset.theme = t;
+  } catch { document.documentElement.dataset.theme = 'dark'; }
+</script>
+```
+
+3D scenes read colours with `getComputedStyle(document.documentElement)` and re-read them on the `pf-themechange` event dispatched by `ThemeToggle`.
+
+## 7. Testing
+
+| Level | Tool | Scope | Location | From |
+| --- | --- | --- | --- | --- |
+| Unit | Vitest | `src/lib/*`, content integrity | `tests/unit/` | P0-02 |
+| Astro components | Vitest + Astro Container API | `.astro` components that branch on data | `tests/unit/` | P1-06 |
+| Islands | Vitest + Testing Library | Every React island: renders, keyboard, states | `tests/unit/islands/` | P1-06 |
+| Accessibility | Playwright + @axe-core/playwright | Every route, dark and light | `tests/e2e/a11y.spec.ts` | P3-04 |
+| Smoke | Playwright | Every route 200, has h1, nav works, no console errors | `tests/e2e/smoke.spec.ts` | P3-04 |
+| Links | linkinator | `dist/` | `ci` | P0-02 |
+| Performance | Lighthouse CI | Home, Work, one case study | second workflow | P3-04 |
+
+3D components: test the HTML fallback and the accessible node list; do not test WebGL rendering.
+
+## 8. CI/CD and repository files
+
+### 8.1 Scripts (`package.json`)
+
+```json
+{
+  "predev": "npm run tokens",
+  "dev": "astro dev",
+  "tokens": "style-dictionary build --config style-dictionary.config.js",
+  "build": "npm run tokens && astro check && astro build",
+  "preview": "astro preview",
+  "lint": "eslint . && prettier --check .",
+  "test": "vitest run",
+  "validate:content": "astro sync",
+  "check:links": "linkinator dist --recurse --skip \"^(?!http://localhost)\"",
+  "ci": "npm run lint && npm run validate:content && npm test && npm run build && npm run check:links",
+  "prepare": "husky"
+}
+```
+
+Until P1-01 installs Style Dictionary, `tokens` is a stub: `"tokens": "node -e \"\""`. `test:a11y` (`playwright test`) is added in P3-04 and runs in the second workflow, not in `ci`. The `check:links` skip pattern checks internal links only; external links are checked manually before launch.
+
+### 8.2 `.github/workflows/deploy.yml`
+
+```yaml
+name: Deploy to GitHub Pages
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      PUBLIC_WEB3FORMS_KEY: ${{ vars.PUBLIC_WEB3FORMS_KEY }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: withastro/action@v6
+        with:
+          node-version: 24
+          build-cmd: npm run ci
+  deploy:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5
+```
+
+Repository settings: Pages → Source = GitHub Actions; repository **variable** (not secret) `PUBLIC_WEB3FORMS_KEY`; branch protection on `main` requiring the `build` job.
+
+### 8.3 `.github/dependabot.yml`
+
+```yaml
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule: { interval: weekly }
+    groups:
+      minor-and-patch: { update-types: [minor, patch] }
+  - package-ecosystem: github-actions
+    directory: /
+    schedule: { interval: weekly }
+```
+
+### 8.4 `.gitignore`
+
+```
+node_modules/
+dist/
+.astro/
+src/styles/tokens.css
+.env
+.env.*
+!.env.example
+coverage/
+playwright-report/
+test-results/
+.lighthouseci/
+docs/source-images/
+.DS_Store
+```
+
+## 9. Performance budget
+
+| Asset | Budget |
+| --- | --- |
+| HTML per page | ≤ 50 KB gzipped |
+| CSS total | ≤ 30 KB gzipped |
+| JS, non-3D pages | ≤ 80 KB gzipped |
+| JS + assets per 3D scene | ≤ 1 MB gzipped, lazy |
+| Fonts preloaded | 2 files |
+| Images above the fold | ≤ 200 KB |
+
+## 10. Error handling
+
+- Missing optional content → section not rendered.
+- Missing required content → build fails (zod).
+- WebGL context lost / unavailable → swap to fallback, no error UI.
+- Contact form network error → inline error with retry; never lose typed text.
+- `PUBLIC_WEB3FORMS_KEY` empty → contact form not rendered; email and LinkedIn links remain.
