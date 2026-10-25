@@ -42,12 +42,12 @@ Things that must exist or be decided before the task in **Blocks** can start. De
 
 - [x] **PRE-05 Version assumptions** — Blocks: the task named
       Checked 2026-10-25, re-check before installing:
-  - `import { z } from 'astro/zod'` resolves in Astro 6.4 (P1-04).
+  - `import { z } from 'astro/zod'` resolves in Astro 6.4 and 7.4 (P1-04).
   - `actions/checkout@v7`, `withastro/action@v6`, `actions/deploy-pages@v5` tags exist (P0-03).
   - Fontsource variable packages exist for all four fonts, including Orbitron, v5.3.0 (P1-03).
   - `style-dictionary@5` is 5.7.1 (P1-01).
   - `@react-three/fiber@9` (9.8.2) requires `react` and `react-dom` `>=19 <19.4`; installed React is 19.3.1. **Dependabot's minor group will try to raise React to 19.4 and break R3F** — hold React below 19.4 until R3F allows it (P0-03 dependabot config or P0-04).
-  - Stack drift already handled in P0-01: Astro 6 + Vite 7 + `@astrojs/react@5` + `overrides.vite`.
+  - Stack drift: P0-01 started on Astro 6 (Vite 7, `@astrojs/react@5`, `overrides.vite`). After P0-04, `npm audit` showed unpatched Astro 6 advisories (critical AVIF RCE GHSA-26w7-cxv4-gfx2, several XSS); Shawn approved moving to **Astro 7.4** (`@astrojs/react@7`, Vite 8, override removed). 0 vulnerabilities after the move. See ADR 0001 amendment.
 
 - [ ] **PRE-06 GitHub repository settings [H]** — Blocks: P0-03
       §8.2: Settings → Pages → Source = **GitHub Actions**. Settings → Secrets and variables → Actions → **Variables** → `PUBLIC_WEB3FORMS_KEY` (may be empty; a variable, not a secret). Branch protection on `main` requiring the `build` job: add after the first workflow run, since the check must exist before it can be required.

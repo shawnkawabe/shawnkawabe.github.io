@@ -6,7 +6,7 @@ Live: https://shawnkawabe.github.io
 
 ## Stack
 
-Astro 6 (static) · React 19 islands · Tailwind CSS 4 · shadcn/ui · React Three Fiber · GSAP · design tokens (DTCG → Style Dictionary) · GitHub Pages via GitHub Actions.
+Astro 7 (static) · React 19 islands · Tailwind CSS 4 · shadcn/ui · React Three Fiber · GSAP · design tokens (DTCG → Style Dictionary) · GitHub Pages via GitHub Actions.
 
 ## Getting started
 

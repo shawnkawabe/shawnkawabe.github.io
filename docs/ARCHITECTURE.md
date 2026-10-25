@@ -2,7 +2,7 @@
 
 ## 1. Overview
 
-Static site built by Astro 6 and deployed to GitHub Pages by GitHub Actions. Every route is pre-rendered HTML. JavaScript ships only for React islands that need it.
+Static site built by Astro 7 and deployed to GitHub Pages by GitHub Actions. Every route is pre-rendered HTML. JavaScript ships only for React islands that need it.
 
 ```
 content/projects|skills|experience|certifications.json ──► src/content.config.ts (collections, zod)
@@ -92,7 +92,7 @@ Route note: the case-study file is `work/[id].astro`; the project `id` is its sl
 
 `projects`, `skills`, `experience` and `certifications` are Astro content collections loaded with the `file()` loader (each file is an array of objects with an `id`). `site.json` is a single object, so it is **not** a collection: `src/lib/content.ts` imports it and parses it with `siteSchema`. **Any schema error fails the build.** `npm run validate:content` runs `astro sync` (collections) plus `tests/unit/content.test.ts` is part of `npm test` (site schema + cross-file checks).
 
-> Zod: in Astro 6 import it from `astro/zod` (`import { z } from 'astro/zod'`). Check the Astro 6 content-collections docs when implementing and follow them if the import path differs.
+> Zod: in Astro 7 import it from `astro/zod` (`import { z } from 'astro/zod'`). Check the Astro 7 content-collections docs when implementing and follow them if the import path differs.
 
 ### 3.1 Schemas — `src/lib/schemas.ts` (implement exactly)
 

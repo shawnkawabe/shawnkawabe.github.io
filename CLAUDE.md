@@ -30,7 +30,7 @@ Read this file at the start of every session. Read the linked docs before workin
 | Layer               | Choice                                               | Version            |
 | ------------------- | ---------------------------------------------------- | ------------------ |
 | Runtime             | Node.js                                              | 24 LTS (`.nvmrc`)  |
-| Site framework      | Astro, static output                                 | 6.x                |
+| Site framework      | Astro, static output                                 | 7.x                |
 | Interactive islands | React                                                | 19.x               |
 | Styling             | Tailwind CSS mapped to design tokens                 | 4.x                |
 | UI primitives       | shadcn/ui (source copied into `src/components/ui`)   | latest CLI         |

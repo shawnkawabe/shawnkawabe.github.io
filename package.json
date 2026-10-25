@@ -28,21 +28,18 @@
     "*.{css,json,md}": "prettier --write"
   },
   "dependencies": {
-    "@astrojs/react": "^5.0.7",
+    "@astrojs/react": "^7.1.1",
     "@astrojs/sitemap": "^3.7.4",
     "@react-three/drei": "^10.7.9",
     "@react-three/fiber": "^9.8.2",
     "@tailwindcss/vite": "^4.3.3",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
-    "astro": "^6.4.8",
+    "astro": "^7.4.2",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "tailwindcss": "^4.3.3",
     "three": "^0.186.1"
-  },
-  "overrides": {
-    "vite": "^7.3.2"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",
