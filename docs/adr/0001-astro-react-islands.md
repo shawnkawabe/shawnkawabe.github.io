@@ -12,11 +12,11 @@ The previous version was two Lightning Web Components (`portfolioHeader`, `portf
 
 ## Options considered
 
-| Option | For | Against |
-| --- | --- | --- |
-| **A. LWC OSS + LWR static build** | Reuses LWC skills and code; showcases the Salesforce front-end stack | Small ecosystem for 3D, forms and accessible primitives; static build on Pages needed a spike; fewer agent-oriented skills |
-| **B. Astro + React islands** (chosen) | Static HTML by default; JS only where needed; React Three Fiber, GSAP, shadcn/ui, react-hook-form available; official GitHub Pages action; Claude front-end skills target React + Tailwind + shadcn | Not the Salesforce stack; two component syntaxes (`.astro`, `.tsx`) |
-| **C. Fork Magic Portfolio (Next.js)** | Closest visual match to references out of the box | Static export loses `next/og` image generation and server features; ships more JS; heavier to restyle |
+| Option                                | For                                                                                                                                                                                                 | Against                                                                                                                    |
+| ------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| **A. LWC OSS + LWR static build**     | Reuses LWC skills and code; showcases the Salesforce front-end stack                                                                                                                                | Small ecosystem for 3D, forms and accessible primitives; static build on Pages needed a spike; fewer agent-oriented skills |
+| **B. Astro + React islands** (chosen) | Static HTML by default; JS only where needed; React Three Fiber, GSAP, shadcn/ui, react-hook-form available; official GitHub Pages action; Claude front-end skills target React + Tailwind + shadcn | Not the Salesforce stack; two component syntaxes (`.astro`, `.tsx`)                                                        |
+| **C. Fork Magic Portfolio (Next.js)** | Closest visual match to references out of the box                                                                                                                                                   | Static export loses `next/og` image generation and server features; ships more JS; heavier to restyle                      |
 
 ## Decision
 

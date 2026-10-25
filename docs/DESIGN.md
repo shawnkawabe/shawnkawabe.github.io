@@ -39,18 +39,18 @@ Build: `npm run tokens` (Style Dictionary 5). Output: `src/styles/tokens.css` �
 
 Variable name = `--pf-g-` + token path joined with `-`. The resulting names, used throughout these docs:
 
-| Token path | CSS variable |
-| --- | --- |
-| `color.surface-1` (theme files) | `--pf-g-color-surface-1` |
-| `color.cloud-sales` (theme files) | `--pf-g-color-cloud-sales` |
-| `color.palette.blue-400` (base) | `--pf-g-color-palette-blue-400` (primitive; not for components) |
-| `font.size.5.min` / `.max` | one variable `--pf-g-font-size-5: clamp(min, fluid, max)` (custom transform; the `-min`/`-max` pair is not emitted) |
-| `font.line-height.5` | `--pf-g-font-line-height-5` |
-| `font.family.heading` | `--pf-g-font-family-heading` |
-| `spacing.6` | `--pf-g-spacing-6` |
-| `radius.lg` | `--pf-g-radius-lg` |
-| `shadow.1` | `--pf-g-shadow-1` |
-| `duration.base`, `easing.standard` | `--pf-g-duration-base`, `--pf-g-easing-standard` |
+| Token path                         | CSS variable                                                                                                        |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| `color.surface-1` (theme files)    | `--pf-g-color-surface-1`                                                                                            |
+| `color.cloud-sales` (theme files)  | `--pf-g-color-cloud-sales`                                                                                          |
+| `color.palette.blue-400` (base)    | `--pf-g-color-palette-blue-400` (primitive; not for components)                                                     |
+| `font.size.5.min` / `.max`         | one variable `--pf-g-font-size-5: clamp(min, fluid, max)` (custom transform; the `-min`/`-max` pair is not emitted) |
+| `font.line-height.5`               | `--pf-g-font-line-height-5`                                                                                         |
+| `font.family.heading`              | `--pf-g-font-family-heading`                                                                                        |
+| `spacing.6`                        | `--pf-g-spacing-6`                                                                                                  |
+| `radius.lg`                        | `--pf-g-radius-lg`                                                                                                  |
+| `shadow.1`                         | `--pf-g-shadow-1`                                                                                                   |
+| `duration.base`, `easing.standard` | `--pf-g-duration-base`, `--pf-g-easing-standard`                                                                    |
 
 Not tokens (composed in CSS from tokens): `shadow-glow`, cover gradients (§3.3). Breakpoints are tokens for documentation, but Tailwind's `@theme` needs literal values for media queries, so `global.css` repeats 640/768/1024/1280/1440 as literals.
 
@@ -58,87 +58,90 @@ Not tokens (composed in CSS from tokens): `shadow-glow`, cover gradients (§3.3)
 
 ### 3.1 Semantic palette
 
-| Token | Role | Dark | Light |
-| --- | --- | --- | --- |
-| `surface-0` | Page background | `#0E0F13` | `#FAFAFB` |
-| `surface-1` | Default section | `#16171B` | `#FFFFFF` |
-| `surface-2` | Cards, nav rail | `#1E1F24` | `#F4F5F7` |
-| `surface-3` | Raised: menus, panels | `#26282E` | `#ECEEF2` |
-| `on-surface-1` | Primary text | `#F4F4F6` | `#121318` |
-| `on-surface-2` | Secondary text | `#A0A3AD` | `#555A66` |
-| `on-surface-3` | Tertiary, captions | `#6E7280` | `#7C8190` |
-| `border-1` | Hairlines | `rgba(255,255,255,0.08)` | `rgba(0,0,0,0.08)` |
-| `border-2` | Emphasised borders | `rgba(255,255,255,0.16)` | `rgba(0,0,0,0.16)` |
-| `accent-1` | Links, primary action, focus | `#4DA9FF` | `#0B5CD5` |
-| `accent-1-strong` | Hover/pressed of accent | `#7CC0FF` | `#0848A8` |
-| `accent-2` | Secondary highlight (violet) | `#8B7CF6` | `#5B3FD6` |
-| `accent-3` | Tertiary highlight (teal) | `#5ED3C3` | `#0E8A7A` |
-| `on-accent` | Text on accent fills | `#06121F` | `#FFFFFF` |
-| `success` | Success | `#4ADE80` | `#15803D` |
-| `warning` | Warning | `#FBBF24` | `#B45309` |
-| `error` | Error | `#F87171` | `#B91C1C` |
-| `focus-ring` | Focus outline | `#4DA9FF` | `#0B5CD5` |
-| `glow-1` | Accent glow | `rgba(77,169,255,0.35)` | `rgba(11,92,213,0.20)` |
-| `band-a` | Case-study band tint (violet) | `rgba(139,124,246,0.08)` | `rgba(91,63,214,0.06)` |
-| `band-b` | Case-study band tint (teal) | `rgba(94,211,195,0.08)` | `rgba(14,138,122,0.06)` |
+| Token             | Role                          | Dark                     | Light                   |
+| ----------------- | ----------------------------- | ------------------------ | ----------------------- |
+| `surface-0`       | Page background               | `#0E0F13`                | `#FAFAFB`               |
+| `surface-1`       | Default section               | `#16171B`                | `#FFFFFF`               |
+| `surface-2`       | Cards, nav rail               | `#1E1F24`                | `#F4F5F7`               |
+| `surface-3`       | Raised: menus, panels         | `#26282E`                | `#ECEEF2`               |
+| `on-surface-1`    | Primary text                  | `#F4F4F6`                | `#121318`               |
+| `on-surface-2`    | Secondary text                | `#A0A3AD`                | `#555A66`               |
+| `on-surface-3`    | Tertiary, captions            | `#6E7280`                | `#7C8190`               |
+| `border-1`        | Hairlines                     | `rgba(255,255,255,0.08)` | `rgba(0,0,0,0.08)`      |
+| `border-2`        | Emphasised borders            | `rgba(255,255,255,0.16)` | `rgba(0,0,0,0.16)`      |
+| `accent-1`        | Links, primary action, focus  | `#4DA9FF`                | `#0B5CD5`               |
+| `accent-1-strong` | Hover/pressed of accent       | `#7CC0FF`                | `#0848A8`               |
+| `accent-2`        | Secondary highlight (violet)  | `#8B7CF6`                | `#5B3FD6`               |
+| `accent-3`        | Tertiary highlight (teal)     | `#5ED3C3`                | `#0E8A7A`               |
+| `on-accent`       | Text on accent fills          | `#06121F`                | `#FFFFFF`               |
+| `success`         | Success                       | `#4ADE80`                | `#15803D`               |
+| `warning`         | Warning                       | `#FBBF24`                | `#B45309`               |
+| `error`           | Error                         | `#F87171`                | `#B91C1C`               |
+| `focus-ring`      | Focus outline                 | `#4DA9FF`                | `#0B5CD5`               |
+| `glow-1`          | Accent glow                   | `rgba(77,169,255,0.35)`  | `rgba(11,92,213,0.20)`  |
+| `band-a`          | Case-study band tint (violet) | `rgba(139,124,246,0.08)` | `rgba(91,63,214,0.06)`  |
+| `band-b`          | Case-study band tint (teal)   | `rgba(94,211,195,0.08)`  | `rgba(14,138,122,0.06)` |
 
 Contrast requirements (checked in CI by axe and manually in the token PR):
+
 - `on-surface-1` on `surface-0…3`: ≥ 7:1.
 - `on-surface-2` on `surface-0…2`: ≥ 4.5:1.
 - `on-surface-3`: only for text ≥ 18px or non-essential captions; ≥ 3:1.
 - `accent-1` text on `surface-1`: ≥ 4.5:1.
 
 ### 3.2 Cloud accents
+
 Each cloud node has an accent used for its glow and chip dot. Hue only; never used for text. Semantic tokens in both theme files with the **same value in both themes**. `skills.json` `accent` holds the token name (e.g. `"cloud-sales"`); components resolve it to `var(--pf-g-color-{accent})`.
 
-| Cloud id | Token | CSS variable | Value (both themes) |
-| --- | --- | --- | --- |
-| `sales-cloud` | `color.cloud-sales` | `--pf-g-color-cloud-sales` | `#4DA9FF` |
-| `service-cloud` | `color.cloud-service` | `--pf-g-color-cloud-service` | `#5ED3C3` |
-| `experience-cloud` | `color.cloud-experience` | `--pf-g-color-cloud-experience` | `#8B7CF6` |
-| `commerce-cloud` | `color.cloud-commerce` | `--pf-g-color-cloud-commerce` | `#F59E7B` |
-| `data-cloud` | `color.cloud-data` | `--pf-g-color-cloud-data` | `#38BDF8` |
-| `platform` | `color.cloud-platform` | `--pf-g-color-cloud-platform` | `#A3E635` |
-| `membership` | `color.cloud-membership` | `--pf-g-color-cloud-membership` | `#F472B6` |
+| Cloud id           | Token                    | CSS variable                    | Value (both themes) |
+| ------------------ | ------------------------ | ------------------------------- | ------------------- |
+| `sales-cloud`      | `color.cloud-sales`      | `--pf-g-color-cloud-sales`      | `#4DA9FF`           |
+| `service-cloud`    | `color.cloud-service`    | `--pf-g-color-cloud-service`    | `#5ED3C3`           |
+| `experience-cloud` | `color.cloud-experience` | `--pf-g-color-cloud-experience` | `#8B7CF6`           |
+| `commerce-cloud`   | `color.cloud-commerce`   | `--pf-g-color-cloud-commerce`   | `#F59E7B`           |
+| `data-cloud`       | `color.cloud-data`       | `--pf-g-color-cloud-data`       | `#38BDF8`           |
+| `platform`         | `color.cloud-platform`   | `--pf-g-color-cloud-platform`   | `#A3E635`           |
+| `membership`       | `color.cloud-membership` | `--pf-g-color-cloud-membership` | `#F472B6`           |
 
 These are original colours chosen for contrast on dark; do not match them to Salesforce brand colours.
 
 ### 3.3 Cover gradients
+
 Four presets reproducing the references in `docs/reference/cover-*.jpg`. Implemented as layered CSS radial/linear gradients in `src/styles/covers.css`, selected by `cover.preset` in content. Covers are artwork: they look the same in both themes, and `covers.css` is the **only** file allowed to contain raw colour values (the recipe colours below and the white title/subtitle).
 
-| Preset | Reference | Recipe (dark) |
-| --- | --- | --- |
-| `aurora` | `cover-aurora.jpg` | Base `#141B3A`; diagonal teal beam `#5FA89A` at 35% from bottom-left; indigo `#3D4A8C` bottom-right; soft blur |
-| `indigo` | `cover-indigo.jpg` | Base `#171A3D` → `#1E2150`; faint teal glow top-left corner |
-| `violet-edge` | `cover-violet-edge.jpg` | Left half violet `#4A3C9E` → blue `#4D7BD6`, hard falloff to `#050816` |
-| `solid-blue` | `cover-solid-blue.jpg` | Flat `#1048F0`; used for highlight/link tiles only |
+| Preset        | Reference               | Recipe (dark)                                                                                                  |
+| ------------- | ----------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `aurora`      | `cover-aurora.jpg`      | Base `#141B3A`; diagonal teal beam `#5FA89A` at 35% from bottom-left; indigo `#3D4A8C` bottom-right; soft blur |
+| `indigo`      | `cover-indigo.jpg`      | Base `#171A3D` → `#1E2150`; faint teal glow top-left corner                                                    |
+| `violet-edge` | `cover-violet-edge.jpg` | Left half violet `#4A3C9E` → blue `#4D7BD6`, hard falloff to `#050816`                                         |
+| `solid-blue`  | `cover-solid-blue.jpg`  | Flat `#1048F0`; used for highlight/link tiles only                                                             |
 
 Cover title: Space Grotesk 700, `font-size-8` desktop / `font-size-6` mobile, `#FFFFFF`; subtitle Inter 500, `rgba(255,255,255,0.7)`. Title contrast against the busiest gradient area must stay ≥ 4.5:1 (add a 20% black scrim if not).
 
 ## 4. Typography
 
-| Role | Family | Weights | Token |
-| --- | --- | --- | --- |
-| Display (hero name, cloud names) | Orbitron (variable) | 500–800 | `font-family-display` |
-| Headings | Space Grotesk (variable) | 500–700 | `font-family-heading` |
-| Body, UI | Inter (variable) | 400–600 | `font-family-body` |
-| Labels, code, data | JetBrains Mono (variable) | 400–600 | `font-family-mono` |
+| Role                             | Family                    | Weights | Token                 |
+| -------------------------------- | ------------------------- | ------- | --------------------- |
+| Display (hero name, cloud names) | Orbitron (variable)       | 500–800 | `font-family-display` |
+| Headings                         | Space Grotesk (variable)  | 500–700 | `font-family-heading` |
+| Body, UI                         | Inter (variable)          | 400–600 | `font-family-body`    |
+| Labels, code, data               | JetBrains Mono (variable) | 400–600 | `font-family-mono`    |
 
 Self-host via Fontsource packages; preload Space Grotesk 600 and Inter 400 WOFF2 (Latin subset). `font-display: swap`. Fallbacks: `ui-sans-serif, system-ui, sans-serif` / `ui-monospace, monospace`.
 
 ### Scale (fluid between 375px and 1440px)
 
-| Token | Min → max | Line height | Use |
-| --- | --- | --- | --- |
-| `font-size-1` | 12px | 1.5 | Captions, mono labels |
-| `font-size-2` | 14px | 1.5 | UI, chips, meta |
-| `font-size-3` | 16px | 1.6 | Body |
-| `font-size-4` | 18 → 20px | 1.5 | Lead paragraphs |
-| `font-size-5` | 20 → 24px | 1.3 | H4, card titles |
-| `font-size-6` | 24 → 32px | 1.2 | H3 |
-| `font-size-7` | 32 → 44px | 1.15 | H2, section titles |
-| `font-size-8` | 40 → 64px | 1.05 | H1, cover titles |
-| `font-size-9` | 48 → 88px | 1.0 | Hero name (Orbitron) |
+| Token         | Min → max | Line height | Use                   |
+| ------------- | --------- | ----------- | --------------------- |
+| `font-size-1` | 12px      | 1.5         | Captions, mono labels |
+| `font-size-2` | 14px      | 1.5         | UI, chips, meta       |
+| `font-size-3` | 16px      | 1.6         | Body                  |
+| `font-size-4` | 18 → 20px | 1.5         | Lead paragraphs       |
+| `font-size-5` | 20 → 24px | 1.3         | H4, card titles       |
+| `font-size-6` | 24 → 32px | 1.2         | H3                    |
+| `font-size-7` | 32 → 44px | 1.15        | H2, section titles    |
+| `font-size-8` | 40 → 64px | 1.05        | H1, cover titles      |
+| `font-size-9` | 48 → 88px | 1.0         | Hero name (Orbitron)  |
 
 Rules: Orbitron only at `font-size-7` and above and never in sentences. Letter-spacing: display −0.01em; mono labels +0.04em uppercase. Max line length 68ch for body.
 
@@ -154,13 +157,13 @@ Rules: Orbitron only at `font-size-7` and above and never in sentences. Letter-s
 
 ## 6. Motion
 
-| Token | Value | Use |
-| --- | --- | --- |
-| `duration-fast` | 150ms | Hover, focus, colour |
-| `duration-base` | 250ms | Cards lift, menus, chips |
-| `duration-slow` | 450ms | Panels, page sections reveal |
-| `easing-standard` | `cubic-bezier(0.2, 0, 0, 1)` | Default |
-| `easing-emphasised` | `cubic-bezier(0.3, 0, 0, 1.2)` | Panel enter only |
+| Token               | Value                          | Use                          |
+| ------------------- | ------------------------------ | ---------------------------- |
+| `duration-fast`     | 150ms                          | Hover, focus, colour         |
+| `duration-base`     | 250ms                          | Cards lift, menus, chips     |
+| `duration-slow`     | 450ms                          | Panels, page sections reveal |
+| `easing-standard`   | `cubic-bezier(0.2, 0, 0, 1)`   | Default                      |
+| `easing-emphasised` | `cubic-bezier(0.3, 0, 0, 1.2)` | Panel enter only             |
 
 - Card hover: translateY(−2px) + `shadow-1` → stronger + border to `border-2`, `duration-base`.
 - Section reveal (GSAP ScrollTrigger): opacity 0 → 1, y 16 → 0, `duration-slow`, once.
@@ -186,19 +189,19 @@ Rules: Orbitron only at `font-size-7` and above and never in sentences. Letter-s
 
 ## 9. Component visual specs
 
-| Component | Spec |
-| --- | --- |
-| **NavRail** | Tooltips are CSS-only (no shadcn Tooltip). Width 64px, padding `spacing-2`, `surface-2` at 90% + backdrop blur 12px, `radius-pill`, `shadow-1`. Items 40px circles, icon 20px `on-surface-2`; active: `surface-3` fill, icon `on-surface-1`, 4px dot below. Divider 24px `border-1`. Fixed `top: spacing-16`, `left: spacing-6`. |
-| **TopBar (mobile)** | Height 56px, `surface-1` at 90% + blur, bottom `border-1`, name in Space Grotesk 600 `font-size-4`. |
-| **Button** | Height 40 (md) / 48 (lg), padding x `spacing-5`, `radius-pill`. Brand: `accent-1` bg, `on-accent` text, hover `accent-1-strong`. Neutral: `surface-3` bg, `border-1`. Ghost: transparent, `on-surface-2`, hover `surface-2`. Focus: 2px `focus-ring` outline, 2px offset. |
-| **Chip** | Height 28, padding x `spacing-3`, `radius-pill`, mono `font-size-1` uppercase or Inter `font-size-2`; default `surface-3` + `border-1`; selected `accent-1` 16% fill + `accent-1` border + `on-surface-1` text; optional leading 8px dot in cloud accent. |
-| **CoverCard** | `radius-lg`, `surface-2`, 8px inner padding around a 16:9 cover (`radius-md`), footer row: icon 20px + title (`font-size-3` 600) + subtitle (`font-size-2` `on-surface-2`). Hover: lift + glow. Matches `01-home-once-ui.jpg`. |
-| **ProjectCard** | `radius-md`, `surface-2`, cover 16:9 top, body padding `spacing-5`: title `font-size-5`, summary 3 lines max, cloud chips (max 3 + "+N"), footer: client (mono) left, category right. No dates. |
-| **CloudCard** | `radius-lg`, `surface-2`, `border-1`, inner glow in cloud accent at 12% on hover; icon 32px, name Orbitron `font-size-6`, stats row mono. |
-| **SnapshotBar** | Grid of label/value pairs, labels mono uppercase `on-surface-3`, values `on-surface-1`; top and bottom `border-1`. |
-| **SectionBand** | Full-bleed band with tone `band-a` or `band-b` (colour tokens, §3.1), optional rotation −2°…2° on ≥ lg, content counter-rotated so text is straight. |
-| **Panel (side)** | 400px, `surface-3`, `shadow-2`, `radius-lg` on the inner edge, enters from right with `easing-emphasised`. |
-| **Inputs** | Height 44, `surface-1`, `border-2`, `radius-sm`; focus: `accent-1` border + `shadow-glow`; error: `error` border + message below in `error`. |
+| Component           | Spec                                                                                                                                                                                                                                                                                                                             |
+| ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **NavRail**         | Tooltips are CSS-only (no shadcn Tooltip). Width 64px, padding `spacing-2`, `surface-2` at 90% + backdrop blur 12px, `radius-pill`, `shadow-1`. Items 40px circles, icon 20px `on-surface-2`; active: `surface-3` fill, icon `on-surface-1`, 4px dot below. Divider 24px `border-1`. Fixed `top: spacing-16`, `left: spacing-6`. |
+| **TopBar (mobile)** | Height 56px, `surface-1` at 90% + blur, bottom `border-1`, name in Space Grotesk 600 `font-size-4`.                                                                                                                                                                                                                              |
+| **Button**          | Height 40 (md) / 48 (lg), padding x `spacing-5`, `radius-pill`. Brand: `accent-1` bg, `on-accent` text, hover `accent-1-strong`. Neutral: `surface-3` bg, `border-1`. Ghost: transparent, `on-surface-2`, hover `surface-2`. Focus: 2px `focus-ring` outline, 2px offset.                                                        |
+| **Chip**            | Height 28, padding x `spacing-3`, `radius-pill`, mono `font-size-1` uppercase or Inter `font-size-2`; default `surface-3` + `border-1`; selected `accent-1` 16% fill + `accent-1` border + `on-surface-1` text; optional leading 8px dot in cloud accent.                                                                        |
+| **CoverCard**       | `radius-lg`, `surface-2`, 8px inner padding around a 16:9 cover (`radius-md`), footer row: icon 20px + title (`font-size-3` 600) + subtitle (`font-size-2` `on-surface-2`). Hover: lift + glow. Matches `01-home-once-ui.jpg`.                                                                                                   |
+| **ProjectCard**     | `radius-md`, `surface-2`, cover 16:9 top, body padding `spacing-5`: title `font-size-5`, summary 3 lines max, cloud chips (max 3 + "+N"), footer: client (mono) left, category right. No dates.                                                                                                                                  |
+| **CloudCard**       | `radius-lg`, `surface-2`, `border-1`, inner glow in cloud accent at 12% on hover; icon 32px, name Orbitron `font-size-6`, stats row mono.                                                                                                                                                                                        |
+| **SnapshotBar**     | Grid of label/value pairs, labels mono uppercase `on-surface-3`, values `on-surface-1`; top and bottom `border-1`.                                                                                                                                                                                                               |
+| **SectionBand**     | Full-bleed band with tone `band-a` or `band-b` (colour tokens, §3.1), optional rotation −2°…2° on ≥ lg, content counter-rotated so text is straight.                                                                                                                                                                             |
+| **Panel (side)**    | 400px, `surface-3`, `shadow-2`, `radius-lg` on the inner edge, enters from right with `easing-emphasised`.                                                                                                                                                                                                                       |
+| **Inputs**          | Height 44, `surface-1`, `border-2`, `radius-sm`; focus: `accent-1` border + `shadow-glow`; error: `error` border + message below in `error`.                                                                                                                                                                                     |
 
 ## 10. Layout patterns
 

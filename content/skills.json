@@ -1,14 +1,43 @@
 [
   { "id": "sales-cloud", "label": "Sales Cloud", "group": "clouds", "accent": "cloud-sales" },
   { "id": "service-cloud", "label": "Service Cloud", "group": "clouds", "accent": "cloud-service" },
-  { "id": "experience-cloud", "label": "Experience Cloud", "group": "clouds", "accent": "cloud-experience" },
-  { "id": "commerce-cloud", "label": "Commerce Cloud (B2C/B2B)", "group": "clouds", "accent": "cloud-commerce" },
-  { "id": "data-cloud", "label": "Data Cloud (Data 360)", "group": "clouds", "accent": "cloud-data" },
-  { "id": "platform", "label": "Salesforce Platform", "group": "clouds", "accent": "cloud-platform" },
-  { "id": "membership", "label": "Membership & Nonprofit", "group": "clouds", "accent": "cloud-membership" },
+  {
+    "id": "experience-cloud",
+    "label": "Experience Cloud",
+    "group": "clouds",
+    "accent": "cloud-experience"
+  },
+  {
+    "id": "commerce-cloud",
+    "label": "Commerce Cloud (B2C/B2B)",
+    "group": "clouds",
+    "accent": "cloud-commerce"
+  },
+  {
+    "id": "data-cloud",
+    "label": "Data Cloud (Data 360)",
+    "group": "clouds",
+    "accent": "cloud-data"
+  },
+  {
+    "id": "platform",
+    "label": "Salesforce Platform",
+    "group": "clouds",
+    "accent": "cloud-platform"
+  },
+  {
+    "id": "membership",
+    "label": "Membership & Nonprofit",
+    "group": "clouds",
+    "accent": "cloud-membership"
+  },
 
   { "id": "apex", "label": "Apex", "group": "development" },
-  { "id": "apex-async", "label": "Async Apex (Batch, Queueable, Schedulable)", "group": "development" },
+  {
+    "id": "apex-async",
+    "label": "Async Apex (Batch, Queueable, Schedulable)",
+    "group": "development"
+  },
   { "id": "apex-triggers", "label": "Apex Triggers", "group": "development" },
   { "id": "lwc", "label": "Lightning Web Components", "group": "development", "aliases": ["LWC"] },
   { "id": "lwr", "label": "Lightning Web Runtime (LWR)", "group": "development" },
@@ -46,7 +75,11 @@
   { "id": "technical-documentation", "label": "Technical documentation", "group": "delivery" },
   { "id": "process-mapping", "label": "Business process mapping", "group": "delivery" },
   { "id": "sharing-model", "label": "Sharing model & security", "group": "delivery" },
-  { "id": "multi-language", "label": "Multi-language (Translation Workbench)", "group": "delivery" },
+  {
+    "id": "multi-language",
+    "label": "Multi-language (Translation Workbench)",
+    "group": "delivery"
+  },
   { "id": "ux", "label": "UI/UX improvements", "group": "delivery" },
   { "id": "training", "label": "Training & adoption", "group": "delivery" },
   { "id": "agile", "label": "Agile delivery", "group": "delivery" },

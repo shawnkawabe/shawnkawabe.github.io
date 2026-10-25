@@ -2,13 +2,13 @@
 
 All text, dates and facts about Shawn live in `content/*.json`. Components never contain this information. Schemas in `src/content.config.ts` validate everything at build; a mistake fails the build with a message pointing to the field.
 
-| File | Holds |
-| --- | --- |
-| `content/site.json` | Name, role, intro, bio, links, availability, principles, languages, trademark notice |
-| `content/projects.json` | One object per project / case study |
-| `content/skills.json` | Every skill, cloud, product and tool, with its group |
-| `content/experience.json` | Companies you delivered through: name, role, projects (no dates) |
-| `content/certifications.json` | Certifications and related skills |
+| File                          | Holds                                                                                |
+| ----------------------------- | ------------------------------------------------------------------------------------ |
+| `content/site.json`           | Name, role, intro, bio, links, availability, principles, languages, trademark notice |
+| `content/projects.json`       | One object per project / case study                                                  |
+| `content/skills.json`         | Every skill, cloud, product and tool, with its group                                 |
+| `content/experience.json`     | Companies you delivered through: name, role, projects (no dates)                     |
+| `content/certifications.json` | Certifications and related skills                                                    |
 
 ## Add a project in five steps
 
@@ -20,19 +20,19 @@ All text, dates and facts about Shawn live in `content/*.json`. Components never
 
 ## Field rules
 
-| Field | Rule |
-| --- | --- |
-| `id` | kebab-case, unique, becomes the URL: `/work/{id}` |
-| `employers` | list of ids from `experience.json` (e.g. `["nescara", "globant"]`). Shown as "Delivered via" on the case study. The site shows **no dates** |
-| `depth` | `"case-study"` for flagship projects (full page), `"card"` for the rest (short page) |
-| `featured` | `true` for at most 4 projects; they appear on Home |
-| `summary` | ≤ 220 characters, one or two sentences, outcome-first |
-| `cover.preset` | `aurora`, `indigo`, `violet-edge` or `solid-blue` |
-| `cover.image` | optional; a cover photo is used only when declared here with `approved: true` (a `cover.webp` file alone does nothing) |
-| images `approved` | `true` only after the client allows public use; unapproved images never render |
-| outcomes `label` | always rendered, so it must read as a complete statement on its own |
+| Field                         | Rule                                                                                                                                                                  |
+| ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`                          | kebab-case, unique, becomes the URL: `/work/{id}`                                                                                                                     |
+| `employers`                   | list of ids from `experience.json` (e.g. `["nescara", "globant"]`). Shown as "Delivered via" on the case study. The site shows **no dates**                           |
+| `depth`                       | `"case-study"` for flagship projects (full page), `"card"` for the rest (short page)                                                                                  |
+| `featured`                    | `true` for at most 4 projects; they appear on Home                                                                                                                    |
+| `summary`                     | ≤ 220 characters, one or two sentences, outcome-first                                                                                                                 |
+| `cover.preset`                | `aurora`, `indigo`, `violet-edge` or `solid-blue`                                                                                                                     |
+| `cover.image`                 | optional; a cover photo is used only when declared here with `approved: true` (a `cover.webp` file alone does nothing)                                                |
+| images `approved`             | `true` only after the client allows public use; unapproved images never render                                                                                        |
+| outcomes `label`              | always rendered, so it must read as a complete statement on its own                                                                                                   |
 | outcomes `value` / `measured` | `value` renders only when `measured: true`. Use it only for numbers you can defend in an interview; otherwise leave `value` out and say it in the label qualitatively |
-| `todo` | open questions for yourself; never rendered |
+| `todo`                        | open questions for yourself; never rendered                                                                                                                           |
 
 ## Section types (case studies)
 

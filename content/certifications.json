@@ -2,43 +2,26 @@
   {
     "id": "data-360-consultant",
     "label": "Salesforce Certified Data 360 Consultant",
-    "skills": [
-      "data-cloud",
-      "identity-resolution",
-      "calculated-insights"
-    ]
+    "skills": ["data-cloud", "identity-resolution", "calculated-insights"]
   },
   {
     "id": "ai-associate",
     "label": "Salesforce Certified AI Associate",
-    "skills": [
-      "platform"
-    ]
+    "skills": ["platform"]
   },
   {
     "id": "administrator",
     "label": "Salesforce Certified Administrator",
-    "skills": [
-      "platform",
-      "sales-cloud",
-      "service-cloud",
-      "sharing-model"
-    ]
+    "skills": ["platform", "sales-cloud", "service-cloud", "sharing-model"]
   },
   {
     "id": "platform-foundations",
     "label": "Salesforce Certified Platform Foundations",
-    "skills": [
-      "platform"
-    ]
+    "skills": ["platform"]
   },
   {
     "id": "platform-developer-1",
     "label": "Salesforce Certified Platform Developer I",
-    "skills": [
-      "platform",
-      "apex",
-      "lwc"
-    ]
+    "skills": ["platform", "apex", "lwc"]
   }
 ]

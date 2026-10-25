@@ -6,15 +6,15 @@ You are building the personal portfolio of **Shawn Kawabe, Senior Salesforce Dev
 
 Read this file at the start of every session. Read the linked docs before working in their area.
 
-| When you are working on… | Read first |
-| --- | --- |
-| Any page or section | `docs/PRODUCT_SPEC.md` |
-| Colours, type, spacing, motion, 3D | `docs/DESIGN.md` |
-| Folders, components, data flow, CI | `docs/ARCHITECTURE.md` |
-| Projects, skills, experience text | `CONTENT.md` and `content/*.json` |
-| What to do next | `docs/BACKLOG.md` (work top-down, one task at a time) |
-| Why something is the way it is | `docs/adr/` |
-| What it should look like | `docs/reference/` (Once UI / Magic Portfolio screenshots) |
+| When you are working on…           | Read first                                                |
+| ---------------------------------- | --------------------------------------------------------- |
+| Any page or section                | `docs/PRODUCT_SPEC.md`                                    |
+| Colours, type, spacing, motion, 3D | `docs/DESIGN.md`                                          |
+| Folders, components, data flow, CI | `docs/ARCHITECTURE.md`                                    |
+| Projects, skills, experience text  | `CONTENT.md` and `content/*.json`                         |
+| What to do next                    | `docs/BACKLOG.md` (work top-down, one task at a time)     |
+| Why something is the way it is     | `docs/adr/`                                               |
+| What it should look like           | `docs/reference/` (Once UI / Magic Portfolio screenshots) |
 
 ---
 
@@ -27,19 +27,19 @@ Read this file at the start of every session. Read the linked docs before workin
 
 ## 2. Stack (fixed — see ADR 0001)
 
-| Layer | Choice | Version |
-| --- | --- | --- |
-| Runtime | Node.js | 24 LTS (`.nvmrc`) |
-| Site framework | Astro, static output | 6.x |
-| Interactive islands | React | 19.x |
-| Styling | Tailwind CSS mapped to design tokens | 4.x |
-| UI primitives | shadcn/ui (source copied into `src/components/ui`) | latest CLI |
-| 3D | three + @react-three/fiber + @react-three/drei | R3F 9.x, drei 10.x |
-| Motion | GSAP (all plugins free) + CSS transitions | 3.x |
-| Forms | react-hook-form + zod, posted to Web3Forms | — |
-| Tokens | DTCG 2025.10 JSON → Style Dictionary | SD 5.x |
-| Tests | Vitest + Testing Library; Playwright + axe for pages | — |
-| Package manager | npm (lockfile committed) | — |
+| Layer               | Choice                                               | Version            |
+| ------------------- | ---------------------------------------------------- | ------------------ |
+| Runtime             | Node.js                                              | 24 LTS (`.nvmrc`)  |
+| Site framework      | Astro, static output                                 | 6.x                |
+| Interactive islands | React                                                | 19.x               |
+| Styling             | Tailwind CSS mapped to design tokens                 | 4.x                |
+| UI primitives       | shadcn/ui (source copied into `src/components/ui`)   | latest CLI         |
+| 3D                  | three + @react-three/fiber + @react-three/drei       | R3F 9.x, drei 10.x |
+| Motion              | GSAP (all plugins free) + CSS transitions            | 3.x                |
+| Forms               | react-hook-form + zod, posted to Web3Forms           | —                  |
+| Tokens              | DTCG 2025.10 JSON → Style Dictionary                 | SD 5.x             |
+| Tests               | Vitest + Testing Library; Playwright + axe for pages | —                  |
+| Package manager     | npm (lockfile committed)                             | —                  |
 
 Do not add another UI kit, CSS framework, state library or animation library without an ADR.
 
@@ -62,19 +62,22 @@ Run `npm run ci` before you say a task is done.
 ## 4. Hard rules
 
 ### Content
+
 1. **All visible text about Shawn comes from `content/*.json`.** Never hard-code project names, dates, clouds, metrics or bio text in components.
 2. **Never invent facts.** If a field is empty or marked `"TODO"`, render nothing for it (or a neutral placeholder in dev only) and list it in your task summary.
 3. **Metrics:** only render an outcome's number when `"measured": true`.
-3a. **No dates on the site.** The portfolio is a project showcase; the resume holds the career history. Never render or add dates for projects, companies or certifications. Order is curated: featured first, then file order.
+   3a. **No dates on the site.** The portfolio is a project showcase; the resume holds the career history. Never render or add dates for projects, companies or certifications. Order is curated: featured first, then file order.
 4. **Client screenshots:** only render images whose `"approved": true`.
 
 ### Design
+
 5. **Use tokens only.** No raw hex, rgb, px font sizes or ad-hoc shadows in components. Use Tailwind classes mapped to `--pf-g-*` variables, or the variables directly.
 6. **Fonts:** Space Grotesk (headings), Inter (body/UI), JetBrains Mono (labels, code, data), Orbitron (hero name and cloud names only, ≥ 32px, never in sentences).
 7. **Banned:** percentage skill bars, emoji as icons, purple-to-pink default gradients, glassmorphism on body text, autoplay audio, carousels that auto-advance, more than two 3D scenes per page.
 8. **Salesforce trademarks:** never draw, trace or imitate Salesforce or cloud logos. Product names appear as text. Shawn's name is always the most prominent brand. Footer carries the trademark notice from `content/site.json`.
 
 ### Engineering
+
 9. **Static first.** Pages and non-interactive components are `.astro`. Use a React island only for: nav sheet, theme toggle, filter bar, gallery lightbox, 3D scenes, contact form. Hydrate with the cheapest directive that works (`client:visible` > `client:idle` > `client:load`).
 10. **3D budget:** lazy-load on visibility, poster first, ≤ 1 MB per scene, DPR capped at 2, render loop paused off-screen, disposed on unmount, static fallback when `prefers-reduced-motion` or WebGL is unavailable.
 11. **Accessibility:** WCAG 2.2 AA. Every interactive element keyboard-operable with a visible focus ring. Every image has meaningful `alt` (or `alt=""` if decorative). Headings in order. Respect `prefers-reduced-motion` and `prefers-color-scheme`.

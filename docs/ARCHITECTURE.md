@@ -100,7 +100,7 @@ Route note: the case-study file is `work/[id].astro`; the project `id` is its sl
 import { z } from 'astro/zod';
 
 export const id = z.string().regex(/^[a-z0-9-]+$/);
-export const todo = z.array(z.string()).default([]);                          // never rendered
+export const todo = z.array(z.string()).default([]); // never rendered
 
 export const image = z.object({
   src: z.string(),
@@ -109,53 +109,107 @@ export const image = z.object({
   approved: z.boolean().default(false),
 });
 
-export const skillGroup = z.enum(['clouds', 'development', 'integration', 'devops', 'data',
-  'delivery', 'products', 'tools', 'languages-programming']);
+export const skillGroup = z.enum([
+  'clouds',
+  'development',
+  'integration',
+  'devops',
+  'data',
+  'delivery',
+  'products',
+  'tools',
+  'languages-programming',
+]);
 
 export const skillSchema = z.object({
-  id, label: z.string(), group: skillGroup,
-  accent: z.string().regex(/^cloud-[a-z]+$/).optional(),   // clouds only → var(--pf-g-color-{accent})
+  id,
+  label: z.string(),
+  group: skillGroup,
+  accent: z
+    .string()
+    .regex(/^cloud-[a-z]+$/)
+    .optional(), // clouds only → var(--pf-g-color-{accent})
   aliases: z.array(z.string()).optional(),
 });
 
 const section = z.discriminatedUnion('type', [
   z.object({ type: z.literal('challenge'), body: z.string() }),
-  z.object({ type: z.literal('architecture'), body: z.string().optional(), image: image.optional() }),
-  z.object({ type: z.literal('decisions'), items: z.array(z.object({
-    decision: z.string(), why: z.string(), tradeoff: z.string().optional() })).min(1).max(4) }),
+  z.object({
+    type: z.literal('architecture'),
+    body: z.string().optional(),
+    image: image.optional(),
+  }),
+  z.object({
+    type: z.literal('decisions'),
+    items: z
+      .array(
+        z.object({
+          decision: z.string(),
+          why: z.string(),
+          tradeoff: z.string().optional(),
+        }),
+      )
+      .min(1)
+      .max(4),
+  }),
   z.object({ type: z.literal('gallery'), images: z.array(image) }),
-  z.object({ type: z.literal('outcomes'), items: z.array(z.object({
-    label: z.string(), value: z.string().optional(), measured: z.boolean().default(false) })) }),
+  z.object({
+    type: z.literal('outcomes'),
+    items: z.array(
+      z.object({
+        label: z.string(),
+        value: z.string().optional(),
+        measured: z.boolean().default(false),
+      }),
+    ),
+  }),
   z.object({ type: z.literal('takeaway'), body: z.string() }),
 ]);
 
 export const projectSchema = z.object({
-  id, title: z.string(), subtitle: z.string(), client: z.string(),
-  employers: z.array(id).min(1),                  // experience ids; projects carry NO dates of their own
-  role: z.string(), teamSize: z.string().optional(), industry: z.string().optional(),
-  clouds: z.array(id).min(1), capabilities: z.array(id), category: z.string(),
+  id,
+  title: z.string(),
+  subtitle: z.string(),
+  client: z.string(),
+  employers: z.array(id).min(1), // experience ids; projects carry NO dates of their own
+  role: z.string(),
+  teamSize: z.string().optional(),
+  industry: z.string().optional(),
+  clouds: z.array(id).min(1),
+  capabilities: z.array(id),
+  category: z.string(),
   featured: z.boolean().default(false),
   depth: z.enum(['case-study', 'card']),
   summary: z.string().max(220),
-  cover: z.object({ preset: z.enum(['aurora', 'indigo', 'violet-edge', 'solid-blue']), image: image.optional() }),
+  cover: z.object({
+    preset: z.enum(['aurora', 'indigo', 'violet-edge', 'solid-blue']),
+    image: image.optional(),
+  }),
   sections: z.array(section).default([]),
   todo,
 });
 
-export const experienceSchema = z.object({          // companies delivered through; NO dates
-  id, employer: z.string(), role: z.string(),
+export const experienceSchema = z.object({
+  // companies delivered through; NO dates
+  id,
+  employer: z.string(),
+  role: z.string(),
   projectIds: z.array(id).default([]),
 });
 
 export const certificationSchema = z.object({
-  id, label: z.string(), skills: z.array(id),       // no dates
+  id,
+  label: z.string(),
+  skills: z.array(id), // no dates
 });
 
 const seoPage = z.object({ title: z.string(), description: z.string() });
 
 export const siteSchema = z.object({
-  name: z.string(), role: z.string(), location: z.string(),
-  intro: z.string(),                          // **term** = brighter highlight
+  name: z.string(),
+  role: z.string(),
+  location: z.string(),
+  intro: z.string(), // **term** = brighter highlight
   bio: z.array(z.string()).min(1),
   principles: z.array(z.object({ title: z.string(), body: z.string() })),
   availability: z.string(),
@@ -166,13 +220,29 @@ export const siteSchema = z.object({
   notFound: z.object({ title: z.string(), body: z.string() }),
   languages: z.array(z.object({ label: z.string(), level: z.string() })),
   links: z.object({
-    email: z.string().email(), linkedin: z.string().url(), github: z.string().url(),
-    resume: z.string().url(), credentials: z.union([z.string().url(), z.literal('')]),
+    email: z.string().email(),
+    linkedin: z.string().url(),
+    github: z.string().url(),
+    resume: z.string().url(),
+    credentials: z.union([z.string().url(), z.literal('')]),
   }),
-  contact: z.object({ intro: z.string(), projectTypes: z.array(z.string()).min(1),
-    successMessage: z.string(), errorMessage: z.string() }),
-  seo: z.object({ homeTitle: z.string(), description: z.string(),
-    pages: z.object({ work: seoPage, skills: seoPage, about: seoPage, contact: seoPage, notFound: seoPage }) }),
+  contact: z.object({
+    intro: z.string(),
+    projectTypes: z.array(z.string()).min(1),
+    successMessage: z.string(),
+    errorMessage: z.string(),
+  }),
+  seo: z.object({
+    homeTitle: z.string(),
+    description: z.string(),
+    pages: z.object({
+      work: seoPage,
+      skills: seoPage,
+      about: seoPage,
+      contact: seoPage,
+      notFound: seoPage,
+    }),
+  }),
   trademarkNotice: z.string(),
   photo: image.nullable().default(null),
   todo,
@@ -182,6 +252,7 @@ export const siteSchema = z.object({
 `src/content.config.ts` defines four collections with `file('content/{name}.json')` and the matching schema.
 
 Cross-file integrity (checked in `tests/unit/content.test.ts`):
+
 - every project `clouds[]` / `capabilities[]` id exists in `skills.json`; every `clouds[]` id has `group: "clouds"`;
 - every id in a project's `employers` exists in `experience.json`, and each of those experiences lists the project in `projectIds` (and vice versa);
 - every certification `skills[]` id and every `site.workFacets.capabilities` id exists in `skills.json`;
@@ -190,14 +261,14 @@ Cross-file integrity (checked in `tests/unit/content.test.ts`):
 
 ### 3.2 Derived data (`src/lib/derive.ts`, `format.ts`)
 
-| Function | Returns | Used by |
-| --- | --- | --- |
-| `sortProjects(projects)` | featured first, then file order of `projects.json` | Work, Home |
-| `skillStats(skills, projects)` | `{ id, projectCount, projectIds }[]` | Skills, constellation, chips |
+| Function                                       | Returns                                                                                                             | Used by                               |
+| ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- | ------------------------------------- |
+| `sortProjects(projects)`                       | featured first, then file order of `projects.json`                                                                  | Work, Home                            |
+| `skillStats(skills, projects)`                 | `{ id, projectCount, projectIds }[]`                                                                                | Skills, constellation, chips          |
 | `cloudStats(skills, projects, certifications)` | `skillStats` for `group === "clouds"` + linked certifications; excludes clouds with 0 projects and 0 certifications | Constellation, CloudCard, Work facets |
-| `prevNext(id)` | `{ prev, next }` by sort order | Case study footer |
-| `filterProjects(projects, state)` | OR within group, AND across groups | Work filter island |
-| `employerNames(project, experience)` | `"Nescara · Globant"` | Case study snapshot bar |
+| `prevNext(id)`                                 | `{ prev, next }` by sort order                                                                                      | Case study footer                     |
+| `filterProjects(projects, state)`              | OR within group, AND across groups                                                                                  | Work filter island                    |
+| `employerNames(project, experience)`           | `"Nescara · Globant"`                                                                                               | Case study snapshot bar               |
 
 **No dates anywhere.** The site is a project showcase; career dates live on the resume. Content has no date fields, and no component renders dates (except the footer copyright year).
 
@@ -213,47 +284,64 @@ All pure functions, 100% line coverage.
 
 ### 4.1 Static (.astro) vs island (.tsx)
 
-| Component | Kind | Hydration | Notes |
-| --- | --- | --- | --- |
-| `NavRail` | astro | — | Tooltips CSS-only (`:hover`, `:focus-visible`); no shadcn Tooltip |
-| `MobileNav` | tsx | `client:media="(max-width: 1023px)"` | shadcn Sheet |
-| `ThemeToggle` | tsx | `client:idle` | Writes `data-theme` + localStorage; dispatches `pf-themechange` |
-| `Hero` | astro | — | Contains `DataCoreScene` slot |
-| `DataCoreScene` | tsx (R3F) | `client:visible` | Optional; poster first |
-| `CloudConstellation` | tsx (R3F) | `client:visible` | Accessible node list rendered as HTML sibling |
-| `CloudBento` / `CloudCard` | astro | — | Fallback + Skills page |
-| `CloudPanel` | tsx | inside constellation | Side panel |
-| `CoverCard`, `ProjectCard` | astro | — | Whole card is one link |
-| `WorkFilters` | tsx | `client:load` on /work | Reads/writes URL; filters server-rendered grid by `data-clouds` / `data-caps` |
-| `Marquee` | astro + CSS | — | CSS animation |
-| `SnapshotBar`, `SectionBand`, `DecisionCards`, `Outcomes`, `StackChips`, `Takeaway`, `PrevNext` | astro | — | Case study |
-| `Gallery` | astro | — | Grid |
-| `Lightbox` | tsx | `client:visible` | shadcn Dialog |
-| `CompanyList` | astro | — | About page: company + role + project chips |
-| `ContactForm` | tsx | `client:visible` | RHF + zod + Web3Forms; not rendered when key is empty |
-| `Reveal` | astro wrapper + tiny script | inline | GSAP ScrollTrigger, no-op on reduced motion |
+| Component                                                                                       | Kind                        | Hydration                            | Notes                                                                         |
+| ----------------------------------------------------------------------------------------------- | --------------------------- | ------------------------------------ | ----------------------------------------------------------------------------- |
+| `NavRail`                                                                                       | astro                       | —                                    | Tooltips CSS-only (`:hover`, `:focus-visible`); no shadcn Tooltip             |
+| `MobileNav`                                                                                     | tsx                         | `client:media="(max-width: 1023px)"` | shadcn Sheet                                                                  |
+| `ThemeToggle`                                                                                   | tsx                         | `client:idle`                        | Writes `data-theme` + localStorage; dispatches `pf-themechange`               |
+| `Hero`                                                                                          | astro                       | —                                    | Contains `DataCoreScene` slot                                                 |
+| `DataCoreScene`                                                                                 | tsx (R3F)                   | `client:visible`                     | Optional; poster first                                                        |
+| `CloudConstellation`                                                                            | tsx (R3F)                   | `client:visible`                     | Accessible node list rendered as HTML sibling                                 |
+| `CloudBento` / `CloudCard`                                                                      | astro                       | —                                    | Fallback + Skills page                                                        |
+| `CloudPanel`                                                                                    | tsx                         | inside constellation                 | Side panel                                                                    |
+| `CoverCard`, `ProjectCard`                                                                      | astro                       | —                                    | Whole card is one link                                                        |
+| `WorkFilters`                                                                                   | tsx                         | `client:load` on /work               | Reads/writes URL; filters server-rendered grid by `data-clouds` / `data-caps` |
+| `Marquee`                                                                                       | astro + CSS                 | —                                    | CSS animation                                                                 |
+| `SnapshotBar`, `SectionBand`, `DecisionCards`, `Outcomes`, `StackChips`, `Takeaway`, `PrevNext` | astro                       | —                                    | Case study                                                                    |
+| `Gallery`                                                                                       | astro                       | —                                    | Grid                                                                          |
+| `Lightbox`                                                                                      | tsx                         | `client:visible`                     | shadcn Dialog                                                                 |
+| `CompanyList`                                                                                   | astro                       | —                                    | About page: company + role + project chips                                    |
+| `ContactForm`                                                                                   | tsx                         | `client:visible`                     | RHF + zod + Web3Forms; not rendered when key is empty                         |
+| `Reveal`                                                                                        | astro wrapper + tiny script | inline                               | GSAP ScrollTrigger, no-op on reduced motion                                   |
 
 ### 4.2 Key props contracts
 
 ```ts
-type CoverCardProps = { title: string; subtitle: string; href: string;
-  cover: { preset: CoverPreset; image?: Image }; icon?: IconName };
+type CoverCardProps = {
+  title: string;
+  subtitle: string;
+  href: string;
+  cover: { preset: CoverPreset; image?: Image };
+  icon?: IconName;
+};
 
 type ProjectCardProps = { project: Project; cloudLabels: Record<string, string> };
 
-type CloudNode = { id: string; label: string; accent: string;   // accent = "cloud-sales"
+type CloudNode = {
+  id: string;
+  label: string;
+  accent: string; // accent = "cloud-sales"
   projectCount: number;
   certifications: { id: string; label: string }[];
-  projects: { id: string; title: string }[] };
+  projects: { id: string; title: string }[];
+};
 type CloudConstellationProps = { nodes: CloudNode[]; centerLabel: string };
 
-type WorkFiltersProps = { clouds: FacetOption[]; capabilities: FacetOption[];
-  allSkills: Record<string, string>;   // id → label, for URL ids outside the facet lists
-  total: number };                     // grid items carry data-clouds="a,b" data-caps="c,d"
+type WorkFiltersProps = {
+  clouds: FacetOption[];
+  capabilities: FacetOption[];
+  allSkills: Record<string, string>; // id → label, for URL ids outside the facet lists
+  total: number;
+}; // grid items carry data-clouds="a,b" data-caps="c,d"
 type FacetOption = { id: string; label: string; count: number };
 
-type ContactFormProps = { accessKey: string; projectTypes: string[];
-  successMessage: string; errorMessage: string; fallbackEmail: string };
+type ContactFormProps = {
+  accessKey: string;
+  projectTypes: string[];
+  successMessage: string;
+  errorMessage: string;
+  fallbackEmail: string;
+};
 ```
 
 Islands receive plain serialisable props only (no functions, no class instances).
@@ -267,7 +355,8 @@ const devGallery = () => ({
   name: 'dev-gallery',
   hooks: {
     'astro:config:setup': ({ command, injectRoute }) => {
-      if (command === 'dev') injectRoute({ pattern: '/dev/components', entrypoint: './src/dev/components.astro' });
+      if (command === 'dev')
+        injectRoute({ pattern: '/dev/components', entrypoint: './src/dev/components.astro' });
     },
   },
 });
@@ -291,7 +380,9 @@ Inline script in `BaseLayout` `<head>` (before CSS paints):
     const s = localStorage.getItem('pf-theme');
     const t = s ?? (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
     document.documentElement.dataset.theme = t;
-  } catch { document.documentElement.dataset.theme = 'dark'; }
+  } catch {
+    document.documentElement.dataset.theme = 'dark';
+  }
 </script>
 ```
 
@@ -299,15 +390,15 @@ Inline script in `BaseLayout` `<head>` (before CSS paints):
 
 ## 7. Testing
 
-| Level | Tool | Scope | Location | From |
-| --- | --- | --- | --- | --- |
-| Unit | Vitest | `src/lib/*`, content integrity | `tests/unit/` | P0-02 |
-| Astro components | Vitest + Astro Container API | `.astro` components that branch on data | `tests/unit/` | P1-06 |
-| Islands | Vitest + Testing Library | Every React island: renders, keyboard, states | `tests/unit/islands/` | P1-06 |
-| Accessibility | Playwright + @axe-core/playwright | Every route, dark and light | `tests/e2e/a11y.spec.ts` | P3-04 |
-| Smoke | Playwright | Every route 200, has h1, nav works, no console errors | `tests/e2e/smoke.spec.ts` | P3-04 |
-| Links | linkinator | `dist/` | `ci` | P0-02 |
-| Performance | Lighthouse CI | Home, Work, one case study | second workflow | P3-04 |
+| Level            | Tool                              | Scope                                                 | Location                  | From  |
+| ---------------- | --------------------------------- | ----------------------------------------------------- | ------------------------- | ----- |
+| Unit             | Vitest                            | `src/lib/*`, content integrity                        | `tests/unit/`             | P0-02 |
+| Astro components | Vitest + Astro Container API      | `.astro` components that branch on data               | `tests/unit/`             | P1-06 |
+| Islands          | Vitest + Testing Library          | Every React island: renders, keyboard, states         | `tests/unit/islands/`     | P1-06 |
+| Accessibility    | Playwright + @axe-core/playwright | Every route, dark and light                           | `tests/e2e/a11y.spec.ts`  | P3-04 |
+| Smoke            | Playwright                        | Every route 200, has h1, nav works, no console errors | `tests/e2e/smoke.spec.ts` | P3-04 |
+| Links            | linkinator                        | `dist/`                                               | `ci`                      | P0-02 |
+| Performance      | Lighthouse CI                     | Home, Work, one case study                            | second workflow           | P3-04 |
 
 3D components: test the HTML fallback and the accessible node list; do not test WebGL rendering.
 
@@ -325,13 +416,13 @@ Inline script in `BaseLayout` `<head>` (before CSS paints):
   "lint": "eslint . && prettier --check .",
   "test": "vitest run",
   "validate:content": "astro sync",
-  "check:links": "linkinator dist --recurse --skip \"^(?!http://localhost)\"",
+  "check:links": "linkinator dist --recurse --skip \"^(?!http://(localhost|127\\.0\\.0\\.1)[:/])\"",
   "ci": "npm run lint && npm run validate:content && npm test && npm run build && npm run check:links",
   "prepare": "husky"
 }
 ```
 
-Until P1-01 installs Style Dictionary, `tokens` is a stub: `"tokens": "node -e \"\""`. `test:a11y` (`playwright test`) is added in P3-04 and runs in the second workflow, not in `ci`. The `check:links` skip pattern checks internal links only; external links are checked manually before launch.
+Until P1-01 installs Style Dictionary, `tokens` is a stub: `"tokens": "node -e \"\""`. `test:a11y` (`playwright test`) is added in P3-04 and runs in the second workflow, not in `ci`. The `check:links` skip pattern checks internal links only; external links are checked manually before launch. Linkinator 8 serves `dist/` on `127.0.0.1`, so a `localhost`-only pattern skips every link and the check passes vacuously; if "Scanned 0 links" ever appears, the pattern is wrong.
 
 ### 8.2 `.github/workflows/deploy.yml`
 
@@ -409,14 +500,14 @@ docs/source-images/
 
 ## 9. Performance budget
 
-| Asset | Budget |
-| --- | --- |
-| HTML per page | ≤ 50 KB gzipped |
-| CSS total | ≤ 30 KB gzipped |
-| JS, non-3D pages | ≤ 80 KB gzipped |
+| Asset                    | Budget               |
+| ------------------------ | -------------------- |
+| HTML per page            | ≤ 50 KB gzipped      |
+| CSS total                | ≤ 30 KB gzipped      |
+| JS, non-3D pages         | ≤ 80 KB gzipped      |
 | JS + assets per 3D scene | ≤ 1 MB gzipped, lazy |
-| Fonts preloaded | 2 files |
-| Images above the fold | ≤ 200 KB |
+| Fonts preloaded          | 2 files              |
+| Images above the fold    | ≤ 200 KB             |
 
 ## 10. Error handling
 

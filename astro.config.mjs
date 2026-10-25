@@ -7,10 +7,10 @@ import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://shawnkawabe.github.io',
-	output: 'static',
-	integrations: [react(), sitemap()],
-	vite: {
-		plugins: [tailwindcss()],
-	},
+  site: 'https://shawnkawabe.github.io',
+  output: 'static',
+  integrations: [react(), sitemap()],
+  vite: {
+    plugins: [tailwindcss()],
+  },
 });

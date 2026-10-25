@@ -18,30 +18,30 @@ npm run dev        # http://localhost:4321
 
 ## Scripts
 
-| Command | Does |
-| --- | --- |
-| `npm run dev` | Dev server |
-| `npm run tokens` | Build `src/styles/tokens.css` from `tokens/` |
-| `npm run build` | Tokens + type check + static build to `dist/` |
-| `npm run preview` | Serve `dist/` |
-| `npm run lint` | ESLint + Prettier check |
-| `npm test` | Unit and component tests |
-| `npm run test:a11y` | Playwright + axe on built pages (from P3-04) |
-| `npm run validate:content` | Validate content collections (`astro sync`) |
-| `npm run check:links` | Check internal links in `dist/` |
-| `npm run ci` | lint → validate:content → test → build → check:links |
+| Command                    | Does                                                 |
+| -------------------------- | ---------------------------------------------------- |
+| `npm run dev`              | Dev server                                           |
+| `npm run tokens`           | Build `src/styles/tokens.css` from `tokens/`         |
+| `npm run build`            | Tokens + type check + static build to `dist/`        |
+| `npm run preview`          | Serve `dist/`                                        |
+| `npm run lint`             | ESLint + Prettier check                              |
+| `npm test`                 | Unit and component tests                             |
+| `npm run test:a11y`        | Playwright + axe on built pages (from P3-04)         |
+| `npm run validate:content` | Validate content collections (`astro sync`)          |
+| `npm run check:links`      | Check internal links in `dist/`                      |
+| `npm run ci`               | lint → validate:content → test → build → check:links |
 
 ## Docs
 
-| Doc | For |
-| --- | --- |
-| [CLAUDE.md](CLAUDE.md) | Rules and workflow for the Code Agent (and humans) |
-| [CONTENT.md](CONTENT.md) | Adding and editing projects, skills, experience |
-| [docs/PRODUCT_SPEC.md](docs/PRODUCT_SPEC.md) | Pages, sections, behaviour, acceptance criteria |
-| [docs/DESIGN.md](docs/DESIGN.md) | Design system: tokens, type, motion, 3D, components |
-| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Folders, data flow, components, testing, CI |
-| [docs/BACKLOG.md](docs/BACKLOG.md) | Ordered build tasks |
-| [docs/adr/](docs/adr/) | Decision records |
+| Doc                                          | For                                                 |
+| -------------------------------------------- | --------------------------------------------------- |
+| [CLAUDE.md](CLAUDE.md)                       | Rules and workflow for the Code Agent (and humans)  |
+| [CONTENT.md](CONTENT.md)                     | Adding and editing projects, skills, experience     |
+| [docs/PRODUCT_SPEC.md](docs/PRODUCT_SPEC.md) | Pages, sections, behaviour, acceptance criteria     |
+| [docs/DESIGN.md](docs/DESIGN.md)             | Design system: tokens, type, motion, 3D, components |
+| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Folders, data flow, components, testing, CI         |
+| [docs/BACKLOG.md](docs/BACKLOG.md)           | Ordered build tasks                                 |
+| [docs/adr/](docs/adr/)                       | Decision records                                    |
 
 ## Deploy
 

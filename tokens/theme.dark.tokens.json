@@ -74,11 +74,7 @@
     "border-1": {
       "$value": {
         "colorSpace": "srgb",
-        "components": [
-          1.0,
-          1.0,
-          1.0
-        ],
+        "components": [1.0, 1.0, 1.0],
         "hex": "#FFFFFF",
         "alpha": 0.08
       }
@@ -86,11 +82,7 @@
     "border-2": {
       "$value": {
         "colorSpace": "srgb",
-        "components": [
-          1.0,
-          1.0,
-          1.0
-        ],
+        "components": [1.0, 1.0, 1.0],
         "hex": "#FFFFFF",
         "alpha": 0.16
       }
@@ -98,11 +90,7 @@
     "glow-1": {
       "$value": {
         "colorSpace": "srgb",
-        "components": [
-          0.302,
-          0.6627,
-          1.0
-        ],
+        "components": [0.302, 0.6627, 1.0],
         "hex": "#4DA9FF",
         "alpha": 0.35
       }
@@ -110,11 +98,7 @@
     "band-a": {
       "$value": {
         "colorSpace": "srgb",
-        "components": [
-          0.5451,
-          0.4863,
-          0.9647
-        ],
+        "components": [0.5451, 0.4863, 0.9647],
         "hex": "#8B7CF6",
         "alpha": 0.08
       }
@@ -122,11 +106,7 @@
     "band-b": {
       "$value": {
         "colorSpace": "srgb",
-        "components": [
-          0.3686,
-          0.8275,
-          0.7647
-        ],
+        "components": [0.3686, 0.8275, 0.7647],
         "hex": "#5ED3C3",
         "alpha": 0.08
       }
@@ -139,11 +119,7 @@
         {
           "color": {
             "colorSpace": "srgb",
-            "components": [
-              0.0,
-              0.0,
-              0.0
-            ],
+            "components": [0.0, 0.0, 0.0],
             "hex": "#000000",
             "alpha": 0.24
           },
@@ -167,11 +143,7 @@
         {
           "color": {
             "colorSpace": "srgb",
-            "components": [
-              0.0,
-              0.0,
-              0.0
-            ],
+            "components": [0.0, 0.0, 0.0],
             "hex": "#000000",
             "alpha": 0.24
           },
@@ -199,11 +171,7 @@
         {
           "color": {
             "colorSpace": "srgb",
-            "components": [
-              0.0,
-              0.0,
-              0.0
-            ],
+            "components": [0.0, 0.0, 0.0],
             "hex": "#000000",
             "alpha": 0.4
           },

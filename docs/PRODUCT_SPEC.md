@@ -23,16 +23,16 @@ Blog, Portuguese version (keep i18n-ready), CMS, analytics beyond a privacy-frie
 
 ## 3. Sitemap and routes
 
-| Route | Page | Template | Source data |
-| --- | --- | --- | --- |
-| `/` | Home | `PageLayout` | `site.json`, `projects.json` (featured), `skills.json`, `certifications.json` |
-| `/work` | Work index | `PageLayout` | `projects.json`, `skills.json` |
-| `/work/[id]` | Case study (one per project; `id` is the slug) | `CaseStudyLayout` | `projects.json` |
-| `/about` | About and experience | `PageLayout` | `site.json`, `experience.json`, `certifications.json` |
-| `/skills` | Skills and clouds | `PageLayout` | `skills.json`, derived from `projects.json` |
-| `/contact` | Contact | `PageLayout` | `site.json` |
-| `/404` | Not found | `PageLayout` | `site.json` |
-| `/dev/components` | Component gallery (dev server only; injected route, never built or in the sitemap) | — | fixtures |
+| Route             | Page                                                                               | Template          | Source data                                                                   |
+| ----------------- | ---------------------------------------------------------------------------------- | ----------------- | ----------------------------------------------------------------------------- |
+| `/`               | Home                                                                               | `PageLayout`      | `site.json`, `projects.json` (featured), `skills.json`, `certifications.json` |
+| `/work`           | Work index                                                                         | `PageLayout`      | `projects.json`, `skills.json`                                                |
+| `/work/[id]`      | Case study (one per project; `id` is the slug)                                     | `CaseStudyLayout` | `projects.json`                                                               |
+| `/about`          | About and experience                                                               | `PageLayout`      | `site.json`, `experience.json`, `certifications.json`                         |
+| `/skills`         | Skills and clouds                                                                  | `PageLayout`      | `skills.json`, derived from `projects.json`                                   |
+| `/contact`        | Contact                                                                            | `PageLayout`      | `site.json`                                                                   |
+| `/404`            | Not found                                                                          | `PageLayout`      | `site.json`                                                                   |
+| `/dev/components` | Component gallery (dev server only; injected route, never built or in the sitemap) | —                 | fixtures                                                                      |
 
 Resume is an external PDF link from `site.links.resume` (opens in a new tab, labelled as PDF).
 
@@ -41,22 +41,27 @@ Content field names below refer to `content/site.json` as `site.*`.
 ## 4. Global shell (every page)
 
 ### 4.1 Navigation
+
 - **Desktop (≥ 1024px):** floating vertical **nav rail** fixed at left, vertically centred-top (see `docs/reference/01-home-once-ui.jpg`). Pill-shaped surface, `surface-2`, radius `pill`. Items: Home, Work, Skills, About, Contact (icon + tooltip label), divider, LinkedIn, GitHub, Resume (external). Active item: filled circle behind icon + small dot beneath.
 - **Tablet and mobile (< 1024px):** top bar with name (left) and a menu button (right) opening a **sheet** from the right with the same items as text links. Sheet traps focus, closes on Esc, overlay click and route change.
 - Keyboard: Tab order follows visual order; tooltips appear on focus as well as hover.
 - `aria-current="page"` on the active link.
 
 ### 4.2 Theme
+
 - Dark by default. Toggle in the rail (desktop) and sheet (mobile). Respects `prefers-color-scheme` on first visit, then the stored choice (`localStorage` key `pf-theme`, wrapped in try/catch).
 - Theme applied as `data-theme` on `<html>` by an inline script in `<head>` to avoid a flash.
 
 ### 4.3 Footer
+
 Centred, small: "© {year} Shawn Kawabe", links (LinkedIn, GitHub, email), trademark notice from `site.json.trademarkNotice`.
 
 ### 4.4 Skip link and focus
+
 "Skip to content" as the first focusable element. Visible focus ring on every interactive element (`focus-ring` token).
 
 ### 4.5 SEO per page
+
 `<title>` pattern `"{site.seo.pages.{page}.title} — Shawn Kawabe"` (Home: `site.seo.homeTitle`; case studies: `"{project.title} — Shawn Kawabe"`), meta description from `site.seo.description` (Home), `site.seo.pages.{page}.description`, or `project.summary`, canonical URL, Open Graph + Twitter card (one default image `public/og/default.png` until P3-05 adds per-page images at `public/og/{route}.png`, 1200×630), `sitemap.xml` via `@astrojs/sitemap`, `robots.txt`, JSON-LD `Person` on Home and `CreativeWork` per case study.
 
 ## 5. Pages
@@ -77,6 +82,7 @@ Sections in order:
 6. **Contact CTA band**: `site.ctaLine` + button to `/contact`.
 
 Acceptance:
+
 - [ ] LCP element is the hero text, not the 3D canvas.
 - [ ] Hero renders fully with JavaScript disabled (3D replaced by gradient poster).
 - [ ] Featured cards are links (whole card clickable, one tab stop).
@@ -142,39 +148,45 @@ No percentages, stars or self-ratings anywhere.
 - Visual: glass surface, glowing focus ring, animated border on focus-within. No 3D in the form.
 
 ### 5.7 404
+
 `site.notFound.title`, `site.notFound.body`, links to Home and Work. Same shell.
 
 ## 6. Clouds constellation (signature component)
 
 ### 6.1 Data
+
 Each node = one entry in `skills.json` with `group = "clouds"`. Node size ∝ `sqrt(projectCount)` (derived). Colour from the node's `accent` token. Centre node = Shawn. Clouds with zero projects and zero certifications are hidden (Membership & Nonprofit stays hidden until its post-MVP projects are added).
 
 ### 6.2 Desktop interaction (≥ 1024px, WebGL available, motion allowed)
+
 - Nodes orbit slowly (one revolution ≈ 60s); orbit pauses while the pointer is over the canvas.
 - Hover/focus a node: it scales 1.15, label appears, others dim to 40%.
 - Click/Enter a node: **side panel** slides in (right, 400px) with: cloud name, project count, certifications linked to that cloud, project chips (links), "See projects" → `/work?cloud={id}`. Esc or close button returns focus to the node.
 - Keyboard: nodes are reachable via an accessible list rendered alongside the canvas (visually the canvas, semantically buttons). Arrow keys move between nodes.
 
 ### 6.3 Fallback / mobile (bento grid)
+
 Used when < 1024px, reduced motion, WebGL unavailable, or before the 3D bundle loads (as the poster):
+
 - Bento grid of `CloudCard`s; Sales Cloud (most projects) spans 2×2; others 1×1 or 2×1 by project count.
 - Card: own icon (from `src/assets/icons/clouds/`, original artwork, never Salesforce logos), name, project count, cert chip if any, top 3 project chips, link.
 
 Acceptance:
+
 - [ ] Same information reachable with mouse, keyboard and screen reader.
 - [ ] 3D bundle not requested until the section is within 200px of the viewport.
 - [ ] Scene JS + assets ≤ 1 MB gzipped total; page still scores ≥ 95 performance.
 
 ## 7. Cross-cutting requirements
 
-| Area | Requirement |
-| --- | --- |
-| Responsive | Designed at 375, 768, 1024, 1440. No horizontal scroll at any width ≥ 320. |
-| Performance | Lighthouse ≥ 95 (mobile profile). Total JS on non-3D pages ≤ 80 KB gzipped. Images WebP/AVIF with `width`/`height`, lazy below the fold. Fonts self-hosted, `font-display: swap`, preload the heading font. |
-| Accessibility | WCAG 2.2 AA; axe 0 violations; reduced motion honoured everywhere; colour never the only signal. |
-| Browsers | Last 2 versions of Chrome, Edge, Firefox, Safari (desktop + iOS). |
-| Privacy | No third-party trackers. No cookies. |
-| i18n readiness | All strings in `content/` or `src/i18n/en.json`; no concatenated sentences in components. |
+| Area           | Requirement                                                                                                                                                                                                 |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Responsive     | Designed at 375, 768, 1024, 1440. No horizontal scroll at any width ≥ 320.                                                                                                                                  |
+| Performance    | Lighthouse ≥ 95 (mobile profile). Total JS on non-3D pages ≤ 80 KB gzipped. Images WebP/AVIF with `width`/`height`, lazy below the fold. Fonts self-hosted, `font-display: swap`, preload the heading font. |
+| Accessibility  | WCAG 2.2 AA; axe 0 violations; reduced motion honoured everywhere; colour never the only signal.                                                                                                            |
+| Browsers       | Last 2 versions of Chrome, Edge, Firefox, Safari (desktop + iOS).                                                                                                                                           |
+| Privacy        | No third-party trackers. No cookies.                                                                                                                                                                        |
+| i18n readiness | All strings in `content/` or `src/i18n/en.json`; no concatenated sentences in components.                                                                                                                   |
 
 ## 8. Definition of done (every task)
 

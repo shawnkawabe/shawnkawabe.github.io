@@ -4,15 +4,10 @@
     "title": "Volkswagen Group Portal",
     "subtitle": "Multi-brand, bilingual case creation",
     "client": "Volkswagen Group",
-    "employers": [
-      "cit"
-    ],
+    "employers": ["cit"],
     "role": "Senior Salesforce Developer",
     "industry": "Automotive",
-    "clouds": [
-      "service-cloud",
-      "experience-cloud"
-    ],
+    "clouds": ["service-cloud", "experience-cloud"],
     "capabilities": [
       "lwc",
       "flow",
@@ -87,14 +82,10 @@
     "title": "Adtalem Global Education",
     "subtitle": "Data migration and backup at scale",
     "client": "Adtalem Global Education",
-    "employers": [
-      "cit"
-    ],
+    "employers": ["cit"],
     "role": "Senior Salesforce Developer",
     "industry": "Education",
-    "clouds": [
-      "platform"
-    ],
+    "clouds": ["platform"],
     "capabilities": [
       "data-migration",
       "backup-archival",
@@ -170,22 +161,11 @@
     "title": "Cooxupé",
     "subtitle": "Order management and B2C commerce for a coffee cooperative",
     "client": "Cooxupé Agriculture Cooperative",
-    "employers": [
-      "nescara",
-      "globant"
-    ],
+    "employers": ["nescara", "globant"],
     "role": "Salesforce Developer",
     "industry": "Agriculture cooperative",
-    "clouds": [
-      "commerce-cloud",
-      "sales-cloud"
-    ],
-    "capabilities": [
-      "lwc",
-      "aura",
-      "lwr",
-      "ux"
-    ],
+    "clouds": ["commerce-cloud", "sales-cloud"],
+    "capabilities": ["lwc", "aura", "lwr", "ux"],
     "category": "CRM development",
     "featured": true,
     "depth": "case-study",
@@ -248,23 +228,11 @@
     "title": "BRF",
     "subtitle": "\"Indique e Ganhe\" referral campaign and B2C features",
     "client": "BRF S.A.",
-    "employers": [
-      "nescara",
-      "globant"
-    ],
+    "employers": ["nescara", "globant"],
     "role": "Salesforce Developer",
     "industry": "Food",
-    "clouds": [
-      "experience-cloud",
-      "sales-cloud",
-      "commerce-cloud"
-    ],
-    "capabilities": [
-      "apex",
-      "lwc",
-      "aura",
-      "visualforce"
-    ],
+    "clouds": ["experience-cloud", "sales-cloud", "commerce-cloud"],
+    "capabilities": ["apex", "lwc", "aura", "visualforce"],
     "category": "Digital campaigns",
     "featured": true,
     "depth": "case-study",
@@ -327,14 +295,10 @@
     "title": "Third Republic",
     "subtitle": "Data Cloud Unified Profile and identity resolution",
     "client": "Third Republic",
-    "employers": [
-      "third-republic"
-    ],
+    "employers": ["third-republic"],
     "role": "Data Cloud Consultant",
     "industry": "Consulting",
-    "clouds": [
-      "data-cloud"
-    ],
+    "clouds": ["data-cloud"],
     "capabilities": [
       "identity-resolution",
       "calculated-insights",
@@ -372,13 +336,9 @@
     "title": "Orchid",
     "subtitle": "Reusable Salesforce component library",
     "client": "Orchid",
-    "employers": [
-      "orchid"
-    ],
+    "employers": ["orchid"],
     "role": "Senior Salesforce Developer",
-    "clouds": [
-      "platform"
-    ],
+    "clouds": ["platform"],
     "capabilities": [
       "component-library",
       "lwc",
@@ -402,15 +362,10 @@
     "title": "Lavoro Agro",
     "subtitle": "Sales screen with SAP stock and digital signatures",
     "client": "Lavoro Agro",
-    "employers": [
-      "nescara",
-      "globant"
-    ],
+    "employers": ["nescara", "globant"],
     "role": "Salesforce Developer",
     "industry": "Agribusiness",
-    "clouds": [
-      "sales-cloud"
-    ],
+    "clouds": ["sales-cloud"],
     "capabilities": [
       "lwc",
       "apex",
@@ -457,16 +412,10 @@
     "title": "Intelbras",
     "subtitle": "ERP integrations migrated from TOTVS to SAP",
     "client": "Intelbras",
-    "employers": [
-      "nescara",
-      "globant"
-    ],
+    "employers": ["nescara", "globant"],
     "role": "Salesforce Developer",
     "industry": "Communications equipment",
-    "clouds": [
-      "service-cloud",
-      "sales-cloud"
-    ],
+    "clouds": ["service-cloud", "sales-cloud"],
     "capabilities": [
       "erp-migration",
       "sap-integration",
@@ -508,22 +457,11 @@
     "title": "Orígeo",
     "subtitle": "Order screen and SAP account integration",
     "client": "Orígeo",
-    "employers": [
-      "nescara",
-      "globant"
-    ],
+    "employers": ["nescara", "globant"],
     "role": "Salesforce Developer",
     "industry": "Agribusiness",
-    "clouds": [
-      "service-cloud",
-      "sales-cloud"
-    ],
-    "capabilities": [
-      "apex",
-      "lwc",
-      "sap-integration",
-      "rest-soap"
-    ],
+    "clouds": ["service-cloud", "sales-cloud"],
+    "capabilities": ["apex", "lwc", "sap-integration", "rest-soap"],
     "category": "CRM development",
     "featured": false,
     "depth": "card",
@@ -553,15 +491,10 @@
     "title": "Banco Master",
     "subtitle": "Service Cloud with secure sharing and CI/CD",
     "client": "Banco Master",
-    "employers": [
-      "nescara",
-      "globant"
-    ],
+    "employers": ["nescara", "globant"],
     "role": "Salesforce Developer",
     "industry": "Financial services",
-    "clouds": [
-      "service-cloud"
-    ],
+    "clouds": ["service-cloud"],
     "capabilities": [
       "apex",
       "apex-triggers",
@@ -608,15 +541,10 @@
     "title": "Ihara",
     "subtitle": "Mobile-ready LWC and CI/CD for field sales",
     "client": "Ihara",
-    "employers": [
-      "nescara",
-      "globant"
-    ],
+    "employers": ["nescara", "globant"],
     "role": "Salesforce Developer",
     "industry": "Agribusiness",
-    "clouds": [
-      "sales-cloud"
-    ],
+    "clouds": ["sales-cloud"],
     "capabilities": [
       "lwc",
       "lightning-pages",
@@ -658,19 +586,11 @@
     "title": "GDM Seeds",
     "subtitle": "Technical requirements for a Sales Cloud rollout",
     "client": "GDM Seeds",
-    "employers": [
-      "nescara",
-      "globant"
-    ],
+    "employers": ["nescara", "globant"],
     "role": "Salesforce Developer",
     "industry": "Agribusiness",
-    "clouds": [
-      "sales-cloud"
-    ],
-    "capabilities": [
-      "requirements",
-      "technical-documentation"
-    ],
+    "clouds": ["sales-cloud"],
+    "capabilities": ["requirements", "technical-documentation"],
     "category": "Requirements and design",
     "featured": false,
     "depth": "card",
