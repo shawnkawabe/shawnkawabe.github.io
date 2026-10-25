@@ -77,11 +77,12 @@ Things that must exist or be decided before the task in **Blocks** can start. De
       `.github/workflows/deploy.yml` and `.github/dependabot.yml` exactly as ARCHITECTURE §8.2–8.3. **[H]** Shawn sets Pages source to GitHub Actions and adds the repository variable `PUBLIC_WEB3FORMS_KEY` (may stay empty for now).
   - [ ] PR runs the build job only; merge to `main` deploys; the live URL shows the scaffold.
 
-- [ ] **P0-04 3D spike** — Deps: P0-01
+- [x] **P0-04 3D spike** — Deps: P0-01
       Install `three @react-three/fiber@9 @react-three/drei@10` and `-D @types/three`. On a temporary page, render a rotating icosahedron as a `client:visible` island below the fold, with a gradient poster and a reduced-motion fallback.
-  - [ ] Island JS requested only after scrolling near it (verify in Network tab).
-  - [ ] Lighthouse mobile performance ≥ 95 on that page.
-  - [ ] Results written in `docs/adr/0001-astro-react-islands.md` → "Validation"; temporary page deleted.
+  - [x] Island JS requested only after scrolling near it (verify in Network tab).
+  - [x] Lighthouse mobile performance ≥ 95 on that page.
+  - [x] Results written in `docs/adr/0001-astro-react-islands.md` → "Validation"; temporary page deleted.
+  - Notes: performance 100 below the fold and 100 with the scene in the hero (worst case), so the hero-gradient fallback is not needed. Canvas chunk 247 KB gzipped. Spike used a shell island + `React.lazy` canvas; reuse it in P3-01. Re-measure on the live URL after P0-03.
 
 ## Phase 1 — Design system and content layer
 
