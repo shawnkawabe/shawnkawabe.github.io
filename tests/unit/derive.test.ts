@@ -6,6 +6,7 @@ import {
   prevNext,
   skillStats,
   sortProjects,
+  withBentoSize,
 } from '@/lib/derive';
 import { certification, project, skill } from './fixtures';
 
@@ -155,5 +156,23 @@ describe('filterProjects', () => {
 
   it('returns an empty list when nothing matches', () => {
     expect(filterProjects(projects, { clouds: [], caps: ['mulesoft'] })).toEqual([]);
+  });
+});
+
+describe('withBentoSize', () => {
+  const sizes = (counts: number[]) =>
+    withBentoSize(counts.map((projectCount) => ({ projectCount }))).map((cloud) => cloud.size);
+
+  it('makes the cloud with most projects 2×2 and those with at least half as many 2×1', () => {
+    expect(sizes([2, 7, 4, 3, 0])).toEqual(['base', 'feature', 'wide', 'base', 'base']);
+  });
+
+  it('gives a tie for the top to the first cloud', () => {
+    expect(sizes([5, 5])).toEqual(['feature', 'wide']);
+  });
+
+  it('never widens a cloud without projects', () => {
+    expect(sizes([0, 0])).toEqual(['feature', 'base']);
+    expect(sizes([])).toEqual([]);
   });
 });

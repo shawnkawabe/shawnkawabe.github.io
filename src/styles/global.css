@@ -117,6 +117,9 @@
   --shadow-1: var(--pf-g-shadow-1);
   --shadow-2: var(--pf-g-shadow-2);
   --shadow-glow: 0 0 0 1px var(--pf-g-color-border-2), 0 0 32px var(--pf-g-color-glow-1);
+  /* CloudCard hover (DESIGN §9): inner glow in the card's cloud accent at 12%. */
+  --shadow-cloud-glow: inset 0 0 48px
+    color-mix(in oklab, var(--pf-c-cloud-accent, transparent) 12%, transparent);
 
   --ease-*: initial;
   --ease-standard: var(--pf-g-easing-standard);

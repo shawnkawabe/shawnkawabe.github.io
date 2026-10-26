@@ -50,7 +50,7 @@ Rule of dependency: **pages → layouts → patterns → ui → tokens**. A laye
 │   ├── lib/
 │   │   ├── schemas.ts            # all zod schemas, incl. siteSchema (imported by content.config.ts)
 │   │   ├── content.ts            # typed getters: getSite(), getProjects(), getProject(id), getSkills()…
-│   │   ├── derive.ts             # skillStats(), cloudStats(), sortProjects(), prevNext(), filterProjects()
+│   │   ├── derive.ts             # skillStats(), cloudStats(), withBentoSize(), sortProjects(), prevNext(), filterProjects()
 │   │   ├── motion.ts             # prefersReducedMotion(), gsap setup
 │   │   ├── icons.ts              # IconName → Lucide component registry used by Icon.astro
 │   │   ├── utils.ts              # cn(): class merger aware of the token scales (shadcn components)
@@ -272,6 +272,8 @@ Cross-file integrity (checked in `tests/unit/content.test.ts`):
 | `sortProjects(projects)`                       | featured first, then file order of `projects.json`                                                                  | Work, Home                            |
 | `skillStats(skills, projects)`                 | `{ id, projectCount, projectIds }[]`                                                                                | Skills, constellation, chips          |
 | `cloudStats(skills, projects, certifications)` | `skillStats` for `group === "clouds"` + linked certifications; excludes clouds with 0 projects and 0 certifications | Constellation, CloudCard, Work facets |
+| `withBentoSize(clouds)`                        | adds `size`: top cloud by projects `feature` (2×2), at least half as many `wide` (2×1, below lg only), else `base`  | CloudBento                            |
+| `plural(forms, count)` (`format.ts`)           | `"1 project"` / `"7 projects"` via `Intl.PluralRules`; forms live in `src/i18n`                                     | CloudCard                             |
 | `prevNext(id)`                                 | `{ prev, next }` by sort order                                                                                      | Case study footer                     |
 | `filterProjects(projects, state)`              | OR within group, AND across groups                                                                                  | Work filter island                    |
 | `employerNames(project, experience)`           | `"Nescara · Globant"`                                                                                               | Case study snapshot bar               |

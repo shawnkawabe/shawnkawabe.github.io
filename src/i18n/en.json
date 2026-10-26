@@ -21,6 +21,12 @@
     "toLight": "Switch to light theme",
     "toDark": "Switch to dark theme"
   },
+  "cards": {
+    "projects": { "one": "{count} project", "other": "{count} projects" },
+    "certifications": { "one": "{count} certification", "other": "{count} certifications" },
+    "moreClouds": "+{count}",
+    "moreCloudsLabel": "{count} more clouds"
+  },
   "footer": {
     "copyright": "© {year} {name}",
     "linksLabel": "Elsewhere",

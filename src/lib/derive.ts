@@ -88,3 +88,21 @@ export function filterProjects<T extends Filterable>(
     (p) => matches(state.clouds, p.clouds) && matches(state.caps, p.capabilities),
   );
 }
+
+export type BentoSize = 'feature' | 'wide' | 'base';
+
+/**
+ * SPEC §6.3: the cloud with the most projects spans 2×2, clouds with at least half as many
+ * span 2×1, the rest 1×1. A tie for the top goes to the first in file order.
+ */
+export function withBentoSize<T extends Pick<CloudStat, 'projectCount'>>(
+  clouds: readonly T[],
+): (T & { size: BentoSize })[] {
+  const top = Math.max(0, ...clouds.map((cloud) => cloud.projectCount));
+  const featured = clouds.findIndex((cloud) => cloud.projectCount === top);
+  const sizeOf = (count: number, index: number): BentoSize => {
+    if (index === featured) return 'feature';
+    return count > 0 && count * 2 >= top ? 'wide' : 'base';
+  };
+  return clouds.map((cloud, index) => ({ ...cloud, size: sizeOf(cloud.projectCount, index) }));
+}
