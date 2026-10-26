@@ -1,0 +1,24 @@
+---
+// Lucide line icon at 1.5px stroke, rendered to static SVG (DESIGN §8). Decorative unless labelled.
+import { icons, type IconName } from '@/lib/icons';
+
+interface Props {
+  name: IconName;
+  size?: 16 | 20 | 24;
+  label?: string;
+  class?: string;
+}
+
+const { name, size = 20, label, class: className } = Astro.props;
+const Svg = icons[name];
+const a11y = label
+  ? ({ role: 'img', 'aria-label': label } as const)
+  : ({ 'aria-hidden': true } as const);
+---
+
+<Svg
+  size={size}
+  strokeWidth={1.5}
+  className={['shrink-0', className].filter(Boolean).join(' ')}
+  {...a11y}
+/>

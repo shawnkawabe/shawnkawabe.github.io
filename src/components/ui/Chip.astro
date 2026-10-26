@@ -1,0 +1,38 @@
+---
+// DESIGN §9 Chip: 28px pill; mono uppercase or Inter; optional cloud-accent dot; link when href is set.
+interface Props {
+  href?: string;
+  selected?: boolean;
+  mono?: boolean;
+  /** Cloud accent token name, e.g. "cloud-sales". */
+  accent?: string;
+  class?: string;
+}
+
+const { href, selected = false, mono = false, accent, class: className } = Astro.props;
+const Tag = href ? 'a' : 'span';
+---
+
+<Tag
+  href={href}
+  data-selected={selected ? 'true' : undefined}
+  class:list={[
+    'inline-flex h-7 items-center gap-2 rounded-pill border px-3 whitespace-nowrap no-underline',
+    mono ? 'font-mono text-1 tracking-label uppercase' : 'font-body text-2',
+    selected
+      ? 'border-accent-1 bg-accent-1/16 text-on-surface-1'
+      : 'border-border-1 bg-surface-3 text-on-surface-2',
+    href &&
+      'transition-colors duration-150 ease-standard hover:border-border-2 hover:text-on-surface-1',
+    className,
+  ]}
+>
+  {accent && (
+    <span
+      class="size-2 shrink-0 rounded-pill"
+      style={`background-color: var(--pf-g-color-${accent})`}
+      aria-hidden="true"
+    />
+  )}
+  <slot />
+</Tag>

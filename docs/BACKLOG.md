@@ -118,10 +118,11 @@ Things that must exist or be decided before the task in **Blocks** can start. De
   - [x] `sortProjects` keeps featured first, then file order; covered by tests.
   - Notes: URL filters use comma lists (`?cloud=a,b&cap=c`); unknown ids are dropped on parse. `prevNext(projects, id)` sorts internally and does not wrap around. `cloudStats` returns CloudNode-shaped data (label, accent, certifications, projects) and leaves out clouds with neither projects nor certifications. Coverage (v8, 100% lines on the three files) is enforced by `npm test`.
 
-- [ ] **P1-06 UI primitives and dev gallery** — Deps: P1-02
+- [x] **P1-06 UI primitives and dev gallery** — Deps: P1-02
       `npx shadcn@latest init` themed to tokens (remove default palette). Add: button, badge, sheet, dialog, input, textarea, select, label, form, tooltip. Astro primitives: `Chip`, `Heading`, `Text`, `Surface`, `Icon` (Lucide). Dev gallery per ARCHITECTURE §4.3. Install `react-hook-form zod @hookform/resolvers lucide-react` if shadcn did not.
-  - [ ] Each primitive shown in all variants, dark and light, at `/dev/components` in `npm run dev`; route absent from `dist/`.
-  - [ ] Keyboard focus visible on every interactive primitive.
+  - [x] Each primitive shown in all variants, dark and light, at `/dev/components` in `npm run dev`; route absent from `dist/`.
+  - [x] Keyboard focus visible on every interactive primitive.
+  - Notes: shadcn 4 (`radix-nova` style, Radix base). Its oklch palette, `.dark` block and Geist font were removed; `global.css` maps the shadcn colour names (`primary`, `popover`, …) to tokens and binds the `dark:` variant to `data-theme`. In this registry `form` is an empty, deprecated item, so `field` was added instead (use it with react-hook-form's `Controller`). Button variants are `brand | neutral | ghost`, sizes `md | lg | icon`; Badge `neutral | accent | success | error`. Focus uses the global `:focus-visible` ring (shadcn's ring classes were removed); fields add accent border + `shadow-glow`. Components import `cn` from `@/lib/utils`, which extends the merger with the token scales — re-point the `cn` import after every `shadcn add`. `Icon` takes a name from `src/lib/icons.ts` (`IconName`); P1-07 extends that registry. `@hookform/resolvers` stays on 5.x: 6.x has an optional `effect@^4` peer that clashes with the shadcn CLI's `effect@3`. The gallery's theme switch (or `?theme=light`) flips the whole page so portalled overlays follow the theme.
 
 - [ ] **P1-07 Cloud icons** — Deps: P1-06
       Draw 7 original SVG line icons per DESIGN §8 (24px grid, 1.5px stroke, `currentColor`) in `src/assets/icons/clouds/`.

@@ -1,0 +1,137 @@
+---
+// Dev-only component gallery (ARCHITECTURE §4.3). Injected by `astro dev`; never built.
+import '@/styles/global.css';
+import Chip from '@/components/ui/Chip.astro';
+import Heading from '@/components/ui/Heading.astro';
+import Icon from '@/components/ui/Icon.astro';
+import Surface from '@/components/ui/Surface.astro';
+import Text from '@/components/ui/Text.astro';
+import { icons, type IconName } from '@/lib/icons';
+import UiGallery from './UiGallery';
+
+const iconNames = Object.keys(icons) as IconName[];
+const accents = ['cloud-sales', 'cloud-service', 'cloud-data', 'cloud-membership'];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="robots" content="noindex" />
+    <title>Components · dev</title>
+    <script is:inline>
+      document.documentElement.dataset.theme =
+        new URLSearchParams(location.search).get('theme') === 'light' ? 'light' : 'dark';
+    </script>
+  </head>
+  <body id="top" class="bg-surface-0 px-4 py-12 sm:px-6 lg:px-8">
+    <main class="mx-auto flex max-w-300 flex-col gap-16">
+      <header class="flex flex-wrap items-center justify-between gap-4">
+        <Heading level={1} size={7}>
+          Component gallery
+        </Heading>
+        <button
+          id="theme-switch"
+          type="button"
+          class="inline-flex h-10 items-center gap-2 rounded-pill border border-border-1 bg-surface-3 px-5 text-2 text-on-surface-1"
+        >
+          <Icon name="sun" /> Switch theme
+        </button>
+      </header>
+
+      <section class="flex flex-col gap-6">
+        <Heading level={2} size={6}>
+          Astro primitives
+        </Heading>
+
+        <Surface class="flex flex-col gap-6 p-6">
+          <Text as="span" size={1} tone={3} mono class="tracking-label uppercase">
+            Heading
+          </Text>
+          <Heading level={2} size={9} display>
+            Display 9
+          </Heading>
+          <Heading level={2} size={7} display>
+            Display 7
+          </Heading>
+          <Heading level={2}>Heading level 2</Heading>
+          <Heading level={3}>Heading level 3</Heading>
+          <Heading level={4}>Heading level 4</Heading>
+        </Surface>
+
+        <Surface class="flex flex-col gap-3 p-6">
+          <Text as="span" size={1} tone={3} mono class="tracking-label uppercase">
+            Text
+          </Text>
+          <Text size={4}>Lead paragraph, size 4, tone 1.</Text>
+          <Text>Body copy, size 3. Salesforce delivery across clouds, told without dates.</Text>
+          <Text size={2} tone={2}>
+            Meta text, size 2, tone 2.
+          </Text>
+          <Text size={1} tone={3} mono>
+            Mono caption, size 1, tone 3.
+          </Text>
+        </Surface>
+
+        <Surface class="flex flex-col gap-4 p-6">
+          <Text as="span" size={1} tone={3} mono class="tracking-label uppercase">
+            Chip
+          </Text>
+          <div class="flex flex-wrap gap-2">
+            <Chip>Default</Chip>
+            <Chip selected>Selected</Chip>
+            <Chip mono>Mono label</Chip>
+            <Chip mono selected>
+              Mono selected
+            </Chip>
+            <Chip href="#top">Link chip</Chip>
+            {accents.map((accent) => (
+              <Chip accent={accent}>{accent.replace('cloud-', '')}</Chip>
+            ))}
+          </div>
+        </Surface>
+
+        <Surface class="flex flex-col gap-4 p-6">
+          <Text as="span" size={1} tone={3} mono class="tracking-label uppercase">
+            Icon · 16 / 20 / 24
+          </Text>
+          {([16, 20, 24] as const).map((size) => (
+            <div class="flex flex-wrap gap-4 text-on-surface-2">
+              {iconNames.map((name) => (
+                <Icon name={name} size={size} label={name} />
+              ))}
+            </div>
+          ))}
+        </Surface>
+
+        <div class="grid gap-4 md:grid-cols-3">
+          <Surface level={1} class="p-6">
+            <Text>Surface 1, md</Text>
+          </Surface>
+          <Surface radius="lg" elevated class="p-6">
+            <Text>Surface 2, lg, elevated</Text>
+          </Surface>
+          <Surface level={3} bordered={false} class="p-6">
+            <Text>Surface 3, no border</Text>
+          </Surface>
+        </div>
+      </section>
+
+      <section class="flex flex-col gap-6">
+        <Heading level={2} size={6}>
+          shadcn/ui (React)
+        </Heading>
+        <Surface class="p-6">
+          <UiGallery client:load />
+        </Surface>
+      </section>
+    </main>
+
+    <script>
+      document.getElementById('theme-switch')?.addEventListener('click', () => {
+        const root = document.documentElement;
+        root.dataset.theme = root.dataset.theme === 'light' ? 'dark' : 'light';
+      });
+    </script>
+  </body>
+</html>

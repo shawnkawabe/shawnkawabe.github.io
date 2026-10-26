@@ -5,6 +5,11 @@
 @import '@fontsource-variable/orbitron';
 @import './tokens.css';
 @import './covers.css';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+/* Theme lives on data-theme (ARCHITECTURE §6), not a .dark class. */
+@custom-variant dark (&:where(:root:not([data-theme='light']), :root:not([data-theme='light']) *));
 
 /*
  * Tailwind names → design tokens (ARCHITECTURE §5). Default palettes, fonts, radii and
@@ -42,6 +47,26 @@
   --color-cloud-platform: var(--pf-g-color-cloud-platform);
   --color-cloud-membership: var(--pf-g-color-cloud-membership);
 
+  /* shadcn/ui names, mapped to tokens so generated components stay on-palette (ARCHITECTURE §5). */
+  --color-background: var(--pf-g-color-surface-0);
+  --color-foreground: var(--pf-g-color-on-surface-1);
+  --color-card: var(--pf-g-color-surface-2);
+  --color-card-foreground: var(--pf-g-color-on-surface-1);
+  --color-popover: var(--pf-g-color-surface-3);
+  --color-popover-foreground: var(--pf-g-color-on-surface-1);
+  --color-primary: var(--pf-g-color-accent-1);
+  --color-primary-foreground: var(--pf-g-color-on-accent);
+  --color-secondary: var(--pf-g-color-surface-3);
+  --color-secondary-foreground: var(--pf-g-color-on-surface-1);
+  --color-muted: var(--pf-g-color-surface-2);
+  --color-muted-foreground: var(--pf-g-color-on-surface-2);
+  --color-accent: var(--pf-g-color-surface-2);
+  --color-accent-foreground: var(--pf-g-color-on-surface-1);
+  --color-destructive: var(--pf-g-color-error);
+  --color-border: var(--pf-g-color-border-1);
+  --color-input: var(--pf-g-color-border-2);
+  --color-ring: var(--pf-g-color-focus-ring);
+
   --font-*: initial;
   --font-display: var(--pf-g-font-family-display);
   --font-heading: var(--pf-g-font-family-heading);
@@ -67,6 +92,10 @@
   --text-8--line-height: var(--pf-g-font-line-height-8);
   --text-9: var(--pf-g-font-size-9);
   --text-9--line-height: var(--pf-g-font-line-height-9);
+
+  /* DESIGN §4 letter-spacing: display −0.01em, mono labels +0.04em. */
+  --tracking-display: -0.01em;
+  --tracking-label: 0.04em;
 
   --font-weight-*: initial;
   --font-weight-regular: var(--pf-g-font-weight-regular);
@@ -122,6 +151,12 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+  }
+
+  *,
+  ::before,
+  ::after {
+    border-color: var(--pf-g-color-border-1);
   }
 
   body {

@@ -52,6 +52,8 @@ Rule of dependency: **pages → layouts → patterns → ui → tokens**. A laye
 │   │   ├── content.ts            # typed getters: getSite(), getProjects(), getProject(id), getSkills()…
 │   │   ├── derive.ts             # skillStats(), cloudStats(), sortProjects(), prevNext(), filterProjects()
 │   │   ├── motion.ts             # prefersReducedMotion(), gsap setup
+│   │   ├── icons.ts              # IconName → Lucide component registry used by Icon.astro
+│   │   ├── utils.ts              # cn(): class merger aware of the token scales (shadcn components)
 │   │   └── filters.ts            # parse/serialise ?cloud=&cap= URL state
 │   ├── styles/
 │   │   ├── tokens.css            # GENERATED, git-ignored — do not edit
@@ -369,6 +371,7 @@ It is therefore never built, never deployed and never in the sitemap.
 - `global.css`: `@import "tailwindcss"; @import "./tokens.css"; @import "./covers.css";` then `@theme` maps Tailwind names to tokens, e.g. `--color-surface-1: var(--pf-g-color-surface-1);`, `--font-heading: var(--pf-g-font-family-heading);`, `--radius-lg: var(--pf-g-radius-lg);`. Breakpoints in `@theme` are literal (`--breakpoint-lg: 1024px;` …) because media queries cannot use `var()`.
 - Components use those Tailwind names (`bg-surface-2 text-on-surface-1 rounded-lg`). No arbitrary values (`bg-[#123]`).
 - shadcn components: after `shadcn add`, replace their default CSS variables with token-mapped ones in `global.css`; do not keep shadcn's default palette.
+- After `shadcn add`: import `cn` from `@/lib/utils` (the CLI writes `from "cn"`), and replace default Tailwind names the theme clears (`text-sm`, `rounded-xl`, `shadow-lg`, `ring-*` focus styles) with token names.
 
 ## 6. Theme
 
