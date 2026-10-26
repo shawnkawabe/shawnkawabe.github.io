@@ -42,6 +42,23 @@ export function personJsonLd(site: Site, siteUrl: string) {
   };
 }
 
+/** schema.org CreativeWork for a case study; no dates, as everywhere on the site. */
+export function creativeWorkJsonLd(
+  site: Site,
+  project: Pick<Project, 'title' | 'summary' | 'client'>,
+  url: string,
+) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'CreativeWork',
+    name: project.title,
+    description: project.summary,
+    url,
+    creator: { '@type': 'Person', name: site.name },
+    sourceOrganization: { '@type': 'Organization', name: project.client },
+  };
+}
+
 /** JSON for a <script> element: `<` is escaped so content can never close the tag. */
 export function serializeJsonLd(data: object): string {
   return JSON.stringify(data).replace(/</g, '\\u003c');

@@ -1,9 +1,18 @@
 ---
-// Placeholder until P2-05 builds the case study template; it exists so Work cards never link to a 404.
-import BaseLayout from '@/layouts/BaseLayout.astro';
-import { getProjects, getSite } from '@/lib/content';
+// SPEC §5.3: one page per project; sections in fixed order, each only when its data exists.
+// `depth: "card"` projects get cover, snapshot, challenge, outcomes, stack and prev/next.
+import DecisionCards from '@/components/patterns/DecisionCards.astro';
+import Gallery from '@/components/patterns/Gallery.astro';
+import Outcomes from '@/components/patterns/Outcomes.astro';
+import SectionBand from '@/components/patterns/SectionBand.astro';
+import StackChips from '@/components/patterns/StackChips.astro';
+import en from '@/i18n/en.json';
+import CaseStudyLayout from '@/layouts/CaseStudyLayout.astro';
+import { caseStudySections, stackLinks, visibleImage } from '@/lib/case-study';
+import { getExperience, getProjects, getSkills, publicFileExists } from '@/lib/content';
+import { prevNext } from '@/lib/derive';
+import { employerNames } from '@/lib/format';
 import type { Project } from '@/lib/schemas';
-import { pageMeta } from '@/lib/seo';
 
 export async function getStaticPaths() {
   return (await getProjects()).map((project) => ({
@@ -13,10 +22,85 @@ export async function getStaticPaths() {
 }
 
 const { project } = Astro.props as { project: Project };
+const [projects, skills, experience] = await Promise.all([
+  getProjects(),
+  getSkills(),
+  getExperience(),
+]);
+const { prev, next } = prevNext(projects, project.id);
+const sections = caseStudySections(project, publicFileExists);
+const { challenge, architecture, decisions, gallery, outcomes, takeaway } = sections;
+const t = en.caseStudy;
+
+const column = 'mx-auto flex w-full flex-col gap-6 px-4 sm:px-6 lg:px-8';
+const text = `${column} max-w-180`;
+const media = `${column} max-w-300`;
 ---
 
-<BaseLayout meta={pageMeta(getSite(), { project })}>
-  <div class="px-4 py-32 text-center">
-    <h1>{project.title}</h1>
-  </div>
-</BaseLayout>
+<CaseStudyLayout
+  project={project}
+  coverImage={visibleImage(project.cover.image, publicFileExists)}
+  deliveredVia={employerNames(project, experience)}
+  skills={skills}
+  prev={prev}
+  next={next}
+>
+  {challenge && (
+    <section class={text}>
+      <h2>{t.challenge}</h2>
+      <p class="text-3">{challenge.body}</p>
+    </section>
+  )}
+  {architecture && (
+    <SectionBand tone="a" tilt={-1}>
+      <section class={media}>
+        <h2 class="max-w-180">{t.architecture}</h2>
+        {architecture.body && <p class="max-w-180 text-3">{architecture.body}</p>}
+        {architecture.image && (
+          <figure class="flex flex-col gap-2">
+            <img
+              src={architecture.image.src}
+              alt={architecture.image.alt}
+              loading="lazy"
+              decoding="async"
+              class="w-full rounded-md border border-border-1"
+            />
+            {architecture.image.caption && (
+              <figcaption class="text-2 text-on-surface-2">{architecture.image.caption}</figcaption>
+            )}
+          </figure>
+        )}
+      </section>
+    </SectionBand>
+  )}
+  {decisions && (
+    <section class={media}>
+      <h2>{t.decisions}</h2>
+      <DecisionCards items={decisions.items} />
+    </section>
+  )}
+  {gallery && (
+    <section class={media}>
+      <h2>{t.gallery}</h2>
+      <Gallery images={gallery.images} />
+    </section>
+  )}
+  {outcomes && (
+    <section class={text}>
+      <h2>{t.outcomes}</h2>
+      <Outcomes items={outcomes.items} />
+    </section>
+  )}
+  <section class={text}>
+    <h2>{t.stack}</h2>
+    <StackChips links={stackLinks(project, skills)} />
+  </section>
+  {takeaway && (
+    <SectionBand tone="b" tilt={1}>
+      <section class={text}>
+        <h2>{t.takeaway}</h2>
+        <p class="text-4">{takeaway.body}</p>
+      </section>
+    </SectionBand>
+  )}
+</CaseStudyLayout>

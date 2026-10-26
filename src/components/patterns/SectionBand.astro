@@ -1,0 +1,27 @@
+---
+// DESIGN §9 SectionBand: full-bleed tinted band. Only the background tilts (−2°…2°, ≥ lg),
+// so the text never rotates and needs no counter-rotation.
+interface Props {
+  tone: 'a' | 'b';
+  /** Degrees, clamped to −2…2. */
+  tilt?: number;
+  class?: string;
+}
+
+const MAX_TILT = 2;
+
+const { tone, tilt = 0, class: className } = Astro.props;
+const degrees = Math.max(-MAX_TILT, Math.min(MAX_TILT, tilt));
+---
+
+<div class:list={['relative isolate py-16 lg:py-20', className]}>
+  <div
+    aria-hidden="true"
+    style={`--pf-c-band-tilt: ${degrees}deg`}
+    class:list={[
+      'absolute inset-0 -z-10 lg:rotate-(--pf-c-band-tilt)',
+      tone === 'a' ? 'bg-band-a' : 'bg-band-b',
+    ]}
+  ></div>
+  <slot />
+</div>

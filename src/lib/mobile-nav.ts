@@ -1,22 +1,6 @@
 // Mobile menu sheet (SPEC §4.1) on a native modal <dialog>: showModal() makes the page inert and
 // closes on Esc. This adds a strict focus loop, overlay click, link activation and focus return.
-const FOCUSABLE = 'a[href], button:not([disabled])';
-
-/** Tab past the last control returns to the first (and back); native dialogs let it reach the browser UI. */
-function trapFocus(dialog: HTMLDialogElement, event: KeyboardEvent): void {
-  if (event.key !== 'Tab') return;
-  const items = [...dialog.querySelectorAll<HTMLElement>(FOCUSABLE)];
-  const first = items[0];
-  const last = items[items.length - 1];
-  const active = dialog.ownerDocument.activeElement;
-  if (event.shiftKey && active === first) {
-    event.preventDefault();
-    last.focus();
-  } else if (!event.shiftKey && active === last) {
-    event.preventDefault();
-    first.focus();
-  }
-}
+import { trapFocus } from './focus-trap';
 
 export function bindMobileNav(scope: Document = document): void {
   const dialog = scope.querySelector<HTMLDialogElement>('[data-mobile-nav]');

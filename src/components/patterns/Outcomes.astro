@@ -1,0 +1,30 @@
+---
+// SPEC §5.3 item 7: every label renders; a value only when it was measured (CLAUDE.md rule 3).
+import Icon from '@/components/ui/Icon.astro';
+import { outcomeValue } from '@/lib/case-study';
+import type { ProjectSection } from '@/lib/schemas';
+
+interface Props {
+  items: Extract<ProjectSection, { type: 'outcomes' }>['items'];
+}
+
+const { items } = Astro.props;
+---
+
+<ul class="flex flex-col gap-4">
+  {items.map((item) => {
+    const value = outcomeValue(item);
+    return (
+      <li class="flex items-start gap-4 rounded-md border border-border-1 bg-surface-2 p-5">
+        {value ? (
+          <span class="font-display text-7 leading-none text-accent-1">{value}</span>
+        ) : (
+          <span class="mt-0.5 text-accent-1">
+            <Icon name="check" size={20} />
+          </span>
+        )}
+        <span class="text-3">{item.label}</span>
+      </li>
+    );
+  })}
+</ul>

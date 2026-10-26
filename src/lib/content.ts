@@ -1,5 +1,7 @@
 // Typed getters: the only way pages, layouts and src/lib read content (ARCHITECTURE §1).
 // Getters return entries in the file order of their JSON arrays; sorting lives in derive.ts.
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
 import { getCollection } from 'astro:content';
 import certificationsJson from '../../content/certifications.json';
 import experienceJson from '../../content/experience.json';
@@ -57,4 +59,9 @@ export async function getCertifications(): Promise<Certification[]> {
     entries.map((entry) => entry.data),
     certificationsJson,
   );
+}
+
+/** Whether a site-relative path like "/img/brf/01.webp" exists in public/ (images arrive in P1-08). */
+export function publicFileExists(src: string): boolean {
+  return existsSync(join(process.cwd(), 'public', src));
 }

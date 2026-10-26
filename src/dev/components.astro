@@ -11,6 +11,14 @@ import { cloudStats, sortProjects } from '@/lib/derive';
 import { brandIcons, icons, type CloudIconName, type IconName } from '@/lib/icons';
 import CloudBento from '@/components/patterns/CloudBento.astro';
 import CoverCard from '@/components/patterns/CoverCard.astro';
+import DecisionCards from '@/components/patterns/DecisionCards.astro';
+import Gallery from '@/components/patterns/Gallery.astro';
+import Outcomes from '@/components/patterns/Outcomes.astro';
+import PrevNext from '@/components/patterns/PrevNext.astro';
+import SectionBand from '@/components/patterns/SectionBand.astro';
+import SnapshotBar from '@/components/patterns/SnapshotBar.astro';
+import StackChips from '@/components/patterns/StackChips.astro';
+import { stackLinks } from '@/lib/case-study';
 import MobileNav from '@/components/patterns/MobileNav.astro';
 import ProjectCard from '@/components/patterns/ProjectCard.astro';
 import ThemeToggle from '@/components/patterns/ThemeToggle.astro';
@@ -22,6 +30,18 @@ const projects = sortProjects(await getProjects());
 const clouds = skills.filter((skill) => skill.group === 'clouds');
 const cloudLabels = Object.fromEntries(skills.map((skill) => [skill.id, skill.label]));
 const bento = cloudStats(skills, projects, await getCertifications());
+// Sample content for the case-study components; the gallery reuses files already in public/.
+const sample = projects[0];
+const sampleImages = [
+  {
+    src: '/og/default.png',
+    alt: 'Default social card sample',
+    caption: 'Wide image',
+    approved: true,
+  },
+  { src: '/favicon.svg', alt: 'Favicon sample', caption: 'Square image', approved: true },
+  { src: '/og/default.png', alt: 'Second social card sample', approved: true },
+];
 const accents = ['cloud-sales', 'cloud-service', 'cloud-data', 'cloud-membership'];
 ---
 
@@ -188,6 +208,39 @@ const accents = ['cloud-sales', 'cloud-service', 'cloud-data', 'cloud-membership
           />
         </div>
         <CloudBento clouds={bento} />
+      </section>
+
+      <section class="flex flex-col gap-6">
+        <Heading level={2} size={6}>
+          Case study
+        </Heading>
+        <SnapshotBar project={sample} deliveredVia="Nescara · Globant" skills={skills} />
+        <DecisionCards
+          items={[
+            {
+              decision: 'Sample decision written as one sentence',
+              why: 'Why it was the right call for this client.',
+              tradeoff: 'What it cost.',
+            },
+            { decision: 'A decision without a trade-off', why: 'Trade-off is optional.' },
+          ]}
+        />
+        <Outcomes
+          items={[
+            { label: 'Measured outcome shows its number', value: '−40%', measured: true },
+            { label: 'Unmeasured outcome hides its value', value: '99%', measured: false },
+          ]}
+        />
+        <Gallery images={sampleImages} />
+        <SectionBand tone="a" tilt={-2}>
+          <Text class="px-6">Band A, tilted −2° on ≥ lg; the text stays straight.</Text>
+        </SectionBand>
+        <SectionBand tone="b" tilt={2}>
+          <Text class="px-6">Band B, tilted 2°.</Text>
+        </SectionBand>
+        <StackChips links={stackLinks(sample, skills)} />
+        <PrevNext prev={projects[0]} next={projects[1]} />
+        <PrevNext prev={undefined} next={projects[1]} />
       </section>
 
       <section class="flex flex-col gap-6">

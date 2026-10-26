@@ -49,7 +49,7 @@ Rule of dependency: **pages → layouts → patterns → ui → tokens**. A laye
 │   ├── content.config.ts         # collections + zod schemas (projects, skills, experience, certifications)
 │   ├── lib/
 │   │   ├── schemas.ts            # all zod schemas, incl. siteSchema (imported by content.config.ts)
-│   │   ├── content.ts            # typed getters: getSite(), getProjects(), getProject(id), getSkills()…
+│   │   ├── content.ts            # typed getters: getSite(), getProjects(), getProject(id), getSkills()…, publicFileExists(src)
 │   │   ├── derive.ts             # skillStats(), cloudStats(), withBentoSize(), sortProjects(), prevNext(), filterProjects()
 │   │   ├── motion.ts             # prefersReducedMotion(), gsap setup
 │   │   ├── icons.ts              # IconName → Lucide component registry used by Icon.astro
@@ -58,7 +58,10 @@ Rule of dependency: **pages → layouts → patterns → ui → tokens**. A laye
 │   │   ├── nav.ts                # pageLinks, externalLinks(site), isActive(pathname, href)
 │   │   ├── theme.ts              # currentTheme/setTheme/toggleTheme, bindThemeToggles(); pf-themechange
 │   │   ├── mobile-nav.ts         # bindMobileNav(): native <dialog> sheet, focus loop, close rules
-│   │   └── filters.ts            # parse/serialise ?cloud=&cap= URL state
+│   │   ├── filters.ts            # parse/serialise ?cloud=&cap= URL state
+│   │   ├── case-study.ts         # caseStudySections(), visibleImage(), outcomeValue(), stackLinks()
+│   │   ├── focus-trap.ts         # trapFocus(): Tab loop for native modal <dialog>s
+│   │   └── lightbox.ts           # bindLightbox(): gallery paging, focus return
 │   ├── styles/
 │   │   ├── tokens.css            # GENERATED, git-ignored — do not edit
 │   │   ├── global.css            # @import tailwind, @theme mapping, base styles
@@ -267,16 +270,19 @@ Cross-file integrity (checked in `tests/unit/content.test.ts`):
 
 ### 3.2 Derived data (`src/lib/derive.ts`, `format.ts`)
 
-| Function                                       | Returns                                                                                                             | Used by                               |
-| ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- | ------------------------------------- |
-| `sortProjects(projects)`                       | featured first, then file order of `projects.json`                                                                  | Work, Home                            |
-| `skillStats(skills, projects)`                 | `{ id, projectCount, projectIds }[]`                                                                                | Skills, constellation, chips          |
-| `cloudStats(skills, projects, certifications)` | `skillStats` for `group === "clouds"` + linked certifications; excludes clouds with 0 projects and 0 certifications | Constellation, CloudCard, Work facets |
-| `withBentoSize(clouds)`                        | adds `size`: top cloud by projects `feature` (2×2), at least half as many `wide` (2×1, below lg only), else `base`  | CloudBento                            |
-| `plural(forms, count)` (`format.ts`)           | `"1 project"` / `"7 projects"` via `Intl.PluralRules`; forms live in `src/i18n`                                     | CloudCard                             |
-| `prevNext(id)`                                 | `{ prev, next }` by sort order                                                                                      | Case study footer                     |
-| `filterProjects(projects, state)`              | OR within group, AND across groups                                                                                  | Work filter island                    |
-| `employerNames(project, experience)`           | `"Nescara · Globant"`                                                                                               | Case study snapshot bar               |
+| Function                                                    | Returns                                                                                                             | Used by                                 |
+| ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- | --------------------------------------- |
+| `sortProjects(projects)`                                    | featured first, then file order of `projects.json`                                                                  | Work, Home                              |
+| `skillStats(skills, projects)`                              | `{ id, projectCount, projectIds }[]`                                                                                | Skills, constellation, chips            |
+| `cloudStats(skills, projects, certifications)`              | `skillStats` for `group === "clouds"` + linked certifications; excludes clouds with 0 projects and 0 certifications | Constellation, CloudCard, Work facets   |
+| `withBentoSize(clouds)`                                     | adds `size`: top cloud by projects `feature` (2×2), at least half as many `wide` (2×1, below lg only), else `base`  | CloudBento                              |
+| `plural(forms, count)` (`format.ts`)                        | `"1 project"` / `"7 projects"` via `Intl.PluralRules`; forms live in `src/i18n`                                     | CloudCard                               |
+| `prevNext(id)`                                              | `{ prev, next }` by sort order                                                                                      | Case study footer                       |
+| `filterProjects(projects, state)`                           | OR within group, AND across groups                                                                                  | Work filter island                      |
+| `employerNames(project, experience)`                        | `"Nescara · Globant"`                                                                                               | Case study snapshot bar                 |
+| `caseStudySections(project, isAvailable)` (`case-study.ts`) | first section of each type, empty ones dropped; `depth: "card"` keeps challenge + outcomes                          | Case study page                         |
+| `visibleImage(image, isAvailable)` (`case-study.ts`)        | the image when approved and its file exists in `public/`, else `undefined`                                          | Case study cover, architecture, gallery |
+| `stackLinks(project, skills)` (`case-study.ts`)             | clouds then capabilities as `{ label, href: /work?cloud= or ?cap= }`                                                | Stack chips                             |
 
 **No dates anywhere.** The site is a project showcase; career dates live on the resume. Content has no date fields, and no component renders dates (except the footer copyright year).
 
@@ -285,7 +291,7 @@ All pure functions, 100% line coverage.
 ### 3.3 Rendering rules that depend on data
 
 - Outcomes: always render `label`; render `value` only when `measured: true`. Labels must read as complete statements on their own.
-- Images (gallery, cover image, photo): render only when `approved: true`. A cover image is used only when declared in `cover.image`; otherwise the gradient preset shows.
+- Images (gallery, cover image, photo): render only when `approved: true` **and** the file exists in `public/` (`publicFileExists`, checked at build), so content can approve images before P1-08 ships the files. A cover image is used only when declared in `cover.image`; otherwise the gradient preset shows.
 - `todo` fields: never rendered. In `astro dev` only, `BaseLayout` logs the count of open todos to the console.
 
 ## 4. Components
@@ -307,12 +313,12 @@ All pure functions, 100% line coverage.
 | `Marquee`                                                                                       | astro + CSS                 | —                      | CSS animation                                                                                              |
 | `SnapshotBar`, `SectionBand`, `DecisionCards`, `Outcomes`, `StackChips`, `Takeaway`, `PrevNext` | astro                       | —                      | Case study                                                                                                 |
 | `Gallery`                                                                                       | astro                       | —                      | Grid                                                                                                       |
-| `Lightbox`                                                                                      | tsx                         | `client:visible`       | shadcn Dialog                                                                                              |
+| `Lightbox` (inside `Gallery`)                                                                   | astro + module script       | — (inline script)      | Native modal `<dialog>`; logic in `src/lib/lightbox.ts` (arrows, Esc, focus loop, focus return)            |
 | `CompanyList`                                                                                   | astro                       | —                      | About page: company + role + project chips                                                                 |
 | `ContactForm`                                                                                   | tsx                         | `client:visible`       | RHF + zod + Web3Forms; not rendered when key is empty                                                      |
 | `Reveal`                                                                                        | astro wrapper + tiny script | inline                 | GSAP ScrollTrigger, no-op on reduced motion                                                                |
 
-Navigation and the theme toggle ship no React: React alone is ~68 KB gz, which would spend the whole §9 budget for non-3D pages on every page. They use plain module scripts (~0.7 KB gz inline) instead of shadcn Sheet; React is reserved for the filter bar, contact form, lightbox and 3D scenes.
+Navigation and the theme toggle ship no React: React alone is ~68 KB gz, which would spend the whole §9 budget for non-3D pages on every page. They use plain module scripts (~0.7 KB gz inline) instead of shadcn Sheet; React is reserved for the filter bar, contact form and 3D scenes; the gallery lightbox uses the same native `<dialog>` approach, so case studies ship no React.
 
 ### 4.2 Key props contracts
 

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { siteSchema } from '@/lib/schemas';
-import { format, pageMeta, personJsonLd, serializeJsonLd } from '@/lib/seo';
+import { creativeWorkJsonLd, format, pageMeta, personJsonLd, serializeJsonLd } from '@/lib/seo';
 import siteJson from '../../content/site.json';
 
 const site = siteSchema.parse(siteJson);
@@ -56,5 +56,24 @@ describe('serializeJsonLd', () => {
     const json = serializeJsonLd({ name: '</script><script>alert(1)</script>' });
     expect(json).not.toContain('<');
     expect(JSON.parse(json).name).toBe('</script><script>alert(1)</script>');
+  });
+});
+
+describe('creativeWorkJsonLd', () => {
+  it('describes a case study with Shawn as creator and the client as organisation', () => {
+    const work = creativeWorkJsonLd(
+      site,
+      { title: 'BRF', summary: 'Referral campaign.', client: 'BRF S.A.' },
+      'https://shawnkawabe.github.io/work/brf',
+    );
+    expect(work).toMatchObject({
+      '@type': 'CreativeWork',
+      name: 'BRF',
+      description: 'Referral campaign.',
+      url: 'https://shawnkawabe.github.io/work/brf',
+      creator: { name: site.name },
+      sourceOrganization: { name: 'BRF S.A.' },
+    });
+    expect(JSON.stringify(work)).not.toMatch(/date/i);
   });
 });
