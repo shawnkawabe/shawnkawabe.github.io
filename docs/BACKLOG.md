@@ -202,6 +202,7 @@ Things that must exist or be decided before the task in **Blocks** can start. De
 
 - [ ] **P3-02 Hero data core (optional)** — Deps: P3-01
       Only if P3-01 leaves room in the performance budget.
+  - Notes: deferred after P3-01 — no room. Home already ships 75.2 KB of the 80 KB eager-JS budget, and a hero scene sits above the fold, so `client:visible` would hydrate at once and pull the 240 KB gzipped three.js chunk into the first load, competing with the LCP element (the hero intro). The token gradient poster (`.pf-hero-glow`) meets SPEC §5 ("or static gradient"). Revisit post-launch with Lighthouse CI numbers from P3-04, e.g. hydrate on `client:idle` after LCP and share the constellation's three chunk.
 
 - [ ] **P3-03 Motion pass** — Deps: P2-06
       Install `gsap`. `Reveal` wrapper, hero SplitText, card hovers; one reduced-motion helper in `src/lib/motion.ts`.
