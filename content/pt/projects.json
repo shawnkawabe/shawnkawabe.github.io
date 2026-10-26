@@ -2,11 +2,11 @@
   {
     "id": "volkswagen-group-portal",
     "title": "Volkswagen Group Portal",
-    "subtitle": "Multi-brand, bilingual case creation",
+    "subtitle": "Criação de casos multimarca e bilíngue",
     "client": "Volkswagen Group",
     "employers": ["cit"],
     "role": "Senior Salesforce Developer",
-    "industry": "Automotive",
+    "industry": "Automotivo",
     "clouds": ["service-cloud", "experience-cloud"],
     "capabilities": [
       "lwc",
@@ -16,43 +16,43 @@
       "ux",
       "technical-documentation"
     ],
-    "category": "CRM development",
+    "category": "Desenvolvimento de CRM",
     "featured": true,
     "depth": "case-study",
-    "summary": "Rebuilt case creation for a multi-brand customer portal in English and French, with validation and sharing rules adapted to a large org.",
+    "summary": "Reconstruí a criação de casos de um portal de clientes multimarca em inglês e francês, com regras de validação e compartilhamento adaptadas a uma org de grande porte.",
     "cover": {
       "preset": "aurora"
     },
     "sections": [
       {
         "type": "challenge",
-        "body": "Customers of several Volkswagen Group brands needed one case-creation experience in English and French, while each brand kept its own rules and data visibility inside a large, shared Salesforce org."
+        "body": "Clientes de várias marcas do Volkswagen Group precisavam de uma única experiência de criação de casos em inglês e francês, enquanto cada marca mantinha suas próprias regras e visibilidade de dados dentro de uma org Salesforce grande e compartilhada."
       },
       {
         "type": "gallery",
         "images": [
           {
             "src": "/img/volkswagen-group-portal/01.webp",
-            "alt": "Volkswagen case creation form",
-            "caption": "VW case creation interface",
+            "alt": "Formulário de criação de casos da Volkswagen",
+            "caption": "Interface de criação de casos da VW",
             "approved": true
           },
           {
             "src": "/img/volkswagen-group-portal/02.webp",
-            "alt": "Audi case creation form",
-            "caption": "Audi case creation interface",
+            "alt": "Formulário de criação de casos da Audi",
+            "caption": "Interface de criação de casos da Audi",
             "approved": true
           },
           {
             "src": "/img/volkswagen-group-portal/03.webp",
-            "alt": "Volkswagen case form in French",
-            "caption": "VW French language interface",
+            "alt": "Formulário de caso da Volkswagen em francês",
+            "caption": "Interface da VW em francês",
             "approved": true
           },
           {
             "src": "/img/volkswagen-group-portal/04.webp",
-            "alt": "Audi case form in French",
-            "caption": "Audi French language interface",
+            "alt": "Formulário de caso da Audi em francês",
+            "caption": "Interface da Audi em francês",
             "approved": true
           }
         ]
@@ -61,15 +61,15 @@
         "type": "outcomes",
         "items": [
           {
-            "label": "One case-creation flow serving multiple brands in two languages",
+            "label": "Um único fluxo de criação de casos atendendo várias marcas em dois idiomas",
             "measured": false
           },
           {
-            "label": "Validation and sharing rules aligned with each brand's business rules",
+            "label": "Regras de validação e compartilhamento alinhadas às regras de negócio de cada marca",
             "measured": false
           },
           {
-            "label": "Technical documentation and knowledge-transfer material delivered to the client team",
+            "label": "Documentação técnica e material de transferência de conhecimento entregues à equipe do cliente",
             "measured": false
           }
         ]
@@ -80,11 +80,11 @@
   {
     "id": "adtalem-global-education",
     "title": "Adtalem Global Education",
-    "subtitle": "Data migration and backup at scale",
+    "subtitle": "Migração de dados e backup em escala",
     "client": "Adtalem Global Education",
     "employers": ["cit"],
     "role": "Senior Salesforce Developer",
-    "industry": "Education",
+    "industry": "Educação",
     "clouds": ["platform"],
     "capabilities": [
       "data-migration",
@@ -95,43 +95,43 @@
       "technical-documentation",
       "requirements"
     ],
-    "category": "Data management",
+    "category": "Gestão de dados",
     "featured": true,
     "depth": "case-study",
-    "summary": "Coordinated data migration across teams and implemented Own Data backup and archival, with training and a technical knowledge base for adoption.",
+    "summary": "Coordenei a migração de dados entre equipes e implementei backup e arquivamento com Own Data, com treinamento e uma base de conhecimento técnica para a adoção.",
     "cover": {
       "preset": "indigo"
     },
     "sections": [
       {
         "type": "challenge",
-        "body": "Several teams needed to migrate critical Salesforce data without losing integrity, while the organization introduced a new backup and archival solution that QA and business teams had to adopt."
+        "body": "Várias equipes precisavam migrar dados críticos do Salesforce sem perder integridade, enquanto a organização introduzia uma nova solução de backup e arquivamento que as equipes de QA e de negócio precisavam adotar."
       },
       {
         "type": "gallery",
         "images": [
           {
             "src": "/img/adtalem-global-education/01.webp",
-            "alt": "Backup and archival dashboard",
-            "caption": "Backup and archival evaluation",
+            "alt": "Dashboard de backup e arquivamento",
+            "caption": "Avaliação de backup e arquivamento",
             "approved": true
           },
           {
             "src": "/img/adtalem-global-education/02.webp",
-            "alt": "Own Data backup and archival configuration",
+            "alt": "Configuração de backup e arquivamento do Own Data",
             "caption": "Own Data Backup and Archival",
             "approved": true
           },
           {
             "src": "/img/adtalem-global-education/03.webp",
-            "alt": "Data migration plan diagram",
-            "caption": "Data migration",
+            "alt": "Diagrama do plano de migração de dados",
+            "caption": "Migração de dados",
             "approved": true
           },
           {
             "src": "/img/adtalem-global-education/04.webp",
-            "alt": "Technical documentation wiki",
-            "caption": "Technical documentation knowledge base",
+            "alt": "Wiki de documentação técnica",
+            "caption": "Base de conhecimento de documentação técnica",
             "approved": true
           }
         ]
@@ -140,15 +140,15 @@
         "type": "outcomes",
         "items": [
           {
-            "label": "Critical data migrated with integrity across multiple teams",
+            "label": "Dados críticos migrados com integridade entre várias equipes",
             "measured": false
           },
           {
-            "label": "Own Data backup and archival implemented and demonstrated",
+            "label": "Backup e arquivamento com Own Data implementados e demonstrados",
             "measured": false
           },
           {
-            "label": "QA and business teams trained; knowledge base published",
+            "label": "Equipes de QA e de negócio treinadas; base de conhecimento publicada",
             "measured": false
           }
         ]
@@ -159,50 +159,50 @@
   {
     "id": "cooxupe",
     "title": "Cooxupé",
-    "subtitle": "Order management and B2C commerce for a coffee cooperative",
+    "subtitle": "Gestão de pedidos e comércio B2C para uma cooperativa de café",
     "client": "Cooxupé Agriculture Cooperative",
     "employers": ["nescara", "globant"],
     "role": "Salesforce Developer",
-    "industry": "Agriculture cooperative",
+    "industry": "Cooperativa agrícola",
     "clouds": ["commerce-cloud", "sales-cloud"],
     "capabilities": ["lwc", "aura", "lwr", "ux"],
-    "category": "CRM development",
+    "category": "Desenvolvimento de CRM",
     "featured": true,
     "depth": "case-study",
-    "summary": "Maintained and extended the cooperative's order screens with Aura and LWC, and improved its B2C Commerce Cloud storefront.",
+    "summary": "Mantive e evoluí as telas de pedidos da cooperativa com Aura e LWC, e melhorei sua loja B2C no Commerce Cloud.",
     "cover": {
       "preset": "violet-edge"
     },
     "sections": [
       {
         "type": "challenge",
-        "body": "The cooperative's ordering process ran on custom Salesforce screens and a B2C storefront that needed new features without disrupting members and internal staff."
+        "body": "O processo de pedidos da cooperativa rodava em telas customizadas no Salesforce e em uma loja B2C que precisava de novas funcionalidades sem atrapalhar os cooperados e a equipe interna."
       },
       {
         "type": "gallery",
         "images": [
           {
             "src": "/img/cooxupe/01.webp",
-            "alt": "Catalog management screen",
-            "caption": "Catalog management interface",
+            "alt": "Tela de gestão de catálogo",
+            "caption": "Interface de gestão de catálogo",
             "approved": true
           },
           {
             "src": "/img/cooxupe/02.webp",
-            "alt": "Product carousel on the storefront",
-            "caption": "Carousel interface",
+            "alt": "Carrossel de produtos na loja",
+            "caption": "Interface do carrossel",
             "approved": true
           },
           {
             "src": "/img/cooxupe/03.webp",
-            "alt": "Product detail page",
-            "caption": "Product detail interface",
+            "alt": "Página de detalhes do produto",
+            "caption": "Interface de detalhes do produto",
             "approved": true
           },
           {
             "src": "/img/cooxupe/04.webp",
-            "alt": "Cart checkout page",
-            "caption": "Cart checkout interface",
+            "alt": "Página de checkout do carrinho",
+            "caption": "Interface de checkout do carrinho",
             "approved": true
           }
         ]
@@ -211,11 +211,11 @@
         "type": "outcomes",
         "items": [
           {
-            "label": "Modernized order screens for internal staff and members",
+            "label": "Telas de pedidos modernizadas para a equipe interna e os cooperados",
             "measured": false
           },
           {
-            "label": "Storefront improvements across catalog, product detail and checkout",
+            "label": "Melhorias na loja em catálogo, detalhes do produto e checkout",
             "measured": false
           }
         ]
@@ -226,50 +226,50 @@
   {
     "id": "brf",
     "title": "BRF",
-    "subtitle": "\"Indique e Ganhe\" referral campaign and B2C features",
+    "subtitle": "Campanha de indicação \"Indique e Ganhe\" e funcionalidades B2C",
     "client": "BRF S.A.",
     "employers": ["nescara", "globant"],
     "role": "Salesforce Developer",
-    "industry": "Food",
+    "industry": "Alimentos",
     "clouds": ["experience-cloud", "sales-cloud", "commerce-cloud"],
     "capabilities": ["apex", "lwc", "aura", "visualforce"],
-    "category": "Digital campaigns",
+    "category": "Campanhas digitais",
     "featured": true,
     "depth": "case-study",
-    "summary": "Built and launched an internal referral campaign on Experience Cloud and delivered new features for the company's B2C e-commerce.",
+    "summary": "Construí e lancei uma campanha interna de indicação no Experience Cloud e entreguei novas funcionalidades para o e-commerce B2C da empresa.",
     "cover": {
       "preset": "aurora"
     },
     "sections": [
       {
         "type": "challenge",
-        "body": "BRF wanted an internal referral campaign (\"Indique e Ganhe\") running on Salesforce, alongside continuous feature work on its online B2C store."
+        "body": "A BRF queria uma campanha interna de indicação (\"Indique e Ganhe\") rodando no Salesforce, em paralelo à evolução contínua de funcionalidades da sua loja B2C online."
       },
       {
         "type": "gallery",
         "images": [
           {
             "src": "/img/brf/01.webp",
-            "alt": "Campaign sign-up flow",
-            "caption": "Sign-up flow",
+            "alt": "Fluxo de cadastro na campanha",
+            "caption": "Fluxo de cadastro",
             "approved": true
           },
           {
             "src": "/img/brf/02.webp",
-            "alt": "Promotional products carousel",
-            "caption": "Promotional products carousel",
+            "alt": "Carrossel de produtos promocionais",
+            "caption": "Carrossel de produtos promocionais",
             "approved": true
           },
           {
             "src": "/img/brf/03.webp",
-            "alt": "Feedback submission form",
-            "caption": "Feedback submission",
+            "alt": "Formulário de envio de feedback",
+            "caption": "Envio de feedback",
             "approved": true
           },
           {
             "src": "/img/brf/04.webp",
-            "alt": "Delivery type selection",
-            "caption": "Dynamic delivery type",
+            "alt": "Seleção do tipo de entrega",
+            "caption": "Tipo de entrega dinâmico",
             "approved": true
           }
         ]
@@ -278,11 +278,11 @@
         "type": "outcomes",
         "items": [
           {
-            "label": "Referral campaign launched on Experience Cloud",
+            "label": "Campanha de indicação lançada no Experience Cloud",
             "measured": false
           },
           {
-            "label": "New B2C e-commerce features delivered with Apex, Visualforce, LWC and Aura",
+            "label": "Novas funcionalidades de e-commerce B2C entregues com Apex, Visualforce, LWC e Aura",
             "measured": false
           }
         ]
@@ -293,11 +293,11 @@
   {
     "id": "third-republic-data-cloud",
     "title": "Third Republic",
-    "subtitle": "Data Cloud Unified Profile and identity resolution",
+    "subtitle": "Unified Profile e identity resolution no Data Cloud",
     "client": "Third Republic",
     "employers": ["third-republic"],
     "role": "Data Cloud Consultant",
-    "industry": "Consulting",
+    "industry": "Consultoria",
     "clouds": ["data-cloud"],
     "capabilities": [
       "identity-resolution",
@@ -310,7 +310,7 @@
     "category": "Data Cloud",
     "featured": false,
     "depth": "card",
-    "summary": "Built Unified Profile components on Data Cloud, validated identity resolution and data quality, and specified Calculated Insights.",
+    "summary": "Construí componentes de Unified Profile no Data Cloud, validei a identity resolution e a qualidade dos dados e especifiquei Calculated Insights.",
     "cover": {
       "preset": "violet-edge"
     },
@@ -319,11 +319,11 @@
         "type": "outcomes",
         "items": [
           {
-            "label": "Unified Profile page showing data unified by identity resolution rules",
+            "label": "Página de Unified Profile exibindo dados unificados pelas regras de identity resolution",
             "measured": false
           },
           {
-            "label": "Calculated Insight specifications and technical designs delivered",
+            "label": "Especificações de Calculated Insights e desenhos técnicos entregues",
             "measured": false
           }
         ]
@@ -334,7 +334,7 @@
   {
     "id": "orchid-component-library",
     "title": "Orchid",
-    "subtitle": "Reusable Salesforce component library",
+    "subtitle": "Biblioteca de componentes Salesforce reutilizáveis",
     "client": "Orchid",
     "employers": ["orchid"],
     "role": "Senior Salesforce Developer",
@@ -347,10 +347,10 @@
       "data-modeling",
       "process-mapping"
     ],
-    "category": "Platform development",
+    "category": "Desenvolvimento de plataforma",
     "featured": false,
     "depth": "card",
-    "summary": "Building and organizing a library of reusable Salesforce components and enhancing an internal Salesforce application.",
+    "summary": "Construindo e organizando uma biblioteca de componentes Salesforce reutilizáveis e aprimorando uma aplicação Salesforce interna.",
     "cover": {
       "preset": "aurora"
     },
@@ -360,11 +360,11 @@
   {
     "id": "lavoro-agro",
     "title": "Lavoro Agro",
-    "subtitle": "Sales screen with SAP stock and digital signatures",
+    "subtitle": "Tela de vendas com estoque do SAP e assinaturas digitais",
     "client": "Lavoro Agro",
     "employers": ["nescara", "globant"],
     "role": "Salesforce Developer",
-    "industry": "Agribusiness",
+    "industry": "Agronegócio",
     "clouds": ["sales-cloud"],
     "capabilities": [
       "lwc",
@@ -375,20 +375,20 @@
       "python-flask",
       "aws"
     ],
-    "category": "Sales automation",
+    "category": "Automação de vendas",
     "featured": false,
     "depth": "case-study",
-    "summary": "Extended a sales screen with LWC and Apex, integrated product stock from SAP, added D4Sign document signing, and built a Python Flask API on AWS App Runner.",
+    "summary": "Evoluí uma tela de vendas com LWC e Apex, integrei o estoque de produtos do SAP, adicionei assinatura de documentos com D4Sign e construí uma API em Python Flask no AWS App Runner.",
     "cover": {
       "preset": "violet-edge"
     },
     "sections": [
       {
         "type": "architecture",
-        "body": "A Lightning Web Component sales screen calls Apex services that read product stock from SAP in real time and send contracts to D4Sign for digital signature. Supporting services run as a Python Flask API on AWS App Runner, called from Salesforce over REST.",
+        "body": "Uma tela de vendas em Lightning Web Component chama serviços Apex que leem o estoque de produtos do SAP em tempo real e enviam contratos ao D4Sign para assinatura digital. Os serviços de apoio rodam como uma API em Python Flask no AWS App Runner, chamada a partir do Salesforce via REST.",
         "image": {
           "src": "/img/lavoro-agro/architecture.svg",
-          "alt": "Diagram: inside Salesforce, a Lightning Web Component sales screen calls Apex services. Apex reads real-time product stock from SAP, sends contracts to D4Sign for signature, and calls a Python Flask API on AWS App Runner over REST.",
+          "alt": "Diagrama: dentro do Salesforce, uma tela de vendas em Lightning Web Component chama serviços Apex. O Apex lê o estoque de produtos do SAP em tempo real, envia contratos ao D4Sign para assinatura e chama uma API em Python Flask no AWS App Runner via REST.",
           "approved": true
         }
       },
@@ -396,15 +396,15 @@
         "type": "outcomes",
         "items": [
           {
-            "label": "Real-time product stock from SAP on the sales screen",
+            "label": "Estoque de produtos do SAP em tempo real na tela de vendas",
             "measured": false
           },
           {
-            "label": "Digital document signing via D4Sign",
+            "label": "Assinatura digital de documentos via D4Sign",
             "measured": false
           },
           {
-            "label": "Custom services API on Python Flask and AWS App Runner",
+            "label": "API de serviços customizados em Python Flask e AWS App Runner",
             "measured": false
           }
         ]
@@ -415,11 +415,11 @@
   {
     "id": "intelbras",
     "title": "Intelbras",
-    "subtitle": "ERP integrations migrated from TOTVS to SAP",
+    "subtitle": "Integrações de ERP migradas do TOTVS para o SAP",
     "client": "Intelbras",
     "employers": ["nescara", "globant"],
     "role": "Salesforce Developer",
-    "industry": "Communications equipment",
+    "industry": "Equipamentos de comunicação",
     "clouds": ["service-cloud", "sales-cloud"],
     "capabilities": [
       "erp-migration",
@@ -429,27 +429,27 @@
       "data-modeling",
       "technical-documentation"
     ],
-    "category": "System integration",
+    "category": "Integração de sistemas",
     "featured": false,
     "depth": "card",
-    "summary": "Migrated every ERP integration from TOTVS to SAP and adapted Apex, flows and the data model so sales and service processes kept running.",
+    "summary": "Migrei todas as integrações de ERP do TOTVS para o SAP e adaptei Apex, flows e o modelo de dados para que os processos de vendas e atendimento continuassem funcionando.",
     "cover": {
       "preset": "indigo"
     },
     "sections": [
       {
         "type": "challenge",
-        "body": "Moving the ERP from TOTVS to SAP meant every Salesforce integration, and the sales and service processes built on them, had to change without interrupting the business."
+        "body": "Trocar o ERP do TOTVS para o SAP significava que todas as integrações do Salesforce, e os processos de vendas e atendimento construídos sobre elas, precisavam mudar sem interromper o negócio."
       },
       {
         "type": "outcomes",
         "items": [
           {
-            "label": "All ERP integrations moved to the new SAP architecture",
+            "label": "Todas as integrações de ERP migradas para a nova arquitetura SAP",
             "measured": false
           },
           {
-            "label": "Apex classes, flows and data model refactored for the SAP data structure",
+            "label": "Classes Apex, flows e modelo de dados refatorados para a estrutura de dados do SAP",
             "measured": false
           }
         ]
@@ -460,17 +460,17 @@
   {
     "id": "origeo",
     "title": "Orígeo",
-    "subtitle": "Order screen and SAP account integration",
+    "subtitle": "Tela de pedidos e integração de contas com o SAP",
     "client": "Orígeo",
     "employers": ["nescara", "globant"],
     "role": "Salesforce Developer",
-    "industry": "Agribusiness",
+    "industry": "Agronegócio",
     "clouds": ["service-cloud", "sales-cloud"],
     "capabilities": ["apex", "lwc", "sap-integration", "rest-soap"],
-    "category": "CRM development",
+    "category": "Desenvolvimento de CRM",
     "featured": false,
     "depth": "card",
-    "summary": "Maintained and extended an order screen with Apex and LWC, and the account integration between Salesforce and SAP.",
+    "summary": "Mantive e evoluí uma tela de pedidos com Apex e LWC, além da integração de contas entre o Salesforce e o SAP.",
     "cover": {
       "preset": "indigo"
     },
@@ -479,11 +479,11 @@
         "type": "outcomes",
         "items": [
           {
-            "label": "Less manual data entry through account synchronization between Salesforce and SAP",
+            "label": "Menos digitação manual graças à sincronização de contas entre Salesforce e SAP",
             "measured": false
           },
           {
-            "label": "Order screen extended with Apex and LWC",
+            "label": "Tela de pedidos evoluída com Apex e LWC",
             "measured": false
           }
         ]
@@ -494,11 +494,11 @@
   {
     "id": "banco-master",
     "title": "Banco Master",
-    "subtitle": "Service Cloud with secure sharing and CI/CD",
+    "subtitle": "Service Cloud com compartilhamento seguro e CI/CD",
     "client": "Banco Master",
     "employers": ["nescara", "globant"],
     "role": "Salesforce Developer",
-    "industry": "Financial services",
+    "industry": "Serviços financeiros",
     "clouds": ["service-cloud"],
     "capabilities": [
       "apex",
@@ -513,27 +513,27 @@
       "ci-cd",
       "requirements"
     ],
-    "category": "Financial services CRM",
+    "category": "CRM para serviços financeiros",
     "featured": false,
     "depth": "card",
-    "summary": "Implemented business logic with Apex and Flow, built LWC and Aura interfaces, set up sharing and permissions, and implemented CI/CD with GitLab and Jenkins.",
+    "summary": "Implementei regras de negócio com Apex e Flow, construí interfaces em LWC e Aura, configurei compartilhamento e permissões e implementei CI/CD com GitLab e Jenkins.",
     "cover": {
       "preset": "indigo"
     },
     "sections": [
       {
         "type": "challenge",
-        "body": "A financial services company needed Service Cloud processes with strict data access and a reliable deployment pipeline."
+        "body": "Uma empresa de serviços financeiros precisava de processos no Service Cloud com acesso restrito aos dados e um pipeline de deploy confiável."
       },
       {
         "type": "outcomes",
         "items": [
           {
-            "label": "Sharing settings, permissions and profiles implemented for regulated data",
+            "label": "Configurações de compartilhamento, permissões e perfis implementadas para dados regulados",
             "measured": false
           },
           {
-            "label": "CI/CD pipeline with Salesforce DX, GitLab and Jenkins",
+            "label": "Pipeline de CI/CD com Salesforce DX, GitLab e Jenkins",
             "measured": false
           }
         ]
@@ -544,11 +544,11 @@
   {
     "id": "ihara",
     "title": "Ihara",
-    "subtitle": "Mobile-ready LWC and CI/CD for field sales",
+    "subtitle": "LWC pronto para mobile e CI/CD para vendas de campo",
     "client": "Ihara",
     "employers": ["nescara", "globant"],
     "role": "Salesforce Developer",
-    "industry": "Agribusiness",
+    "industry": "Agronegócio",
     "clouds": ["sales-cloud"],
     "capabilities": [
       "lwc",
@@ -558,27 +558,27 @@
       "bitbucket",
       "ci-cd"
     ],
-    "category": "CRM development",
+    "category": "Desenvolvimento de CRM",
     "featured": false,
     "depth": "card",
-    "summary": "Improved Lightning Web Components and Lightning Pages for mobile field sales, and maintained the Salesforce DX + Bitbucket CI/CD pipeline.",
+    "summary": "Melhorei Lightning Web Components e Lightning Pages para a equipe de vendas de campo no mobile e mantive o pipeline de CI/CD com Salesforce DX + Bitbucket.",
     "cover": {
       "preset": "violet-edge"
     },
     "sections": [
       {
         "type": "challenge",
-        "body": "Field sales representatives used Salesforce on mobile, but key components and pages were built for desktop."
+        "body": "Os representantes de vendas de campo usavam o Salesforce no celular, mas componentes e páginas importantes tinham sido construídos para desktop."
       },
       {
         "type": "outcomes",
         "items": [
           {
-            "label": "Field sales components and Lightning pages made responsive for mobile",
+            "label": "Componentes e Lightning Pages de vendas de campo tornados responsivos para mobile",
             "measured": false
           },
           {
-            "label": "Smoother releases through a maintained Salesforce DX and Bitbucket pipeline",
+            "label": "Releases mais tranquilos com um pipeline de Salesforce DX e Bitbucket bem mantido",
             "measured": false
           }
         ]
@@ -589,17 +589,17 @@
   {
     "id": "gdm-seeds",
     "title": "GDM Seeds",
-    "subtitle": "Technical requirements for a Sales Cloud rollout",
+    "subtitle": "Requisitos técnicos para uma implantação de Sales Cloud",
     "client": "GDM Seeds",
     "employers": ["nescara", "globant"],
     "role": "Salesforce Developer",
-    "industry": "Agribusiness",
+    "industry": "Agronegócio",
     "clouds": ["sales-cloud"],
     "capabilities": ["requirements", "technical-documentation"],
-    "category": "Requirements and design",
+    "category": "Requisitos e design",
     "featured": false,
     "depth": "card",
-    "summary": "Gathered customer requirements and wrote technical requirements with the functional team for a Sales Cloud implementation.",
+    "summary": "Levantei os requisitos do cliente e escrevi os requisitos técnicos junto com a equipe funcional para uma implementação de Sales Cloud.",
     "cover": {
       "preset": "aurora"
     },
@@ -608,7 +608,7 @@
         "type": "outcomes",
         "items": [
           {
-            "label": "Technical requirements and documentation aligned with business needs",
+            "label": "Requisitos técnicos e documentação alinhados às necessidades do negócio",
             "measured": false
           }
         ]

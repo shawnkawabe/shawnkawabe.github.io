@@ -1,33 +1,33 @@
 {
   "name": "Shawn Kawabe",
-  "role": "Senior Salesforce Developer & Functional Specialist",
-  "location": "São Paulo, Brazil — working remotely with US and Brazilian clients",
-  "intro": "I design and build **Salesforce solutions** that teams actually adopt — from **Lightning Web Components** and **Apex** to **SAP integrations**, **Data Cloud** and **data migrations** — across **Sales, Service, Experience and Commerce Cloud**, always grounded in **Salesforce best practices**.",
+  "role": "Desenvolvedor Salesforce Sênior e Especialista Funcional",
+  "location": "São Paulo, Brasil — trabalhando remotamente com clientes dos EUA e do Brasil",
+  "intro": "Eu projeto e construo **soluções Salesforce** que as equipes realmente adotam — de **Lightning Web Components** e **Apex** a **integrações com SAP**, **Data Cloud** e **migrações de dados** — em **Sales, Service, Experience e Commerce Cloud**, sempre com base nas **boas práticas da Salesforce**.",
   "bio": [
-    "I'm a Senior Salesforce Developer and Functional Specialist with a Bachelor's in Computer Science from Centro Universitário FEI. I've delivered Salesforce work for automotive, agribusiness, financial services, food, education and communications companies.",
-    "I work across the whole delivery: gathering requirements with business teams, modeling data, building with declarative and programmatic tools, integrating with ERPs and cloud services, and documenting so the next team can carry it forward."
+    "Sou Desenvolvedor Salesforce Sênior e Especialista Funcional, bacharel em Ciência da Computação pelo Centro Universitário FEI. Já entreguei projetos Salesforce para empresas dos setores automotivo, agronegócio, serviços financeiros, alimentos, educação e comunicações.",
+    "Atuo em toda a entrega: levanto requisitos com as áreas de negócio, modelo dados, construo com ferramentas declarativas e programáticas, integro com ERPs e serviços em nuvem e documento tudo para que a próxima equipe possa dar continuidade."
   ],
   "principles": [
     {
-      "title": "Best practices first",
-      "body": "Declarative before programmatic, bulkified code, clear sharing models, and tests that mean something."
+      "title": "Boas práticas em primeiro lugar",
+      "body": "Declarativo antes de programático, código bulkificado, modelos de compartilhamento claros e testes que fazem sentido."
     },
     {
-      "title": "Understand the process",
-      "body": "I map the business process before choosing objects, flows or components."
+      "title": "Entender o processo",
+      "body": "Mapeio o processo de negócio antes de escolher objetos, flows ou componentes."
     },
     {
-      "title": "Documentation is a deliverable",
-      "body": "Technical designs and knowledge-transfer material ship with the code."
+      "title": "Documentação também é entrega",
+      "body": "Desenhos técnicos e material de transferência de conhecimento são entregues junto com o código."
     },
     {
-      "title": "Reusable by default",
-      "body": "Components and services built to be reused across teams and orgs."
+      "title": "Reutilizável por padrão",
+      "body": "Componentes e serviços construídos para serem reutilizados entre equipes e orgs."
     }
   ],
-  "availability": "Open to remote Salesforce roles and contracts",
-  "workIntro": "Selected Salesforce projects across clouds and industries. Filter by cloud or capability to see where I've done what.",
-  "ctaLine": "Need a Salesforce developer who also speaks the business's language? Let's talk.",
+  "availability": "Aberto a vagas e contratos remotos de Salesforce",
+  "workIntro": "Projetos Salesforce selecionados em diferentes clouds e setores. Filtre por cloud ou competência para ver onde fiz o quê.",
+  "ctaLine": "Precisa de um desenvolvedor Salesforce que também fala a língua do negócio? Vamos conversar.",
   "workFacets": {
     "clouds": "all clouds with at least one project",
     "capabilities": [
@@ -48,45 +48,45 @@
     },
     {
       "id": "development",
-      "label": "Development"
+      "label": "Desenvolvimento"
     },
     {
       "id": "integration",
-      "label": "Integration"
+      "label": "Integração"
     },
     {
       "id": "devops",
-      "label": "DevOps & Release"
+      "label": "DevOps e Release"
     },
     {
       "id": "data",
-      "label": "Data"
+      "label": "Dados"
     },
     {
       "id": "delivery",
-      "label": "Delivery & Functional"
+      "label": "Entrega e Funcional"
     },
     {
       "id": "products",
-      "label": "Products"
+      "label": "Produtos"
     },
     {
       "id": "languages-programming",
-      "label": "Programming languages"
+      "label": "Linguagens de programação"
     }
   ],
   "notFound": {
-    "title": "Page not found",
-    "body": "This page doesn't exist or has moved. Try the home page or my work."
+    "title": "Página não encontrada",
+    "body": "Esta página não existe ou foi movida. Tente a página inicial ou meus projetos."
   },
   "languages": [
     {
-      "label": "Portuguese",
-      "level": "Native"
+      "label": "Português",
+      "level": "Nativo"
     },
     {
-      "label": "English",
-      "level": "Professional working proficiency"
+      "label": "Inglês",
+      "level": "Proficiência profissional"
     }
   ],
   "links": {
@@ -97,38 +97,38 @@
     "credentials": ""
   },
   "contact": {
-    "intro": "Hiring for a Salesforce role, or need help on a project? Send a message or email me directly.",
-    "projectTypes": ["Full-time role", "Contract", "Consulting", "Other"],
-    "successMessage": "Thanks — your message is on its way. I usually reply within two working days.",
-    "errorMessage": "Something went wrong sending your message. Please try again, or email me directly."
+    "intro": "Está contratando para uma vaga Salesforce ou precisa de ajuda em um projeto? Envie uma mensagem ou me mande um e-mail diretamente.",
+    "projectTypes": ["Vaga em tempo integral", "Contrato", "Consultoria", "Outro"],
+    "successMessage": "Obrigado — sua mensagem foi enviada. Costumo responder em até dois dias úteis.",
+    "errorMessage": "Algo deu errado ao enviar sua mensagem. Tente novamente ou me mande um e-mail diretamente."
   },
   "seo": {
-    "homeTitle": "Shawn Kawabe — Senior Salesforce Developer",
-    "description": "Senior Salesforce Developer and Functional Specialist: LWC, Apex, integrations, Data Cloud and data migration across Sales, Service, Experience and Commerce Cloud.",
+    "homeTitle": "Shawn Kawabe — Desenvolvedor Salesforce Sênior",
+    "description": "Desenvolvedor Salesforce Sênior e Especialista Funcional: LWC, Apex, integrações, Data Cloud e migração de dados em Sales, Service, Experience e Commerce Cloud.",
     "pages": {
       "work": {
-        "title": "Work",
-        "description": "Salesforce projects across Sales, Service, Experience, Commerce and Data Cloud: clients, roles and outcomes."
+        "title": "Projetos",
+        "description": "Projetos Salesforce em Sales, Service, Experience, Commerce e Data Cloud: clientes, funções e resultados."
       },
       "skills": {
-        "title": "Skills",
-        "description": "Salesforce clouds, development, integration, DevOps and data skills, each linked to the projects that used them."
+        "title": "Habilidades",
+        "description": "Habilidades em clouds Salesforce, desenvolvimento, integração, DevOps e dados, cada uma ligada aos projetos em que foi usada."
       },
       "about": {
-        "title": "About",
-        "description": "Who I am, how I work, and the companies I've delivered Salesforce projects through."
+        "title": "Sobre",
+        "description": "Quem eu sou, como eu trabalho e as empresas pelas quais entreguei projetos Salesforce."
       },
       "contact": {
-        "title": "Contact",
-        "description": "Get in touch with Shawn Kawabe about Salesforce roles, contracts or consulting."
+        "title": "Contato",
+        "description": "Entre em contato com Shawn Kawabe sobre vagas, contratos ou consultoria em Salesforce."
       },
       "notFound": {
-        "title": "Page not found",
-        "description": "This page doesn't exist."
+        "title": "Página não encontrada",
+        "description": "Esta página não existe."
       }
     }
   },
-  "trademarkNotice": "Salesforce, Sales Cloud, Service Cloud, Experience Cloud, Commerce Cloud, Data Cloud and other names are trademarks of Salesforce, Inc. This site is personal and not affiliated with or endorsed by Salesforce.",
+  "trademarkNotice": "Salesforce, Sales Cloud, Service Cloud, Experience Cloud, Commerce Cloud, Data Cloud e outros nomes são marcas registradas da Salesforce, Inc. Este site é pessoal e não é afiliado nem endossado pela Salesforce.",
   "todo": [],
   "photo": null
 }
