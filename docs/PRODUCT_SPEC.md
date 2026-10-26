@@ -19,7 +19,7 @@ Success measures (post-launch): Lighthouse ≥ 95 on all four categories for Hom
 
 ## 2. Out of scope for the MVP
 
-Blog, Portuguese version (keep i18n-ready), CMS, analytics beyond a privacy-friendly counter, password-protected pages, comments, search.
+Blog, Portuguese and Spanish versions (keep i18n-ready; they follow in Phase 4, ADR 0003), CMS, analytics beyond a privacy-friendly counter, password-protected pages, comments, search.
 
 ## 3. Sitemap and routes
 

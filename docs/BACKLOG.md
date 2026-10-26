@@ -23,7 +23,7 @@ Things that must exist or be decided before the task in **Blocks** can start. De
   | `src/layouts/`                       | P2-01                                                               |
   | `src/pages/work/`                    | P2-04, P2-05                                                        |
   | `src/dev/`                           | P1-06 (dev gallery, injected by the `devGallery` integration, §4.3) |
-  | `src/i18n/`                          | P2-01 (`en.json`)                                                   |
+  | `src/i18n/`                          | P2-01 (`en.json`), P4-02 (`pt.json`, `es.json`)                     |
   | `src/assets/icons/clouds/`           | P1-07                                                               |
   | `tests/unit/`, `tests/unit/islands/` | P0-02, P1-04, P1-06                                                 |
   | `tests/e2e/`                         | P3-04                                                               |
@@ -211,9 +211,29 @@ Things that must exist or be decided before the task in **Blocks** can start. De
 - [ ] **P3-07 Launch** — Deps: all above
       Final review at 375/768/1440 in both themes, external link check, merge `rebuild` → `main`, verify live.
 
+## Phase 4 — Languages (EN, PT, ES)
+
+Per ADR 0003. Starts after the English MVP pages; the English site may launch before it.
+
+- [ ] **P4-01 Locale routing** — Deps: P3-07
+      Astro i18n with `en`, `pt`, `es` and `prefixDefaultLocale: true`; pages move under `src/pages/[locale]/`. Root `/` redirect page (stored choice → `navigator.languages` → `en`, no-JS links and meta refresh). Redirect pages for the old unprefixed English URLs. `nav.ts` and `isActive` become locale-aware.
+  - [ ] Every route builds for all three locales and `check:links` passes.
+  - [ ] `/` sends a `pt-BR` browser to `/pt/` and an unknown language to `/en/`.
+
+- [ ] **P4-02 Locale-aware strings and content** — Deps: P4-01
+      `src/i18n/{en,pt,es}.json` and `content/{en,pt,es}/*.json`; components receive `locale` instead of importing `en.json`. A parity test fails when keys or ids differ between locales. Locales carry a review flag; unreviewed locales are not built in production.
+  - [ ] Parity test passes; an unreviewed locale is absent from `dist/`.
+
+- [ ] **P4-03 Draft translations** — Deps: P4-02
+      Draft `pt` (Brazilian) and `es` (Latin American) from the English files without adding facts; cloud, product and company names unchanged. Hand over for Shawn's review.
+  - [ ] Shawn approves each locale (sets its review flag).
+
+- [ ] **P4-04 Language switcher and SEO** — Deps: P4-02
+      Switcher in `NavRail` and `MobileNav` that keeps the current page and stores the choice. `<html lang>`, `hreflang` alternates with `x-default`, localised meta and OG text, per-locale sitemap entries.
+  - [ ] Switching language keeps the page; axe 0 violations in all three locales.
+
 ## Post-MVP (not now)
 
-- Portuguese version (`/pt/`), i18n routing.
 - Notes/blog.
 - LWC lab page showing a live LWC OSS component.
 - Membership products deep-dive (Nimble AMS, Fonteva) once briefs exist.
