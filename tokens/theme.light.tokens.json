@@ -1,0 +1,198 @@
+{
+  "$description": "Semantic tokens, light theme. Themes override only these.",
+  "color": {
+    "$type": "color",
+    "surface-0": {
+      "$value": "{color.palette.gray-25}"
+    },
+    "surface-1": {
+      "$value": "{color.palette.white}"
+    },
+    "surface-2": {
+      "$value": "{color.palette.gray-75}"
+    },
+    "surface-3": {
+      "$value": "{color.palette.gray-100}"
+    },
+    "on-surface-1": {
+      "$value": "{color.palette.gray-990}"
+    },
+    "on-surface-2": {
+      "$value": "{color.palette.gray-600}"
+    },
+    "on-surface-3": {
+      "$value": "{color.palette.gray-550}"
+    },
+    "accent-1": {
+      "$value": "{color.palette.blue-700}"
+    },
+    "accent-1-strong": {
+      "$value": "{color.palette.blue-800}"
+    },
+    "accent-2": {
+      "$value": "{color.palette.violet-700}"
+    },
+    "accent-3": {
+      "$value": "{color.palette.teal-700}"
+    },
+    "on-accent": {
+      "$value": "{color.palette.white}"
+    },
+    "success": {
+      "$value": "{color.palette.green-700}"
+    },
+    "warning": {
+      "$value": "{color.palette.amber-700}"
+    },
+    "error": {
+      "$value": "{color.palette.red-700}"
+    },
+    "focus-ring": {
+      "$value": "{color.palette.blue-700}"
+    },
+    "cloud-sales": {
+      "$value": "{color.palette.blue-400}"
+    },
+    "cloud-service": {
+      "$value": "{color.palette.teal-300}"
+    },
+    "cloud-experience": {
+      "$value": "{color.palette.violet-400}"
+    },
+    "cloud-commerce": {
+      "$value": "{color.palette.coral-400}"
+    },
+    "cloud-data": {
+      "$value": "{color.palette.sky-400}"
+    },
+    "cloud-platform": {
+      "$value": "{color.palette.lime-400}"
+    },
+    "cloud-membership": {
+      "$value": "{color.palette.pink-400}"
+    },
+    "border-1": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.0, 0.0, 0.0],
+        "hex": "#000000",
+        "alpha": 0.08
+      }
+    },
+    "border-2": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.0, 0.0, 0.0],
+        "hex": "#000000",
+        "alpha": 0.16
+      }
+    },
+    "glow-1": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.0431, 0.3608, 0.8353],
+        "hex": "#0B5CD5",
+        "alpha": 0.2
+      }
+    },
+    "band-a": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.3569, 0.2471, 0.8392],
+        "hex": "#5B3FD6",
+        "alpha": 0.06
+      }
+    },
+    "band-b": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.0549, 0.5412, 0.4784],
+        "hex": "#0E8A7A",
+        "alpha": 0.06
+      }
+    }
+  },
+  "shadow": {
+    "$type": "shadow",
+    "1": {
+      "$value": [
+        {
+          "color": {
+            "colorSpace": "srgb",
+            "components": [0.0, 0.0, 0.0],
+            "hex": "#000000",
+            "alpha": 0.12
+          },
+          "offsetX": {
+            "value": 0,
+            "unit": "px"
+          },
+          "offsetY": {
+            "value": 1,
+            "unit": "px"
+          },
+          "blur": {
+            "value": 2,
+            "unit": "px"
+          },
+          "spread": {
+            "value": 0,
+            "unit": "px"
+          }
+        },
+        {
+          "color": {
+            "colorSpace": "srgb",
+            "components": [0.0, 0.0, 0.0],
+            "hex": "#000000",
+            "alpha": 0.12
+          },
+          "offsetX": {
+            "value": 0,
+            "unit": "px"
+          },
+          "offsetY": {
+            "value": 8,
+            "unit": "px"
+          },
+          "blur": {
+            "value": 24,
+            "unit": "px"
+          },
+          "spread": {
+            "value": 0,
+            "unit": "px"
+          }
+        }
+      ]
+    },
+    "2": {
+      "$value": [
+        {
+          "color": {
+            "colorSpace": "srgb",
+            "components": [0.0, 0.0, 0.0],
+            "hex": "#000000",
+            "alpha": 0.2
+          },
+          "offsetX": {
+            "value": 0,
+            "unit": "px"
+          },
+          "offsetY": {
+            "value": 16,
+            "unit": "px"
+          },
+          "blur": {
+            "value": 48,
+            "unit": "px"
+          },
+          "spread": {
+            "value": 0,
+            "unit": "px"
+          }
+        }
+      ]
+    }
+  }
+}
