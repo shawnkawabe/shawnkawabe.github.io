@@ -9,10 +9,17 @@ concurrency:
   cancel-in-progress: true
 jobs:
   e2e:
-    name: E2E and accessibility
+    name: E2E and accessibility (${{ matrix.drafts && 'all languages' || 'production' }})
     runs-on: ubuntu-latest
+    # The drafts run builds unreviewed languages too (ADR 0003), so a broken translation fails here
+    # before it is approved; production builds never include them.
+    strategy:
+      fail-fast: false
+      matrix:
+        drafts: [false, true]
     env:
       PUBLIC_WEB3FORMS_KEY: ${{ vars.PUBLIC_WEB3FORMS_KEY }}
+      INCLUDE_DRAFT_LOCALES: ${{ matrix.drafts }}
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -26,7 +33,7 @@ jobs:
       - if: failure()
         uses: actions/upload-artifact@v7
         with:
-          name: playwright-report
+          name: playwright-report-${{ matrix.drafts && 'drafts' || 'production' }}
           path: |
             playwright-report/
             test-results/
