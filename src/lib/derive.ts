@@ -1,0 +1,77 @@
+// Pure functions over content (ARCHITECTURE §3.2). No dates anywhere: order is curated.
+import type { Certification, Project, Skill } from './schemas';
+
+export type SkillStat = { id: string; projectCount: number; projectIds: string[] };
+
+export type CloudStat = SkillStat & {
+  label: string;
+  accent: string | undefined;
+  certifications: { id: string; label: string }[];
+  projects: { id: string; title: string }[];
+};
+
+export type FilterState = { clouds: string[]; caps: string[] };
+
+type Filterable = { clouds: readonly string[]; capabilities: readonly string[] };
+
+/** Featured first, then the file order of projects.json (Array.prototype.sort is stable). */
+export function sortProjects<T extends Pick<Project, 'featured'>>(projects: readonly T[]): T[] {
+  return [...projects].sort((a, b) => Number(b.featured) - Number(a.featured));
+}
+
+export function skillStats(skills: readonly Skill[], projects: readonly Project[]): SkillStat[] {
+  return skills.map((skill) => {
+    const projectIds = projects
+      .filter((p) => p.clouds.includes(skill.id) || p.capabilities.includes(skill.id))
+      .map((p) => p.id);
+    return { id: skill.id, projectCount: projectIds.length, projectIds };
+  });
+}
+
+/** Clouds with their projects and certifications; clouds with neither are left out. */
+export function cloudStats(
+  skills: readonly Skill[],
+  projects: readonly Project[],
+  certifications: readonly Certification[],
+): CloudStat[] {
+  const clouds = skills.filter((skill) => skill.group === 'clouds');
+  return skillStats(clouds, projects)
+    .map((stat, index) => {
+      const cloud = clouds[index];
+      return {
+        ...stat,
+        label: cloud.label,
+        accent: cloud.accent,
+        certifications: certifications
+          .filter((cert) => cert.skills.includes(cloud.id))
+          .map(({ id, label }) => ({ id, label })),
+        projects: projects
+          .filter((p) => stat.projectIds.includes(p.id))
+          .map(({ id, title }) => ({ id, title })),
+      };
+    })
+    .filter((cloud) => cloud.projectCount > 0 || cloud.certifications.length > 0);
+}
+
+/** Neighbours in sort order; no wrap-around at either end. */
+export function prevNext<T extends Pick<Project, 'id' | 'featured'>>(
+  projects: readonly T[],
+  id: string,
+): { prev: T | undefined; next: T | undefined } {
+  const sorted = sortProjects(projects);
+  const index = sorted.findIndex((p) => p.id === id);
+  if (index === -1) return { prev: undefined, next: undefined };
+  return { prev: sorted[index - 1], next: sorted[index + 1] };
+}
+
+/** OR within a group, AND across groups; an empty group does not filter. */
+export function filterProjects<T extends Filterable>(
+  projects: readonly T[],
+  state: FilterState,
+): T[] {
+  const matches = (selected: string[], values: readonly string[]) =>
+    selected.length === 0 || selected.some((id) => values.includes(id));
+  return projects.filter(
+    (p) => matches(state.clouds, p.clouds) && matches(state.caps, p.capabilities),
+  );
+}

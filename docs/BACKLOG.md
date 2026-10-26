@@ -112,10 +112,11 @@ Things that must exist or be decided before the task in **Blocks** can start. De
   - [x] Removing a required field from `site.json` fails `npm test`.
   - Notes: `schemas.ts` is §3.1 verbatim plus exported `z.infer` types. Astro 7 bundles Zod 4, where `z.string().email()`/`.url()` are deprecated aliases of `z.email()`/`z.url()` but still work; kept as specified. `content.config.ts` imports schemas relatively (`./lib/schemas`). Getters return plain data in file order; `getSite()` parses once and caches. `tests/unit/content.test.ts` parses all five files with the real schemas and runs every §3.1 cross-file check (it replaces the P0-02 sample test). Verified by breaking files: no `title` in a project → `astro sync` prints `projects → volkswagen-group-portal … title: Required`; no `name` in site.json → `npm test` fails; an unknown cloud id → two cross-file tests fail naming `volkswagen-group-portal → nonexistent-cloud`.
 
-- [ ] **P1-05 Derived data** — Deps: P1-04
+- [x] **P1-05 Derived data** — Deps: P1-04
       `src/lib/derive.ts`, `format.ts`, `filters.ts` per ARCHITECTURE §3.2.
-  - [ ] 100% line coverage on these files.
-  - [ ] `sortProjects` keeps featured first, then file order; covered by tests.
+  - [x] 100% line coverage on these files.
+  - [x] `sortProjects` keeps featured first, then file order; covered by tests.
+  - Notes: URL filters use comma lists (`?cloud=a,b&cap=c`); unknown ids are dropped on parse. `prevNext(projects, id)` sorts internally and does not wrap around. `cloudStats` returns CloudNode-shaped data (label, accent, certifications, projects) and leaves out clouds with neither projects nor certifications. Coverage (v8, 100% lines on the three files) is enforced by `npm test`.
 
 - [ ] **P1-06 UI primitives and dev gallery** — Deps: P1-02
       `npx shadcn@latest init` themed to tokens (remove default palette). Add: button, badge, sheet, dialog, input, textarea, select, label, form, tooltip. Astro primitives: `Chip`, `Heading`, `Text`, `Surface`, `Icon` (Lucide). Dev gallery per ARCHITECTURE §4.3. Install `react-hook-form zod @hookform/resolvers lucide-react` if shadcn did not.
