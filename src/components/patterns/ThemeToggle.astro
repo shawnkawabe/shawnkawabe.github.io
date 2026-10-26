@@ -1,0 +1,35 @@
+---
+// Theme switch button (SPEC §4.2). Plain HTML + a shared module script: no React on the page.
+import Icon from '@/components/ui/Icon.astro';
+import { localeFromPath, strings } from '@/lib/i18n';
+
+const ui = strings(localeFromPath(Astro.url.pathname));
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<button
+  type="button"
+  data-theme-toggle
+  data-label-light={ui.theme.toLight}
+  data-label-dark={ui.theme.toDark}
+  aria-label={ui.theme.toggle}
+  class:list={[
+    'inline-flex size-10 shrink-0 items-center justify-center rounded-pill text-on-surface-2 transition-colors duration-150 ease-standard hover:text-on-surface-1',
+    className,
+  ]}
+>
+  <!-- CSS picks the icon from data-theme, so it is right on first paint. -->
+  <Icon name="sun" class="hidden dark:block" />
+  <Icon name="moon" class="dark:hidden" />
+</button>
+
+<script>
+  import { bindThemeToggles } from '@/lib/theme';
+
+  bindThemeToggles();
+</script>

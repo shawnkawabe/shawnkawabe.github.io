@@ -1,0 +1,35 @@
+---
+// Semantic level and visual size are separate so the outline stays correct (h1 → h2 → h3).
+interface Props {
+  level: 1 | 2 | 3 | 4;
+  size?: 4 | 5 | 6 | 7 | 8 | 9;
+  /** Orbitron; DESIGN §4 allows it only at size 7+ and never in sentences. */
+  display?: boolean;
+  id?: string;
+  class?: string;
+}
+
+const sizeByLevel = { 1: 8, 2: 7, 3: 6, 4: 5 } as const;
+const sizeClass = {
+  4: 'text-4',
+  5: 'text-5',
+  6: 'text-6',
+  7: 'text-7',
+  8: 'text-8',
+  9: 'text-9',
+} as const;
+
+const { level, size = sizeByLevel[level], display = false, id, class: className } = Astro.props;
+const Tag = `h${level}` as const;
+---
+
+<Tag
+  id={id}
+  class:list={[
+    sizeClass[size],
+    display ? 'font-display tracking-display' : 'font-heading',
+    className,
+  ]}
+>
+  <slot />
+</Tag>

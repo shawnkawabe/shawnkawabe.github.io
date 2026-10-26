@@ -1,0 +1,137 @@
+{
+  "titleTemplate": "{title} — {name}",
+  "skipLink": "Pular para o conteúdo",
+  "nav": {
+    "label": "Principal",
+    "home": "Início",
+    "work": "Projetos",
+    "skills": "Habilidades",
+    "about": "Sobre",
+    "contact": "Contato",
+    "linkedin": "LinkedIn",
+    "github": "GitHub",
+    "resume": "Currículo (PDF)",
+    "newTab": "abre em uma nova aba",
+    "openMenu": "Abrir menu",
+    "menuTitle": "Menu",
+    "closeMenu": "Fechar menu"
+  },
+  "theme": {
+    "toggle": "Alternar tema",
+    "toLight": "Mudar para o tema claro",
+    "toDark": "Mudar para o tema escuro"
+  },
+  "language": {
+    "label": "Idioma"
+  },
+  "cards": {
+    "projects": {
+      "one": "{count} projeto",
+      "other": "{count} projetos"
+    },
+    "certifications": {
+      "one": "{count} certificação",
+      "other": "{count} certificações"
+    },
+    "moreClouds": "+{count}",
+    "moreCloudsLabel": "mais {count} clouds"
+  },
+  "work": {
+    "filtersLabel": "Filtrar projetos",
+    "cloud": "Cloud",
+    "capability": "Competência",
+    "clear": "Limpar",
+    "empty": "Nenhum projeto corresponde a esses filtros"
+  },
+  "home": {
+    "seeWork": "Ver meus projetos",
+    "resume": "Baixar currículo",
+    "featured": "Projetos em destaque",
+    "allProjects": "Todos os projetos",
+    "clouds": "Clouds em que atuo",
+    "products": "Produtos e ferramentas",
+    "pauseMarquee": "Pausar lista em rolagem",
+    "certifications": "Certificações",
+    "contact": "Entre em contato"
+  },
+  "skills": {
+    "clouds": "Clouds",
+    "groups": "Habilidades por área",
+    "certifications": "Certificações",
+    "languages": "Idiomas"
+  },
+  "about": {
+    "principles": "Como eu trabalho",
+    "companies": "Empresas pelas quais entreguei projetos",
+    "history": "Histórico completo",
+    "historyLine": "O histórico profissional completo está no meu currículo.",
+    "resume": "Baixar currículo"
+  },
+  "contact": {
+    "emailLabel": "E-mail",
+    "linkedinLabel": "LinkedIn",
+    "formTitle": "Enviar uma mensagem",
+    "name": "Nome",
+    "email": "E-mail",
+    "projectType": "Tipo de projeto",
+    "projectTypePlaceholder": "Escolha uma opção",
+    "message": "Mensagem",
+    "messageHint": "{min}–{max} caracteres",
+    "honeypot": "Deixe este campo vazio",
+    "required": "obrigatório",
+    "submit": "Enviar mensagem",
+    "submitting": "Enviando…",
+    "retry": "Tentar novamente",
+    "errors": {
+      "nameRequired": "Informe seu nome",
+      "emailRequired": "Informe seu endereço de e-mail",
+      "emailInvalid": "Informe um endereço de e-mail válido, como nome@exemplo.com",
+      "projectTypeRequired": "Escolha um tipo de projeto",
+      "messageTooShort": "Escreva pelo menos 20 caracteres",
+      "messageTooLong": "Mantenha a mensagem com menos de 2000 caracteres"
+    }
+  },
+  "constellation": {
+    "listLabel": "Clouds — escolha uma para ver seus projetos",
+    "close": "Fechar",
+    "certifications": "Certificações",
+    "projects": "Projetos",
+    "seeProjects": "Ver projetos"
+  },
+  "caseStudy": {
+    "snapshotLabel": "Resumo do projeto",
+    "client": "Cliente",
+    "role": "Função",
+    "teamSize": "Tamanho da equipe",
+    "deliveredVia": "Entregue via",
+    "clouds": "Clouds",
+    "challenge": "Contexto e desafio",
+    "architecture": "Arquitetura da solução",
+    "decisions": "Decisões-chave",
+    "decision": "Decisão",
+    "why": "Por quê",
+    "tradeoff": "Trade-off",
+    "gallery": "Destaques da construção",
+    "outcomes": "Resultados",
+    "stack": "Stack",
+    "takeaway": "Aprendizado",
+    "pagerLabel": "Mais projetos",
+    "previous": "Projeto anterior",
+    "next": "Próximo projeto",
+    "openImage": "Abrir imagem: {alt}",
+    "lightboxLabel": "Visualizador de imagens",
+    "lightboxPosition": "{index} de {total}",
+    "previousImage": "Imagem anterior",
+    "nextImage": "Próxima imagem",
+    "closeImage": "Fechar visualizador de imagens"
+  },
+  "footer": {
+    "copyright": "© {year} {name}",
+    "linksLabel": "Em outros lugares",
+    "linkedin": "LinkedIn",
+    "github": "GitHub",
+    "email": "E-mail"
+  },
+  "ogImageAlt": "{name}, {role}",
+  "ogImageAltPage": "{title}, {role}"
+}

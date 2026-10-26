@@ -1,0 +1,5 @@
+{
+  "en": { "label": "English", "htmlLang": "en", "ogLocale": "en_US", "reviewed": true },
+  "pt": { "label": "Português", "htmlLang": "pt-BR", "ogLocale": "pt_BR", "reviewed": false },
+  "es": { "label": "Español", "htmlLang": "es-419", "ogLocale": "es_LA", "reviewed": false }
+}

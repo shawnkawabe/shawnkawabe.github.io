@@ -1,0 +1,130 @@
+---
+// SPEC §5.1: hero, featured work, clouds, products marquee, certifications, contact CTA.
+// Static HTML throughout; the clouds section shows the bento until the Phase 3 constellation.
+import CertificationStrip from '@/components/patterns/CertificationStrip.astro';
+import CloudBento from '@/components/patterns/CloudBento.astro';
+import CloudConstellation from '@/components/patterns/CloudConstellation';
+import CoverCard from '@/components/patterns/CoverCard.astro';
+import Hero from '@/components/patterns/Hero.astro';
+import HeroScene from '@/components/patterns/HeroScene.astro';
+import Marquee from '@/components/patterns/Marquee.astro';
+import SectionBand from '@/components/patterns/SectionBand.astro';
+import { buttonVariants } from '@/components/ui/button';
+import Icon from '@/components/ui/Icon.astro';
+import Reveal from '@/components/ui/Reveal.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getCertifications, getProjects, getSite, getSkills, siteLocales } from '@/lib/content';
+import { localePath, strings, toLocale } from '@/lib/i18n';
+import { cloudStats, sortProjects } from '@/lib/derive';
+import { pageMeta, personJsonLd } from '@/lib/seo';
+
+export function getStaticPaths() {
+  return siteLocales().map((locale) => ({ params: { locale } }));
+}
+
+const locale = toLocale(Astro.params.locale);
+const ui = strings(locale);
+
+const MAX_FEATURED = 4;
+
+const site = getSite(locale);
+const siteUrl = (Astro.site ?? new URL(import.meta.env.SITE)).href;
+const [projects, skills, certifications] = await Promise.all([
+  getProjects(locale),
+  getSkills(locale),
+  getCertifications(locale),
+]);
+const featured = sortProjects(projects)
+  .filter((project) => project.featured)
+  .slice(0, MAX_FEATURED);
+const clouds = cloudStats(skills, projects, certifications);
+const products = skills
+  .filter((skill) => skill.group === 'products' || skill.group === 'tools')
+  .map((skill) => skill.label);
+const t = ui.home;
+const container = 'mx-auto flex w-full max-w-300 flex-col gap-8 px-4 sm:px-6 lg:px-8';
+---
+
+<BaseLayout
+  meta={pageMeta(site, { page: 'home' }, ui.titleTemplate)}
+  jsonLd={personJsonLd(site, siteUrl)}
+>
+  <Hero site={site}>
+    <HeroScene slot="scene" />
+  </Hero>
+
+  <div class="flex flex-col gap-20 pb-20 lg:gap-28 lg:pb-28">
+    {featured.length > 0 && (
+      <Reveal as="section" aria-labelledby="featured-title" class={container}>
+        <div class="flex flex-wrap items-end justify-between gap-4">
+          <h2 id="featured-title">{t.featured}</h2>
+          <a
+            href={localePath(locale, '/work')}
+            class="inline-flex items-center gap-2 text-3 font-medium"
+          >
+            {t.allProjects}
+            <Icon name="arrow-right" />
+          </a>
+        </div>
+        {/* Scroll-snap row below lg, 2-column grid from lg (DESIGN §10). */}
+        <ul class="-mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 sm:-mx-6 sm:px-6 lg:mx-0 lg:grid lg:grid-cols-2 lg:gap-6 lg:overflow-visible lg:px-0 lg:pb-0">
+          {featured.map((project) => (
+            <li class="w-[85%] shrink-0 snap-start sm:w-[60%] lg:w-auto">
+              <CoverCard
+                title={project.title}
+                subtitle={project.subtitle}
+                href={localePath(locale, `/work/${project.id}`)}
+                cover={project.cover}
+              />
+            </li>
+          ))}
+        </ul>
+      </Reveal>
+    )}
+
+    {clouds.length > 0 && (
+      <Reveal as="section" aria-labelledby="clouds-title" class={container}>
+        <h2 id="clouds-title">{t.clouds}</h2>
+        {/* The bento is the poster and fallback; on desktop with motion and WebGL2 the scene replaces it. */}
+        <CloudConstellation
+          client:visible={{ rootMargin: '200px' }}
+          nodes={clouds}
+          ui={{ cards: ui.cards, constellation: ui.constellation }}
+          workPath={localePath(locale, '/work')}
+        >
+          <CloudBento clouds={clouds} />
+        </CloudConstellation>
+      </Reveal>
+    )}
+
+    {products.length > 0 && (
+      <Reveal as="section" aria-labelledby="products-title" class={container}>
+        <h2 id="products-title">{t.products}</h2>
+        <Marquee items={products} id="products-marquee" />
+      </Reveal>
+    )}
+
+    {certifications.length > 0 && (
+      <Reveal as="section" aria-labelledby="certifications-title" class={container}>
+        <h2 id="certifications-title">{t.certifications}</h2>
+        <CertificationStrip
+          certifications={certifications}
+          credentialsUrl={site.links.credentials}
+        />
+      </Reveal>
+    )}
+
+    <SectionBand tone="a" tilt={-1}>
+      <section class="mx-auto flex w-full max-w-180 flex-col items-start gap-6 px-4 sm:px-6 lg:px-8">
+        <p class="font-heading text-6 text-balance">{site.ctaLine}</p>
+        <a
+          href={localePath(locale, '/contact')}
+          class:list={[buttonVariants({ variant: 'brand', size: 'lg' }), 'no-underline']}
+        >
+          {t.contact}
+          <Icon name="arrow-right" />
+        </a>
+      </section>
+    </SectionBand>
+  </div>
+</BaseLayout>

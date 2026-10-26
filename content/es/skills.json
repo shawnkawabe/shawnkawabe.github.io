@@ -1,0 +1,104 @@
+[
+  { "id": "sales-cloud", "label": "Sales Cloud", "group": "clouds", "accent": "cloud-sales" },
+  { "id": "service-cloud", "label": "Service Cloud", "group": "clouds", "accent": "cloud-service" },
+  {
+    "id": "experience-cloud",
+    "label": "Experience Cloud",
+    "group": "clouds",
+    "accent": "cloud-experience"
+  },
+  {
+    "id": "commerce-cloud",
+    "label": "Commerce Cloud (B2C/B2B)",
+    "group": "clouds",
+    "accent": "cloud-commerce"
+  },
+  {
+    "id": "data-cloud",
+    "label": "Data Cloud (Data 360)",
+    "group": "clouds",
+    "accent": "cloud-data"
+  },
+  {
+    "id": "platform",
+    "label": "Salesforce Platform",
+    "group": "clouds",
+    "accent": "cloud-platform"
+  },
+  {
+    "id": "membership",
+    "label": "Membresías y sin fines de lucro",
+    "group": "clouds",
+    "accent": "cloud-membership"
+  },
+
+  { "id": "apex", "label": "Apex", "group": "development" },
+  {
+    "id": "apex-async",
+    "label": "Apex asíncrono (Batch, Queueable, Schedulable)",
+    "group": "development"
+  },
+  { "id": "apex-triggers", "label": "Triggers de Apex", "group": "development" },
+  { "id": "lwc", "label": "Lightning Web Components", "group": "development", "aliases": ["LWC"] },
+  { "id": "lwr", "label": "Lightning Web Runtime (LWR)", "group": "development" },
+  { "id": "aura", "label": "Aura Components", "group": "development" },
+  { "id": "visualforce", "label": "Visualforce", "group": "development" },
+  { "id": "flow", "label": "Flow (Screen, Record-Triggered, Scheduled)", "group": "development" },
+  { "id": "soql-sosl", "label": "SOQL / SOSL", "group": "development" },
+  { "id": "lightning-pages", "label": "Lightning Pages y Dynamic Forms", "group": "development" },
+  { "id": "mobile-optimization", "label": "Optimización para móviles", "group": "development" },
+  {
+    "id": "component-library",
+    "label": "Bibliotecas de componentes reutilizables",
+    "group": "development"
+  },
+
+  { "id": "rest-soap", "label": "Integraciones REST y SOAP", "group": "integration" },
+  { "id": "sap-integration", "label": "Integración con SAP", "group": "integration" },
+  { "id": "erp-migration", "label": "Migración de integraciones ERP", "group": "integration" },
+  { "id": "external-credentials", "label": "Named y External Credentials", "group": "integration" },
+  { "id": "aws", "label": "AWS (App Runner, S3)", "group": "integration" },
+  { "id": "python-flask", "label": "APIs en Python Flask", "group": "integration" },
+
+  { "id": "salesforce-dx", "label": "Salesforce DX", "group": "devops" },
+  { "id": "ci-cd", "label": "CI/CD", "group": "devops" },
+  { "id": "git", "label": "Git y GitHub", "group": "devops" },
+  { "id": "gitlab", "label": "GitLab", "group": "devops" },
+  { "id": "bitbucket", "label": "Bitbucket", "group": "devops" },
+  { "id": "jenkins", "label": "Jenkins", "group": "devops" },
+  { "id": "gearset", "label": "Gearset", "group": "devops" },
+  { "id": "packages", "label": "Paquetes gestionados y no gestionados", "group": "devops" },
+
+  { "id": "data-migration", "label": "Migración de datos", "group": "data" },
+  { "id": "backup-archival", "label": "Respaldo y archivado", "group": "data" },
+  { "id": "data-modeling", "label": "Modelado de datos", "group": "data" },
+  { "id": "identity-resolution", "label": "Resolución de identidades", "group": "data" },
+  { "id": "calculated-insights", "label": "Calculated Insights", "group": "data" },
+
+  { "id": "requirements", "label": "Levantamiento de requerimientos", "group": "delivery" },
+  { "id": "technical-documentation", "label": "Documentación técnica", "group": "delivery" },
+  { "id": "process-mapping", "label": "Mapeo de procesos de negocio", "group": "delivery" },
+  { "id": "sharing-model", "label": "Modelo de uso compartido y seguridad", "group": "delivery" },
+  {
+    "id": "multi-language",
+    "label": "Multilenguaje (Translation Workbench)",
+    "group": "delivery"
+  },
+  { "id": "ux", "label": "Mejoras de UI/UX", "group": "delivery" },
+  { "id": "training", "label": "Capacitación y adopción", "group": "delivery" },
+  { "id": "agile", "label": "Entrega ágil", "group": "delivery" },
+  { "id": "tdd", "label": "Desarrollo guiado por pruebas (TDD)", "group": "delivery" },
+
+  { "id": "own-data", "label": "Own Data (Backup & Archival)", "group": "products" },
+  { "id": "grax", "label": "GRAX", "group": "products" },
+  { "id": "d4sign", "label": "D4Sign", "group": "products" },
+  { "id": "nimble-ams", "label": "Nimble AMS", "group": "products" },
+  { "id": "fonteva", "label": "Fonteva", "group": "products" },
+  { "id": "nonprofit-cloud", "label": "Nonprofit Cloud", "group": "products" },
+
+  { "id": "java", "label": "Java", "group": "languages-programming" },
+  { "id": "javascript", "label": "JavaScript", "group": "languages-programming" },
+  { "id": "typescript", "label": "TypeScript", "group": "languages-programming" },
+  { "id": "python", "label": "Python", "group": "languages-programming" },
+  { "id": "shell", "label": "Shell", "group": "languages-programming" }
+]

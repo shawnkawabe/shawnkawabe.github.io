@@ -1,0 +1,34 @@
+---
+// Card and panel background (DESIGN §5): surface level, radius, optional border and elevation.
+interface Props {
+  as?: 'div' | 'section' | 'article' | 'aside';
+  level?: 1 | 2 | 3;
+  radius?: 'md' | 'lg';
+  bordered?: boolean;
+  elevated?: boolean;
+  class?: string;
+}
+
+const levelClass = { 1: 'bg-surface-1', 2: 'bg-surface-2', 3: 'bg-surface-3' } as const;
+
+const {
+  as: Tag = 'div',
+  level = 2,
+  radius = 'md',
+  bordered = true,
+  elevated = false,
+  class: className,
+} = Astro.props;
+---
+
+<Tag
+  class:list={[
+    levelClass[level],
+    radius === 'lg' ? 'rounded-lg' : 'rounded-md',
+    bordered && 'border border-border-1',
+    elevated && 'shadow-1',
+    className,
+  ]}
+>
+  <slot />
+</Tag>

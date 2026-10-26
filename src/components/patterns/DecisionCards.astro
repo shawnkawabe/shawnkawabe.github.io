@@ -1,0 +1,39 @@
+---
+// SPEC §5.3 item 5: 2–4 cards, each "Decision → Why → Trade-off" (trade-off optional).
+import type { ProjectSection } from '@/lib/schemas';
+import { localeFromPath, strings } from '@/lib/i18n';
+
+const ui = strings(localeFromPath(Astro.url.pathname));
+
+interface Props {
+  items: Extract<ProjectSection, { type: 'decisions' }>['items'];
+}
+
+const { items } = Astro.props;
+const t = ui.caseStudy;
+---
+
+<ol class="grid gap-4 md:grid-cols-2">
+  {items.map((item) => (
+    <li class="flex flex-col gap-4 rounded-md border border-border-1 bg-surface-2 p-6">
+      <p class="text-4 font-semibold text-balance">
+        <span class="sr-only">{t.decision}: </span>
+        {item.decision}
+      </p>
+      <dl class="flex flex-col gap-3 text-2">
+        <div class="flex flex-col gap-1">
+          <dt class="font-mono text-1 tracking-label text-on-surface-2 uppercase">{t.why}</dt>
+          <dd>{item.why}</dd>
+        </div>
+        {item.tradeoff && (
+          <div class="flex flex-col gap-1">
+            <dt class="font-mono text-1 tracking-label text-on-surface-2 uppercase">
+              {t.tradeoff}
+            </dt>
+            <dd class="text-on-surface-2">{item.tradeoff}</dd>
+          </div>
+        )}
+      </dl>
+    </li>
+  ))}
+</ol>

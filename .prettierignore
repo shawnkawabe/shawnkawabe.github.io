@@ -8,3 +8,4 @@ test-results/
 .lighthouseci/
 docs/source-images/
 docs/claude-agent/
+src/lib/cn-tables.ts

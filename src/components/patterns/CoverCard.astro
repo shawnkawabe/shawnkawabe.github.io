@@ -1,0 +1,52 @@
+---
+// DESIGN §9 CoverCard, as in docs/reference/01-home-once-ui.jpg. The whole card is one link.
+import Cover from '@/components/ui/Cover.astro';
+import Icon from '@/components/ui/Icon.astro';
+import type { IconName } from '@/lib/icons';
+import type { Project } from '@/lib/schemas';
+
+interface Props {
+  title: string;
+  subtitle: string;
+  href: string;
+  cover: Project['cover'];
+  icon?: IconName;
+  /** Heading level of the title, to keep the page outline in order. */
+  level?: 2 | 3;
+  class?: string;
+}
+
+const { title, subtitle, href, cover, icon, level = 3, class: className } = Astro.props;
+const Title = `h${level}` as const;
+---
+
+<a
+  href={href}
+  data-tilt
+  class:list={[
+    'group block rounded-lg bg-surface-2 p-2 no-underline shadow-1 transition-[translate,box-shadow,transform] duration-250 ease-standard hover:-translate-y-0.5 hover:shadow-glow focus-visible:shadow-glow',
+    className,
+  ]}
+>
+  <Cover preset={cover.preset} image={cover.image} class="rounded-md">
+    <span
+      aria-hidden="true"
+      class="flex size-full items-center justify-center p-6 text-center font-heading text-7 font-bold text-balance"
+    >
+      {title}
+    </span>
+  </Cover>
+  <div class="flex items-center gap-4 px-4 pt-4 pb-3">
+    {icon && <Icon name={icon} class="text-on-surface-2" />}
+    <div class="flex min-w-0 flex-col">
+      <Title class="text-3 font-semibold">{title}</Title>
+      <p class="text-2 text-on-surface-2">{subtitle}</p>
+    </div>
+  </div>
+</a>
+
+<script>
+  import { bindTilt } from '@/lib/tilt';
+
+  bindTilt();
+</script>

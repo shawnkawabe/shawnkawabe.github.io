@@ -1,0 +1,78 @@
+---
+// Dev-only 1200×630 Open Graph cards (SPEC §4.5). The path picks the card: `/dev/og` for the
+// default (name + role, also Home's), `/dev/og/work` for a page, `/dev/og/work/brf` for a case study
+// on its cover preset. A locale prefix translates the card: `/dev/og/pt/work` (English has none).
+// `npm run og` screenshots every card into public/og/. (A path, not a query:
+// prerendered pages get no search params, even in dev.)
+import '@/styles/global.css';
+import { getProjects, getSite } from '@/lib/content';
+import { DEFAULT_LOCALE, LOCALES, localeInfo, splitLocale } from '@/lib/i18n';
+import { preloadFonts } from '@/lib/fonts';
+import type { SeoPage } from '@/lib/seo';
+
+export async function getStaticPaths() {
+  const pages = Object.keys(getSite().seo.pages).filter((page) => page !== 'notFound');
+  const projects = (await getProjects()).map((project) => `work/${project.id}`);
+  const routes = ['', ...pages, ...projects];
+  return LOCALES.flatMap((locale) =>
+    routes.map((route) => {
+      const path = [locale === DEFAULT_LOCALE ? '' : locale, route].filter(Boolean).join('/');
+      return { params: { route: path || undefined } };
+    }),
+  );
+}
+
+const split = splitLocale(`/${Astro.params.route ?? ''}`);
+const locale = split.locale ?? DEFAULT_LOCALE;
+const route = split.path.slice(1);
+const site = getSite(locale);
+const projectId = route.startsWith('work/') ? route.slice('work/'.length) : undefined;
+const project = projectId
+  ? (await getProjects(locale)).find((entry) => entry.id === projectId)
+  : undefined;
+const page = route in site.seo.pages ? site.seo.pages[route as SeoPage] : undefined;
+
+const card = project
+  ? { preset: project.cover.preset, title: project.title, subtitle: project.subtitle }
+  : page
+    ? { preset: 'aurora', title: page.title, subtitle: site.role }
+    : undefined;
+---
+
+<html lang={localeInfo[locale].htmlLang} data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex" />
+    <title>OG card · dev</title>
+    <style is:inline>
+      astro-dev-toolbar {
+        display: none !important;
+      }
+    </style>
+    {preloadFonts.map((href) => (
+      <link rel="preload" href={href} as="font" type="font/woff2" crossorigin />
+    ))}
+  </head>
+  <body class="m-0">
+    {card ? (
+      <div
+        class={`pf-cover pf-cover--${card.preset} flex h-157.5 w-300 flex-col justify-between p-20`}
+      >
+        <p class="font-heading text-6 font-bold tracking-display">{site.name}</p>
+        <div class="flex flex-col gap-4">
+          <p class="max-w-none font-heading text-9 font-bold tracking-display text-balance">
+            {card.title}
+          </p>
+          <p class="pf-cover__subtitle max-w-none text-6 font-medium text-balance">
+            {card.subtitle}
+          </p>
+        </div>
+      </div>
+    ) : (
+      <div class="pf-cover pf-cover--aurora flex h-157.5 w-300 flex-col justify-end gap-4 p-20">
+        <p class="font-heading text-9 font-bold tracking-display">{site.name}</p>
+        <p class="pf-cover__subtitle text-6 font-medium">{site.role}</p>
+      </div>
+    )}
+  </body>
+</html>

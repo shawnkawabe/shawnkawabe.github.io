@@ -1,0 +1,67 @@
+---
+// SPEC §5.6: intro, email and LinkedIn always; the form only when PUBLIC_WEB3FORMS_KEY is set at
+// build time (an empty key is valid and leaves the direct links).
+import ContactFormSection from '@/components/patterns/ContactFormSection.astro';
+import Icon from '@/components/ui/Icon.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getSite, siteLocales } from '@/lib/content';
+import { strings, toLocale } from '@/lib/i18n';
+import { pageMeta } from '@/lib/seo';
+
+export function getStaticPaths() {
+  return siteLocales().map((locale) => ({ params: { locale } }));
+}
+
+const locale = toLocale(Astro.params.locale);
+const ui = strings(locale);
+
+const site = getSite(locale);
+const web3formsKey = import.meta.env.PUBLIC_WEB3FORMS_KEY ?? '';
+const t = ui.contact;
+const link =
+  'flex items-center gap-4 rounded-md border border-border-1 bg-surface-2 p-5 no-underline transition-[border-color,box-shadow] duration-250 ease-standard hover:border-border-2 hover:shadow-glow';
+---
+
+<BaseLayout meta={pageMeta(site, { page: 'contact' }, ui.titleTemplate)}>
+  <div
+    class:list={[
+      'mx-auto grid w-full max-w-300 items-start gap-12 px-4 py-16 sm:px-6 lg:px-8 lg:py-24',
+      web3formsKey && 'lg:grid-cols-[2fr_3fr]',
+    ]}
+  >
+    <div class="flex max-w-180 flex-col gap-8">
+      <header class="flex flex-col gap-4">
+        <h1>{site.seo.pages.contact.title}</h1>
+        <p class="text-4 text-on-surface-2">{site.contact.intro}</p>
+      </header>
+      <ul class="flex flex-col gap-3">
+        <li>
+          <a href={`mailto:${site.links.email}`} class={link}>
+            <Icon name="contact" size={24} />
+            <span class="flex flex-col">
+              <span class="font-mono text-1 tracking-label text-on-surface-2 uppercase">
+                {t.emailLabel}
+              </span>
+              <span class="text-3 break-all text-on-surface-1">{site.links.email}</span>
+            </span>
+          </a>
+        </li>
+        <li>
+          <a href={site.links.linkedin} target="_blank" rel="noopener noreferrer" class={link}>
+            <Icon name="linkedin" size={24} />
+            <span class="flex flex-col">
+              <span class="font-mono text-1 tracking-label text-on-surface-2 uppercase">
+                {t.linkedinLabel}
+              </span>
+              <span class="text-3 break-all text-on-surface-1">
+                {site.links.linkedin.replace(/^https?:\/\/(www\.)?/, '')}
+              </span>
+            </span>
+            <span class="sr-only"> ({ui.nav.newTab})</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <ContactFormSection web3formsKey={web3formsKey} site={site} />
+  </div>
+</BaseLayout>

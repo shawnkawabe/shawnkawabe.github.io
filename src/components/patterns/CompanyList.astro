@@ -1,0 +1,42 @@
+---
+// SPEC §5.5 item 3: each company with Shawn's role there and chips linking to its projects.
+// No dates and no timeline (CLAUDE.md rule 3a); project ids not in projects.json are skipped.
+import Chip from '@/components/ui/Chip.astro';
+import type { Experience, Project } from '@/lib/schemas';
+import { localeFromPath, localePath } from '@/lib/i18n';
+
+const locale = localeFromPath(Astro.url.pathname);
+
+interface Props {
+  experience: readonly Pick<Experience, 'id' | 'employer' | 'role' | 'projectIds'>[];
+  projects: readonly Pick<Project, 'id' | 'title'>[];
+}
+
+const { experience, projects } = Astro.props;
+const byId = new Map(projects.map((project) => [project.id, project]));
+---
+
+<ul class="grid gap-4 md:grid-cols-2">
+  {experience.map((entry) => {
+    const linked = entry.projectIds.flatMap((id) => byId.get(id) ?? []);
+    return (
+      <li class="flex flex-col gap-4 rounded-md border border-border-1 bg-surface-2 p-6">
+        <div class="flex flex-col gap-1">
+          <h3 class="text-5">{entry.employer}</h3>
+          <p class="text-2 text-on-surface-2">{entry.role}</p>
+        </div>
+        {linked.length > 0 && (
+          <ul class="flex flex-wrap gap-2">
+            {linked.map((project) => (
+              <li class="max-w-full">
+                <Chip href={localePath(locale, `/work/${project.id}`)} wrap>
+                  {project.title}
+                </Chip>
+              </li>
+            ))}
+          </ul>
+        )}
+      </li>
+    );
+  })}
+</ul>

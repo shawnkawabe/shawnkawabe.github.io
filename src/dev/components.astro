@@ -1,0 +1,370 @@
+---
+// Dev-only component gallery (ARCHITECTURE §4.3). Injected by `astro dev`; never built.
+import '@/styles/global.css';
+import Chip from '@/components/ui/Chip.astro';
+import Heading from '@/components/ui/Heading.astro';
+import Icon from '@/components/ui/Icon.astro';
+import Surface from '@/components/ui/Surface.astro';
+import Text from '@/components/ui/Text.astro';
+import Reveal from '@/components/ui/Reveal.astro';
+import SplitWords from '@/components/ui/SplitWords.astro';
+import { getCertifications, getExperience, getProjects, getSite, getSkills } from '@/lib/content';
+import { cloudStats, skillGroupChips, sortProjects } from '@/lib/derive';
+import { brandIcons, icons, type CloudIconName, type IconName } from '@/lib/icons';
+import CertificationStrip from '@/components/patterns/CertificationStrip.astro';
+import CloudBento from '@/components/patterns/CloudBento.astro';
+import CloudConstellation from '@/components/patterns/CloudConstellation';
+import CompanyList from '@/components/patterns/CompanyList.astro';
+import ContactForm from '@/components/patterns/ContactForm';
+import Hero from '@/components/patterns/Hero.astro';
+import Marquee from '@/components/patterns/Marquee.astro';
+import SkillGroups from '@/components/patterns/SkillGroups.astro';
+import CoverCard from '@/components/patterns/CoverCard.astro';
+import DecisionCards from '@/components/patterns/DecisionCards.astro';
+import Gallery from '@/components/patterns/Gallery.astro';
+import Outcomes from '@/components/patterns/Outcomes.astro';
+import PrevNext from '@/components/patterns/PrevNext.astro';
+import SectionBand from '@/components/patterns/SectionBand.astro';
+import SnapshotBar from '@/components/patterns/SnapshotBar.astro';
+import StackChips from '@/components/patterns/StackChips.astro';
+import { stackLinks } from '@/lib/case-study';
+import { strings } from '@/lib/i18n';
+import HeroScene from '@/components/patterns/HeroScene.astro';
+import LanguageSwitcher from '@/components/patterns/LanguageSwitcher.astro';
+import MobileNav from '@/components/patterns/MobileNav.astro';
+import ProjectCard from '@/components/patterns/ProjectCard.astro';
+import ThemeToggle from '@/components/patterns/ThemeToggle.astro';
+import UiGallery from './UiGallery';
+
+const iconNames = [...Object.keys(icons), ...Object.keys(brandIcons)] as IconName[];
+const ui = strings('en');
+const skills = await getSkills();
+const projects = sortProjects(await getProjects());
+const clouds = skills.filter((skill) => skill.group === 'clouds');
+const cloudLabels = Object.fromEntries(skills.map((skill) => [skill.id, skill.label]));
+const bento = cloudStats(skills, projects, await getCertifications());
+// Sample content for the case-study components; the gallery reuses files already in public/.
+const sample = projects[0];
+const sampleImages = [
+  {
+    src: '/og/default.png',
+    alt: 'Default social card sample',
+    caption: 'Wide image',
+    approved: true,
+  },
+  { src: '/favicon.svg', alt: 'Favicon sample', caption: 'Square image', approved: true },
+  { src: '/og/default.png', alt: 'Second social card sample', approved: true },
+];
+const accents = ['cloud-sales', 'cloud-service', 'cloud-data', 'cloud-membership'];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="robots" content="noindex" />
+    <title>Components · dev</title>
+    <script is:inline>
+      document.documentElement.dataset.theme =
+        new URLSearchParams(location.search).get('theme') === 'light' ? 'light' : 'dark';
+    </script>
+  </head>
+  <body id="top" class="bg-surface-0 px-4 py-12 sm:px-6 lg:px-8">
+    <main class="mx-auto flex max-w-300 flex-col gap-16">
+      <header class="flex flex-wrap items-center justify-between gap-4">
+        <Heading level={1} size={7}>
+          Component gallery
+        </Heading>
+        <ThemeToggle class="border border-border-1 bg-surface-3" />
+      </header>
+
+      <section class="flex flex-col gap-6">
+        <Heading level={2} size={6}>
+          Astro primitives
+        </Heading>
+
+        <Surface class="flex flex-col gap-6 p-6">
+          <Text as="span" size={1} tone={3} mono class="tracking-label uppercase">
+            Heading
+          </Text>
+          <Heading level={2} size={9} display>
+            Display 9
+          </Heading>
+          <Heading level={2} size={7} display>
+            Display 7
+          </Heading>
+          <Heading level={2}>Heading level 2</Heading>
+          <Heading level={3}>Heading level 3</Heading>
+          <Heading level={4}>Heading level 4</Heading>
+        </Surface>
+
+        <Surface class="flex flex-col gap-3 p-6">
+          <Text as="span" size={1} tone={3} mono class="tracking-label uppercase">
+            Text
+          </Text>
+          <Text size={4}>Lead paragraph, size 4, tone 1.</Text>
+          <Text>Body copy, size 3. Salesforce delivery across clouds, told without dates.</Text>
+          <Text size={2} tone={2}>
+            Meta text, size 2, tone 2.
+          </Text>
+          <Text size={1} tone={3} mono>
+            Mono caption, size 1, tone 3.
+          </Text>
+        </Surface>
+
+        <Surface class="flex flex-col gap-4 p-6">
+          <Text as="span" size={1} tone={3} mono class="tracking-label uppercase">
+            Chip
+          </Text>
+          <div class="flex flex-wrap gap-2">
+            <Chip>Default</Chip>
+            <Chip selected>Selected</Chip>
+            <Chip mono>Mono label</Chip>
+            <Chip mono selected>
+              Mono selected
+            </Chip>
+            <Chip href="#top">Link chip</Chip>
+            {accents.map((accent) => (
+              <Chip accent={accent}>{accent.replace('cloud-', '')}</Chip>
+            ))}
+          </div>
+        </Surface>
+
+        <Surface class="flex flex-col gap-4 p-6">
+          <Text as="span" size={1} tone={3} mono class="tracking-label uppercase">
+            Icon · 16 / 20 / 24
+          </Text>
+          {([16, 20, 24] as const).map((size) => (
+            <div class="flex flex-wrap gap-4 text-on-surface-2">
+              {iconNames.map((name) => (
+                <Icon name={name} size={size} label={name} />
+              ))}
+            </div>
+          ))}
+        </Surface>
+
+        <Surface class="flex flex-col gap-4 p-6">
+          <Text as="span" size={1} tone={3} mono class="tracking-label uppercase">
+            Cloud icons · 24 / 32, in cloud accent
+          </Text>
+          {([24, 32] as const).map((size) => (
+            <div class="flex flex-wrap gap-6">
+              {clouds.map((cloud) => (
+                <span
+                  class="flex flex-col items-center gap-2"
+                  style={`color: var(--pf-g-color-${cloud.accent})`}
+                >
+                  <Icon name={cloud.id as CloudIconName} size={size} />
+                  {size === 32 && (
+                    <Text as="span" size={1} tone={2}>
+                      {cloud.label}
+                    </Text>
+                  )}
+                </span>
+              ))}
+            </div>
+          ))}
+        </Surface>
+
+        <div class="grid gap-4 md:grid-cols-3">
+          <Surface level={1} class="p-6">
+            <Text>Surface 1, md</Text>
+          </Surface>
+          <Surface radius="lg" elevated class="p-6">
+            <Text>Surface 2, lg, elevated</Text>
+          </Surface>
+          <Surface level={3} bordered={false} class="p-6">
+            <Text>Surface 3, no border</Text>
+          </Surface>
+        </div>
+      </section>
+
+      <section class="flex flex-col gap-6">
+        <Heading level={2} size={6}>
+          Motion
+        </Heading>
+        <Heading level={3} size={7}>
+          <SplitWords text="Words rise in" />
+        </Heading>
+        <Text tone={2}>
+          <SplitWords text="then this line follows" offset={3} />
+        </Text>
+        <Reveal>
+          <Surface class="p-6">
+            <Text>Reveal: fades and rises once when scrolled into view.</Text>
+          </Surface>
+        </Reveal>
+      </section>
+
+      <section class="flex flex-col gap-6">
+        <Heading level={2} size={6}>
+          shadcn/ui (React)
+        </Heading>
+        <Surface class="p-6">
+          <UiGallery client:load />
+        </Surface>
+      </section>
+
+      <section class="flex flex-col gap-6">
+        <Heading level={2} size={6}>
+          Cards
+        </Heading>
+        <div class="grid gap-6 lg:grid-cols-2">
+          {projects
+            .filter((project) => project.featured)
+            .slice(0, 2)
+            .map((project) => (
+              <CoverCard
+                title={project.title}
+                subtitle={project.subtitle}
+                href={`/work/${project.id}`}
+                cover={project.cover}
+                icon="work"
+              />
+            ))}
+        </div>
+        <div class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+          {projects.slice(2, 5).map((project) => (
+            <ProjectCard project={project} cloudLabels={cloudLabels} />
+          ))}
+          <ProjectCard
+            project={{
+              ...projects[0],
+              id: 'many-clouds',
+              title: 'Many clouds (sample)',
+              clouds: clouds.map((cloud) => cloud.id),
+            }}
+            cloudLabels={cloudLabels}
+          />
+        </div>
+        <CloudBento clouds={bento} />
+        <Text tone={2}>
+          CloudConstellation (≥ 1024px, motion allowed, WebGL2; otherwise the bento)
+        </Text>
+        <CloudConstellation
+          client:visible
+          nodes={bento}
+          ui={{ cards: ui.cards, constellation: ui.constellation }}
+          workPath="/en/work"
+        >
+          <CloudBento clouds={bento} />
+        </CloudConstellation>
+      </section>
+
+      <section class="flex flex-col gap-6">
+        <Heading level={2} size={6}>
+          Home
+        </Heading>
+        <Surface class="overflow-hidden">
+          <Hero site={getSite()} />
+        </Surface>
+        <Marquee items={['GRAX', 'D4Sign', 'Nimble AMS', 'Fonteva']} id="dev-marquee" />
+        <CompanyList experience={(await getExperience()).slice(0, 2)} projects={projects} />
+        <SkillGroups
+          groups={skillGroupChips(getSite().skillGroups, skills, projects).slice(0, 2)}
+        />
+        <CertificationStrip
+          certifications={[{ id: 'admin', label: 'Plain chip (no credentials page)' }]}
+          credentialsUrl=""
+        />
+        <CertificationStrip
+          certifications={[{ id: 'admin', label: 'Linked chip' }]}
+          credentialsUrl="https://example.com"
+        />
+      </section>
+
+      <section class="flex flex-col gap-6">
+        <Heading level={2} size={6}>
+          Contact form
+        </Heading>
+        <Text size={2} tone={2}>
+          Fake access key: submitting here posts to Web3Forms and fails, which shows the error
+          state.
+        </Text>
+        <div class="max-w-180">
+          <ContactForm
+            client:visible
+            t={ui.contact}
+            web3formsKey="dev-gallery-fake-key"
+            projectTypes={getSite().contact.projectTypes}
+            successMessage={getSite().contact.successMessage}
+            errorMessage={getSite().contact.errorMessage}
+            fallbackEmail={getSite().links.email}
+          />
+        </div>
+      </section>
+
+      <section class="flex flex-col gap-6">
+        <Heading level={2} size={6}>
+          Case study
+        </Heading>
+        <SnapshotBar project={sample} deliveredVia="Nescara · Globant" skills={skills} />
+        <DecisionCards
+          items={[
+            {
+              decision: 'Sample decision written as one sentence',
+              why: 'Why it was the right call for this client.',
+              tradeoff: 'What it cost.',
+            },
+            { decision: 'A decision without a trade-off', why: 'Trade-off is optional.' },
+          ]}
+        />
+        <Outcomes
+          items={[
+            { label: 'Measured outcome shows its number', value: '−40%', measured: true },
+            { label: 'Unmeasured outcome hides its value', value: '99%', measured: false },
+          ]}
+        />
+        <Gallery images={sampleImages} />
+        <SectionBand tone="a" tilt={-2}>
+          <Text class="px-6">Band A, tilted −2° on ≥ lg; the text stays straight.</Text>
+        </SectionBand>
+        <SectionBand tone="b" tilt={2}>
+          <Text class="px-6">Band B, tilted 2°.</Text>
+        </SectionBand>
+        <StackChips links={stackLinks(sample, skills)} />
+        <PrevNext prev={projects[0]} next={projects[1]} />
+        <PrevNext prev={undefined} next={projects[1]} />
+      </section>
+
+      <section class="flex flex-col gap-6">
+        <Heading level={2} size={6}>
+          Hero data core
+        </Heading>
+        <Text size={2} tone={2}>
+          HeroScene: starts after load and idle on ≥ 1024px with motion and WebGL2; otherwise
+          nothing renders and the gradient poster behind it shows. Move the pointer to see the
+          parallax. CoverCard and CloudCard above tilt toward a fine pointer.
+        </Text>
+        <div class="pf-hero-glow relative h-120 overflow-hidden rounded-lg border border-border-1">
+          <HeroScene />
+        </div>
+      </section>
+
+      <section class="flex flex-col gap-6">
+        <Heading level={2} size={6}>
+          Navigation
+        </Heading>
+        <Surface class="flex flex-col gap-4 p-6">
+          <Text size={2} tone={2}>
+            NavRail (≥ 1024px) and MobileNav (below) render on every page through BaseLayout. The
+            top bar below appears under 1024px; ThemeToggle is the button at the top of this
+            gallery.
+          </Text>
+          <div class="relative overflow-hidden rounded-md border border-border-1">
+            <MobileNav />
+          </div>
+          <Text size={2} tone={2}>
+            LanguageSwitcher, rail and sheet variants (hidden while only one language is built):
+          </Text>
+          <div class="flex items-start gap-6">
+            <div class="rounded-pill bg-surface-2 p-2">
+              <LanguageSwitcher variant="rail" locales={['en', 'pt', 'es']} />
+            </div>
+            <LanguageSwitcher variant="sheet" locales={['en', 'pt', 'es']} />
+          </div>
+        </Surface>
+      </section>
+    </main>
+  </body>
+</html>

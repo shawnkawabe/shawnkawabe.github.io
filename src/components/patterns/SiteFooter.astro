@@ -1,0 +1,32 @@
+---
+// SPEC §4.3: centred, small; copyright, contact links and the trademark notice from site.json.
+import { getSite } from '@/lib/content';
+import { format } from '@/lib/seo';
+import { localeFromPath, strings } from '@/lib/i18n';
+
+const locale = localeFromPath(Astro.url.pathname);
+const ui = strings(locale);
+
+const site = getSite(locale);
+const links = [
+  { href: site.links.linkedin, label: ui.footer.linkedin },
+  { href: site.links.github, label: ui.footer.github },
+  { href: `mailto:${site.links.email}`, label: ui.footer.email },
+];
+---
+
+<footer class="mt-auto flex flex-col items-center gap-4 border-t border-border-1 px-4 py-10 text-center text-2 text-on-surface-2 sm:px-6 lg:px-8">
+  <nav aria-label={ui.footer.linksLabel}>
+    <ul class="flex flex-wrap justify-center gap-x-6 gap-y-2">
+      {links.map(({ href, label }) => (
+        <li>
+          <a href={href} class="text-on-surface-2 hover:text-on-surface-1">
+            {label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+  <p>{format(ui.footer.copyright, { year: new Date().getFullYear(), name: site.name })}</p>
+  <p class="text-1">{site.trademarkNotice}</p>
+</footer>

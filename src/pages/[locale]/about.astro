@@ -1,0 +1,80 @@
+---
+// SPEC §5.5: photo (only when approved and published) + bio, principles, companies with their
+// projects, and a resume link for the full history. No dates anywhere.
+import CompanyList from '@/components/patterns/CompanyList.astro';
+import { buttonVariants } from '@/components/ui/button';
+import Icon from '@/components/ui/Icon.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { visibleImage } from '@/lib/case-study';
+import { getExperience, getProjects, getSite, publicFileExists, siteLocales } from '@/lib/content';
+import { strings, toLocale } from '@/lib/i18n';
+import { pageMeta } from '@/lib/seo';
+
+export function getStaticPaths() {
+  return siteLocales().map((locale) => ({ params: { locale } }));
+}
+
+const locale = toLocale(Astro.params.locale);
+const ui = strings(locale);
+
+const site = getSite(locale);
+const [experience, projects] = await Promise.all([getExperience(locale), getProjects(locale)]);
+const photo = visibleImage(site.photo ?? undefined, publicFileExists);
+const t = ui.about;
+---
+
+<BaseLayout meta={pageMeta(site, { page: 'about' }, ui.titleTemplate)}>
+  <div class="mx-auto flex w-full max-w-300 flex-col gap-16 px-4 py-16 sm:px-6 lg:gap-20 lg:px-8 lg:py-24">
+    <header class:list={['grid items-start gap-10', photo && 'md:grid-cols-[1fr_2fr]']}>
+      {photo && (
+        <img
+          src={photo.src}
+          alt={photo.alt}
+          class="aspect-square w-full max-w-80 rounded-lg border border-border-1 object-cover"
+        />
+      )}
+      <div class="flex max-w-180 flex-col gap-6">
+        <h1>{site.seo.pages.about.title}</h1>
+        {site.bio.map((paragraph, index) => (
+          <p class:list={[index === 0 ? 'text-4' : 'text-3 text-on-surface-2']}>{paragraph}</p>
+        ))}
+      </div>
+    </header>
+
+    {site.principles.length > 0 && (
+      <section aria-labelledby="principles-title" class="flex flex-col gap-8">
+        <h2 id="principles-title">{t.principles}</h2>
+        <ul class="grid gap-4 sm:grid-cols-2">
+          {site.principles.map((principle) => (
+            <li class="flex flex-col gap-2 rounded-md border border-border-1 bg-surface-2 p-6">
+              <h3 class="text-4">{principle.title}</h3>
+              <p class="text-2 text-on-surface-2">{principle.body}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    {experience.length > 0 && (
+      <section aria-labelledby="companies-title" class="flex flex-col gap-8">
+        <h2 id="companies-title">{t.companies}</h2>
+        <CompanyList experience={experience} projects={projects} />
+      </section>
+    )}
+
+    <section aria-labelledby="history-title" class="flex flex-col items-start gap-4">
+      <h2 id="history-title">{t.history}</h2>
+      <p class="text-3 text-on-surface-2">{t.historyLine}</p>
+      <a
+        href={site.links.resume}
+        target="_blank"
+        rel="noopener noreferrer"
+        class:list={[buttonVariants({ variant: 'brand', size: 'lg' }), 'no-underline']}
+      >
+        {t.resume}
+        <Icon name="external" />
+        <span class="sr-only"> ({ui.nav.newTab})</span>
+      </a>
+    </section>
+  </div>
+</BaseLayout>

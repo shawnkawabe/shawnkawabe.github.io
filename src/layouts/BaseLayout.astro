@@ -1,0 +1,136 @@
+---
+// <html>, head/SEO, theme script, skip link, nav and footer (ARCHITECTURE §2, SPEC §4).
+import '@/styles/global.css';
+import MobileNav from '@/components/patterns/MobileNav.astro';
+import NavRail from '@/components/patterns/NavRail.astro';
+import SiteFooter from '@/components/patterns/SiteFooter.astro';
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
+import { getSite, siteLocales } from '@/lib/content';
+import { preloadFonts } from '@/lib/fonts';
+import { format, isDefaultOgImage, ogImageFor, serializeJsonLd, type PageMeta } from '@/lib/seo';
+import {
+  alternates,
+  DEFAULT_LOCALE,
+  localeFromPath,
+  localeInfo,
+  splitLocale,
+  strings,
+  switchLocalePath,
+} from '@/lib/i18n';
+
+const locale = localeFromPath(Astro.url.pathname);
+const ui = strings(locale);
+
+interface Props {
+  meta: PageMeta;
+  /** schema.org object rendered as JSON-LD (Person on Home, CreativeWork on case studies). */
+  jsonLd?: object;
+  /** Site-relative path of a 1200×630 image; defaults to the page's generated card (P3-05). */
+  ogImage?: string;
+  /** Keeps the page out of search results (404). */
+  noindex?: boolean;
+}
+
+const { meta, jsonLd, noindex = false } = Astro.props;
+const site = getSite(locale);
+const origin = Astro.site ?? new URL(import.meta.env.SITE);
+const canonical = new URL(Astro.url.pathname, origin).href;
+// hreflang alternates only for localised pages (the 404 has no prefix and is noindex).
+const languages = splitLocale(Astro.url.pathname).locale
+  ? alternates(Astro.url.pathname, siteLocales())
+  : [];
+const xDefault = new URL(switchLocalePath(Astro.url.pathname, DEFAULT_LOCALE), origin).href;
+// Build-time check, so a new project uses the default card until `npm run og` is re-run, and a
+// translated page uses the English card until its language has cards of its own.
+const ogImage =
+  Astro.props.ogImage ??
+  ogImageFor(Astro.url.pathname, (path) => existsSync(join(process.cwd(), 'public', path)));
+const ogImageUrl = new URL(ogImage, origin).href;
+const ogImageAlt = isDefaultOgImage(ogImage)
+  ? format(ui.ogImageAlt, { name: site.name, role: site.role })
+  : format(ui.ogImageAltPage, { title: meta.title, role: site.role });
+---
+
+<html lang={localeInfo[locale].htmlLang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline>
+      document.documentElement.dataset.motion = '';
+      try {
+        const s = localStorage.getItem('pf-theme');
+        const t = s ?? (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+        document.documentElement.dataset.theme = t;
+      } catch {
+        document.documentElement.dataset.theme = 'dark';
+      }
+    </script>
+    <!-- Controls that only work with JavaScript (the Work filter bar) are hidden without it. -->
+    <noscript>
+      <style>
+        [data-js-only] {
+          display: none !important;
+        }
+      </style>
+    </noscript>
+    <title>{meta.title}</title>
+    <meta name="description" content={meta.description} />
+    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
+    {!noindex &&
+      languages.length > 1 &&
+      languages.map(({ hreflang, path }) => (
+        <link rel="alternate" hreflang={hreflang} href={new URL(path, origin).href} />
+      ))}
+    {!noindex && languages.length > 1 && (
+      <link rel="alternate" hreflang="x-default" href={xDefault} />
+    )}
+    <meta name="color-scheme" content="dark light" />
+    {preloadFonts.map((href) => (
+      <link rel="preload" href={href} as="font" type="font/woff2" crossorigin />
+    ))}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:locale" content={localeInfo[locale].ogLocale} />
+    {languages
+      .filter((language) => language.locale !== locale)
+      .map((language) => (
+        <meta property="og:locale:alternate" content={localeInfo[language.locale].ogLocale} />
+      ))}
+    <meta property="og:title" content={meta.title} />
+    <meta property="og:description" content={meta.description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogImageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={meta.title} />
+    <meta name="twitter:description" content={meta.description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
+
+    {jsonLd && <script type="application/ld+json" set:html={serializeJsonLd(jsonLd)} />}
+  </head>
+  <body class="flex min-h-dvh flex-col bg-surface-0 text-on-surface-1">
+    <a
+      href="#content"
+      class="fixed top-4 left-4 z-50 -translate-y-24 rounded-pill bg-accent-1 px-5 py-2 text-2 font-medium text-on-accent no-underline transition-transform duration-150 ease-standard focus:translate-y-0"
+    >
+      {ui.skipLink}
+    </a>
+    <MobileNav />
+    <NavRail />
+    <!-- Desktop content starts right of the rail: left 24 + width 64 + gap 32 (DESIGN §5). -->
+    <div class="flex flex-1 flex-col lg:pl-30">
+      <main id="content" tabindex="-1" class="flex-1 focus:outline-none">
+        <slot />
+      </main>
+      <SiteFooter />
+    </div>
+  </body>
+</html>

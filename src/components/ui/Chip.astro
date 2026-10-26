@@ -1,0 +1,58 @@
+---
+import { localeFromPath, strings } from '@/lib/i18n';
+
+const ui = strings(localeFromPath(Astro.url.pathname));
+// DESIGN §9 Chip: 28px pill; mono uppercase or Inter; optional cloud-accent dot; link when href is set.
+
+interface Props {
+  href?: string;
+  /** Opens `href` in a new tab and says so to screen readers. */
+  external?: boolean;
+  selected?: boolean;
+  mono?: boolean;
+  /** Long text wraps onto more lines instead of overflowing narrow screens. */
+  wrap?: boolean;
+  /** Cloud accent token name, e.g. "cloud-sales". */
+  accent?: string;
+  class?: string;
+}
+
+const {
+  href,
+  external = false,
+  selected = false,
+  mono = false,
+  wrap = false,
+  accent,
+  class: className,
+} = Astro.props;
+const Tag = href ? 'a' : 'span';
+---
+
+<Tag
+  href={href}
+  target={href && external ? '_blank' : undefined}
+  rel={href && external ? 'noopener noreferrer' : undefined}
+  data-selected={selected ? 'true' : undefined}
+  class:list={[
+    'inline-flex items-center gap-2 rounded-pill border px-3 no-underline',
+    wrap ? 'min-h-7 py-1' : 'h-7 whitespace-nowrap',
+    mono ? 'font-mono text-1 tracking-label uppercase' : 'font-body text-2',
+    selected
+      ? 'border-accent-1 bg-accent-1/16 text-on-surface-1'
+      : 'border-border-1 bg-surface-3 text-on-surface-2',
+    href &&
+      'transition-colors duration-150 ease-standard hover:border-border-2 hover:text-on-surface-1',
+    className,
+  ]}
+>
+  {accent && (
+    <span
+      class="size-2 shrink-0 rounded-pill"
+      style={`background-color: var(--pf-g-color-${accent})`}
+      aria-hidden="true"
+    />
+  )}
+  <slot />
+  {href && external && <span class="sr-only"> ({ui.nav.newTab})</span>}
+</Tag>

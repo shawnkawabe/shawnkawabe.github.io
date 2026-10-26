@@ -1,0 +1,26 @@
+---
+// DESIGN §6 hero text: words rise in with a 30ms stagger, once, in CSS (ADR 0005). Screen readers
+// get the sentence whole; the animated copy is hidden from them.
+import { splitWords } from '@/lib/motion';
+
+interface Props {
+  text: string;
+  /** Words already animated before this run, so a second line follows the first. */
+  offset?: number;
+}
+
+const { text, offset = 0 } = Astro.props;
+const words = splitWords(text);
+---
+
+<span class="sr-only">{text}</span>
+<span aria-hidden="true">
+  {words.map((word, index) => (
+    <>
+      <span class="pf-word" style={`--pf-word-index: ${offset + index}`}>
+        {word}
+      </span>
+      {index < words.length - 1 && ' '}
+    </>
+  ))}
+</span>

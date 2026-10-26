@@ -1,0 +1,33 @@
+---
+// 16:9 cover (DESIGN §3.3): an approved image, else the gradient preset with the slot on top.
+import type { Project } from '@/lib/schemas';
+
+interface Props {
+  preset: Project['cover']['preset'];
+  image?: Project['cover']['image'];
+  class?: string;
+}
+
+const { preset, image, class: className } = Astro.props;
+const approved = image?.approved ? image : undefined;
+---
+
+<div
+  class:list={[
+    'pf-cover relative aspect-video overflow-hidden',
+    !approved && `pf-cover--${preset}`,
+    className,
+  ]}
+>
+  {approved ? (
+    <img
+      src={approved.src}
+      alt={approved.alt}
+      loading="lazy"
+      decoding="async"
+      class="size-full object-cover"
+    />
+  ) : (
+    <slot />
+  )}
+</div>

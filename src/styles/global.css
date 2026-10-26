@@ -1,1 +1,310 @@
 @import 'tailwindcss';
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/space-grotesk';
+@import '@fontsource-variable/jetbrains-mono';
+@import '@fontsource-variable/orbitron';
+@import './tokens.css';
+@import './covers.css';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+/* Theme lives on data-theme (ARCHITECTURE §6), not a .dark class. */
+@custom-variant dark (&:where(:root:not([data-theme='light']), :root:not([data-theme='light']) *));
+
+/*
+ * Tailwind names → design tokens (ARCHITECTURE §5). Default palettes, fonts, radii and
+ * shadows are cleared so only token-backed utilities exist. `inline` makes utilities read
+ * the --pf-g-* variables directly, so [data-theme="light"] switches them anywhere.
+ */
+@theme inline {
+  --color-*: initial;
+  --color-surface-0: var(--pf-g-color-surface-0);
+  --color-surface-1: var(--pf-g-color-surface-1);
+  --color-surface-2: var(--pf-g-color-surface-2);
+  --color-surface-3: var(--pf-g-color-surface-3);
+  --color-on-surface-1: var(--pf-g-color-on-surface-1);
+  --color-on-surface-2: var(--pf-g-color-on-surface-2);
+  --color-on-surface-3: var(--pf-g-color-on-surface-3);
+  --color-border-1: var(--pf-g-color-border-1);
+  --color-border-2: var(--pf-g-color-border-2);
+  --color-accent-1: var(--pf-g-color-accent-1);
+  --color-accent-1-strong: var(--pf-g-color-accent-1-strong);
+  --color-accent-2: var(--pf-g-color-accent-2);
+  --color-accent-3: var(--pf-g-color-accent-3);
+  --color-on-accent: var(--pf-g-color-on-accent);
+  --color-success: var(--pf-g-color-success);
+  --color-warning: var(--pf-g-color-warning);
+  --color-error: var(--pf-g-color-error);
+  --color-focus-ring: var(--pf-g-color-focus-ring);
+  --color-glow-1: var(--pf-g-color-glow-1);
+  --color-band-a: var(--pf-g-color-band-a);
+  --color-band-b: var(--pf-g-color-band-b);
+  --color-cloud-sales: var(--pf-g-color-cloud-sales);
+  --color-cloud-service: var(--pf-g-color-cloud-service);
+  --color-cloud-experience: var(--pf-g-color-cloud-experience);
+  --color-cloud-commerce: var(--pf-g-color-cloud-commerce);
+  --color-cloud-data: var(--pf-g-color-cloud-data);
+  --color-cloud-platform: var(--pf-g-color-cloud-platform);
+  --color-cloud-membership: var(--pf-g-color-cloud-membership);
+
+  /* shadcn/ui names, mapped to tokens so generated components stay on-palette (ARCHITECTURE §5). */
+  --color-background: var(--pf-g-color-surface-0);
+  --color-foreground: var(--pf-g-color-on-surface-1);
+  --color-card: var(--pf-g-color-surface-2);
+  --color-card-foreground: var(--pf-g-color-on-surface-1);
+  --color-popover: var(--pf-g-color-surface-3);
+  --color-popover-foreground: var(--pf-g-color-on-surface-1);
+  --color-primary: var(--pf-g-color-accent-1);
+  --color-primary-foreground: var(--pf-g-color-on-accent);
+  --color-secondary: var(--pf-g-color-surface-3);
+  --color-secondary-foreground: var(--pf-g-color-on-surface-1);
+  --color-muted: var(--pf-g-color-surface-2);
+  --color-muted-foreground: var(--pf-g-color-on-surface-2);
+  --color-accent: var(--pf-g-color-surface-2);
+  --color-accent-foreground: var(--pf-g-color-on-surface-1);
+  --color-destructive: var(--pf-g-color-error);
+  --color-border: var(--pf-g-color-border-1);
+  --color-input: var(--pf-g-color-border-2);
+  --color-ring: var(--pf-g-color-focus-ring);
+
+  --font-*: initial;
+  --font-display: var(--pf-g-font-family-display);
+  --font-heading: var(--pf-g-font-family-heading);
+  --font-body: var(--pf-g-font-family-body);
+  --font-mono: var(--pf-g-font-family-mono);
+
+  --text-*: initial;
+  --text-1: var(--pf-g-font-size-1);
+  --text-1--line-height: var(--pf-g-font-line-height-1);
+  --text-2: var(--pf-g-font-size-2);
+  --text-2--line-height: var(--pf-g-font-line-height-2);
+  --text-3: var(--pf-g-font-size-3);
+  --text-3--line-height: var(--pf-g-font-line-height-3);
+  --text-4: var(--pf-g-font-size-4);
+  --text-4--line-height: var(--pf-g-font-line-height-4);
+  --text-5: var(--pf-g-font-size-5);
+  --text-5--line-height: var(--pf-g-font-line-height-5);
+  --text-6: var(--pf-g-font-size-6);
+  --text-6--line-height: var(--pf-g-font-line-height-6);
+  --text-7: var(--pf-g-font-size-7);
+  --text-7--line-height: var(--pf-g-font-line-height-7);
+  --text-8: var(--pf-g-font-size-8);
+  --text-8--line-height: var(--pf-g-font-line-height-8);
+  --text-9: var(--pf-g-font-size-9);
+  --text-9--line-height: var(--pf-g-font-line-height-9);
+
+  /* DESIGN §4 letter-spacing: display −0.01em, mono labels +0.04em. */
+  --tracking-display: -0.01em;
+  --tracking-label: 0.04em;
+
+  --font-weight-*: initial;
+  --font-weight-regular: var(--pf-g-font-weight-regular);
+  --font-weight-medium: var(--pf-g-font-weight-medium);
+  --font-weight-semibold: var(--pf-g-font-weight-semibold);
+  --font-weight-bold: var(--pf-g-font-weight-bold);
+  --font-weight-black: var(--pf-g-font-weight-black);
+
+  /* 4px base: p-4 = spacing-4 = 16px, matching the token scale. */
+  --spacing: var(--pf-g-spacing-1);
+
+  --radius-*: initial;
+  --radius-sm: var(--pf-g-radius-sm);
+  --radius-md: var(--pf-g-radius-md);
+  --radius-lg: var(--pf-g-radius-lg);
+  --radius-pill: var(--pf-g-radius-pill);
+
+  --shadow-*: initial;
+  --shadow-1: var(--pf-g-shadow-1);
+  --shadow-2: var(--pf-g-shadow-2);
+  --shadow-glow: 0 0 0 1px var(--pf-g-color-border-2), 0 0 32px var(--pf-g-color-glow-1);
+  /* CloudCard hover (DESIGN §9): inner glow in the card's cloud accent at 12%. */
+  --shadow-cloud-glow: inset 0 0 48px
+    color-mix(in oklab, var(--pf-c-cloud-accent, transparent) 12%, transparent);
+
+  --ease-*: initial;
+  --ease-standard: var(--pf-g-easing-standard);
+  --ease-emphasised: var(--pf-g-easing-emphasised);
+
+  /* DESIGN §7 marquee: 40s per loop, linear. The track holds the list twice, so −50% loops. */
+  --animate-marquee: pf-marquee 40s linear infinite;
+  @keyframes pf-marquee {
+    to {
+      translate: -50% 0;
+    }
+  }
+}
+
+/* Media queries cannot read var(), so breakpoints repeat the token values as literals. */
+@theme {
+  --breakpoint-*: initial;
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1440px;
+}
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  [data-theme='light'] {
+    color-scheme: light;
+  }
+
+  html {
+    background-color: var(--pf-g-color-surface-0);
+    color: var(--pf-g-color-on-surface-1);
+    font-family: var(--pf-g-font-family-body);
+    font-size: 100%;
+    line-height: var(--pf-g-font-line-height-3);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  *,
+  ::before,
+  ::after {
+    border-color: var(--pf-g-color-border-1);
+  }
+
+  body {
+    min-height: 100dvh;
+    font-size: var(--pf-g-font-size-3);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--pf-g-font-family-heading);
+    font-weight: var(--pf-g-font-weight-semibold);
+    color: var(--pf-g-color-on-surface-1);
+    text-wrap: balance;
+  }
+
+  h1 {
+    font-size: var(--pf-g-font-size-8);
+    line-height: var(--pf-g-font-line-height-8);
+  }
+
+  h2 {
+    font-size: var(--pf-g-font-size-7);
+    line-height: var(--pf-g-font-line-height-7);
+  }
+
+  h3 {
+    font-size: var(--pf-g-font-size-6);
+    line-height: var(--pf-g-font-line-height-6);
+  }
+
+  h4 {
+    font-size: var(--pf-g-font-size-5);
+    line-height: var(--pf-g-font-line-height-5);
+  }
+
+  p {
+    max-width: 68ch;
+    text-wrap: pretty;
+  }
+
+  a {
+    color: var(--pf-g-color-accent-1);
+    text-underline-offset: 0.2em;
+    transition: color var(--pf-g-duration-fast) var(--pf-g-easing-standard);
+  }
+
+  a:hover {
+    color: var(--pf-g-color-accent-1-strong);
+  }
+
+  code,
+  kbd,
+  samp {
+    font-family: var(--pf-g-font-family-mono);
+  }
+
+  ::selection {
+    background-color: var(--pf-g-color-accent-1);
+    color: var(--pf-g-color-on-accent);
+  }
+
+  /* One focus ring for every interactive element (WCAG 2.2 focus visible / appearance). */
+  :focus-visible {
+    outline: 2px solid var(--pf-g-color-focus-ring);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* Home hero poster (SPEC §5.1): a soft accent glow on the right, away from the text column.
+   Phase 3's data-core scene draws over it; reduced motion and no-WebGL keep only this. */
+/* DESIGN §6 motion in CSS (ADR 0005). Only with motion allowed: the global reduced-motion rule
+   shortens durations but not delays, which would leave staggered words hidden. Reveal targets hide
+   only once the head script sets `data-motion`, so content never waits on JavaScript. */
+@media (prefers-reduced-motion: no-preference) {
+  :root[data-motion] [data-reveal] {
+    transition:
+      opacity var(--pf-g-duration-slow) var(--pf-g-easing-standard),
+      translate var(--pf-g-duration-slow) var(--pf-g-easing-standard);
+  }
+
+  :root[data-motion] [data-reveal]:not([data-revealed]) {
+    opacity: 0;
+    translate: 0 var(--pf-g-spacing-4);
+  }
+
+  .pf-word {
+    display: inline-block;
+    animation: pf-rise var(--pf-g-duration-slow) var(--pf-g-easing-emphasised) both;
+    animation-delay: calc(var(--pf-word-index, 0) * 30ms);
+  }
+}
+
+@keyframes pf-rise {
+  from {
+    opacity: 0;
+    translate: 0 var(--pf-g-spacing-4);
+  }
+}
+
+.pf-hero-glow {
+  background:
+    radial-gradient(
+      50% 60% at 85% 35%,
+      color-mix(in oklab, var(--pf-g-color-accent-1) 18%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      40% 50% at 70% 80%,
+      color-mix(in oklab, var(--pf-g-color-accent-2) 10%, transparent),
+      transparent 70%
+    );
+}
+
+/* The data-core canvas fades in from the text side, so it never sits behind the words, and out at
+   the hero's bottom edge, so the rings never end in a hard cut. */
+.pf-hero-scene {
+  mask-image:
+    linear-gradient(to right, transparent, black 40%),
+    linear-gradient(to bottom, black 70%, transparent);
+  mask-composite: intersect;
+}
+
+/* DESIGN §6 card tilt: src/lib/tilt.ts sets the angles while a fine pointer hovers; without them
+   (touch, reduced motion, no JavaScript) the card stays flat. */
+[data-tilt] {
+  transform: perspective(900px) rotateX(var(--pf-tilt-x, 0deg)) rotateY(var(--pf-tilt-y, 0deg));
+}

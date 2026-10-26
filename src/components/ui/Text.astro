@@ -1,0 +1,23 @@
+---
+// Body copy on the token scale; tone picks the on-surface level.
+interface Props {
+  as?: 'p' | 'span' | 'div';
+  size?: 1 | 2 | 3 | 4;
+  tone?: 1 | 2 | 3;
+  mono?: boolean;
+  class?: string;
+}
+
+const sizeClass = { 1: 'text-1', 2: 'text-2', 3: 'text-3', 4: 'text-4' } as const;
+const toneClass = {
+  1: 'text-on-surface-1',
+  2: 'text-on-surface-2',
+  3: 'text-on-surface-3',
+} as const;
+
+const { as: Tag = 'p', size = 3, tone = 1, mono = false, class: className } = Astro.props;
+---
+
+<Tag class:list={[sizeClass[size], toneClass[tone], mono ? 'font-mono' : 'font-body', className]}>
+  <slot />
+</Tag>

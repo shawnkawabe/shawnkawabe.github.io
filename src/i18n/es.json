@@ -1,0 +1,137 @@
+{
+  "titleTemplate": "{title} — {name}",
+  "skipLink": "Saltar al contenido",
+  "nav": {
+    "label": "Principal",
+    "home": "Inicio",
+    "work": "Proyectos",
+    "skills": "Habilidades",
+    "about": "Sobre mí",
+    "contact": "Contacto",
+    "linkedin": "LinkedIn",
+    "github": "GitHub",
+    "resume": "Currículum (PDF)",
+    "newTab": "se abre en una pestaña nueva",
+    "openMenu": "Abrir menú",
+    "menuTitle": "Menú",
+    "closeMenu": "Cerrar menú"
+  },
+  "theme": {
+    "toggle": "Cambiar tema",
+    "toLight": "Cambiar a tema claro",
+    "toDark": "Cambiar a tema oscuro"
+  },
+  "language": {
+    "label": "Idioma"
+  },
+  "cards": {
+    "projects": {
+      "one": "{count} proyecto",
+      "other": "{count} proyectos"
+    },
+    "certifications": {
+      "one": "{count} certificación",
+      "other": "{count} certificaciones"
+    },
+    "moreClouds": "+{count}",
+    "moreCloudsLabel": "{count} clouds más"
+  },
+  "work": {
+    "filtersLabel": "Filtrar proyectos",
+    "cloud": "Cloud",
+    "capability": "Capacidad",
+    "clear": "Limpiar",
+    "empty": "Ningún proyecto coincide con estos filtros"
+  },
+  "home": {
+    "seeWork": "Ver mis proyectos",
+    "resume": "Descargar currículum",
+    "featured": "Proyectos destacados",
+    "allProjects": "Todos los proyectos",
+    "clouds": "Clouds en las que trabajo",
+    "products": "Productos y herramientas",
+    "pauseMarquee": "Pausar la lista en movimiento",
+    "certifications": "Certificaciones",
+    "contact": "Contáctame"
+  },
+  "skills": {
+    "clouds": "Clouds",
+    "groups": "Habilidades por área",
+    "certifications": "Certificaciones",
+    "languages": "Idiomas"
+  },
+  "about": {
+    "principles": "Cómo trabajo",
+    "companies": "Empresas a través de las que he entregado proyectos",
+    "history": "Trayectoria completa",
+    "historyLine": "La trayectoria profesional completa está en mi currículum.",
+    "resume": "Descargar currículum"
+  },
+  "contact": {
+    "emailLabel": "Correo electrónico",
+    "linkedinLabel": "LinkedIn",
+    "formTitle": "Enviar un mensaje",
+    "name": "Nombre",
+    "email": "Correo electrónico",
+    "projectType": "Tipo de proyecto",
+    "projectTypePlaceholder": "Seleccione una opción",
+    "message": "Mensaje",
+    "messageHint": "{min}–{max} caracteres",
+    "honeypot": "Deje este campo vacío",
+    "required": "obligatorio",
+    "submit": "Enviar mensaje",
+    "submitting": "Enviando…",
+    "retry": "Intentar de nuevo",
+    "errors": {
+      "nameRequired": "Ingrese su nombre",
+      "emailRequired": "Ingrese su correo electrónico",
+      "emailInvalid": "Ingrese un correo electrónico válido, como nombre@ejemplo.com",
+      "projectTypeRequired": "Seleccione un tipo de proyecto",
+      "messageTooShort": "Escriba al menos 20 caracteres",
+      "messageTooLong": "El mensaje debe tener menos de 2000 caracteres"
+    }
+  },
+  "constellation": {
+    "listLabel": "Clouds — elija una para ver sus proyectos",
+    "close": "Cerrar",
+    "certifications": "Certificaciones",
+    "projects": "Proyectos",
+    "seeProjects": "Ver proyectos"
+  },
+  "caseStudy": {
+    "snapshotLabel": "Resumen del proyecto",
+    "client": "Cliente",
+    "role": "Rol",
+    "teamSize": "Tamaño del equipo",
+    "deliveredVia": "Entregado a través de",
+    "clouds": "Clouds",
+    "challenge": "Contexto y desafío",
+    "architecture": "Arquitectura de la solución",
+    "decisions": "Decisiones clave",
+    "decision": "Decisión",
+    "why": "Por qué",
+    "tradeoff": "Compensación",
+    "gallery": "Aspectos destacados del desarrollo",
+    "outcomes": "Resultados",
+    "stack": "Stack",
+    "takeaway": "Aprendizaje",
+    "pagerLabel": "Más proyectos",
+    "previous": "Proyecto anterior",
+    "next": "Proyecto siguiente",
+    "openImage": "Abrir imagen: {alt}",
+    "lightboxLabel": "Visor de imágenes",
+    "lightboxPosition": "{index} de {total}",
+    "previousImage": "Imagen anterior",
+    "nextImage": "Imagen siguiente",
+    "closeImage": "Cerrar visor de imágenes"
+  },
+  "footer": {
+    "copyright": "© {year} {name}",
+    "linksLabel": "En otros sitios",
+    "linkedin": "LinkedIn",
+    "github": "GitHub",
+    "email": "Correo electrónico"
+  },
+  "ogImageAlt": "{name}, {role}",
+  "ogImageAltPage": "{title}, {role}"
+}

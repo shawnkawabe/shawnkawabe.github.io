@@ -1,0 +1,73 @@
+---
+// SPEC §5.4: clouds bento, skill groups with derived counts, certifications and languages.
+import CertificationStrip from '@/components/patterns/CertificationStrip.astro';
+import CloudBento from '@/components/patterns/CloudBento.astro';
+import SkillGroups from '@/components/patterns/SkillGroups.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getCertifications, getProjects, getSite, getSkills, siteLocales } from '@/lib/content';
+import { localePath, strings, toLocale } from '@/lib/i18n';
+import { cloudStats, skillGroupChips } from '@/lib/derive';
+import { pageMeta } from '@/lib/seo';
+
+export function getStaticPaths() {
+  return siteLocales().map((locale) => ({ params: { locale } }));
+}
+
+const locale = toLocale(Astro.params.locale);
+const ui = strings(locale);
+
+const site = getSite(locale);
+const [projects, skills, certifications] = await Promise.all([
+  getProjects(locale),
+  getSkills(locale),
+  getCertifications(locale),
+]);
+const clouds = cloudStats(skills, projects, certifications);
+const groups = skillGroupChips(site.skillGroups, skills, projects, localePath(locale, '/work'));
+const t = ui.skills;
+---
+
+<BaseLayout meta={pageMeta(site, { page: 'skills' }, ui.titleTemplate)}>
+  <div class="mx-auto flex w-full max-w-300 flex-col gap-16 px-4 py-16 sm:px-6 lg:gap-20 lg:px-8 lg:py-24">
+    <header class="flex max-w-180 flex-col gap-4">
+      <h1>{site.seo.pages.skills.title}</h1>
+      <p class="text-4 text-on-surface-2">{site.seo.pages.skills.description}</p>
+    </header>
+
+    {clouds.length > 0 && (
+      <section aria-labelledby="clouds-title" class="flex flex-col gap-8">
+        <h2 id="clouds-title">{t.clouds}</h2>
+        <CloudBento clouds={clouds} />
+      </section>
+    )}
+
+    <section aria-labelledby="groups-title" class="flex flex-col gap-8">
+      <h2 id="groups-title">{t.groups}</h2>
+      <SkillGroups groups={groups} />
+    </section>
+
+    {certifications.length > 0 && (
+      <section aria-labelledby="certifications-title" class="flex flex-col gap-8">
+        <h2 id="certifications-title">{t.certifications}</h2>
+        <CertificationStrip
+          certifications={certifications}
+          credentialsUrl={site.links.credentials}
+        />
+      </section>
+    )}
+
+    {site.languages.length > 0 && (
+      <section aria-labelledby="languages-title" class="flex flex-col gap-8">
+        <h2 id="languages-title">{t.languages}</h2>
+        <dl class="grid gap-4 sm:grid-cols-2">
+          {site.languages.map((language) => (
+            <div class="flex flex-col gap-1 rounded-md border border-border-1 bg-surface-2 p-5">
+              <dt class="text-4 font-semibold">{language.label}</dt>
+              <dd class="text-2 text-on-surface-2">{language.level}</dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+    )}
+  </div>
+</BaseLayout>

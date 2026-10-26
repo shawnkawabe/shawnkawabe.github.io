@@ -1,19 +1,49 @@
 ---
+// ADR 0003 root: every page lives under /{locale}/, so `/` only picks a language and redirects:
+// the stored switcher choice, else the browser languages, else English. Without JavaScript it
+// shows the language links and a meta refresh to /en/.
 import '@/styles/global.css';
+import { getSite, siteLocales } from '@/lib/content';
+import { DEFAULT_LOCALE, localeInfo, localePath } from '@/lib/i18n';
+
+const locales = siteLocales();
+const fallback = localePath(DEFAULT_LOCALE, '/');
+const canonical = new URL(fallback, Astro.site ?? import.meta.env.SITE).href;
 ---
 
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
-    <meta name="generator" content={Astro.generator} />
-    <title>Shawn Kawabe</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{getSite().name}</title>
+    <meta name="robots" content="noindex" />
+    <link rel="canonical" href={canonical} />
+    <noscript>
+      <meta http-equiv="refresh" content={`0; url=${fallback}`} />
+    </noscript>
+    <script>
+      import { LOCALE_KEY, localePath, pickLocale, type Locale } from '@/lib/i18n';
+
+      const root = document.querySelector<HTMLElement>('[data-locales]');
+      const available = (root?.dataset.locales ?? 'en').split(',') as Locale[];
+      let stored: string | null = null;
+      try {
+        stored = localStorage.getItem(LOCALE_KEY);
+      } catch {
+        // Storage blocked: fall back to the browser languages.
+      }
+      location.replace(localePath(pickLocale(stored, navigator.languages, available), '/'));
+    </script>
   </head>
-  <body>
-    <main class="grid h-screen place-items-center">
-      <p>Rebuild in progress.</p>
-    </main>
+  <body class="flex min-h-dvh items-center justify-center bg-surface-1 p-6">
+    <ul data-locales={locales.join(',')} class="flex flex-wrap gap-4">
+      {locales.map((locale) => (
+        <li>
+          <a href={localePath(locale, '/')} lang={localeInfo[locale].htmlLang} class="text-4">
+            {localeInfo[locale].label}
+          </a>
+        </li>
+      ))}
+    </ul>
   </body>
 </html>

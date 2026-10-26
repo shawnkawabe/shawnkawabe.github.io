@@ -1,0 +1,134 @@
+{
+  "name": "Shawn Kawabe",
+  "role": "Desenvolvedor Salesforce Sênior e Especialista Funcional",
+  "location": "São Paulo, Brasil — trabalhando remotamente com clientes dos EUA e do Brasil",
+  "intro": "Eu projeto e construo **soluções Salesforce** que as equipes realmente adotam — de **Lightning Web Components** e **Apex** a **integrações com SAP**, **Data Cloud** e **migrações de dados** — em **Sales, Service, Experience e Commerce Cloud**, sempre com base nas **boas práticas da Salesforce**.",
+  "bio": [
+    "Sou Desenvolvedor Salesforce Sênior e Especialista Funcional, bacharel em Ciência da Computação pelo Centro Universitário FEI. Já entreguei projetos Salesforce para empresas dos setores automotivo, agronegócio, serviços financeiros, alimentos, educação e comunicações.",
+    "Atuo em toda a entrega: levanto requisitos com as áreas de negócio, modelo dados, construo com ferramentas declarativas e programáticas, integro com ERPs e serviços em nuvem e documento tudo para que a próxima equipe possa dar continuidade."
+  ],
+  "principles": [
+    {
+      "title": "Boas práticas em primeiro lugar",
+      "body": "Declarativo antes de programático, código bulkificado, modelos de compartilhamento claros e testes que fazem sentido."
+    },
+    {
+      "title": "Entender o processo",
+      "body": "Mapeio o processo de negócio antes de escolher objetos, flows ou componentes."
+    },
+    {
+      "title": "Documentação também é entrega",
+      "body": "Desenhos técnicos e material de transferência de conhecimento são entregues com o código."
+    },
+    {
+      "title": "Reutilizável por padrão",
+      "body": "Componentes e serviços construídos para serem reutilizados entre equipes e orgs."
+    }
+  ],
+  "availability": "Aberto a vagas e contratos remotos de Salesforce",
+  "workIntro": "Projetos Salesforce selecionados em diferentes clouds e setores. Filtre por cloud ou competência para ver onde fiz o quê.",
+  "ctaLine": "Precisa de um desenvolvedor Salesforce que também fala a língua do negócio? Vamos conversar.",
+  "workFacets": {
+    "clouds": "all clouds with at least one project",
+    "capabilities": [
+      "lwc",
+      "apex",
+      "flow",
+      "sap-integration",
+      "rest-soap",
+      "data-migration",
+      "ci-cd",
+      "requirements"
+    ]
+  },
+  "skillGroups": [
+    {
+      "id": "clouds",
+      "label": "Clouds"
+    },
+    {
+      "id": "development",
+      "label": "Desenvolvimento"
+    },
+    {
+      "id": "integration",
+      "label": "Integração"
+    },
+    {
+      "id": "devops",
+      "label": "DevOps e Release"
+    },
+    {
+      "id": "data",
+      "label": "Dados"
+    },
+    {
+      "id": "delivery",
+      "label": "Entrega e Funcional"
+    },
+    {
+      "id": "products",
+      "label": "Produtos"
+    },
+    {
+      "id": "languages-programming",
+      "label": "Linguagens de programação"
+    }
+  ],
+  "notFound": {
+    "title": "Página não encontrada",
+    "body": "Esta página não existe ou foi movida. Tente a página inicial ou meus projetos."
+  },
+  "languages": [
+    {
+      "label": "Português",
+      "level": "Nativo"
+    },
+    {
+      "label": "Inglês",
+      "level": "Proficiência profissional"
+    }
+  ],
+  "links": {
+    "email": "kawabeshawn@gmail.com",
+    "linkedin": "https://www.linkedin.com/in/shawnkawabe",
+    "github": "https://github.com/shawnkawabe",
+    "resume": "https://drive.google.com/file/d/1JpU6AKQwpeo_-9F9HSwR6_pBZ6JqDwlG/view?usp=sharing",
+    "credentials": ""
+  },
+  "contact": {
+    "intro": "Está contratando para uma vaga Salesforce ou precisa de ajuda em um projeto? Envie uma mensagem ou me mande um e-mail diretamente.",
+    "projectTypes": ["Vaga em tempo integral", "Contrato", "Consultoria", "Outro"],
+    "successMessage": "Obrigado — sua mensagem foi enviada. Costumo responder em até dois dias úteis.",
+    "errorMessage": "Algo deu errado ao enviar sua mensagem. Tente novamente ou me mande um e-mail diretamente."
+  },
+  "seo": {
+    "homeTitle": "Shawn Kawabe — Desenvolvedor Salesforce Sênior",
+    "description": "Desenvolvedor Salesforce Sênior e Especialista Funcional: LWC, Apex, integrações, Data Cloud e migração de dados em Sales, Service, Experience e Commerce Cloud.",
+    "pages": {
+      "work": {
+        "title": "Projetos",
+        "description": "Projetos Salesforce em Sales, Service, Experience, Commerce e Data Cloud: clientes, funções e resultados."
+      },
+      "skills": {
+        "title": "Habilidades",
+        "description": "Habilidades em clouds Salesforce, desenvolvimento, integração, DevOps e dados, cada uma ligada aos projetos em que foi usada."
+      },
+      "about": {
+        "title": "Sobre",
+        "description": "Quem eu sou, como eu trabalho e as empresas pelas quais entreguei projetos Salesforce."
+      },
+      "contact": {
+        "title": "Contato",
+        "description": "Entre em contato com Shawn Kawabe sobre vagas, contratos ou consultoria em Salesforce."
+      },
+      "notFound": {
+        "title": "Página não encontrada",
+        "description": "Esta página não existe."
+      }
+    }
+  },
+  "trademarkNotice": "Salesforce, Sales Cloud, Service Cloud, Experience Cloud, Commerce Cloud, Data Cloud e outros nomes são marcas registradas da Salesforce, Inc. Este site é pessoal e não é afiliado nem endossado pela Salesforce.",
+  "todo": [],
+  "photo": null
+}

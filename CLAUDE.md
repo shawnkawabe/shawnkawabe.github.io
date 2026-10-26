@@ -11,7 +11,7 @@ Read this file at the start of every session. Read the linked docs before workin
 | Any page or section                | `docs/PRODUCT_SPEC.md`                                    |
 | Colours, type, spacing, motion, 3D | `docs/DESIGN.md`                                          |
 | Folders, components, data flow, CI | `docs/ARCHITECTURE.md`                                    |
-| Projects, skills, experience text  | `CONTENT.md` and `content/*.json`                         |
+| Projects, skills, experience text  | `CONTENT.md` and `content/{locale}/*.json`                |
 | What to do next                    | `docs/BACKLOG.md` (work top-down, one task at a time)     |
 | Why something is the way it is     | `docs/adr/`                                               |
 | What it should look like           | `docs/reference/` (Once UI / Magic Portfolio screenshots) |
@@ -27,19 +27,19 @@ Read this file at the start of every session. Read the linked docs before workin
 
 ## 2. Stack (fixed — see ADR 0001)
 
-| Layer               | Choice                                               | Version            |
-| ------------------- | ---------------------------------------------------- | ------------------ |
-| Runtime             | Node.js                                              | 24 LTS (`.nvmrc`)  |
-| Site framework      | Astro, static output                                 | 7.x                |
-| Interactive islands | React                                                | 19.x               |
-| Styling             | Tailwind CSS mapped to design tokens                 | 4.x                |
-| UI primitives       | shadcn/ui (source copied into `src/components/ui`)   | latest CLI         |
-| 3D                  | three + @react-three/fiber + @react-three/drei       | R3F 9.x, drei 10.x |
-| Motion              | GSAP (all plugins free) + CSS transitions            | 3.x                |
-| Forms               | react-hook-form + zod, posted to Web3Forms           | —                  |
-| Tokens              | DTCG 2025.10 JSON → Style Dictionary                 | SD 5.x             |
-| Tests               | Vitest + Testing Library; Playwright + axe for pages | —                  |
-| Package manager     | npm (lockfile committed)                             | —                  |
+| Layer               | Choice                                                  | Version            |
+| ------------------- | ------------------------------------------------------- | ------------------ |
+| Runtime             | Node.js                                                 | 24 LTS (`.nvmrc`)  |
+| Site framework      | Astro, static output                                    | 7.x                |
+| Interactive islands | React                                                   | 19.x               |
+| Styling             | Tailwind CSS mapped to design tokens                    | 4.x                |
+| UI primitives       | shadcn/ui (source copied into `src/components/ui`)      | latest CLI         |
+| 3D                  | three + @react-three/fiber + @react-three/drei          | R3F 9.x, drei 10.x |
+| Motion              | CSS transitions + IntersectionObserver (ADR 0005)       | —                  |
+| Forms               | zod (`zod/mini`) + React state, to Web3Forms (ADR 0004) | —                  |
+| Tokens              | DTCG 2025.10 JSON → Style Dictionary                    | SD 5.x             |
+| Tests               | Vitest + Testing Library; Playwright + axe for pages    | —                  |
+| Package manager     | npm (lockfile committed)                                | —                  |
 
 Do not add another UI kit, CSS framework, state library or animation library without an ADR.
 
@@ -52,7 +52,7 @@ npm run build            # tokens + astro check + astro build
 npm run lint             # eslint + prettier --check
 npm test                 # vitest
 npm run test:a11y        # playwright + axe on built pages (added in P3-04)
-npm run validate:content # astro sync: zod schemas validate content/*.json
+npm run validate:content # astro sync: zod schemas validate content/{locale}/*.json
 npm run check:links      # linkinator on dist/
 npm run ci               # lint → validate:content → test → build → check:links
 ```
@@ -63,7 +63,7 @@ Run `npm run ci` before you say a task is done.
 
 ### Content
 
-1. **All visible text about Shawn comes from `content/*.json`.** Never hard-code project names, dates, clouds, metrics or bio text in components.
+1. **All visible text about Shawn comes from `content/{locale}/*.json`.** Never hard-code project names, dates, clouds, metrics or bio text in components.
 2. **Never invent facts.** If a field is empty or marked `"TODO"`, render nothing for it (or a neutral placeholder in dev only) and list it in your task summary.
 3. **Metrics:** only render an outcome's number when `"measured": true`.
    3a. **No dates on the site.** The portfolio is a project showcase; the resume holds the career history. Never render or add dates for projects, companies or certifications. Order is curated: featured first, then file order.
@@ -74,7 +74,7 @@ Run `npm run ci` before you say a task is done.
 5. **Use tokens only.** No raw hex, rgb, px font sizes or ad-hoc shadows in components. Use Tailwind classes mapped to `--pf-g-*` variables, or the variables directly.
 6. **Fonts:** Space Grotesk (headings), Inter (body/UI), JetBrains Mono (labels, code, data), Orbitron (hero name and cloud names only, ≥ 32px, never in sentences).
 7. **Banned:** percentage skill bars, emoji as icons, purple-to-pink default gradients, glassmorphism on body text, autoplay audio, carousels that auto-advance, more than two 3D scenes per page.
-8. **Salesforce trademarks:** never draw, trace or imitate Salesforce or cloud logos. Product names appear as text. Shawn's name is always the most prominent brand. Footer carries the trademark notice from `content/site.json`.
+8. **Salesforce trademarks:** never draw, trace or imitate Salesforce or cloud logos. Product names appear as text. Shawn's name is always the most prominent brand. Footer carries the trademark notice from `content/{locale}/site.json`.
 
 ### Engineering
 

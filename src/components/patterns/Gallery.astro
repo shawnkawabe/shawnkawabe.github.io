@@ -1,0 +1,87 @@
+---
+// SPEC §5.3 item 6: masonry of approved images; each opens the lightbox (native <dialog>,
+// logic in src/lib/lightbox.ts). Callers pass only images that passed visibleImage().
+import Icon from '@/components/ui/Icon.astro';
+import type { ImageSize } from '@/lib/content';
+import type { Image } from '@/lib/schemas';
+import { format } from '@/lib/seo';
+import { localeFromPath, strings } from '@/lib/i18n';
+
+const ui = strings(localeFromPath(Astro.url.pathname));
+
+interface Props {
+  /** With their pixel size when known, so each <img> reserves its space before loading. */
+  images: (Image & Partial<ImageSize>)[];
+}
+
+const { images } = Astro.props;
+const t = ui.caseStudy;
+const control =
+  'inline-flex size-10 items-center justify-center rounded-pill border border-border-1 bg-surface-3 text-on-surface-1 transition-colors duration-150 ease-standard hover:border-border-2';
+---
+
+<div data-gallery>
+  <ul class="columns-1 gap-4 sm:columns-2">
+    {images.map((image) => (
+      <li class="mb-4 break-inside-avoid">
+        <figure class="flex flex-col gap-2">
+          <button
+            type="button"
+            data-lightbox-open
+            data-caption={image.caption}
+            aria-label={format(t.openImage, { alt: image.alt })}
+            class="block w-full cursor-zoom-in overflow-hidden rounded-md border border-border-1"
+          >
+            <img
+              src={image.src}
+              alt={image.alt}
+              width={image.width}
+              height={image.height}
+              loading="lazy"
+              decoding="async"
+              class="h-auto w-full transition-transform duration-250 ease-standard hover:scale-[1.02]"
+            />
+          </button>
+          {image.caption && (
+            <figcaption class="text-2 text-on-surface-2">{image.caption}</figcaption>
+          )}
+        </figure>
+      </li>
+    ))}
+  </ul>
+
+  <dialog
+    data-lightbox
+    aria-label={t.lightboxLabel}
+    class="m-auto max-h-dvh max-w-[min(100vw,75rem)] bg-transparent p-4 text-on-surface-1 backdrop:bg-surface-0/90"
+  >
+    <figure class="flex flex-col items-center gap-3">
+      <img data-lightbox-image alt="" class="max-h-[75dvh] w-auto rounded-md" />
+      <figcaption class="flex flex-col items-center gap-1 text-center">
+        <span data-lightbox-caption class="text-2"></span>
+        <span
+          data-lightbox-position
+          data-template={t.lightboxPosition}
+          class="font-mono text-1 tracking-label text-on-surface-2 uppercase"
+        ></span>
+      </figcaption>
+    </figure>
+    <div class="mt-4 flex justify-center gap-3">
+      <button type="button" data-lightbox-prev aria-label={t.previousImage} class={control}>
+        <Icon name="chevron-left" />
+      </button>
+      <button type="button" data-lightbox-close aria-label={t.closeImage} class={control}>
+        <Icon name="close" />
+      </button>
+      <button type="button" data-lightbox-next aria-label={t.nextImage} class={control}>
+        <Icon name="chevron-right" />
+      </button>
+    </div>
+  </dialog>
+</div>
+
+<script>
+  import { bindLightbox } from '@/lib/lightbox';
+
+  bindLightbox();
+</script>

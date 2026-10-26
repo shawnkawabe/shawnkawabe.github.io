@@ -1,0 +1,30 @@
+---
+// Case-study URLs from the English-only launch (/work/{id}) now live at /en/work/{id} (ADR 0003).
+// Astro's config redirects cannot add the locale segment to a dynamic route, so this page emits
+// the same static redirect: meta refresh, canonical and a plain link.
+import { getProjects } from '@/lib/content';
+import { DEFAULT_LOCALE, localePath } from '@/lib/i18n';
+
+export async function getStaticPaths() {
+  return (await getProjects()).map((project) => ({ params: { id: project.id } }));
+}
+
+const target = localePath(DEFAULT_LOCALE, `/work/${Astro.params.id}/`);
+const canonical = new URL(target, Astro.site ?? import.meta.env.SITE).href;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Redirecting to: {target}</title>
+    <meta name="robots" content="noindex" />
+    <meta http-equiv="refresh" content={`0;url=${target}`} />
+    <link rel="canonical" href={canonical} />
+  </head>
+  <body>
+    <a href={target}>
+      Redirecting to <code>{target}</code>
+    </a>
+  </body>
+</html>

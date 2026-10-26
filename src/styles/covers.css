@@ -1,0 +1,65 @@
+/*
+ * Cover gradient presets (DESIGN §3.3), selected by `cover.preset` in content.
+ * Covers are artwork: identical in both themes. This is the only file besides the
+ * generated tokens.css allowed to contain raw colour values.
+ */
+
+.pf-cover {
+  --pf-c-cover-title: #ffffff;
+  --pf-c-cover-subtitle: rgb(255 255 255 / 0.7);
+  color: var(--pf-c-cover-title);
+  background-color: #141b3a;
+}
+
+.pf-cover__subtitle {
+  color: var(--pf-c-cover-subtitle);
+}
+
+/* Base #141B3A; diagonal teal beam #5FA89A rising from the bottom; indigo #3D4A8C bottom-right. */
+.pf-cover--aurora {
+  /* At 47deg the top-left corner and bottom centre both sit ~33% along the gradient line. */
+  background:
+    radial-gradient(ellipse 26% 40% at 40% 100%, rgb(125 190 176 / 0.75), transparent 75%),
+    radial-gradient(ellipse 40% 50% at 96% 100%, rgb(78 90 165 / 0.85), transparent 75%),
+    linear-gradient(
+      47deg,
+      #0a1028 0%,
+      #121a3c 14%,
+      #3a7873 27%,
+      #4d9088 33%,
+      #3a5d80 46%,
+      #2c3a70 60%,
+      #222a5c 76%,
+      #1a2048 100%
+    );
+}
+
+/* Base #171A3D → #1E2150 with a purple lift at the top; faint teal glow top-left. */
+.pf-cover--indigo {
+  background:
+    radial-gradient(ellipse 34% 60% at 0% 0%, rgb(95 168 154 / 0.6), transparent 80%),
+    radial-gradient(ellipse 70% 60% at 70% 0%, rgb(54 44 112 / 0.85), transparent 75%),
+    radial-gradient(ellipse 30% 30% at 100% 100%, rgb(48 52 112 / 0.6), transparent 75%),
+    linear-gradient(180deg, #1e2150 0%, #171a3d 60%, #13152f 100%);
+}
+
+/* Left half violet #4A3C9E → blue #4D7BD6, hard falloff to #050816. */
+.pf-cover--violet-edge {
+  background:
+    /* Wedge pointing right, tip at 56% 70%: violet on the lower-left angles, blue on the upper-left. */
+    radial-gradient(ellipse 14% 22% at 54% 70%, rgb(5 8 22 / 0.9), transparent 100%),
+    conic-gradient(
+      from 0deg at 56% 70%,
+      transparent 0deg 220deg,
+      #3f3192 250deg,
+      #4a4fb0 280deg,
+      #5585da 312deg,
+      transparent 342deg 360deg
+    ),
+    radial-gradient(ellipse 25% 55% at 100% 80%, rgb(30 42 85 / 0.55), transparent 80%), #050816;
+}
+
+/* Flat #1048F0; highlight/link tiles only. */
+.pf-cover--solid-blue {
+  background: #1048f0;
+}

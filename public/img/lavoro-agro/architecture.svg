@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" width="1200" height="600" role="img">
+  <!-- Lavoro Agro architecture, drawn from content/projects.json (OPEN_QUESTIONS #12).
+       Colours are the dark-theme token values: an <img> cannot read the page's CSS variables. -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0 10 5 0 10z" fill="#A0A3AD"/>
+    </marker>
+    <style>
+      text { font-family: Inter, 'Segoe UI', system-ui, sans-serif; fill: #F4F4F6; }
+      .title { font-size: 26px; font-weight: 600; }
+      .sub { font-size: 18px; fill: #A0A3AD; }
+      .label { font-size: 16px; fill: #A0A3AD; }
+      .group { font-family: 'JetBrains Mono', Consolas, monospace; font-size: 15px; letter-spacing: 2px; fill: #A0A3AD; }
+      .node { fill: #1E1F24; stroke-width: 2; }
+      .sf { stroke: #4DA9FF; }
+      .ext { stroke: #8B7CF6; }
+      .link { fill: none; stroke: #A0A3AD; stroke-width: 2; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="600" rx="16" fill="#16171B"/>
+
+  <!-- Salesforce org -->
+  <rect x="60" y="60" width="440" height="480" rx="14" fill="none" stroke="rgb(255 255 255 / 0.16)" stroke-width="2" stroke-dasharray="8 8"/>
+  <text class="group" x="92" y="104">SALESFORCE</text>
+
+  <rect class="node sf" x="100" y="140" width="360" height="110" rx="12"/>
+  <text class="title" x="128" y="187">Sales screen</text>
+  <text class="sub" x="128" y="221">Lightning Web Component</text>
+
+  <rect class="node sf" x="100" y="380" width="360" height="110" rx="12"/>
+  <text class="title" x="128" y="427">Apex services</text>
+  <text class="sub" x="128" y="461">Salesforce back end</text>
+
+  <path class="link" d="M280 250 V372" marker-end="url(#arrow)"/>
+  <text class="label" x="296" y="320">calls</text>
+
+  <!-- External systems -->
+  <rect class="node ext" x="760" y="60" width="380" height="110" rx="12"/>
+  <text class="title" x="788" y="107">SAP</text>
+  <text class="sub" x="788" y="141">Product stock</text>
+
+  <rect class="node ext" x="760" y="245" width="380" height="110" rx="12"/>
+  <text class="title" x="788" y="292">D4Sign</text>
+  <text class="sub" x="788" y="326">Digital signature</text>
+
+  <rect class="node ext" x="760" y="430" width="380" height="110" rx="12"/>
+  <text class="title" x="788" y="477">Python Flask API</text>
+  <text class="sub" x="788" y="511">AWS App Runner</text>
+
+  <path class="link" d="M460 410 C 610 410, 610 115, 752 115" marker-end="url(#arrow)"/>
+  <text class="label" x="560" y="200">stock, real time</text>
+
+  <path class="link" d="M460 435 C 610 435, 610 300, 752 300" marker-end="url(#arrow)"/>
+  <text class="label" x="600" y="352">contracts to sign</text>
+
+  <path class="link" d="M460 460 C 610 460, 610 485, 752 485" marker-end="url(#arrow)"/>
+  <text class="label" x="620" y="460">REST</text>
+</svg>

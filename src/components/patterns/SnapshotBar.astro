@@ -1,0 +1,51 @@
+---
+// DESIGN §9 SnapshotBar / SPEC §5.3 item 2: Client · Role · Team size · Delivered via · Clouds. No dates.
+import Chip from '@/components/ui/Chip.astro';
+import type { Project, Skill } from '@/lib/schemas';
+import { localeFromPath, strings } from '@/lib/i18n';
+
+const ui = strings(localeFromPath(Astro.url.pathname));
+
+interface Props {
+  project: Pick<Project, 'client' | 'role' | 'teamSize' | 'clouds'>;
+  /** Employer names already joined, e.g. "Nescara · Globant". */
+  deliveredVia: string;
+  skills: readonly Pick<Skill, 'id' | 'label' | 'accent'>[];
+}
+
+const { project, deliveredVia, skills } = Astro.props;
+const t = ui.caseStudy;
+const byId = new Map(skills.map((skill) => [skill.id, skill]));
+const clouds = project.clouds.flatMap((id) => byId.get(id) ?? []);
+const facts = [
+  { label: t.client, value: project.client },
+  { label: t.role, value: project.role },
+  { label: t.teamSize, value: project.teamSize },
+  { label: t.deliveredVia, value: deliveredVia },
+].filter((fact) => fact.value);
+---
+
+<section aria-label={t.snapshotLabel} class="border-y border-border-1 py-6">
+  <dl class="grid grid-cols-2 gap-x-8 gap-y-5 md:grid-cols-3 xl:grid-cols-5">
+    {facts.map((fact) => (
+      <div class="flex flex-col gap-1">
+        <dt class="font-mono text-1 tracking-label text-on-surface-2 uppercase">{fact.label}</dt>
+        <dd class="text-2 text-on-surface-1">{fact.value}</dd>
+      </div>
+    ))}
+    {clouds.length > 0 && (
+      <div class="col-span-2 flex flex-col gap-1 md:col-span-1">
+        <dt class="font-mono text-1 tracking-label text-on-surface-2 uppercase">{t.clouds}</dt>
+        <dd>
+          <ul class="flex flex-wrap gap-2">
+            {clouds.map((cloud) => (
+              <li>
+                <Chip accent={cloud.accent}>{cloud.label}</Chip>
+              </li>
+            ))}
+          </ul>
+        </dd>
+      </div>
+    )}
+  </dl>
+</section>
