@@ -1,0 +1,57 @@
+---
+// Desktop nav rail (SPEC §4.1, DESIGN §9): floating pill, icon links with CSS-only tooltips.
+import Icon from '@/components/ui/Icon.astro';
+import en from '@/i18n/en.json';
+import { getSite } from '@/lib/content';
+import { externalLinks, isActive, pageLinks } from '@/lib/nav';
+import ThemeToggle from './ThemeToggle.astro';
+
+const pathname = Astro.url.pathname;
+const groups = [pageLinks, externalLinks(getSite())];
+
+const item =
+  'group relative flex size-10 items-center justify-center rounded-pill text-on-surface-2 no-underline transition-colors duration-150 ease-standard hover:bg-surface-3 hover:text-on-surface-1';
+const tooltip =
+  'pointer-events-none absolute top-1/2 left-full ml-4 -translate-y-1/2 rounded-sm bg-surface-3 px-3 py-1 text-2 whitespace-nowrap text-on-surface-1 opacity-0 shadow-2 transition-opacity duration-150 ease-standard group-hover:opacity-100 group-focus-visible:opacity-100';
+---
+
+<nav
+  aria-label={en.nav.label}
+  class="fixed top-16 left-6 z-40 hidden w-16 flex-col items-center gap-2 rounded-pill bg-surface-2/90 p-2 shadow-1 backdrop-blur-md lg:flex"
+>
+  {groups.map((links, index) => (
+    <>
+      {index > 0 && <span class="my-1 h-px w-6 bg-border-1" aria-hidden="true" />}
+      <ul class="flex flex-col items-center gap-2">
+        {links.map(({ href, label, icon, external }) => {
+          const current = !external && isActive(pathname, href);
+          return (
+            <li>
+              <a
+                href={href}
+                class:list={[item, current && 'bg-surface-3 text-on-surface-1']}
+                aria-current={current ? 'page' : undefined}
+                target={external ? '_blank' : undefined}
+                rel={external ? 'noopener noreferrer' : undefined}
+              >
+                <Icon name={icon} />
+                <span class={tooltip}>
+                  {label}
+                  {external && <span class="sr-only"> ({en.nav.newTab})</span>}
+                </span>
+                {current && (
+                  <span
+                    class="absolute bottom-0.5 size-1 rounded-pill bg-on-surface-1"
+                    aria-hidden="true"
+                  />
+                )}
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </>
+  ))}
+  <span class="my-1 h-px w-6 bg-border-1" aria-hidden="true"></span>
+  <ThemeToggle class="hover:bg-surface-3" />
+</nav>

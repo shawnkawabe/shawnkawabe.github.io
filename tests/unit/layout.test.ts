@@ -1,4 +1,6 @@
+import { getContainerRenderer } from '@astrojs/react/container-renderer';
 import { experimental_AstroContainer as AstroContainer } from 'astro/container';
+import { loadRenderers } from 'astro:container';
 import { beforeAll, describe, expect, it } from 'vitest';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import siteJson from '../../content/site.json';
@@ -6,7 +8,9 @@ import siteJson from '../../content/site.json';
 let container: AstroContainer;
 
 beforeAll(async () => {
-  container = await AstroContainer.create();
+  // The layout renders the nav islands, so it needs the React renderer.
+  const renderers = await loadRenderers([getContainerRenderer()]);
+  container = await AstroContainer.create({ renderers });
 });
 
 const meta = { title: 'Work — Shawn Kawabe', description: 'Projects.' };

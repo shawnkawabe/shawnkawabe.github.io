@@ -1,0 +1,14 @@
+---
+// Placeholder until P2-09 builds this page; it exists so the navigation never links to a 404.
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getSite } from '@/lib/content';
+import { pageMeta } from '@/lib/seo';
+
+const site = getSite();
+---
+
+<BaseLayout meta={pageMeta(site, { page: 'contact' })}>
+  <div class="px-4 py-32 text-center">
+    <h1>{site.seo.pages.contact.title}</h1>
+  </div>
+</BaseLayout>

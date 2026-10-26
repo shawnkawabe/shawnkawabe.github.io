@@ -1,0 +1,89 @@
+---
+// Top bar + menu sheet below lg (SPEC §4.1, DESIGN §9), on a native modal <dialog>.
+import Icon from '@/components/ui/Icon.astro';
+import en from '@/i18n/en.json';
+import { getSite } from '@/lib/content';
+import { externalLinks, isActive, pageLinks } from '@/lib/nav';
+import ThemeToggle from './ThemeToggle.astro';
+
+const site = getSite();
+const pathname = Astro.url.pathname;
+
+const linkClass =
+  'block rounded-sm px-3 py-2 text-on-surface-2 no-underline transition-colors duration-150 ease-standard hover:bg-surface-2 hover:text-on-surface-1';
+const iconButton =
+  'inline-flex size-10 items-center justify-center rounded-pill text-on-surface-2 transition-colors duration-150 ease-standard hover:bg-surface-2 hover:text-on-surface-1';
+---
+
+<header class="sticky top-0 z-40 flex h-14 items-center justify-between border-b border-border-1 bg-surface-1/90 px-4 backdrop-blur-md sm:px-6 lg:hidden">
+  <a href="/" class="font-heading text-4 font-semibold text-on-surface-1 no-underline">
+    {site.name}
+  </a>
+  <button
+    type="button"
+    class={iconButton}
+    data-mobile-nav-open
+    aria-label={en.nav.openMenu}
+    aria-haspopup="dialog"
+    aria-controls="mobile-nav"
+    aria-expanded="false"
+  >
+    <Icon name="menu" />
+  </button>
+</header>
+
+<dialog
+  id="mobile-nav"
+  data-mobile-nav
+  aria-labelledby="mobile-nav-title"
+  class="fixed inset-y-0 right-0 left-auto m-0 h-dvh max-h-dvh w-80 max-w-full border-l border-border-1 bg-surface-3 p-0 text-on-surface-1 shadow-2 backdrop:bg-surface-0/70 backdrop:backdrop-blur-xs open:animate-in open:fade-in-0 open:slide-in-from-right-10 lg:hidden"
+>
+  <div class="flex h-full flex-col gap-6 p-6">
+    <div class="flex items-center justify-between">
+      <h2 id="mobile-nav-title" class="text-5">
+        {en.nav.menuTitle}
+      </h2>
+      <button type="button" class={iconButton} data-mobile-nav-close aria-label={en.nav.closeMenu}>
+        <Icon name="close" />
+      </button>
+    </div>
+    <nav aria-label={en.nav.label} class="flex flex-col gap-6">
+      <ul class="flex flex-col gap-1 text-4">
+        {pageLinks.map(({ href, label }) => {
+          const current = isActive(pathname, href);
+          return (
+            <li>
+              <a
+                href={href}
+                aria-current={current ? 'page' : undefined}
+                class:list={[linkClass, current && 'bg-surface-2 text-on-surface-1']}
+              >
+                {label}
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+      <ul class="flex flex-col gap-1 border-t border-border-1 pt-4 text-3">
+        {externalLinks(site).map(({ href, label }) => (
+          <li>
+            <a href={href} target="_blank" rel="noopener noreferrer" class={linkClass}>
+              {label}
+              <span class="sr-only"> ({en.nav.newTab})</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+    <div class="mt-auto flex items-center justify-between border-t border-border-1 pt-4 text-2 text-on-surface-2">
+      <span>{en.theme.toggle}</span>
+      <ThemeToggle class="hover:bg-surface-2" />
+    </div>
+  </div>
+</dialog>
+
+<script>
+  import { bindMobileNav } from '@/lib/mobile-nav';
+
+  bindMobileNav();
+</script>

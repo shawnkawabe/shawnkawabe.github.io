@@ -14,6 +14,7 @@ export default defineConfig([
     '.lighthouseci/',
     'docs/claude-agent/',
     'src/styles/tokens.css',
+    'src/lib/cn-tables.ts',
   ]),
   js.configs.recommended,
   tseslint.configs.recommended,

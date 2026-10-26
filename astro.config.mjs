@@ -4,6 +4,7 @@ import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'astro/config';
+import { cn } from 'cn/vite';
 
 // Dev pages live outside src/pages, so only the dev server can serve them (ARCHITECTURE §4.3).
 const devRoutes = [
@@ -27,6 +28,14 @@ export default defineConfig({
   output: 'static',
   integrations: [react(), sitemap(), devGallery()],
   vite: {
-    plugins: [tailwindcss()],
+    plugins: [
+      tailwindcss(),
+      // Class-merge tables fitted to the classes this project uses (3 KB instead of ~15 KB).
+      cn({
+        content: ['src/**/*.{astro,ts,tsx}'],
+        css: 'src/styles/global.css',
+        out: 'src/lib/cn-tables.ts',
+      }),
+    ],
   },
 });

@@ -1,6 +1,8 @@
 ---
-// <html>, head/SEO, theme script, skip link, nav slot and footer (ARCHITECTURE §2, SPEC §4).
+// <html>, head/SEO, theme script, skip link, nav and footer (ARCHITECTURE §2, SPEC §4).
 import '@/styles/global.css';
+import MobileNav from '@/components/patterns/MobileNav.astro';
+import NavRail from '@/components/patterns/NavRail.astro';
 import SiteFooter from '@/components/patterns/SiteFooter.astro';
 import en from '@/i18n/en.json';
 import { getSite } from '@/lib/content';
@@ -72,10 +74,14 @@ const ogImageAlt = format(en.ogImageAlt, { name: site.name, role: site.role });
     >
       {en.skipLink}
     </a>
-    <slot name="nav" />
-    <main id="content" tabindex="-1" class="flex-1 focus:outline-none">
-      <slot />
-    </main>
-    <SiteFooter />
+    <MobileNav />
+    <NavRail />
+    <!-- Desktop content starts right of the rail: left 24 + width 64 + gap 32 (DESIGN §5). -->
+    <div class="flex flex-1 flex-col lg:pl-30">
+      <main id="content" tabindex="-1" class="flex-1 focus:outline-none">
+        <slot />
+      </main>
+      <SiteFooter />
+    </div>
   </body>
 </html>

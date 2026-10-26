@@ -142,11 +142,12 @@ Things that must exist or be decided before the task in **Blocks** can start. De
   - [x] No axe violations on a blank page using the layout (check with the axe browser extension until P3-04).
   - Notes: titles, descriptions and JSON-LD come from pure functions in `src/lib/seo.ts` (under the 100% coverage gate); UI strings live in `src/i18n/en.json` and are filled with `format()`. `BaseLayout` takes `meta`, optional `jsonLd` and `ogImage` (default `/og/default.png`), and exposes a `nav` slot for P2-02. `public/og/default.png` is a screenshot of the dev-only `/dev/og` route at 1200×630 (remove `astro-dev-toolbar` before capturing); P3-05 can reuse it. Checked with axe-core (WCAG 2.2 AA + best practice): 0 violations at 375/768/1440 in dark and light. The footer copy uses `on-surface-2`: `on-surface-3` fails AA at 12–14px, so later small labels (e.g. SnapshotBar) need ≥ 18px or `on-surface-2` to pass P3-04. Home is still a placeholder (name + role) until its own task.
 
-- [ ] **P2-02 Navigation** — Deps: P2-01, P1-06
+- [x] **P2-02 Navigation** — Deps: P2-01, P1-06
       `NavRail` (≥ lg) and `MobileNav` sheet (< lg) per SPEC §4.1, DESIGN §9; `ThemeToggle`.
-  - [ ] Rail proportions match `docs/reference/01-home-once-ui.jpg`.
-  - [ ] Sheet: focus trap, Esc, overlay click, closes on navigation.
-  - [ ] Theme persists across reloads without a flash.
+  - [x] Rail proportions match `docs/reference/01-home-once-ui.jpg`.
+  - [x] Sheet: focus trap, Esc, overlay click, closes on navigation.
+  - [x] Theme persists across reloads without a flash.
+  - Notes: all three are `.astro` with small module scripts (logic in `src/lib/{nav,theme,mobile-nav}.ts`, under the coverage gate) instead of React + shadcn Sheet. With React the mobile pages shipped 93.5 KB gz of JS, over the 80 KB budget; now regular pages ship ~0.7 KB gz inline and no React (ARCHITECTURE §4.1). The sheet is a native modal `<dialog>` with an explicit Tab loop (native dialogs let focus escape to the browser UI), closing on Esc, backdrop, link, close button and bfcache restore. `cn()` now uses tables compiled by the `cn` vite plugin into `src/lib/cn-tables.ts` (committed, regenerated on build) instead of bundling the config. LinkedIn and GitHub icons are SVG files (Lucide 1.x dropped brand icons). `/work`, `/skills`, `/about`, `/contact` are stub pages so the nav links pass `check:links`; P2-04/07/08/09 replace them. jsdom has no `<dialog>` API, so tests stub `showModal`/`close`. Checked in Playwright: 0 focus escapes over 50 Tab presses, axe 0 violations at 375/768/1440 in both themes with the sheet open and closed.
 
 - [ ] **P2-03 Cards and cloud bento** — Deps: P1-06, P1-05, P1-07
       `CoverCard`, `ProjectCard`, `CloudCard`, `CloudBento` per DESIGN §9 and SPEC §6.3.

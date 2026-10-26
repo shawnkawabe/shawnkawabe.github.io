@@ -1,6 +1,26 @@
 {
   "titleTemplate": "{title} — {name}",
   "skipLink": "Skip to content",
+  "nav": {
+    "label": "Main",
+    "home": "Home",
+    "work": "Work",
+    "skills": "Skills",
+    "about": "About",
+    "contact": "Contact",
+    "linkedin": "LinkedIn",
+    "github": "GitHub",
+    "resume": "Resume (PDF)",
+    "newTab": "opens in a new tab",
+    "openMenu": "Open menu",
+    "menuTitle": "Menu",
+    "closeMenu": "Close menu"
+  },
+  "theme": {
+    "toggle": "Switch theme",
+    "toLight": "Switch to light theme",
+    "toDark": "Switch to dark theme"
+  },
   "footer": {
     "copyright": "© {year} {name}",
     "linksLabel": "Elsewhere",

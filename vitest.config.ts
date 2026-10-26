@@ -3,10 +3,18 @@ import { getViteConfig } from 'astro/config';
 
 export default getViteConfig({
   test: {
-    // Pure derived-data modules must stay fully covered (BACKLOG P1-05).
+    // Logic modules in src/lib must stay fully covered (BACKLOG P1-05).
     coverage: {
       provider: 'v8',
-      include: ['src/lib/derive.ts', 'src/lib/format.ts', 'src/lib/filters.ts', 'src/lib/seo.ts'],
+      include: [
+        'src/lib/derive.ts',
+        'src/lib/format.ts',
+        'src/lib/filters.ts',
+        'src/lib/seo.ts',
+        'src/lib/nav.ts',
+        'src/lib/theme.ts',
+        'src/lib/mobile-nav.ts',
+      ],
       thresholds: { lines: 100 },
     },
     projects: [

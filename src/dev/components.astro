@@ -7,10 +7,12 @@ import Icon from '@/components/ui/Icon.astro';
 import Surface from '@/components/ui/Surface.astro';
 import Text from '@/components/ui/Text.astro';
 import { getSkills } from '@/lib/content';
-import { icons, type CloudIconName, type UiIconName } from '@/lib/icons';
+import { brandIcons, icons, type CloudIconName, type IconName } from '@/lib/icons';
+import MobileNav from '@/components/patterns/MobileNav.astro';
+import ThemeToggle from '@/components/patterns/ThemeToggle.astro';
 import UiGallery from './UiGallery';
 
-const iconNames = Object.keys(icons) as UiIconName[];
+const iconNames = [...Object.keys(icons), ...Object.keys(brandIcons)] as IconName[];
 const clouds = (await getSkills()).filter((skill) => skill.group === 'clouds');
 const accents = ['cloud-sales', 'cloud-service', 'cloud-data', 'cloud-membership'];
 ---
@@ -32,13 +34,7 @@ const accents = ['cloud-sales', 'cloud-service', 'cloud-data', 'cloud-membership
         <Heading level={1} size={7}>
           Component gallery
         </Heading>
-        <button
-          id="theme-switch"
-          type="button"
-          class="inline-flex h-10 items-center gap-2 rounded-pill border border-border-1 bg-surface-3 px-5 text-2 text-on-surface-1"
-        >
-          <Icon name="sun" /> Switch theme
-        </button>
+        <ThemeToggle class="border border-border-1 bg-surface-3" />
       </header>
 
       <section class="flex flex-col gap-6">
@@ -150,13 +146,22 @@ const accents = ['cloud-sales', 'cloud-service', 'cloud-data', 'cloud-membership
           <UiGallery client:load />
         </Surface>
       </section>
-    </main>
 
-    <script>
-      document.getElementById('theme-switch')?.addEventListener('click', () => {
-        const root = document.documentElement;
-        root.dataset.theme = root.dataset.theme === 'light' ? 'dark' : 'light';
-      });
-    </script>
+      <section class="flex flex-col gap-6">
+        <Heading level={2} size={6}>
+          Navigation
+        </Heading>
+        <Surface class="flex flex-col gap-4 p-6">
+          <Text size={2} tone={2}>
+            NavRail (≥ 1024px) and MobileNav (below) render on every page through BaseLayout. The
+            top bar below appears under 1024px; ThemeToggle is the button at the top of this
+            gallery.
+          </Text>
+          <div class="relative overflow-hidden rounded-md border border-border-1">
+            <MobileNav />
+          </div>
+        </Surface>
+      </section>
+    </main>
   </body>
 </html>

@@ -16,6 +16,8 @@ import {
   X,
   type LucideIcon,
 } from 'lucide-react';
+import github from '@/assets/icons/brands/github.svg';
+import linkedin from '@/assets/icons/brands/linkedin.svg';
 import commerceCloud from '@/assets/icons/clouds/commerce-cloud.svg';
 import dataCloud from '@/assets/icons/clouds/data-cloud.svg';
 import experienceCloud from '@/assets/icons/clouds/experience-cloud.svg';
@@ -52,8 +54,16 @@ export const cloudIcons = {
   membership,
 };
 
+// Lucide 1.x dropped brand icons; these are its former linkedin/github paths (ISC License).
+export const brandIcons = { linkedin, github };
+
+// Icons shipped as SVG files, rendered as Astro components (static, no React).
+export const svgIcons = { ...cloudIcons, ...brandIcons };
+
 export type UiIconName = keyof typeof icons;
 export type CloudIconName = keyof typeof cloudIcons;
-export type IconName = UiIconName | CloudIconName;
+export type BrandIconName = keyof typeof brandIcons;
+export type SvgIconName = keyof typeof svgIcons;
+export type IconName = UiIconName | SvgIconName;
 
-export const isCloudIcon = (name: IconName): name is CloudIconName => name in cloudIcons;
+export const isSvgIcon = (name: IconName): name is SvgIconName => name in svgIcons;
