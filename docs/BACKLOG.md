@@ -243,10 +243,14 @@ Per ADR 0003. Starts after the English MVP pages; the English site may launch be
 - [ ] **P4-03 Draft translations** — Deps: P4-02
       Draft `pt` (Brazilian) and `es` (Latin American) from the English files without adding facts; cloud, product and company names unchanged. Hand over for Shawn's review.
   - [ ] Shawn approves each locale (sets its review flag).
+  - Drafted 2026-10-26: `src/i18n/{pt,es}.json` and `content/{pt,es}/*.json`. Employer job titles (`role`) and certification names stay in English, as do product, cloud and client names; Shawn's own headline role and project `category` labels are translated. Spanish calls to action use the formal "usted". Preview with `npm run dev` (drafts are built in dev) or `INCLUDE_DRAFT_LOCALES=true npm run build`. To approve, set `reviewed: true` for the locale in `src/i18n/locales.json`.
 
-- [ ] **P4-04 Language switcher and SEO** — Deps: P4-02
+- [x] **P4-04 Language switcher and SEO** — Deps: P4-02
       Switcher in `NavRail` and `MobileNav` that keeps the current page and stores the choice. `<html lang>`, `hreflang` alternates with `x-default`, localised meta and OG text, per-locale sitemap entries.
-  - [ ] Switching language keeps the page; axe 0 violations in all three locales.
+  - [x] Switching language keeps the page; axe 0 violations in all three locales. (Draft build: 326 e2e/axe checks pass.)
+  - `LanguageSwitcher` hides itself while only one locale is built, so production shows no switcher until a translation is approved.
+  - hreflang alternates live in each page's `<head>`, not the sitemap: `@astrojs/sitemap` rejects the `es-419` tag.
+  - OG images are shared by every language and keep English text; OG title, description, alt and `og:locale` are localised.
 
 ## Post-MVP (not now)
 

@@ -1,15 +1,18 @@
 import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import {
+  alternates,
   builtLocales,
   DEFAULT_LOCALE,
   isLocale,
   localeFromPath,
   localeInfo,
   localePath,
+  LOCALE_KEY,
   LOCALES,
   pickLocale,
+  rememberLocale,
   splitLocale,
   strings,
   switchLocalePath,
@@ -28,9 +31,9 @@ describe('locale guards', () => {
 
 describe('builtLocales', () => {
   const info = {
-    en: { label: 'English', htmlLang: 'en', reviewed: true },
-    pt: { label: 'Português', htmlLang: 'pt-BR', reviewed: true },
-    es: { label: 'Español', htmlLang: 'es-419', reviewed: false },
+    en: { label: 'English', htmlLang: 'en', ogLocale: 'en_US', reviewed: true },
+    pt: { label: 'Português', htmlLang: 'pt-BR', ogLocale: 'pt_BR', reviewed: true },
+    es: { label: 'Español', htmlLang: 'es-419', ogLocale: 'es_LA', reviewed: false },
   };
 
   it('builds reviewed locales, and drafts only on request', () => {
@@ -120,5 +123,37 @@ describe('translation parity (P4-02)', () => {
         ids(readJson(join('content', 'en', name))),
       );
     }
+  });
+});
+
+describe('alternates', () => {
+  it('lists the page in each given locale with its hreflang', () => {
+    expect(alternates('/en/work/brf/', ['en', 'pt'])).toEqual([
+      { locale: 'en', hreflang: 'en', path: '/en/work/brf/' },
+      { locale: 'pt', hreflang: 'pt-BR', path: '/pt/work/brf/' },
+    ]);
+  });
+});
+
+describe('rememberLocale', () => {
+  it('stores the choice under the shared key', () => {
+    const stored = new Map<string, string>();
+    rememberLocale('pt', () => ({ setItem: (key, value) => void stored.set(key, value) }));
+    expect(stored.get(LOCALE_KEY)).toBe('pt');
+  });
+
+  it('uses localStorage by default', () => {
+    const setItem = vi.fn();
+    vi.stubGlobal('localStorage', { setItem });
+    rememberLocale('es');
+    vi.unstubAllGlobals();
+    expect(setItem).toHaveBeenCalledWith(LOCALE_KEY, 'es');
+  });
+
+  it('survives blocked storage', () => {
+    const blocked = () => {
+      throw new Error('blocked');
+    };
+    expect(() => rememberLocale('pt', blocked)).not.toThrow();
   });
 });

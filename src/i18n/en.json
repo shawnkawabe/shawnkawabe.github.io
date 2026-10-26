@@ -21,9 +21,18 @@
     "toLight": "Switch to light theme",
     "toDark": "Switch to dark theme"
   },
+  "language": {
+    "label": "Language"
+  },
   "cards": {
-    "projects": { "one": "{count} project", "other": "{count} projects" },
-    "certifications": { "one": "{count} certification", "other": "{count} certifications" },
+    "projects": {
+      "one": "{count} project",
+      "other": "{count} projects"
+    },
+    "certifications": {
+      "one": "{count} certification",
+      "other": "{count} certifications"
+    },
     "moreClouds": "+{count}",
     "moreCloudsLabel": "{count} more clouds"
   },

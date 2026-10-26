@@ -1,0 +1,71 @@
+---
+// Language switcher (ADR 0003, BACKLOG P4-04): plain links to this page in every built language.
+// A click remembers the choice for the root redirect. Hidden while only one language is built.
+import { siteLocales } from '@/lib/content';
+import { alternates, localeFromPath, localeInfo, strings, type Locale } from '@/lib/i18n';
+
+interface Props {
+  /** `rail`: stacked two-letter codes for the desktop rail; `sheet`: a row of names. */
+  variant: 'rail' | 'sheet';
+  /** Languages to offer; defaults to the built ones. */
+  locales?: Locale[];
+}
+
+const { variant, locales = siteLocales() } = Astro.props;
+const current = localeFromPath(Astro.url.pathname);
+const ui = strings(current);
+const links = alternates(Astro.url.pathname, locales);
+
+// The rail sits on surface-2 and the sheet on surface-3, so each highlights with the other.
+const style = {
+  rail: {
+    list: 'flex flex-col items-center gap-2',
+    item: 'flex size-10 items-center justify-center rounded-pill font-mono text-1 tracking-label uppercase hover:bg-surface-3',
+    current: 'bg-surface-3',
+  },
+  sheet: {
+    list: 'grid grid-cols-3 gap-1',
+    item: 'rounded-sm px-2 py-2 text-center text-2 hover:bg-surface-2',
+    current: 'bg-surface-2',
+  },
+}[variant];
+---
+
+{links.length > 1 && (
+  <ul aria-label={ui.language.label} class={style.list}>
+    {links.map(({ locale, hreflang, path }) => (
+      <li>
+        <a
+          href={path}
+          hreflang={hreflang}
+          lang={hreflang}
+          data-locale-link={locale}
+          aria-current={locale === current ? 'true' : undefined}
+          class:list={[
+            style.item,
+            'text-on-surface-2 no-underline transition-colors duration-150 ease-standard hover:text-on-surface-1',
+            locale === current && [style.current, 'text-on-surface-1'],
+          ]}
+        >
+          {variant === 'rail' ? (
+            <>
+              {locale}
+              {/* The name keeps the visible code first (WCAG 2.5.3 label in name). */}
+              <span class="sr-only"> {localeInfo[locale].label}</span>
+            </>
+          ) : (
+            localeInfo[locale].label
+          )}
+        </a>
+      </li>
+    ))}
+  </ul>
+)}
+
+<script>
+  import { rememberLocale } from '@/lib/i18n';
+
+  for (const link of document.querySelectorAll<HTMLAnchorElement>('[data-locale-link]')) {
+    link.addEventListener('click', () => rememberLocale(link.dataset.localeLink ?? ''));
+  }
+</script>

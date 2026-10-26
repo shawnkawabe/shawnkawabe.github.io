@@ -11,7 +11,7 @@ export const DEFAULT_LOCALE: Locale = 'en';
 /** localStorage key for the language switcher's choice, read by the root redirect. */
 export const LOCALE_KEY = 'pf-locale';
 
-export type LocaleInfo = { label: string; htmlLang: string; reviewed: boolean };
+export type LocaleInfo = { label: string; htmlLang: string; ogLocale: string; reviewed: boolean };
 export const localeInfo: Record<Locale, LocaleInfo> = locales;
 
 /** UI strings; every locale file must have exactly the keys of en.json (parity test). */
@@ -62,6 +62,29 @@ export function localeFromPath(pathname: string): Locale {
 /** The same page in another language (language switcher, hreflang). */
 export function switchLocalePath(pathname: string, locale: Locale): string {
   return localePath(locale, splitLocale(pathname).path);
+}
+
+export type Alternate = { locale: Locale; hreflang: string; path: string };
+
+/** The page in every built language, for hreflang links and the language switcher. */
+export function alternates(pathname: string, locales: readonly Locale[]): Alternate[] {
+  return locales.map((locale) => ({
+    locale,
+    hreflang: localeInfo[locale].htmlLang,
+    path: switchLocalePath(pathname, locale),
+  }));
+}
+
+/** Remembers the visitor's language choice for the root redirect; ignores blocked storage. */
+export function rememberLocale(
+  locale: string,
+  storage: () => Pick<Storage, 'setItem'> = () => localStorage,
+): void {
+  try {
+    storage().setItem(LOCALE_KEY, locale);
+  } catch {
+    // Private mode or blocked storage: the choice simply is not remembered.
+  }
 }
 
 /**

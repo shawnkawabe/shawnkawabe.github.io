@@ -89,3 +89,18 @@ test('legacy case-study URLs redirect into /en', async ({ page }) => {
   await page.goto(legacy);
   await expect(page).toHaveURL((url) => url.pathname === caseStudy);
 });
+
+test('the language switcher keeps the page and remembers the choice', async ({
+  page,
+}, testInfo) => {
+  await page.goto('/en/work/');
+  const switcher = page.locator('[data-locale-link="pt"]').first();
+  test.skip((await switcher.count()) === 0, 'Only one language is built.');
+  if (testInfo.project.name === 'mobile')
+    await page.getByRole('button', { name: 'Open menu' }).click();
+  await page.locator('[data-locale-link="pt"]:visible').click();
+  await expect(page).toHaveURL((url) => url.pathname === '/pt/work/');
+  await expect(page.locator('html')).toHaveAttribute('lang', 'pt-BR');
+  await page.goto('/');
+  await expect(page).toHaveURL((url) => url.pathname === '/pt/');
+});

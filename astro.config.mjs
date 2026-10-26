@@ -37,7 +37,9 @@ export default defineConfig({
   integrations: [
     react(),
     // Only localized pages: the root and the legacy URLs just redirect.
-    sitemap({ filter: (page) => /^\/(en|pt|es)\//.test(new URL(page).pathname) }),
+    sitemap({
+      filter: (page) => /^\/(en|pt|es)\//.test(new URL(page).pathname),
+    }),
     devGallery(),
   ],
   vite: {

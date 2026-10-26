@@ -6,10 +6,18 @@ import NavRail from '@/components/patterns/NavRail.astro';
 import SiteFooter from '@/components/patterns/SiteFooter.astro';
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
-import { getSite } from '@/lib/content';
+import { getSite, siteLocales } from '@/lib/content';
 import { preloadFonts } from '@/lib/fonts';
 import { DEFAULT_OG_IMAGE, format, ogImageFor, serializeJsonLd, type PageMeta } from '@/lib/seo';
-import { localeFromPath, localeInfo, splitLocale, strings } from '@/lib/i18n';
+import {
+  alternates,
+  DEFAULT_LOCALE,
+  localeFromPath,
+  localeInfo,
+  splitLocale,
+  strings,
+  switchLocalePath,
+} from '@/lib/i18n';
 
 const locale = localeFromPath(Astro.url.pathname);
 const ui = strings(locale);
@@ -28,6 +36,11 @@ const { meta, jsonLd, noindex = false } = Astro.props;
 const site = getSite(locale);
 const origin = Astro.site ?? new URL(import.meta.env.SITE);
 const canonical = new URL(Astro.url.pathname, origin).href;
+// hreflang alternates only for localised pages (the 404 has no prefix and is noindex).
+const languages = splitLocale(Astro.url.pathname).locale
+  ? alternates(Astro.url.pathname, siteLocales())
+  : [];
+const xDefault = new URL(switchLocalePath(Astro.url.pathname, DEFAULT_LOCALE), origin).href;
 // Build-time check, so a new project uses the default card until `npm run og` is re-run. Cards
 // are shared by every language, so the lookup ignores the locale prefix.
 const ogImage =
@@ -67,6 +80,14 @@ const ogImageAlt =
     <title>{meta.title}</title>
     <meta name="description" content={meta.description} />
     {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
+    {!noindex &&
+      languages.length > 1 &&
+      languages.map(({ hreflang, path }) => (
+        <link rel="alternate" hreflang={hreflang} href={new URL(path, origin).href} />
+      ))}
+    {!noindex && languages.length > 1 && (
+      <link rel="alternate" hreflang="x-default" href={xDefault} />
+    )}
     <meta name="color-scheme" content="dark light" />
     {preloadFonts.map((href) => (
       <link rel="preload" href={href} as="font" type="font/woff2" crossorigin />
@@ -77,7 +98,12 @@ const ogImageAlt =
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={site.name} />
-    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale" content={localeInfo[locale].ogLocale} />
+    {languages
+      .filter((language) => language.locale !== locale)
+      .map((language) => (
+        <meta property="og:locale:alternate" content={localeInfo[language.locale].ogLocale} />
+      ))}
     <meta property="og:title" content={meta.title} />
     <meta property="og:description" content={meta.description} />
     <meta property="og:url" content={canonical} />

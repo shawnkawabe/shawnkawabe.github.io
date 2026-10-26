@@ -3,6 +3,7 @@
 import Icon from '@/components/ui/Icon.astro';
 import { getSite } from '@/lib/content';
 import { externalLinks, isActive, pageLinks } from '@/lib/nav';
+import LanguageSwitcher from './LanguageSwitcher.astro';
 import ThemeToggle from './ThemeToggle.astro';
 import { localeFromPath, localePath, strings } from '@/lib/i18n';
 
@@ -81,7 +82,10 @@ const iconButton =
         ))}
       </ul>
     </nav>
-    <div class="mt-auto flex items-center justify-between border-t border-border-1 pt-4 text-2 text-on-surface-2">
+    <div class="mt-auto">
+      <LanguageSwitcher variant="sheet" />
+    </div>
+    <div class="flex items-center justify-between border-t border-border-1 pt-4 text-2 text-on-surface-2">
       <span>{ui.theme.toggle}</span>
       <ThemeToggle class="hover:bg-surface-2" />
     </div>

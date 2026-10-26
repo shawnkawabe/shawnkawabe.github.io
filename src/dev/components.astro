@@ -29,6 +29,7 @@ import SnapshotBar from '@/components/patterns/SnapshotBar.astro';
 import StackChips from '@/components/patterns/StackChips.astro';
 import { stackLinks } from '@/lib/case-study';
 import { strings } from '@/lib/i18n';
+import LanguageSwitcher from '@/components/patterns/LanguageSwitcher.astro';
 import MobileNav from '@/components/patterns/MobileNav.astro';
 import ProjectCard from '@/components/patterns/ProjectCard.astro';
 import ThemeToggle from '@/components/patterns/ThemeToggle.astro';
@@ -337,6 +338,15 @@ const accents = ['cloud-sales', 'cloud-service', 'cloud-data', 'cloud-membership
           </Text>
           <div class="relative overflow-hidden rounded-md border border-border-1">
             <MobileNav />
+          </div>
+          <Text size={2} tone={2}>
+            LanguageSwitcher, rail and sheet variants (hidden while only one language is built):
+          </Text>
+          <div class="flex items-start gap-6">
+            <div class="rounded-pill bg-surface-2 p-2">
+              <LanguageSwitcher variant="rail" locales={['en', 'pt', 'es']} />
+            </div>
+            <LanguageSwitcher variant="sheet" locales={['en', 'pt', 'es']} />
           </div>
         </Surface>
       </section>
