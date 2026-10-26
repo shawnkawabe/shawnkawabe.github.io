@@ -15,13 +15,13 @@ updates:
       - dependency-name: typescript
         versions: ['>=7.0.0']
       # eslint-plugin-jsx-a11y 6.10.2 (latest) peers on eslint <=9, @eslint/js 10 and
-      # eslint-plugin-astro 3 need eslint 10; move all four together once jsx-a11y allows it.
+      # eslint-plugin-astro 2+ need eslint 10; move all four together once jsx-a11y allows it.
       - dependency-name: eslint
         versions: ['>=10.0.0']
       - dependency-name: '@eslint/js'
         versions: ['>=10.0.0']
       - dependency-name: eslint-plugin-astro
-        versions: ['>=3.0.0']
+        versions: ['>=2.0.0']
   - package-ecosystem: github-actions
     directory: /
     schedule: { interval: weekly }
