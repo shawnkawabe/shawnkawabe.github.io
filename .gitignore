@@ -12,3 +12,6 @@ test-results/
 docs/source-images/
 .DS_Store
 .playwright-mcp/
+
+# Salesforce CLI local cache
+.sf/
