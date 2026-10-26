@@ -14,6 +14,19 @@ export type FilterState = { clouds: string[]; caps: string[] };
 
 type Filterable = { clouds: readonly string[]; capabilities: readonly string[] };
 
+/**
+ * Restores curated order: getCollection() returns entries sorted by id, not in file order.
+ * Ids missing from `order` go last, keeping their relative order.
+ */
+export function inFileOrder<T extends { id: string }>(
+  items: readonly T[],
+  order: readonly { id: string }[],
+): T[] {
+  const position = new Map(order.map((entry, index) => [entry.id, index]));
+  const rank = (item: T) => position.get(item.id) ?? order.length;
+  return [...items].sort((a, b) => rank(a) - rank(b));
+}
+
 /** Featured first, then the file order of projects.json (Array.prototype.sort is stable). */
 export function sortProjects<T extends Pick<Project, 'featured'>>(projects: readonly T[]): T[] {
   return [...projects].sort((a, b) => Number(b.featured) - Number(a.featured));

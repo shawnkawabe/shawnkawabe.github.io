@@ -111,6 +111,7 @@ Things that must exist or be decided before the task in **Blocks** can start. De
   - [x] Removing a required field from `projects.json` fails `npm run validate:content` with a readable message (try it, then revert).
   - [x] Removing a required field from `site.json` fails `npm test`.
   - Notes: `schemas.ts` is §3.1 verbatim plus exported `z.infer` types. Astro 7 bundles Zod 4, where `z.string().email()`/`.url()` are deprecated aliases of `z.email()`/`z.url()` but still work; kept as specified. `content.config.ts` imports schemas relatively (`./lib/schemas`). Getters return plain data in file order; `getSite()` parses once and caches. `tests/unit/content.test.ts` parses all five files with the real schemas and runs every §3.1 cross-file check (it replaces the P0-02 sample test). Verified by breaking files: no `title` in a project → `astro sync` prints `projects → volkswagen-group-portal … title: Required`; no `name` in site.json → `npm test` fails; an unknown cloud id → two cross-file tests fail naming `volkswagen-group-portal → nonexistent-cloud`.
+  - Fix (found in P1-07): `getCollection()` returns entries sorted by id, not in file order. The getters restore the JSON array order with `inFileOrder()` (derive.ts), so curated order holds everywhere.
 
 - [x] **P1-05 Derived data** — Deps: P1-04
       `src/lib/derive.ts`, `format.ts`, `filters.ts` per ARCHITECTURE §3.2.

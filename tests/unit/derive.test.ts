@@ -1,8 +1,32 @@
 import { describe, expect, it } from 'vitest';
-import { cloudStats, filterProjects, prevNext, skillStats, sortProjects } from '@/lib/derive';
+import {
+  cloudStats,
+  filterProjects,
+  inFileOrder,
+  prevNext,
+  skillStats,
+  sortProjects,
+} from '@/lib/derive';
 import { certification, project, skill } from './fixtures';
 
 const ids = (items: { id: string }[]) => items.map((item) => item.id);
+
+describe('inFileOrder', () => {
+  it('restores the file order of id-sorted collection entries', () => {
+    const fromCollection = [{ id: 'apex' }, { id: 'sales-cloud' }, { id: 'service-cloud' }];
+    const file = [{ id: 'sales-cloud' }, { id: 'service-cloud' }, { id: 'apex' }];
+    expect(ids(inFileOrder(fromCollection, file))).toEqual([
+      'sales-cloud',
+      'service-cloud',
+      'apex',
+    ]);
+  });
+
+  it('puts ids missing from the file last, in their original order', () => {
+    const items = [{ id: 'x' }, { id: 'b' }, { id: 'y' }, { id: 'a' }];
+    expect(ids(inFileOrder(items, [{ id: 'a' }, { id: 'b' }]))).toEqual(['a', 'b', 'x', 'y']);
+  });
+});
 
 describe('sortProjects', () => {
   it('puts featured projects first and keeps file order within each group', () => {

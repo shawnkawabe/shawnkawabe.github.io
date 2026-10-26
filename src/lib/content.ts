@@ -1,7 +1,12 @@
 // Typed getters: the only way pages, layouts and src/lib read content (ARCHITECTURE §1).
-// Collections keep the file order of their JSON arrays; sorting lives in derive.ts.
+// Getters return entries in the file order of their JSON arrays; sorting lives in derive.ts.
 import { getCollection } from 'astro:content';
+import certificationsJson from '../../content/certifications.json';
+import experienceJson from '../../content/experience.json';
+import projectsJson from '../../content/projects.json';
 import siteJson from '../../content/site.json';
+import skillsJson from '../../content/skills.json';
+import { inFileOrder } from './derive';
 import {
   siteSchema,
   type Certification,
@@ -19,7 +24,11 @@ export function getSite(): Site {
 }
 
 export async function getProjects(): Promise<Project[]> {
-  return (await getCollection('projects')).map((entry) => entry.data);
+  const entries = await getCollection('projects');
+  return inFileOrder(
+    entries.map((entry) => entry.data),
+    projectsJson,
+  );
 }
 
 export async function getProject(id: string): Promise<Project | undefined> {
@@ -27,13 +36,25 @@ export async function getProject(id: string): Promise<Project | undefined> {
 }
 
 export async function getSkills(): Promise<Skill[]> {
-  return (await getCollection('skills')).map((entry) => entry.data);
+  const entries = await getCollection('skills');
+  return inFileOrder(
+    entries.map((entry) => entry.data),
+    skillsJson,
+  );
 }
 
 export async function getExperience(): Promise<Experience[]> {
-  return (await getCollection('experience')).map((entry) => entry.data);
+  const entries = await getCollection('experience');
+  return inFileOrder(
+    entries.map((entry) => entry.data),
+    experienceJson,
+  );
 }
 
 export async function getCertifications(): Promise<Certification[]> {
-  return (await getCollection('certifications')).map((entry) => entry.data);
+  const entries = await getCollection('certifications');
+  return inFileOrder(
+    entries.map((entry) => entry.data),
+    certificationsJson,
+  );
 }
