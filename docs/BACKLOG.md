@@ -76,6 +76,7 @@ Things that must exist or be decided before the task in **Blocks** can start. De
 - [ ] **P0-03 Deploy pipeline** — Deps: P0-02
       `.github/workflows/deploy.yml` and `.github/dependabot.yml` exactly as ARCHITECTURE §8.2–8.3. **[H]** Shawn sets Pages source to GitHub Actions and adds the repository variable `PUBLIC_WEB3FORMS_KEY` (may stay empty for now).
   - [ ] PR runs the build job only; merge to `main` deploys; the live URL shows the scaffold.
+  - Notes: both files committed as specified; `withastro/action@v6` inputs (`node-version`, `build-cmd`) verified, and it uploads the Pages artifact itself. Addition to §8.3: Dependabot ignores `react`/`react-dom` `>=19.4.0` because R3F 9 peers on `<19.4` (PRE-05). Waiting on PRE-06: on 2026-10-25 the Pages API still reported `build_type: legacy` (source `main` /). Then open a PR `rebuild` → `main`, confirm only `build` runs, merge, check the live URL.
 
 - [x] **P0-04 3D spike** — Deps: P0-01
       Install `three @react-three/fiber@9 @react-three/drei@10` and `-D @types/three`. On a temporary page, render a rotating icosahedron as a `client:visible` island below the fold, with a gradient poster and a reduced-motion fallback.
