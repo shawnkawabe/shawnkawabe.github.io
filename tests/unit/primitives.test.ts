@@ -77,6 +77,14 @@ describe('Icon', () => {
     expect(html).toContain('aria-label="Email"');
   });
 
+  it('renders original cloud artwork by skill id', async () => {
+    const html = await render(Icon, { name: 'sales-cloud', size: 32, label: 'Sales Cloud' });
+    expect(html).toContain('<svg');
+    expect(html).toContain('width="32"');
+    expect(html).toContain('aria-label="Sales Cloud"');
+    expect(html).not.toContain('lucide');
+  });
+
   it('uses the 1.5px stroke and the requested size', async () => {
     const html = await render(Icon, { name: 'work', size: 16 });
     expect(html).toContain('stroke-width="1.5"');

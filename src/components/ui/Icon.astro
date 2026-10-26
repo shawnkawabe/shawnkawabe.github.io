@@ -1,24 +1,23 @@
 ---
-// Lucide line icon at 1.5px stroke, rendered to static SVG (DESIGN §8). Decorative unless labelled.
-import { icons, type IconName } from '@/lib/icons';
+// Line icon at 1.5px stroke, rendered to static SVG (DESIGN §8): Lucide for UI, original
+// artwork for clouds. Decorative unless labelled.
+import { cloudIcons, icons, isCloudIcon, type IconName } from '@/lib/icons';
 
 interface Props {
   name: IconName;
-  size?: 16 | 20 | 24;
+  size?: 16 | 20 | 24 | 32;
   label?: string;
   class?: string;
 }
 
 const { name, size = 20, label, class: className } = Astro.props;
-const Svg = icons[name];
 const a11y = label
   ? ({ role: 'img', 'aria-label': label } as const)
   : ({ 'aria-hidden': true } as const);
+const classes = ['shrink-0', className].filter(Boolean).join(' ');
+const Cloud = isCloudIcon(name) ? cloudIcons[name] : undefined;
+const Lucide = isCloudIcon(name) ? undefined : icons[name];
 ---
 
-<Svg
-  size={size}
-  strokeWidth={1.5}
-  className={['shrink-0', className].filter(Boolean).join(' ')}
-  {...a11y}
-/>
+{Cloud && <Cloud width={size} height={size} class={classes} {...a11y} />}
+{Lucide && <Lucide size={size} strokeWidth={1.5} className={classes} {...a11y} />}

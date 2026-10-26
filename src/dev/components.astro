@@ -6,10 +6,12 @@ import Heading from '@/components/ui/Heading.astro';
 import Icon from '@/components/ui/Icon.astro';
 import Surface from '@/components/ui/Surface.astro';
 import Text from '@/components/ui/Text.astro';
-import { icons, type IconName } from '@/lib/icons';
+import { getSkills } from '@/lib/content';
+import { icons, type CloudIconName, type UiIconName } from '@/lib/icons';
 import UiGallery from './UiGallery';
 
-const iconNames = Object.keys(icons) as IconName[];
+const iconNames = Object.keys(icons) as UiIconName[];
+const clouds = (await getSkills()).filter((skill) => skill.group === 'clouds');
 const accents = ['cloud-sales', 'cloud-service', 'cloud-data', 'cloud-membership'];
 ---
 
@@ -99,6 +101,29 @@ const accents = ['cloud-sales', 'cloud-service', 'cloud-data', 'cloud-membership
             <div class="flex flex-wrap gap-4 text-on-surface-2">
               {iconNames.map((name) => (
                 <Icon name={name} size={size} label={name} />
+              ))}
+            </div>
+          ))}
+        </Surface>
+
+        <Surface class="flex flex-col gap-4 p-6">
+          <Text as="span" size={1} tone={3} mono class="tracking-label uppercase">
+            Cloud icons · 24 / 32, in cloud accent
+          </Text>
+          {([24, 32] as const).map((size) => (
+            <div class="flex flex-wrap gap-6">
+              {clouds.map((cloud) => (
+                <span
+                  class="flex flex-col items-center gap-2"
+                  style={`color: var(--pf-g-color-${cloud.accent})`}
+                >
+                  <Icon name={cloud.id as CloudIconName} size={size} />
+                  {size === 32 && (
+                    <Text as="span" size={1} tone={2}>
+                      {cloud.label}
+                    </Text>
+                  )}
+                </span>
               ))}
             </div>
           ))}
