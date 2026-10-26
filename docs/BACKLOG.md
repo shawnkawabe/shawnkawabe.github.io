@@ -87,12 +87,13 @@ Things that must exist or be decided before the task in **Blocks** can start. De
 
 ## Phase 1 — Design system and content layer
 
-- [ ] **P1-01 Tokens pipeline** — Deps: P0-02
+- [x] **P1-01 Tokens pipeline** — Deps: P0-02
       Install `-D style-dictionary@5`. `style-dictionary.config.js` reading `tokens/*.tokens.json` and writing `src/styles/tokens.css`: primitives + dark semantic on `:root`, light semantic on `[data-theme="light"]`, prefix `pf-g`, names per DESIGN §2 table. Replace the `tokens` stub with the real script.
-  - [ ] Every semantic colour in DESIGN §3.1, every cloud accent in §3.2, every spacing/radius/shadow/duration/easing in §5–6 exists as the CSS variable named in DESIGN §2. (`shadow-glow` and cover gradients are not tokens.)
-  - [ ] Font sizes stored as `min`/`max` pairs emit one `clamp()` variable each (custom transform, 375px → 1440px).
-  - [ ] Colours use the DTCG 2025.10 object format already in `tokens/`; output as hex, or `rgb(r g b / a)` when alpha < 1.
-  - [ ] Output starts with a "generated, do not edit" header; file is git-ignored; `predev` and `build` regenerate it.
+  - [x] Every semantic colour in DESIGN §3.1, every cloud accent in §3.2, every spacing/radius/shadow/duration/easing in §5–6 exists as the CSS variable named in DESIGN §2. (`shadow-glow` and cover gradients are not tokens.)
+  - [x] Font sizes stored as `min`/`max` pairs emit one `clamp()` variable each (custom transform, 375px → 1440px).
+  - [x] Colours use the DTCG 2025.10 object format already in `tokens/`; output as hex, or `rgb(r g b / a)` when alpha < 1.
+  - [x] Output starts with a "generated, do not edit" header; file is git-ignored; `predev` and `build` regenerate it.
+  - Notes: `tokens` is `node style-dictionary.config.js` (ARCHITECTURE §8.1 updated): two Style Dictionary API runs merged into one file, base tokens loaded via `include` so themes override without collision warnings; warnings are errors. Custom transforms for every DTCG 2025.10 object type in `tokens/`. Font sizes with equal min/max (1–3) emit a plain `rem` value instead of a degenerate `clamp()`; 4–9 emit `clamp()` in `rem` so they follow browser font settings. Generic families (`system-ui`, `sans-serif`) are never quoted. `tests/unit/tokens.test.ts` checks every criterion above. `tokens.css` is not imported yet; P1-02 wires it into `global.css`.
 
 - [ ] **P1-02 Tailwind mapping and base styles** — Deps: P1-01
       `global.css` with `@theme` mapping (colours, fonts, radii, shadows, spacing; literal breakpoints), base element styles, focus ring. `covers.css` with the four presets matched to `docs/reference/cover-*.jpg`.

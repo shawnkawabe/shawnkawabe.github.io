@@ -410,7 +410,7 @@ Inline script in `BaseLayout` `<head>` (before CSS paints):
 {
   "predev": "npm run tokens",
   "dev": "astro dev",
-  "tokens": "style-dictionary build --config style-dictionary.config.js",
+  "tokens": "node style-dictionary.config.js",
   "build": "npm run tokens && astro check && astro build",
   "preview": "astro preview",
   "lint": "eslint . && prettier --check .",
@@ -422,7 +422,7 @@ Inline script in `BaseLayout` `<head>` (before CSS paints):
 }
 ```
 
-Until P1-01 installs Style Dictionary, `tokens` is a stub: `"tokens": "node -e \"\""`. `test:a11y` (`playwright test`) is added in P3-04 and runs in the second workflow, not in `ci`. The `check:links` skip pattern checks internal links only; external links are checked manually before launch. Linkinator 8 serves `dist/` on `127.0.0.1`, so a `localhost`-only pattern skips every link and the check passes vacuously; if "Scanned 0 links" ever appears, the pattern is wrong.
+`tokens` runs `style-dictionary.config.js` as a Node script (Style Dictionary API, two runs: `:root` and `[data-theme="light"]` share token paths, so one CLI build cannot emit both). `test:a11y` (`playwright test`) is added in P3-04 and runs in the second workflow, not in `ci`. The `check:links` skip pattern checks internal links only; external links are checked manually before launch. Linkinator 8 serves `dist/` on `127.0.0.1`, so a `localhost`-only pattern skips every link and the check passes vacuously; if "Scanned 0 links" ever appears, the pattern is wrong.
 
 ### 8.2 `.github/workflows/deploy.yml`
 
