@@ -2,7 +2,9 @@
 // Every getter takes the page's locale and reads content/{locale}/ (ADR 0003). Getters return
 // entries in the file order of their JSON arrays; sorting lives in derive.ts.
 import { existsSync } from 'node:fs';
+import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
+import { imageMetadata } from 'astro/assets/utils';
 import { getCollection } from 'astro:content';
 import enCertifications from '../../content/en/certifications.json';
 import enExperience from '../../content/en/experience.json';
@@ -99,4 +101,15 @@ export async function getCertifications(locale: Locale = DEFAULT_LOCALE): Promis
 /** Whether a site-relative path like "/img/brf/01.webp" exists in public/ (images arrive in P1-08). */
 export function publicFileExists(src: string): boolean {
   return existsSync(join(process.cwd(), 'public', src));
+}
+
+export type ImageSize = { width: number; height: number };
+
+/** Pixel size of a public/ image, so its <img> reserves space before loading (no layout shift). */
+export async function publicImageSize(src: string): Promise<ImageSize> {
+  const { width, height } = await imageMetadata(
+    await readFile(join(process.cwd(), 'public', src)),
+    src,
+  );
+  return { width, height };
 }

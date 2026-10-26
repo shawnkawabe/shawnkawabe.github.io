@@ -112,25 +112,25 @@
         "images": [
           {
             "src": "/img/adtalem-global-education/01.webp",
-            "alt": "Dashboard de backup e arquivamento",
+            "alt": "Logotipo da GRAX",
             "caption": "Avaliação de backup e arquivamento",
             "approved": true
           },
           {
             "src": "/img/adtalem-global-education/02.webp",
-            "alt": "Configuração de backup e arquivamento do Own Data",
+            "alt": "Logotipo da Own from Salesforce",
             "caption": "Own Data Backup and Archival",
-            "approved": true
+            "approved": false
           },
           {
             "src": "/img/adtalem-global-education/03.webp",
-            "alt": "Diagrama do plano de migração de dados",
+            "alt": "Logotipo do AWS S3",
             "caption": "Migração de dados",
             "approved": true
           },
           {
             "src": "/img/adtalem-global-education/04.webp",
-            "alt": "Wiki de documentação técnica",
+            "alt": "Logotipo do Microsoft Azure",
             "caption": "Base de conhecimento de documentação técnica",
             "approved": true
           }
@@ -183,7 +183,7 @@
         "images": [
           {
             "src": "/img/cooxupe/01.webp",
-            "alt": "Tela de gestão de catálogo",
+            "alt": "Listagem de cafés com filtros por linha, marca e embalagem",
             "caption": "Interface de gestão de catálogo",
             "approved": true
           },
@@ -250,7 +250,7 @@
         "images": [
           {
             "src": "/img/brf/01.webp",
-            "alt": "Fluxo de cadastro na campanha",
+            "alt": "Diálogo de cadastro com preferências de e-mail e SMS e aceite dos termos",
             "caption": "Fluxo de cadastro",
             "approved": true
           },
@@ -262,13 +262,13 @@
           },
           {
             "src": "/img/brf/03.webp",
-            "alt": "Formulário de envio de feedback",
+            "alt": "Página de produto com avaliações e formulário de comentários",
             "caption": "Envio de feedback",
             "approved": true
           },
           {
             "src": "/img/brf/04.webp",
-            "alt": "Seleção do tipo de entrega",
+            "alt": "Diálogo de opções de entrega: retirada na loja, entrega agendada e entrega expressa",
             "caption": "Tipo de entrega dinâmico",
             "approved": true
           }

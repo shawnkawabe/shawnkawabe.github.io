@@ -112,25 +112,25 @@
         "images": [
           {
             "src": "/img/adtalem-global-education/01.webp",
-            "alt": "Backup and archival dashboard",
+            "alt": "GRAX logo",
             "caption": "Backup and archival evaluation",
             "approved": true
           },
           {
             "src": "/img/adtalem-global-education/02.webp",
-            "alt": "Own Data backup and archival configuration",
+            "alt": "Own from Salesforce logo",
             "caption": "Own Data Backup and Archival",
-            "approved": true
+            "approved": false
           },
           {
             "src": "/img/adtalem-global-education/03.webp",
-            "alt": "Data migration plan diagram",
+            "alt": "AWS S3 logo",
             "caption": "Data migration",
             "approved": true
           },
           {
             "src": "/img/adtalem-global-education/04.webp",
-            "alt": "Technical documentation wiki",
+            "alt": "Microsoft Azure logo",
             "caption": "Technical documentation knowledge base",
             "approved": true
           }
@@ -183,7 +183,7 @@
         "images": [
           {
             "src": "/img/cooxupe/01.webp",
-            "alt": "Catalog management screen",
+            "alt": "Coffee product listing with filters by line, brand and packaging",
             "caption": "Catalog management interface",
             "approved": true
           },
@@ -250,7 +250,7 @@
         "images": [
           {
             "src": "/img/brf/01.webp",
-            "alt": "Campaign sign-up flow",
+            "alt": "Sign-up dialog asking for email and SMS preferences and terms acceptance",
             "caption": "Sign-up flow",
             "approved": true
           },
@@ -262,13 +262,13 @@
           },
           {
             "src": "/img/brf/03.webp",
-            "alt": "Feedback submission form",
+            "alt": "Product page with ratings and a comment form",
             "caption": "Feedback submission",
             "approved": true
           },
           {
             "src": "/img/brf/04.webp",
-            "alt": "Delivery type selection",
+            "alt": "Delivery options dialog: store pickup, scheduled delivery and express delivery",
             "caption": "Dynamic delivery type",
             "approved": true
           }

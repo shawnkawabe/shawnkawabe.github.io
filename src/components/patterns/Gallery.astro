@@ -2,6 +2,7 @@
 // SPEC §5.3 item 6: masonry of approved images; each opens the lightbox (native <dialog>,
 // logic in src/lib/lightbox.ts). Callers pass only images that passed visibleImage().
 import Icon from '@/components/ui/Icon.astro';
+import type { ImageSize } from '@/lib/content';
 import type { Image } from '@/lib/schemas';
 import { format } from '@/lib/seo';
 import { localeFromPath, strings } from '@/lib/i18n';
@@ -9,7 +10,8 @@ import { localeFromPath, strings } from '@/lib/i18n';
 const ui = strings(localeFromPath(Astro.url.pathname));
 
 interface Props {
-  images: Image[];
+  /** With their pixel size when known, so each <img> reserves its space before loading. */
+  images: (Image & Partial<ImageSize>)[];
 }
 
 const { images } = Astro.props;
@@ -33,9 +35,11 @@ const control =
             <img
               src={image.src}
               alt={image.alt}
+              width={image.width}
+              height={image.height}
               loading="lazy"
               decoding="async"
-              class="w-full transition-transform duration-250 ease-standard hover:scale-[1.02]"
+              class="h-auto w-full transition-transform duration-250 ease-standard hover:scale-[1.02]"
             />
           </button>
           {image.caption && (

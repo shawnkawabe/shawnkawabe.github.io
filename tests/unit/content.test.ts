@@ -1,6 +1,6 @@
 // Content integrity (ARCHITECTURE §3.1): every file parses with its schema, and ids that
 // point across files resolve. `astro sync` validates the collections; this also covers site.json.
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { z } from 'astro/zod';
 import {
@@ -97,4 +97,26 @@ describe('cross-file references', () => {
     const used = new Set(skills.map((skill) => skill.group));
     expect(site.skillGroups.map((group) => group.id).filter((id) => !used.has(id))).toEqual([]);
   });
+});
+
+/** Every `src` anywhere in a JSON value (gallery images, covers, architecture diagrams). */
+function sources(value: unknown): string[] {
+  if (Array.isArray(value)) return value.flatMap(sources);
+  if (!value || typeof value !== 'object') return [];
+  return Object.entries(value).flatMap(([key, child]) =>
+    key === 'src' && typeof child === 'string' ? [child] : sources(child),
+  );
+}
+
+describe('images (P1-08)', () => {
+  it.each(['en', 'pt', 'es'])(
+    'every image src in content/%s/projects.json exists in public/',
+    (locale) => {
+      const file = new URL(`../../content/${locale}/projects.json`, import.meta.url);
+      const missing = sources(JSON.parse(readFileSync(file, 'utf8'))).filter(
+        (src) => !existsSync(new URL(`../../public${src}`, import.meta.url)),
+      );
+      expect(missing).toEqual([]);
+    },
+  );
 });

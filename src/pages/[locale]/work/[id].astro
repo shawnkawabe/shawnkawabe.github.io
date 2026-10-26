@@ -13,6 +13,7 @@ import {
   getProjects,
   getSkills,
   publicFileExists,
+  publicImageSize,
   siteLocales,
 } from '@/lib/content';
 import { localePath, strings, toLocale } from '@/lib/i18n';
@@ -43,6 +44,12 @@ const [projects, skills, experience] = await Promise.all([
 const { prev, next } = prevNext(projects, project.id);
 const sections = caseStudySections(project, publicFileExists);
 const { challenge, architecture, decisions, gallery, outcomes, takeaway } = sections;
+const galleryImages = await Promise.all(
+  (gallery?.images ?? []).map(async (image) => ({
+    ...image,
+    ...(await publicImageSize(image.src)),
+  })),
+);
 const t = ui.caseStudy;
 
 const column = 'mx-auto flex w-full flex-col gap-6 px-4 sm:px-6 lg:px-8';
@@ -95,7 +102,7 @@ const media = `${column} max-w-300`;
   {gallery && (
     <section class={media}>
       <h2>{t.gallery}</h2>
-      <Gallery images={gallery.images} />
+      <Gallery images={galleryImages} />
     </section>
   )}
   {outcomes && (

@@ -3,6 +3,7 @@ import { getContainerRenderer } from '@astrojs/react/container-renderer';
 import { loadRenderers } from 'astro:container';
 import { beforeAll, describe, expect, it } from 'vitest';
 import DecisionCards from '@/components/patterns/DecisionCards.astro';
+import Gallery from '@/components/patterns/Gallery.astro';
 import Outcomes from '@/components/patterns/Outcomes.astro';
 import PrevNext from '@/components/patterns/PrevNext.astro';
 import SectionBand from '@/components/patterns/SectionBand.astro';
@@ -90,5 +91,28 @@ describe('SectionBand', () => {
     expect(html).toContain('--pf-c-band-tilt: -2deg');
     expect(html).toContain('bg-band-b');
     expect(html).toMatch(/aria-hidden="true"[^>]*><\/div>/);
+  });
+});
+
+describe('Gallery', () => {
+  it('reserves the space of images with a known size and captions only when given', async () => {
+    const html = await render(Gallery, {
+      images: [
+        {
+          src: '/img/a/01.webp',
+          alt: 'First screen',
+          caption: 'First',
+          approved: true,
+          width: 1600,
+          height: 867,
+        },
+        { src: '/img/a/02.webp', alt: 'Second screen', approved: true },
+      ],
+    });
+    expect(html).toMatch(
+      /<img src="\/img\/a\/01\.webp" alt="First screen" width="1600" height="867"/,
+    );
+    expect(html).toMatch(/<img src="\/img\/a\/02\.webp" alt="Second screen" loading="lazy"/);
+    expect(html.match(/<figcaption class="text-2 text-on-surface-2">/g)).toHaveLength(1);
   });
 });

@@ -37,8 +37,9 @@ Things that must exist or be decided before the task in **Blocks** can start. De
 - [x] **PRE-03 Local toolchain** — Blocks: P0-01
       Node 24 LTS (`.nvmrc`), npm 11. Checked 2026-10-25: Node 24.22.1, npm 11.19.1.
 
-- [ ] **PRE-04 Approve npm install scripts** — Blocks: P1-08 (image conversion), CI parity
+- [x] **PRE-04 Approve npm install scripts** — Blocks: P1-08 (image conversion), CI parity
       npm 11 skips install scripts not covered by `allowScripts`: currently `esbuild` and `sharp`. The build works without them today, but `sharp` is needed for image work. Run `npm install-scripts approve esbuild sharp` and commit the resulting config.
+  - Resolved 2026-10-26 with nothing to approve: `npm install-scripts ls` reports no unreviewed scripts. `esbuild` left the tree with the move to Astro 7 (Vite 8 bundles with Rolldown), and `sharp` 0.35 loads prebuilt `@img/*` binaries without an install script (`require('sharp')` works; P1-08 used it).
 
 - [x] **PRE-05 Version assumptions** — Blocks: the task named
       Checked 2026-10-25, re-check before installing:
@@ -55,8 +56,9 @@ Things that must exist or be decided before the task in **Blocks** can start. De
 - [ ] **PRE-07 Web3Forms access key [H]** — Blocks: P2-09 (not P0-03)
       Create the key at web3forms.com for the contact email in `content/site.json`; store it in the repo variable from PRE-06 and in a local `.env` (git-ignored). Empty key is valid: the form is hidden and email/LinkedIn links remain (§10).
 
-- [ ] **PRE-08 Rescued project images [H]** — Blocks: P1-08
+- [x] **PRE-08 Rescued project images [H]** — Blocks: P1-08
       Copy the old repo's `assets/projects/` (26 PNGs + `_manifest.json`) into `docs/source-images/`. The folder is already git-ignored (§8.4) because originals may contain client data.
+  - Done 2026-10-26 from the local checkout at `Documents/Personal/portfolio/assets/projects/` (manifest + 10 project folders). `docs/source-images/` stays git-ignored.
 
 ## Phase 0 — Foundation and spike
 
@@ -130,10 +132,11 @@ Things that must exist or be decided before the task in **Blocks** can start. De
   - [x] No icon resembles a cloud shape or any Salesforce mark.
   - Notes: files are named by cloud skill id (`sales-cloud.svg` … `membership.svg`) and drawn on Lucide's conventions (round caps and joins) so they sit beside UI icons. `<Icon name="sales-cloud" />` renders them as Astro SVG components (static, no React); `IconName` now covers UI and cloud names, and `Icon` accepts size 32 for CloudCard. `tests/unit/icons.test.ts` enforces one icon per cloud skill and the 24px / 1.5px / `currentColor` / no-raw-colour rules. Shown in each cloud's accent at `/dev/components`.
 
-- [ ] **P1-08 Import rescued images [H]** — Deps: P1-04
+- [x] **P1-08 Import rescued images [H]** — Deps: P1-04
       Shawn copies the rescued `assets/projects/` folder (26 PNGs + `_manifest.json`) from the old repo's local checkout into `docs/source-images/`. Convert each to WebP (max 1600px wide, quality 80) into `public/img/{project-id}/` (`cover.webp`, `01.webp`…), mapping old slugs to `projects.json` ids. Use manifest captions for `caption` and write meaningful `alt`. Gallery images are approved (they were public on v1); blur any personal or customer data during conversion.
-  - [ ] Every `src` in `projects.json` points to an existing file; a content test fails on a missing file.
-  - [ ] `docs/source-images/` is git-ignored or deleted after conversion (originals may contain client data).
+  - [x] Every `src` in `projects.json` points to an existing file; a content test fails on a missing file. (`tests/unit/content.test.ts`, all three locales.)
+  - [x] `docs/source-images/` is git-ignored or deleted after conversion (originals may contain client data). (Git-ignored, kept locally.)
+  - Notes (2026-10-26): the 16 gallery PNGs became `public/img/{id}/01–04.webp` (≤ 1600px, q80, 8–63 KB) for volkswagen-group-portal, adtalem-global-education, cooxupe and brf, matching the gallery entries and manifest captions already in `projects.json`. Blurred during conversion: a VIN (VW 01), two portal users' names (VW 03, 04) and a postal code (BRF 01–04, header and delivery dialog). Adtalem 02 is `approved: false` because it shows the Salesforce cloud mark (CLAUDE.md §8). Alt text was rewritten from what the images actually show (Adtalem 01, 03, 04 are vendor logos; BRF and Cooxupé alts now describe the screen). Old covers were not imported: covers are gradient presets by design. Gallery `<img>` tags now carry `width`/`height` from `publicImageSize()` so they reserve space before loading (CLS 0 on `/en/work/brf/`). `lighthouserc.json` now audits `/en/` URLs: the old unprefixed ones are redirects since P4-01, which cost Work a point. Lighthouse: performance 0.97–0.99, the other categories 1.
 
 ## Phase 2 — Shell and pages
 
