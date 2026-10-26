@@ -220,6 +220,7 @@ Things that must exist or be decided before the task in **Blocks** can start. De
 
 - [ ] **P3-06 Content enrichment (optional, not a launch blocker)**
       When Shawn adds briefs in `docs/briefs/`, turn them into decisions, team size and takeaways in `content/projects.json`. Draw the Lavoro Agro architecture as a simple SVG from its architecture section.
+  - Notes (2026-10-26): the Lavoro Agro diagram is done: `public/img/lavoro-agro/architecture.svg`, drawn only from its architecture text (OPEN_QUESTIONS #12), with dark token values inlined because an `<img>` cannot read page CSS variables, and a full-sentence `alt`. Lavoro Agro is now `"depth": "case-study"`: as a `card` (SPEC §5.3, sections 1, 2, 3, 7, 8, 10) its architecture section, text included, never rendered, which contradicted #12. Checked: axe 0 and no overflow at 1440 (dark) and 375 (light); at 375 the diagram labels are small, so the paragraph above and the `alt` carry the same facts. Still open: no briefs in `docs/briefs/` yet, so decisions, team size and takeaways wait for Shawn.
 
 - [ ] **P3-07 Launch** — Deps: all above
       Final review at 375/768/1440 in both themes, external link check, merge `rebuild` → `main`, verify live.
