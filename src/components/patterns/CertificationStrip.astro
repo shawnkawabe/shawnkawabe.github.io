@@ -1,0 +1,23 @@
+---
+// SPEC §5.1 item 5: certifications as text chips, no dates. They link to the credentials page only
+// when site.links.credentials is set; otherwise they are plain text.
+import Chip from '@/components/ui/Chip.astro';
+import type { Certification } from '@/lib/schemas';
+
+interface Props {
+  certifications: readonly Pick<Certification, 'id' | 'label'>[];
+  credentialsUrl: string;
+}
+
+const { certifications, credentialsUrl } = Astro.props;
+---
+
+<ul class="flex flex-wrap gap-2">
+  {certifications.map((cert) => (
+    <li>
+      <Chip href={credentialsUrl || undefined} external>
+        {cert.label}
+      </Chip>
+    </li>
+  ))}
+</ul>

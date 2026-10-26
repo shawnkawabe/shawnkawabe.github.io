@@ -124,6 +124,14 @@
   --ease-*: initial;
   --ease-standard: var(--pf-g-easing-standard);
   --ease-emphasised: var(--pf-g-easing-emphasised);
+
+  /* DESIGN §7 marquee: 40s per loop, linear. The track holds the list twice, so −50% loops. */
+  --animate-marquee: pf-marquee 40s linear infinite;
+  @keyframes pf-marquee {
+    to {
+      translate: -50% 0;
+    }
+  }
 }
 
 /* Media queries cannot read var(), so breakpoints repeat the token values as literals. */
@@ -239,4 +247,20 @@
       scroll-behavior: auto !important;
     }
   }
+}
+
+/* Home hero poster (SPEC §5.1): a soft accent glow on the right, away from the text column.
+   Phase 3's data-core scene draws over it; reduced motion and no-WebGL keep only this. */
+.pf-hero-glow {
+  background:
+    radial-gradient(
+      50% 60% at 85% 35%,
+      color-mix(in oklab, var(--pf-g-color-accent-1) 18%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      40% 50% at 70% 80%,
+      color-mix(in oklab, var(--pf-g-color-accent-2) 10%, transparent),
+      transparent 70%
+    );
 }

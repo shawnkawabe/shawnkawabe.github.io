@@ -20,3 +20,13 @@ export function employerNames(
 export function plural(forms: { one: string; other: string }, count: number): string {
   return format(pluralRules.select(count) === 'one' ? forms.one : forms.other, { count });
 }
+
+export type TextPart = { text: string; strong: boolean };
+
+/** Splits "I build **Salesforce solutions**" into plain and emphasised parts (SPEC §5.1 hero intro). */
+export function emphasisParts(text: string): TextPart[] {
+  return text
+    .split(/\*\*(.+?)\*\*/)
+    .map((part, index) => ({ text: part, strong: index % 2 === 1 }))
+    .filter((part) => part.text !== '');
+}

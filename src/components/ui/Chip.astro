@@ -1,7 +1,11 @@
 ---
 // DESIGN §9 Chip: 28px pill; mono uppercase or Inter; optional cloud-accent dot; link when href is set.
+import en from '@/i18n/en.json';
+
 interface Props {
   href?: string;
+  /** Opens `href` in a new tab and says so to screen readers. */
+  external?: boolean;
   selected?: boolean;
   mono?: boolean;
   /** Cloud accent token name, e.g. "cloud-sales". */
@@ -9,12 +13,21 @@ interface Props {
   class?: string;
 }
 
-const { href, selected = false, mono = false, accent, class: className } = Astro.props;
+const {
+  href,
+  external = false,
+  selected = false,
+  mono = false,
+  accent,
+  class: className,
+} = Astro.props;
 const Tag = href ? 'a' : 'span';
 ---
 
 <Tag
   href={href}
+  target={href && external ? '_blank' : undefined}
+  rel={href && external ? 'noopener noreferrer' : undefined}
   data-selected={selected ? 'true' : undefined}
   class:list={[
     'inline-flex h-7 items-center gap-2 rounded-pill border px-3 whitespace-nowrap no-underline',
@@ -35,4 +48,5 @@ const Tag = href ? 'a' : 'span';
     />
   )}
   <slot />
+  {href && external && <span class="sr-only"> ({en.nav.newTab})</span>}
 </Tag>
