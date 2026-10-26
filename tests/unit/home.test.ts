@@ -3,6 +3,7 @@ import { getContainerRenderer } from '@astrojs/react/container-renderer';
 import { loadRenderers } from 'astro:container';
 import { beforeAll, describe, expect, it } from 'vitest';
 import CertificationStrip from '@/components/patterns/CertificationStrip.astro';
+import CompanyList from '@/components/patterns/CompanyList.astro';
 import Hero from '@/components/patterns/Hero.astro';
 import Marquee from '@/components/patterns/Marquee.astro';
 import SkillGroups from '@/components/patterns/SkillGroups.astro';
@@ -88,5 +89,21 @@ describe('SkillGroups (Skills page)', () => {
     expect(html).toMatch(/<a href="\/work\?cap=apex"[^>]*>[\s\S]*Apex[\s\S]*1 project</);
     expect(html).toMatch(/<span[^>]*>\s*Aura\s*<\/span>/);
     expect(html).not.toContain('0 projects');
+  });
+});
+
+describe('CompanyList (About page)', () => {
+  it('lists each company with its role and project links, skipping unknown ids', async () => {
+    const html = await render(CompanyList, {
+      experience: [
+        { id: 'globant', employer: 'Globant', role: 'Developer', projectIds: ['brf', 'gone'] },
+        { id: 'intern', employer: 'MyVillage', role: 'Intern', projectIds: [] },
+      ],
+      projects: [{ id: 'brf', title: 'BRF' }],
+    });
+    expect(html).toContain('Globant');
+    expect(html).toMatch(/<a href="\/work\/brf"[^>]*>\s*BRF/);
+    expect(html).not.toContain('/work/gone');
+    expect(html.match(/<ul/g)).toHaveLength(2);
   });
 });

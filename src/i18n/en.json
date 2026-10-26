@@ -51,6 +51,13 @@
     "certifications": "Certifications",
     "languages": "Languages"
   },
+  "about": {
+    "principles": "How I work",
+    "companies": "Companies I've delivered through",
+    "history": "Full history",
+    "historyLine": "The complete career history is in my resume.",
+    "resume": "Download resume"
+  },
   "caseStudy": {
     "snapshotLabel": "Project snapshot",
     "client": "Client",

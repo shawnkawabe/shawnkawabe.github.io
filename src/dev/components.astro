@@ -6,11 +6,12 @@ import Heading from '@/components/ui/Heading.astro';
 import Icon from '@/components/ui/Icon.astro';
 import Surface from '@/components/ui/Surface.astro';
 import Text from '@/components/ui/Text.astro';
-import { getCertifications, getProjects, getSite, getSkills } from '@/lib/content';
+import { getCertifications, getExperience, getProjects, getSite, getSkills } from '@/lib/content';
 import { cloudStats, skillGroupChips, sortProjects } from '@/lib/derive';
 import { brandIcons, icons, type CloudIconName, type IconName } from '@/lib/icons';
 import CertificationStrip from '@/components/patterns/CertificationStrip.astro';
 import CloudBento from '@/components/patterns/CloudBento.astro';
+import CompanyList from '@/components/patterns/CompanyList.astro';
 import Hero from '@/components/patterns/Hero.astro';
 import Marquee from '@/components/patterns/Marquee.astro';
 import SkillGroups from '@/components/patterns/SkillGroups.astro';
@@ -222,6 +223,7 @@ const accents = ['cloud-sales', 'cloud-service', 'cloud-data', 'cloud-membership
           <Hero site={getSite()} />
         </Surface>
         <Marquee items={['GRAX', 'D4Sign', 'Nimble AMS', 'Fonteva']} id="dev-marquee" />
+        <CompanyList experience={(await getExperience()).slice(0, 2)} projects={projects} />
         <SkillGroups
           groups={skillGroupChips(getSite().skillGroups, skills, projects).slice(0, 2)}
         />

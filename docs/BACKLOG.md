@@ -178,9 +178,10 @@ Things that must exist or be decided before the task in **Blocks** can start. De
   - [x] Every chip with count > 0 links to the right filtered Work URL.
   - Notes: groups come from the pure `skillGroupChips()` (site order, `cloud=` for the clouds group, `cap=` otherwise; empty groups dropped). Chips read "Apex · 6 projects"; skills with no projects are plain text without a count. The page intro reuses `site.seo.pages.skills.description` (no separate intro field exists). `Chip` gained `wrap` so long labels wrap at 375px (the Home availability chip uses it too). Group headings are plain `h3`s rather than labelled sections, because a "Clouds" group next to the "Clouds" bento section broke axe `landmark-unique`. Checked in Playwright: all 41 linked chips open a Work URL whose result count equals the chip's count; the 17 unlinked skills have no count; axe 0 violations and no horizontal scroll at 375/768/1440 in both themes.
 
-- [ ] **P2-08 About page** — Deps: P2-01, P1-05
+- [x] **P2-08 About page** — Deps: P2-01, P1-05
       SPEC §5.5: bio, principles, companies row with project chips, resume button.
-  - [ ] No dates rendered anywhere on the page; works without JS.
+  - [x] No dates rendered anywhere on the page; works without JS.
+  - Notes: fully static. `site.photo` is `null`, so the bio takes the full width; when a photo is added it renders only if approved and present in `public/` (same `visibleImage()` rule as case studies). `CompanyList` shows employer, role and project chips linking to case studies, skipping project ids not in `projects.json`; MyVillage has no projects, so it shows without chips. The "Full history" line is a UI string in `en.json` ("The complete career history is in my resume."), not a claim about Shawn. Checked in Playwright: axe 0 violations and no horizontal scroll at 375/768/1440 in both themes; no year or month-date pattern in the page text.
 
 - [ ] **P2-09 Contact page** — Deps: P1-06
       SPEC §5.6 `ContactForm` island with zod schema, honeypot, Web3Forms POST, all four states, empty-key fallback.
