@@ -106,10 +106,11 @@ Things that must exist or be decided before the task in **Blocks** can start. De
   - [x] No visible layout shift from font swap above the fold (CLS < 0.05).
   - Notes: all four `@fontsource-variable/*` packages exist (5.3.0, so no static Orbitron fallback). Registered family names (`Inter Variable`, `Space Grotesk Variable`, `JetBrains Mono Variable`, `Orbitron Variable`) already match `tokens/base.tokens.json`; no token change. Fonts are imported in `global.css`; `src/lib/fonts.ts` exports the two Latin WOFF2 preload URLs (same hashed files the `@font-face` rules use, so no double download) for the page `<head>` (move to `BaseLayout` in P2-01). Measured with Lighthouse mobile, 3 runs each on `astro preview`: a temporary page with all four families above the fold had CLS 0.024 and performance 99; home had CLS 0 and performance 100. Fonts add ~120 KB (Inter 47, JetBrains Mono 40, Space Grotesk 22, Orbitron 12) and moved LCP from 0.8 s to 1.4–1.8 s (still "good"). Home preloads Space Grotesk before it has a heading; fine once P2 pages exist.
 
-- [ ] **P1-04 Content layer** — Deps: P0-02
+- [x] **P1-04 Content layer** — Deps: P0-02
       `src/lib/schemas.ts` exactly per ARCHITECTURE §3.1; `src/content.config.ts` with four `file()` collections; `src/lib/content.ts` getters, including `getSite()` which imports `content/site.json` and parses it with `siteSchema`. `tests/unit/content.test.ts` with every cross-file check in §3.1.
-  - [ ] Removing a required field from `projects.json` fails `npm run validate:content` with a readable message (try it, then revert).
-  - [ ] Removing a required field from `site.json` fails `npm test`.
+  - [x] Removing a required field from `projects.json` fails `npm run validate:content` with a readable message (try it, then revert).
+  - [x] Removing a required field from `site.json` fails `npm test`.
+  - Notes: `schemas.ts` is §3.1 verbatim plus exported `z.infer` types. Astro 7 bundles Zod 4, where `z.string().email()`/`.url()` are deprecated aliases of `z.email()`/`z.url()` but still work; kept as specified. `content.config.ts` imports schemas relatively (`./lib/schemas`). Getters return plain data in file order; `getSite()` parses once and caches. `tests/unit/content.test.ts` parses all five files with the real schemas and runs every §3.1 cross-file check (it replaces the P0-02 sample test). Verified by breaking files: no `title` in a project → `astro sync` prints `projects → volkswagen-group-portal … title: Required`; no `name` in site.json → `npm test` fails; an unknown cloud id → two cross-file tests fail naming `volkswagen-group-portal → nonexistent-cloud`.
 
 - [ ] **P1-05 Derived data** — Deps: P1-04
       `src/lib/derive.ts`, `format.ts`, `filters.ts` per ARCHITECTURE §3.2.
