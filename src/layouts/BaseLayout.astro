@@ -8,7 +8,7 @@ import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { getSite, siteLocales } from '@/lib/content';
 import { preloadFonts } from '@/lib/fonts';
-import { DEFAULT_OG_IMAGE, format, ogImageFor, serializeJsonLd, type PageMeta } from '@/lib/seo';
+import { format, isDefaultOgImage, ogImageFor, serializeJsonLd, type PageMeta } from '@/lib/seo';
 import {
   alternates,
   DEFAULT_LOCALE,
@@ -41,18 +41,15 @@ const languages = splitLocale(Astro.url.pathname).locale
   ? alternates(Astro.url.pathname, siteLocales())
   : [];
 const xDefault = new URL(switchLocalePath(Astro.url.pathname, DEFAULT_LOCALE), origin).href;
-// Build-time check, so a new project uses the default card until `npm run og` is re-run. Cards
-// are shared by every language, so the lookup ignores the locale prefix.
+// Build-time check, so a new project uses the default card until `npm run og` is re-run, and a
+// translated page uses the English card until its language has cards of its own.
 const ogImage =
   Astro.props.ogImage ??
-  ogImageFor(splitLocale(Astro.url.pathname).path, (path) =>
-    existsSync(join(process.cwd(), 'public', path)),
-  );
+  ogImageFor(Astro.url.pathname, (path) => existsSync(join(process.cwd(), 'public', path)));
 const ogImageUrl = new URL(ogImage, origin).href;
-const ogImageAlt =
-  ogImage === DEFAULT_OG_IMAGE
-    ? format(ui.ogImageAlt, { name: site.name, role: site.role })
-    : format(ui.ogImageAltPage, { title: meta.title, role: site.role });
+const ogImageAlt = isDefaultOgImage(ogImage)
+  ? format(ui.ogImageAlt, { name: site.name, role: site.role })
+  : format(ui.ogImageAltPage, { title: meta.title, role: site.role });
 ---
 
 <html lang={localeInfo[locale].htmlLang}>

@@ -4,6 +4,7 @@ import {
   creativeWorkJsonLd,
   DEFAULT_OG_IMAGE,
   format,
+  isDefaultOgImage,
   ogImageFor,
   pageMeta,
   personJsonLd,
@@ -48,7 +49,13 @@ describe('pageMeta (SPEC §4.5)', () => {
 });
 
 describe('ogImageFor (SPEC §4.5)', () => {
-  const generated = new Set(['/og/work.png', '/og/work/brf.png']);
+  const generated = new Set([
+    '/og/default.png',
+    '/og/work.png',
+    '/og/work/brf.png',
+    '/og/pt/default.png',
+    '/og/pt/work.png',
+  ]);
   const exists = (path: string) => generated.has(path);
 
   it('uses the generated card for the route, with or without slashes', () => {
@@ -57,8 +64,23 @@ describe('ogImageFor (SPEC §4.5)', () => {
     expect(ogImageFor('/work/brf/', exists)).toBe('/og/work/brf.png');
   });
 
+  it('prefers the translated card, then the English one', () => {
+    expect(ogImageFor('/pt/work/', exists)).toBe('/og/pt/work.png');
+    expect(ogImageFor('/pt/work/brf/', exists)).toBe('/og/work/brf.png');
+    expect(ogImageFor('/pt/', exists)).toBe('/og/pt/default.png');
+    expect(ogImageFor('/es/', exists)).toBe(DEFAULT_OG_IMAGE);
+    expect(ogImageFor('/en/work/brf/', exists)).toBe('/og/work/brf.png');
+  });
+
+  it('marks default cards in every language', () => {
+    expect(isDefaultOgImage('/og/pt/default.png')).toBe(true);
+    expect(isDefaultOgImage('/og/work.png')).toBe(false);
+  });
+
   it('falls back to the default card on Home and for routes not generated yet', () => {
     expect(ogImageFor('/', exists)).toBe(DEFAULT_OG_IMAGE);
+    expect(ogImageFor('/en/', exists)).toBe(DEFAULT_OG_IMAGE);
+    expect(ogImageFor('/', () => false)).toBe(DEFAULT_OG_IMAGE);
     expect(ogImageFor('/work/new-project/', exists)).toBe(DEFAULT_OG_IMAGE);
     expect(ogImageFor('/404', exists)).toBe(DEFAULT_OG_IMAGE);
   });

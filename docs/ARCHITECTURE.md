@@ -391,7 +391,7 @@ const devGallery = () => ({
 });
 ```
 
-It is therefore never built, never deployed and never in the sitemap. The same integration injects `/dev/og/[...route]` (`src/dev/og.astro`): one 1200×630 social card per route, which `npm run og` (`scripts/og.mjs`) screenshots into `public/og/` (P3-05). The route is a path segment, not a query, because prerendered pages get no search params even in dev.
+It is therefore never built, never deployed and never in the sitemap. The same integration injects `/dev/og/[...route]` (`src/dev/og.astro`): one 1200×630 social card per route, which `npm run og` (`scripts/og.mjs`) screenshots into `public/og/` (P3-05); a locale prefix (`/dev/og/pt/work`) renders the translated card into `public/og/{locale}/`, for reviewed languages only (`--drafts` for a local preview). The route is a path segment, not a query, because prerendered pages get no search params even in dev.
 
 ## 5. Styling
 
