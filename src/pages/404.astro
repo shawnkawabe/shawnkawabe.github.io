@@ -1,0 +1,32 @@
+---
+// SPEC §5.7: GitHub Pages serves dist/404.html for unknown URLs. Same shell, links to Home and Work.
+import { buttonVariants } from '@/components/ui/button';
+import Icon from '@/components/ui/Icon.astro';
+import en from '@/i18n/en.json';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getSite } from '@/lib/content';
+import { pageMeta } from '@/lib/seo';
+
+const site = getSite();
+---
+
+<BaseLayout meta={pageMeta(site, { page: 'notFound' })} noindex>
+  <div class="mx-auto flex w-full max-w-180 flex-col items-start gap-6 px-4 py-24 sm:px-6 lg:px-8 lg:py-32">
+    <p class="font-mono text-2 tracking-label text-on-surface-2 uppercase">404</p>
+    <h1>{site.notFound.title}</h1>
+    <p class="text-4 text-on-surface-2">{site.notFound.body}</p>
+    <div class="flex flex-wrap gap-3 pt-2">
+      <a href="/" class:list={[buttonVariants({ variant: 'brand', size: 'lg' }), 'no-underline']}>
+        <Icon name="home" />
+        {en.nav.home}
+      </a>
+      <a
+        href="/work"
+        class:list={[buttonVariants({ variant: 'neutral', size: 'lg' }), 'no-underline']}
+      >
+        {en.nav.work}
+        <Icon name="arrow-right" />
+      </a>
+    </div>
+  </div>
+</BaseLayout>

@@ -189,8 +189,9 @@ Things that must exist or be decided before the task in **Blocks** can start. De
   - [x] Works with keyboard and screen reader (errors announced).
   - Notes: with react-hook-form, `/contact` shipped 88.4 KB gz, over the 80 KB budget; ADR 0004 drops it (and `@hookform/resolvers`) for React state + the shared `zod/mini` schema, so the page now ships 76.0 KB gz (measured with a throwaway key at build time). Schema, validation and the POST live in `src/lib/contact.ts` (coverage gate). Errors show on blur and submit, sit in `aria-describedby`, use `role="alert"`, and a failed submit focuses the first invalid field. The honeypot is Web3Forms' `botcheck`; a filled one is dropped silently and reported as sent. On a network or API error the data stays and the button reads "Try again"; the error message carries a `mailto:` fallback. Success replaces the form and takes focus. `ContactFormSection.astro` renders the island only when `PUBLIC_WEB3FORMS_KEY` is set (Container test for both cases). Still needs PRE-07 for the real key; until then the page shows email and LinkedIn only, while `site.contact.intro` still says "Send a message or email me directly". Checked in Playwright with Web3Forms intercepted (dev gallery, fake key): all four states, focus moves, payload shape; axe 0 violations on the form and on `/contact` at 375/768/1440 in both themes.
 
-- [ ] **P2-10 404 page** — Deps: P2-01
+- [x] **P2-10 404 page** — Deps: P2-01
       From `site.notFound`. GitHub Pages serves `dist/404.html` automatically.
+  - Notes: same shell, title and body from `site.notFound`, buttons to Home and Work. `BaseLayout` gained `noindex`, which writes `<meta name="robots" content="noindex">` instead of a canonical link (a 404 has no canonical URL). Checked: `dist/404.html` is built and left out of the sitemap; axe 0 violations at 375/1440 in both themes.
 
 ## Phase 3 — Signature visuals and launch
 

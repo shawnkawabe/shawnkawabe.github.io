@@ -15,9 +15,11 @@ interface Props {
   jsonLd?: object;
   /** Site-relative path of a 1200×630 image; per-page images arrive in P3-05. */
   ogImage?: string;
+  /** Keeps the page out of search results (404). */
+  noindex?: boolean;
 }
 
-const { meta, jsonLd, ogImage = '/og/default.png' } = Astro.props;
+const { meta, jsonLd, ogImage = '/og/default.png', noindex = false } = Astro.props;
 const site = getSite();
 const origin = Astro.site ?? new URL(import.meta.env.SITE);
 const canonical = new URL(Astro.url.pathname, origin).href;
@@ -48,7 +50,7 @@ const ogImageAlt = format(en.ogImageAlt, { name: site.name, role: site.role });
     </noscript>
     <title>{meta.title}</title>
     <meta name="description" content={meta.description} />
-    <link rel="canonical" href={canonical} />
+    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
     <meta name="color-scheme" content="dark light" />
     {preloadFonts.map((href) => (
       <link rel="preload" href={href} as="font" type="font/woff2" crossorigin />

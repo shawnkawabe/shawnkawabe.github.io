@@ -33,6 +33,12 @@ describe('BaseLayout', () => {
     expect(html).toContain('<meta name="twitter:card" content="summary_large_image">');
   });
 
+  it('marks a noindex page (404) for robots and drops its canonical link', async () => {
+    const html = await render({ meta, noindex: true });
+    expect(html).toContain('<meta name="robots" content="noindex">');
+    expect(html).not.toContain('rel="canonical"');
+  });
+
   it('applies the theme before paint, in <head>', async () => {
     const html = await render({ meta });
     const head = html.slice(0, html.indexOf('</head>'));
