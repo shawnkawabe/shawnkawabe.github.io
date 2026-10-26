@@ -247,7 +247,7 @@ Per ADR 0003. Starts after the English MVP pages; the English site may launch be
 - [x] **P4-03 Draft translations** — Deps: P4-02
       Draft `pt` (Brazilian) and `es` (Latin American) from the English files without adding facts; cloud, product and company names unchanged. Hand over for Shawn's review.
   - [x] Shawn approves each locale (sets its review flag). Both published 2026-10-26 at Shawn's request to show the language menu on the live site.
-  - [ ] Translated OG cards: run `npm run og` (needs a free dev-server slot); until then pt/es pages share the English cards.
+  - [x] Translated OG cards generated with `npm run og` (34 cards in `public/og/{pt,es}/`).
   - Drafted 2026-10-26: `src/i18n/{pt,es}.json` and `content/{pt,es}/*.json`. Employer job titles (`role`) and certification names stay in English, as do product, cloud and client names; Shawn's own headline role and project `category` labels are translated. Spanish calls to action use the formal "usted". Preview with `npm run dev` (drafts are built in dev) or `INCLUDE_DRAFT_LOCALES=true npm run build`. To approve, set `reviewed: true` for the locale in `src/i18n/locales.json`.
 
 - [x] **P4-04 Language switcher and SEO** — Deps: P4-02
