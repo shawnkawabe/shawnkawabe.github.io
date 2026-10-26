@@ -224,6 +224,7 @@ Things that must exist or be decided before the task in **Blocks** can start. De
 
 - [ ] **P3-07 Launch** — Deps: all above
       Final review at 375/768/1440 in both themes, external link check, merge `rebuild` → `main`, verify live.
+  - Notes (2026-10-26): pre-launch checks done; merge and live check are Shawn's (the agent may not push or deploy). Review: no horizontal scroll on any route at 768px in both themes (375 and 1440 are covered by `npm run test:a11y`: 110 tests, axe 0). External links: GitHub and the resume (Google Drive) return 200; LinkedIn returns 999 to any non-browser client (expected); the email matches OPEN_QUESTIONS #3. Absolute `shawnkawabe.github.io` URLs (canonical, OG) 404 until the deploy, as expected. Left for Shawn: open a PR `rebuild` → `main`, let `deploy.yml` and `quality.yml` pass, merge, then check the live URL and the Lighthouse numbers on it.
 
 ## Phase 4 — Languages (EN, PT, ES)
 
