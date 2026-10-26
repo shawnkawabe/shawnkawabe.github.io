@@ -438,6 +438,7 @@ Inline script in `BaseLayout` `<head>` (before CSS paints):
   "preview": "astro preview",
   "lint": "eslint . && prettier --check .",
   "test": "vitest run",
+  "test:a11y": "playwright test",
   "validate:content": "astro sync",
   "check:links": "linkinator dist --recurse --skip \"^(?!http://(localhost|127\\.0\\.0\\.1)[:/])\"",
   "ci": "npm run lint && npm run validate:content && npm test && npm run build && npm run check:links",
@@ -445,7 +446,7 @@ Inline script in `BaseLayout` `<head>` (before CSS paints):
 }
 ```
 
-`tokens` runs `style-dictionary.config.js` as a Node script (Style Dictionary API, two runs: `:root` and `[data-theme="light"]` share token paths, so one CLI build cannot emit both). `test:a11y` (`playwright test`) is added in P3-04 and runs in the second workflow, not in `ci`. The `check:links` skip pattern checks internal links only; external links are checked manually before launch. Linkinator 8 serves `dist/` on `127.0.0.1`, so a `localhost`-only pattern skips every link and the check passes vacuously; if "Scanned 0 links" ever appears, the pattern is wrong.
+`tokens` runs `style-dictionary.config.js` as a Node script (Style Dictionary API, two runs: `:root` and `[data-theme="light"]` share token paths, so one CLI build cannot emit both). `test:a11y` (`playwright test`, P3-04) runs against the built `dist/` through `astro preview` on port 4322, in the second workflow (§8.5), not in `ci`; run `npm run build` first. The `check:links` skip pattern checks internal links only; external links are checked manually before launch. Linkinator 8 serves `dist/` on `127.0.0.1`, so a `localhost`-only pattern skips every link and the check passes vacuously; if "Scanned 0 links" ever appears, the pattern is wrong.
 
 ### 8.2 `.github/workflows/deploy.yml`
 
@@ -486,7 +487,7 @@ jobs:
         uses: actions/deploy-pages@v5
 ```
 
-Repository settings: Pages → Source = GitHub Actions; repository **variable** (not secret) `PUBLIC_WEB3FORMS_KEY`; branch protection on `main` requiring the `build` job.
+Repository settings: Pages → Source = GitHub Actions; repository **variable** (not secret) `PUBLIC_WEB3FORMS_KEY`; branch protection on `main` requiring the `build` job and the two `quality.yml` jobs (`E2E and accessibility`, `Lighthouse`).
 
 ### 8.3 `.github/dependabot.yml`
 
@@ -520,6 +521,15 @@ test-results/
 docs/source-images/
 .DS_Store
 ```
+
+### 8.5 `.github/workflows/quality.yml`
+
+Runs on pull requests (and manually). Two jobs, each `npm ci` + `npm run build` on Node from `.nvmrc`:
+
+- **E2E and accessibility:** `npx playwright install --with-deps chromium`, then `npm run test:a11y`. `playwright.config.ts` runs `tests/e2e/` at 1440px and 375px. `smoke.spec.ts` checks every sitemap route (200, one `h1`, no console errors), the 404 page (status 404, `noindex`) and the nav (desktop rail and mobile sheet). `a11y.spec.ts` runs axe (WCAG 2.2 AA + best practices) on every route and the 404 page in both themes, with reveal sections shown. Report uploaded on failure.
+- **Lighthouse:** `npx -y @lhci/cli@0.15.1 autorun` with `lighthouserc.json`: `dist/` served statically; Home, `/work/` and `/work/brf/`; mobile profile, 3 runs; every category ≥ 0.95 (performance by median). Reports uploaded as an artifact. `@lhci/cli` is not a devDependency: its dependency tree (puppeteer, `tmp`, `uuid`, `basic-ftp`) carries `npm audit` advisories and it has had no release since 2025-06, so it runs pinned through `npx` and stays out of the lockfile.
+
+Merges are blocked only when branch protection lists both jobs as required checks (§8.2).
 
 ## 9. Performance budget
 

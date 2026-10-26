@@ -15,6 +15,7 @@
     "astro": "astro",
     "lint": "eslint . && prettier --check . && node scripts/check-raw-colors.js",
     "test": "vitest run --coverage",
+    "test:a11y": "playwright test",
     "validate:content": "astro sync",
     "check:links": "linkinator dist --recurse --skip \"^(?!http://(localhost|127\\.0\\.0\\.1)[:/])\"",
     "ci": "npm run lint && npm run validate:content && npm test && npm run build && npm run check:links",
@@ -53,7 +54,9 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",
+    "@axe-core/playwright": "^4.14.0",
     "@eslint/js": "^9.39.5",
+    "@playwright/test": "^1.64.1",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.3",
     "@testing-library/user-event": "^14.6.8",
