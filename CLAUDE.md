@@ -27,19 +27,19 @@ Read this file at the start of every session. Read the linked docs before workin
 
 ## 2. Stack (fixed — see ADR 0001)
 
-| Layer               | Choice                                               | Version            |
-| ------------------- | ---------------------------------------------------- | ------------------ |
-| Runtime             | Node.js                                              | 24 LTS (`.nvmrc`)  |
-| Site framework      | Astro, static output                                 | 7.x                |
-| Interactive islands | React                                                | 19.x               |
-| Styling             | Tailwind CSS mapped to design tokens                 | 4.x                |
-| UI primitives       | shadcn/ui (source copied into `src/components/ui`)   | latest CLI         |
-| 3D                  | three + @react-three/fiber + @react-three/drei       | R3F 9.x, drei 10.x |
-| Motion              | GSAP (all plugins free) + CSS transitions            | 3.x                |
-| Forms               | react-hook-form + zod, posted to Web3Forms           | —                  |
-| Tokens              | DTCG 2025.10 JSON → Style Dictionary                 | SD 5.x             |
-| Tests               | Vitest + Testing Library; Playwright + axe for pages | —                  |
-| Package manager     | npm (lockfile committed)                             | —                  |
+| Layer               | Choice                                                  | Version            |
+| ------------------- | ------------------------------------------------------- | ------------------ |
+| Runtime             | Node.js                                                 | 24 LTS (`.nvmrc`)  |
+| Site framework      | Astro, static output                                    | 7.x                |
+| Interactive islands | React                                                   | 19.x               |
+| Styling             | Tailwind CSS mapped to design tokens                    | 4.x                |
+| UI primitives       | shadcn/ui (source copied into `src/components/ui`)      | latest CLI         |
+| 3D                  | three + @react-three/fiber + @react-three/drei          | R3F 9.x, drei 10.x |
+| Motion              | GSAP (all plugins free) + CSS transitions               | 3.x                |
+| Forms               | zod (`zod/mini`) + React state, to Web3Forms (ADR 0004) | —                  |
+| Tokens              | DTCG 2025.10 JSON → Style Dictionary                    | SD 5.x             |
+| Tests               | Vitest + Testing Library; Playwright + axe for pages    | —                  |
+| Package manager     | npm (lockfile committed)                                | —                  |
 
 Do not add another UI kit, CSS framework, state library or animation library without an ADR.
 

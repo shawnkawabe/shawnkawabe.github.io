@@ -59,6 +59,7 @@ Rule of dependency: **pages → layouts → patterns → ui → tokens**. A laye
 │   │   ├── theme.ts              # currentTheme/setTheme/toggleTheme, bindThemeToggles(); pf-themechange
 │   │   ├── mobile-nav.ts         # bindMobileNav(): native <dialog> sheet, focus loop, close rules
 │   │   ├── filters.ts            # parse/serialise ?cloud=&cap= URL state
+│   │   ├── contact.ts            # contactSchema(), validateContact(), sendContact() (Web3Forms)
 │   │   ├── case-study.ts         # caseStudySections(), visibleImage(), outcomeValue(), stackLinks()
 │   │   ├── focus-trap.ts         # trapFocus(): Tab loop for native modal <dialog>s
 │   │   └── lightbox.ts           # bindLightbox(): gallery paging, focus return
@@ -317,7 +318,7 @@ All pure functions, 100% line coverage.
 | `Gallery`                                                                                       | astro                       | —                      | Grid                                                                                                               |
 | `Lightbox` (inside `Gallery`)                                                                   | astro + module script       | — (inline script)      | Native modal `<dialog>`; logic in `src/lib/lightbox.ts` (arrows, Esc, focus loop, focus return)                    |
 | `CompanyList`                                                                                   | astro                       | —                      | About page: company + role + project chips                                                                         |
-| `ContactForm`                                                                                   | tsx                         | `client:visible`       | RHF + zod + Web3Forms; not rendered when key is empty                                                              |
+| `ContactForm`                                                                                   | tsx                         | `client:visible`       | `zod/mini` schema + React state + Web3Forms (ADR 0004); rendered by `ContactFormSection` only when the key is set  |
 | `Reveal`                                                                                        | astro wrapper + tiny script | inline                 | GSAP ScrollTrigger, no-op on reduced motion                                                                        |
 
 Navigation and the theme toggle ship no React: React alone is ~68 KB gz, which would spend the whole §9 budget for non-3D pages on every page. They use plain module scripts (~0.7 KB gz inline) instead of shadcn Sheet; React is reserved for the filter bar, contact form and 3D scenes; the gallery lightbox uses the same native `<dialog>` approach, so case studies ship no React.
@@ -355,7 +356,7 @@ type WorkFiltersProps = {
 type FacetOption = { id: string; label: string; count: number; accent?: string }; // accent: cloud dot
 
 type ContactFormProps = {
-  accessKey: string;
+  web3formsKey: string;
   projectTypes: string[];
   successMessage: string;
   errorMessage: string;

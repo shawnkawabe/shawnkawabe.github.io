@@ -58,6 +58,30 @@
     "historyLine": "The complete career history is in my resume.",
     "resume": "Download resume"
   },
+  "contact": {
+    "emailLabel": "Email",
+    "linkedinLabel": "LinkedIn",
+    "formTitle": "Send a message",
+    "name": "Name",
+    "email": "Email",
+    "projectType": "Project type",
+    "projectTypePlaceholder": "Choose one",
+    "message": "Message",
+    "messageHint": "{min}–{max} characters",
+    "honeypot": "Leave this field empty",
+    "required": "required",
+    "submit": "Send message",
+    "submitting": "Sending…",
+    "retry": "Try again",
+    "errors": {
+      "nameRequired": "Enter your name",
+      "emailRequired": "Enter your email address",
+      "emailInvalid": "Enter a valid email address, like name@example.com",
+      "projectTypeRequired": "Choose a project type",
+      "messageTooShort": "Write at least 20 characters",
+      "messageTooLong": "Keep the message under 2000 characters"
+    }
+  },
   "caseStudy": {
     "snapshotLabel": "Project snapshot",
     "client": "Client",

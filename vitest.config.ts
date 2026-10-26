@@ -17,6 +17,7 @@ export default getViteConfig({
         'src/lib/focus-trap.ts',
         'src/lib/lightbox.ts',
         'src/lib/case-study.ts',
+        'src/lib/contact.ts',
       ],
       thresholds: { lines: 100 },
     },

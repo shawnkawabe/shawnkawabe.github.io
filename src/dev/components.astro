@@ -12,6 +12,7 @@ import { brandIcons, icons, type CloudIconName, type IconName } from '@/lib/icon
 import CertificationStrip from '@/components/patterns/CertificationStrip.astro';
 import CloudBento from '@/components/patterns/CloudBento.astro';
 import CompanyList from '@/components/patterns/CompanyList.astro';
+import ContactForm from '@/components/patterns/ContactForm';
 import Hero from '@/components/patterns/Hero.astro';
 import Marquee from '@/components/patterns/Marquee.astro';
 import SkillGroups from '@/components/patterns/SkillGroups.astro';
@@ -235,6 +236,26 @@ const accents = ['cloud-sales', 'cloud-service', 'cloud-data', 'cloud-membership
           certifications={[{ id: 'admin', label: 'Linked chip' }]}
           credentialsUrl="https://example.com"
         />
+      </section>
+
+      <section class="flex flex-col gap-6">
+        <Heading level={2} size={6}>
+          Contact form
+        </Heading>
+        <Text size={2} tone={2}>
+          Fake access key: submitting here posts to Web3Forms and fails, which shows the error
+          state.
+        </Text>
+        <div class="max-w-180">
+          <ContactForm
+            client:visible
+            web3formsKey="dev-gallery-fake-key"
+            projectTypes={getSite().contact.projectTypes}
+            successMessage={getSite().contact.successMessage}
+            errorMessage={getSite().contact.errorMessage}
+            fallbackEmail={getSite().links.email}
+          />
+        </div>
       </section>
 
       <section class="flex flex-col gap-6">
