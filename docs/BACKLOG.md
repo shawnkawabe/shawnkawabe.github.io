@@ -49,7 +49,7 @@ Things that must exist or be decided before the task in **Blocks** can start. De
   - `@react-three/fiber@9` (9.8.2) requires `react` and `react-dom` `>=19 <19.4`; installed React is 19.3.1. **Dependabot's minor group will try to raise React to 19.4 and break R3F** — hold React below 19.4 until R3F allows it (P0-03 dependabot config or P0-04).
   - Stack drift: P0-01 started on Astro 6 (Vite 7, `@astrojs/react@5`, `overrides.vite`). After P0-04, `npm audit` showed unpatched Astro 6 advisories (critical AVIF RCE GHSA-26w7-cxv4-gfx2, several XSS); Shawn approved moving to **Astro 7.4** (`@astrojs/react@7`, Vite 8, override removed). 0 vulnerabilities after the move. See ADR 0001 amendment.
 
-- [ ] **PRE-06 GitHub repository settings [H]** — Blocks: P0-03
+- [ ] **PRE-06 GitHub repository settings [H]** — Blocks: P0-03 (Pages source done 2026-10-26; variable and branch protection open)
       §8.2: Settings → Pages → Source = **GitHub Actions**. Settings → Secrets and variables → Actions → **Variables** → `PUBLIC_WEB3FORMS_KEY` (may be empty; a variable, not a secret). Branch protection on `main` requiring the `build` job: add after the first workflow run, since the check must exist before it can be required.
 
 - [ ] **PRE-07 Web3Forms access key [H]** — Blocks: P2-09 (not P0-03)
@@ -73,10 +73,10 @@ Things that must exist or be decided before the task in **Blocks** can start. De
   - [x] A commit with a mis-formatted file gets formatted by the hook.
   - Notes: ESLint pinned to `^9` (with `@eslint/js@^9`, added for `js.configs.recommended`): ESLint 10 is current but `eslint-plugin-jsx-a11y` 6.10 supports only ≤ 9, and `eslint-plugin-astro` 2.x+ requires ESLint 10, so it is pinned to `^1.7`. Vitest 5 uses two projects: `unit` (node) and `islands` (jsdom, `tests/setup-dom.ts`), wrapped in Astro's `getViteConfig` so the Container API works later. Prettier ran over the whole repo once: whitespace and table alignment only (JSON data and prose verified unchanged); code blocks in ARCHITECTURE §3.1 were re-wrapped. `check:links` skip pattern corrected (see ARCHITECTURE §8.1 note): the original skipped every link and could never fail. The sample test checks that content files parse and collection ids are unique.
 
-- [ ] **P0-03 Deploy pipeline** — Deps: P0-02
+- [x] **P0-03 Deploy pipeline** — Deps: P0-02
       `.github/workflows/deploy.yml` and `.github/dependabot.yml` exactly as ARCHITECTURE §8.2–8.3. **[H]** Shawn sets Pages source to GitHub Actions and adds the repository variable `PUBLIC_WEB3FORMS_KEY` (may stay empty for now).
-  - [ ] PR runs the build job only; merge to `main` deploys; the live URL shows the scaffold.
-  - Notes: both files committed as specified; `withastro/action@v6` inputs (`node-version`, `build-cmd`) verified, and it uploads the Pages artifact itself. Addition to §8.3: Dependabot ignores `react`/`react-dom` `>=19.4.0` because R3F 9 peers on `<19.4` (PRE-05). Waiting on PRE-06: on 2026-10-25 the Pages API still reported `build_type: legacy` (source `main` /). Then open a PR `rebuild` → `main`, confirm only `build` runs, merge, check the live URL.
+  - [x] PR runs the build job only; merge to `main` deploys; the live URL shows the scaffold.
+  - Notes: both files committed as specified; `withastro/action@v6` inputs (`node-version`, `build-cmd`) verified, and it uploads the Pages artifact itself. Addition to §8.3: Dependabot ignores `react`/`react-dom` `>=19.4.0` because R3F 9 peers on `<19.4` (PRE-05). Verified 2026-10-26: PR #1 ran `build` (full `npm run ci`, 37s) with `deploy` skipped; the merge push ran `build` + `deploy` (run 40252935848); live URL serves the Astro 7.4.2 scaffold. Live Lighthouse mobile: performance 100, accessibility 100, best practices 100, SEO 90 (placeholder has no meta description; fixed by P2-01). `PUBLIC_WEB3FORMS_KEY` variable not yet set (allowed empty until P2-09).
 
 - [x] **P0-04 3D spike** — Deps: P0-01
       Install `three @react-three/fiber@9 @react-three/drei@10` and `-D @types/three`. On a temporary page, render a rotating icosahedron as a `client:visible` island below the fold, with a gradient poster and a reduced-motion fallback.
