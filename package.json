@@ -16,6 +16,7 @@
     "lint": "eslint . && prettier --check . && node scripts/check-raw-colors.js",
     "test": "vitest run --coverage",
     "test:a11y": "playwright test",
+    "og": "node scripts/og.mjs",
     "validate:content": "astro sync",
     "check:links": "linkinator dist --recurse --skip \"^(?!http://(localhost|127\\.0\\.0\\.1)[:/])\"",
     "ci": "npm run lint && npm run validate:content && npm test && npm run build && npm run check:links",

@@ -4,27 +4,36 @@ import '@/styles/global.css';
 import MobileNav from '@/components/patterns/MobileNav.astro';
 import NavRail from '@/components/patterns/NavRail.astro';
 import SiteFooter from '@/components/patterns/SiteFooter.astro';
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
 import en from '@/i18n/en.json';
 import { getSite } from '@/lib/content';
 import { preloadFonts } from '@/lib/fonts';
-import { format, serializeJsonLd, type PageMeta } from '@/lib/seo';
+import { DEFAULT_OG_IMAGE, format, ogImageFor, serializeJsonLd, type PageMeta } from '@/lib/seo';
 
 interface Props {
   meta: PageMeta;
   /** schema.org object rendered as JSON-LD (Person on Home, CreativeWork on case studies). */
   jsonLd?: object;
-  /** Site-relative path of a 1200×630 image; per-page images arrive in P3-05. */
+  /** Site-relative path of a 1200×630 image; defaults to the page's generated card (P3-05). */
   ogImage?: string;
   /** Keeps the page out of search results (404). */
   noindex?: boolean;
 }
 
-const { meta, jsonLd, ogImage = '/og/default.png', noindex = false } = Astro.props;
+const { meta, jsonLd, noindex = false } = Astro.props;
 const site = getSite();
 const origin = Astro.site ?? new URL(import.meta.env.SITE);
 const canonical = new URL(Astro.url.pathname, origin).href;
+// Build-time check, so a new project uses the default card until `npm run og` is re-run.
+const ogImage =
+  Astro.props.ogImage ??
+  ogImageFor(Astro.url.pathname, (path) => existsSync(join(process.cwd(), 'public', path)));
 const ogImageUrl = new URL(ogImage, origin).href;
-const ogImageAlt = format(en.ogImageAlt, { name: site.name, role: site.role });
+const ogImageAlt =
+  ogImage === DEFAULT_OG_IMAGE
+    ? format(en.ogImageAlt, { name: site.name, role: site.role })
+    : format(en.ogImageAltPage, { title: meta.title, role: site.role });
 ---
 
 <html lang="en">

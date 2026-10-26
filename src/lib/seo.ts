@@ -29,6 +29,18 @@ export function pageMeta(site: Site, source: MetaSource): PageMeta {
 }
 
 /** schema.org Person for the home page; every value comes from site.json. */
+export const DEFAULT_OG_IMAGE = '/og/default.png';
+
+/**
+ * SPEC §4.5 social card for a page: `/og/{route}.png` when `npm run og` has generated it, else the
+ * default card (name + role). Home always uses the default, which is its own card.
+ */
+export function ogImageFor(pathname: string, exists: (publicPath: string) => boolean): string {
+  const route = pathname.replace(/^\/+|\/+$/g, '');
+  const path = `/og/${route}.png`;
+  return route && exists(path) ? path : DEFAULT_OG_IMAGE;
+}
+
 export function personJsonLd(site: Site, siteUrl: string) {
   return {
     '@context': 'https://schema.org',

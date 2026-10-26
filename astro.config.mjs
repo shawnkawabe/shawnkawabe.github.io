@@ -9,7 +9,7 @@ import { cn } from 'cn/vite';
 // Dev pages live outside src/pages, so only the dev server can serve them (ARCHITECTURE §4.3).
 const devRoutes = [
   { pattern: '/dev/components', entrypoint: './src/dev/components.astro' },
-  { pattern: '/dev/og', entrypoint: './src/dev/og.astro' },
+  { pattern: '/dev/og/[...route]', entrypoint: './src/dev/og.astro' },
 ];
 
 const devGallery = () => ({

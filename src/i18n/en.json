@@ -123,5 +123,6 @@
     "github": "GitHub",
     "email": "Email"
   },
-  "ogImageAlt": "{name}, {role}"
+  "ogImageAlt": "{name}, {role}",
+  "ogImageAltPage": "{title}, {role}"
 }

@@ -384,7 +384,7 @@ const devGallery = () => ({
 });
 ```
 
-It is therefore never built, never deployed and never in the sitemap.
+It is therefore never built, never deployed and never in the sitemap. The same integration injects `/dev/og/[...route]` (`src/dev/og.astro`): one 1200×630 social card per route, which `npm run og` (`scripts/og.mjs`) screenshots into `public/og/` (P3-05). The route is a path segment, not a query, because prerendered pages get no search params even in dev.
 
 ## 5. Styling
 
@@ -439,6 +439,7 @@ Inline script in `BaseLayout` `<head>` (before CSS paints):
   "lint": "eslint . && prettier --check .",
   "test": "vitest run",
   "test:a11y": "playwright test",
+  "og": "node scripts/og.mjs",
   "validate:content": "astro sync",
   "check:links": "linkinator dist --recurse --skip \"^(?!http://(localhost|127\\.0\\.0\\.1)[:/])\"",
   "ci": "npm run lint && npm run validate:content && npm test && npm run build && npm run check:links",

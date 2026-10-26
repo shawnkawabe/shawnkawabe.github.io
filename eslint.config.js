@@ -21,7 +21,7 @@ export default defineConfig([
   // Also registers jsx-a11y with its recommended rules for every file, .tsx included.
   astro.configs['jsx-a11y-recommended'],
   {
-    files: ['*.{js,mjs}', 'scripts/**/*.js'],
+    files: ['*.{js,mjs}', 'scripts/**/*.{js,mjs}'],
     languageOptions: { globals: globals.node },
   },
 ]);

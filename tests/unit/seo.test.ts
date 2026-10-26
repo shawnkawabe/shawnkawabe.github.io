@@ -1,6 +1,14 @@
 import { describe, expect, it } from 'vitest';
 import { siteSchema } from '@/lib/schemas';
-import { creativeWorkJsonLd, format, pageMeta, personJsonLd, serializeJsonLd } from '@/lib/seo';
+import {
+  creativeWorkJsonLd,
+  DEFAULT_OG_IMAGE,
+  format,
+  ogImageFor,
+  pageMeta,
+  personJsonLd,
+  serializeJsonLd,
+} from '@/lib/seo';
 import siteJson from '../../content/site.json';
 
 const site = siteSchema.parse(siteJson);
@@ -34,6 +42,23 @@ describe('pageMeta (SPEC §4.5)', () => {
       title: `Dealer portal — ${site.name}`,
       description: 'A portal for dealers.',
     });
+  });
+});
+
+describe('ogImageFor (SPEC §4.5)', () => {
+  const generated = new Set(['/og/work.png', '/og/work/brf.png']);
+  const exists = (path: string) => generated.has(path);
+
+  it('uses the generated card for the route, with or without slashes', () => {
+    expect(ogImageFor('/work/', exists)).toBe('/og/work.png');
+    expect(ogImageFor('/work', exists)).toBe('/og/work.png');
+    expect(ogImageFor('/work/brf/', exists)).toBe('/og/work/brf.png');
+  });
+
+  it('falls back to the default card on Home and for routes not generated yet', () => {
+    expect(ogImageFor('/', exists)).toBe(DEFAULT_OG_IMAGE);
+    expect(ogImageFor('/work/new-project/', exists)).toBe(DEFAULT_OG_IMAGE);
+    expect(ogImageFor('/404', exists)).toBe(DEFAULT_OG_IMAGE);
   });
 });
 

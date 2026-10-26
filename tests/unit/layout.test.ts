@@ -14,10 +14,12 @@ beforeAll(async () => {
 });
 
 const meta = { title: 'Work — Shawn Kawabe', description: 'Projects.' };
-const render = (props: Record<string, unknown>) =>
+/** Attribute values come out HTML-escaped (the role contains `&`). */
+const attr = (value: string) => value.replaceAll('&', '&amp;');
+const render = (props: Record<string, unknown>, path = '/work/') =>
   container.renderToString(BaseLayout, {
     props,
-    request: new Request('https://shawnkawabe.github.io/work/'),
+    request: new Request(`https://shawnkawabe.github.io${path}`),
     slots: { default: '<h1>Page</h1>' },
   });
 
@@ -28,7 +30,10 @@ describe('BaseLayout', () => {
     expect(html).toContain('<meta name="description" content="Projects.">');
     expect(html).toContain('<link rel="canonical" href="https://shawnkawabe.github.io/work/">');
     expect(html).toContain(
-      '<meta property="og:image" content="https://shawnkawabe.github.io/og/default.png">',
+      '<meta property="og:image" content="https://shawnkawabe.github.io/og/work.png">',
+    );
+    expect(html).toContain(
+      `<meta property="og:image:alt" content="${attr(`Work — Shawn Kawabe, ${siteJson.role}`)}">`,
     );
     expect(html).toContain('<meta name="twitter:card" content="summary_large_image">');
   });
@@ -65,8 +70,18 @@ describe('BaseLayout', () => {
     expect(footer).toContain(siteJson.trademarkNotice);
   });
 
-  it('uses a per-page social image when provided', async () => {
-    const html = await render({ meta, ogImage: '/og/work.png' });
-    expect(html).toContain('content="https://shawnkawabe.github.io/og/work.png"');
+  it('falls back to the default card for routes without a generated one', async () => {
+    const html = await render({ meta }, '/work/not-generated-yet/');
+    expect(html).toContain(
+      '<meta property="og:image" content="https://shawnkawabe.github.io/og/default.png">',
+    );
+    expect(html).toContain(
+      `<meta property="og:image:alt" content="${attr(`${siteJson.name}, ${siteJson.role}`)}">`,
+    );
+  });
+
+  it('uses an explicit social image when provided', async () => {
+    const html = await render({ meta, ogImage: '/og/skills.png' });
+    expect(html).toContain('content="https://shawnkawabe.github.io/og/skills.png"');
   });
 });
