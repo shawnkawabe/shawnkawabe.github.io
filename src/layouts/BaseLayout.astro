@@ -38,6 +38,14 @@ const ogImageAlt = format(en.ogImageAlt, { name: site.name, role: site.role });
         document.documentElement.dataset.theme = 'dark';
       }
     </script>
+    <!-- Controls that only work with JavaScript (the Work filter bar) are hidden without it. -->
+    <noscript>
+      <style>
+        [data-js-only] {
+          display: none !important;
+        }
+      </style>
+    </noscript>
     <title>{meta.title}</title>
     <meta name="description" content={meta.description} />
     <link rel="canonical" href={canonical} />

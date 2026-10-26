@@ -1,0 +1,22 @@
+---
+// Placeholder until P2-05 builds the case study template; it exists so Work cards never link to a 404.
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getProjects, getSite } from '@/lib/content';
+import type { Project } from '@/lib/schemas';
+import { pageMeta } from '@/lib/seo';
+
+export async function getStaticPaths() {
+  return (await getProjects()).map((project) => ({
+    params: { id: project.id },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props as { project: Project };
+---
+
+<BaseLayout meta={pageMeta(getSite(), { project })}>
+  <div class="px-4 py-32 text-center">
+    <h1>{project.title}</h1>
+  </div>
+</BaseLayout>

@@ -27,6 +27,13 @@
     "moreClouds": "+{count}",
     "moreCloudsLabel": "{count} more clouds"
   },
+  "work": {
+    "filtersLabel": "Filter projects",
+    "cloud": "Cloud",
+    "capability": "Capability",
+    "clear": "Clear",
+    "empty": "No projects match these filters"
+  },
   "footer": {
     "copyright": "© {year} {name}",
     "linksLabel": "Elsewhere",

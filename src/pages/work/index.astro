@@ -1,14 +1,62 @@
 ---
-// Placeholder until P2-04 builds this page; it exists so the navigation never links to a 404.
+// SPEC §5.2: intro, filter bar and every project in curated order. The grid is server-rendered;
+// WorkFilters only hides items, so without JavaScript all projects stay visible.
+import ProjectCard from '@/components/patterns/ProjectCard.astro';
+import WorkFilters, { type FacetOption } from '@/components/patterns/WorkFilters';
+import en from '@/i18n/en.json';
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import { getSite } from '@/lib/content';
+import { getProjects, getSite, getSkills } from '@/lib/content';
+import { skillStats, sortProjects } from '@/lib/derive';
 import { pageMeta } from '@/lib/seo';
 
+const GRID_ID = 'work-grid';
+
 const site = getSite();
+const [projects, skills] = await Promise.all([getProjects(), getSkills()]);
+const sorted = sortProjects(projects);
+const stats = new Map(skillStats(skills, projects).map((stat) => [stat.id, stat.projectCount]));
+const skillById = new Map(skills.map((skill) => [skill.id, skill]));
+
+const option = (id: string): FacetOption => {
+  const skill = skillById.get(id)!;
+  return { id, label: skill.label, count: stats.get(id) ?? 0, accent: skill.accent };
+};
+
+const clouds = skills
+  .filter((skill) => skill.group === 'clouds' && (stats.get(skill.id) ?? 0) > 0)
+  .map((skill) => option(skill.id));
+const capabilities = site.workFacets.capabilities.map(option);
+// A URL may name any non-cloud skill as a capability (Stack chips on case studies link here).
+const allSkills = Object.fromEntries(
+  skills.filter((skill) => skill.group !== 'clouds').map((skill) => [skill.id, skill.label]),
+);
+const cloudLabels = Object.fromEntries(
+  skills.filter((skill) => skill.group === 'clouds').map((skill) => [skill.id, skill.label]),
+);
 ---
 
 <BaseLayout meta={pageMeta(site, { page: 'work' })}>
-  <div class="px-4 py-32 text-center">
-    <h1>{site.seo.pages.work.title}</h1>
+  <div class="mx-auto flex w-full max-w-300 flex-col gap-10 px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+    <header class="flex max-w-180 flex-col gap-4">
+      <h1>{site.seo.pages.work.title}</h1>
+      <p class="text-4 text-on-surface-2">{site.workIntro}</p>
+    </header>
+    <section data-js-only aria-label={en.work.filtersLabel}>
+      <WorkFilters
+        client:load
+        clouds={clouds}
+        capabilities={capabilities}
+        allSkills={allSkills}
+        total={sorted.length}
+        gridId={GRID_ID}
+      />
+    </section>
+    <ul id={GRID_ID} class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+      {sorted.map((project) => (
+        <li data-clouds={project.clouds.join(',')} data-caps={project.capabilities.join(',')}>
+          <ProjectCard project={project} cloudLabels={cloudLabels} level={2} />
+        </li>
+      ))}
+    </ul>
   </div>
 </BaseLayout>

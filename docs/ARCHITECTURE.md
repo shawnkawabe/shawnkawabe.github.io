@@ -340,10 +340,11 @@ type CloudConstellationProps = { nodes: CloudNode[]; centerLabel: string };
 type WorkFiltersProps = {
   clouds: FacetOption[];
   capabilities: FacetOption[];
-  allSkills: Record<string, string>; // id → label, for URL ids outside the facet lists
+  allSkills: Record<string, string>; // id → label of every non-cloud skill, for URL ids outside the facet lists
   total: number;
-}; // grid items carry data-clouds="a,b" data-caps="c,d"
-type FacetOption = { id: string; label: string; count: number };
+  gridId: string; // the server-rendered <ul>; its items carry data-clouds="a,b" data-caps="c,d"
+};
+type FacetOption = { id: string; label: string; count: number; accent?: string }; // accent: cloud dot
 
 type ContactFormProps = {
   accessKey: string;
