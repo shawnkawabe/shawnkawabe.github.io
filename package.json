@@ -13,7 +13,7 @@
     "build": "npm run tokens && astro check && astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "lint": "eslint . && prettier --check .",
+    "lint": "eslint . && prettier --check . && node scripts/check-raw-colors.js",
     "test": "vitest run",
     "validate:content": "astro sync",
     "check:links": "linkinator dist --recurse --skip \"^(?!http://(localhost|127\\.0\\.0\\.1)[:/])\"",

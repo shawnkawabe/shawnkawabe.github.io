@@ -24,7 +24,7 @@ export default defineConfig([
     extends: [jsxA11y.flatConfigs.recommended],
   },
   {
-    files: ['*.{js,mjs}'],
+    files: ['*.{js,mjs}', 'scripts/**/*.js'],
     languageOptions: { globals: globals.node },
   },
 ]);

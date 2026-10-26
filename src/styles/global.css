@@ -1,1 +1,200 @@
 @import 'tailwindcss';
+@import './tokens.css';
+@import './covers.css';
+
+/*
+ * Tailwind names → design tokens (ARCHITECTURE §5). Default palettes, fonts, radii and
+ * shadows are cleared so only token-backed utilities exist. `inline` makes utilities read
+ * the --pf-g-* variables directly, so [data-theme="light"] switches them anywhere.
+ */
+@theme inline {
+  --color-*: initial;
+  --color-surface-0: var(--pf-g-color-surface-0);
+  --color-surface-1: var(--pf-g-color-surface-1);
+  --color-surface-2: var(--pf-g-color-surface-2);
+  --color-surface-3: var(--pf-g-color-surface-3);
+  --color-on-surface-1: var(--pf-g-color-on-surface-1);
+  --color-on-surface-2: var(--pf-g-color-on-surface-2);
+  --color-on-surface-3: var(--pf-g-color-on-surface-3);
+  --color-border-1: var(--pf-g-color-border-1);
+  --color-border-2: var(--pf-g-color-border-2);
+  --color-accent-1: var(--pf-g-color-accent-1);
+  --color-accent-1-strong: var(--pf-g-color-accent-1-strong);
+  --color-accent-2: var(--pf-g-color-accent-2);
+  --color-accent-3: var(--pf-g-color-accent-3);
+  --color-on-accent: var(--pf-g-color-on-accent);
+  --color-success: var(--pf-g-color-success);
+  --color-warning: var(--pf-g-color-warning);
+  --color-error: var(--pf-g-color-error);
+  --color-focus-ring: var(--pf-g-color-focus-ring);
+  --color-glow-1: var(--pf-g-color-glow-1);
+  --color-band-a: var(--pf-g-color-band-a);
+  --color-band-b: var(--pf-g-color-band-b);
+  --color-cloud-sales: var(--pf-g-color-cloud-sales);
+  --color-cloud-service: var(--pf-g-color-cloud-service);
+  --color-cloud-experience: var(--pf-g-color-cloud-experience);
+  --color-cloud-commerce: var(--pf-g-color-cloud-commerce);
+  --color-cloud-data: var(--pf-g-color-cloud-data);
+  --color-cloud-platform: var(--pf-g-color-cloud-platform);
+  --color-cloud-membership: var(--pf-g-color-cloud-membership);
+
+  --font-*: initial;
+  --font-display: var(--pf-g-font-family-display);
+  --font-heading: var(--pf-g-font-family-heading);
+  --font-body: var(--pf-g-font-family-body);
+  --font-mono: var(--pf-g-font-family-mono);
+
+  --text-*: initial;
+  --text-1: var(--pf-g-font-size-1);
+  --text-1--line-height: var(--pf-g-font-line-height-1);
+  --text-2: var(--pf-g-font-size-2);
+  --text-2--line-height: var(--pf-g-font-line-height-2);
+  --text-3: var(--pf-g-font-size-3);
+  --text-3--line-height: var(--pf-g-font-line-height-3);
+  --text-4: var(--pf-g-font-size-4);
+  --text-4--line-height: var(--pf-g-font-line-height-4);
+  --text-5: var(--pf-g-font-size-5);
+  --text-5--line-height: var(--pf-g-font-line-height-5);
+  --text-6: var(--pf-g-font-size-6);
+  --text-6--line-height: var(--pf-g-font-line-height-6);
+  --text-7: var(--pf-g-font-size-7);
+  --text-7--line-height: var(--pf-g-font-line-height-7);
+  --text-8: var(--pf-g-font-size-8);
+  --text-8--line-height: var(--pf-g-font-line-height-8);
+  --text-9: var(--pf-g-font-size-9);
+  --text-9--line-height: var(--pf-g-font-line-height-9);
+
+  --font-weight-*: initial;
+  --font-weight-regular: var(--pf-g-font-weight-regular);
+  --font-weight-medium: var(--pf-g-font-weight-medium);
+  --font-weight-semibold: var(--pf-g-font-weight-semibold);
+  --font-weight-bold: var(--pf-g-font-weight-bold);
+  --font-weight-black: var(--pf-g-font-weight-black);
+
+  /* 4px base: p-4 = spacing-4 = 16px, matching the token scale. */
+  --spacing: var(--pf-g-spacing-1);
+
+  --radius-*: initial;
+  --radius-sm: var(--pf-g-radius-sm);
+  --radius-md: var(--pf-g-radius-md);
+  --radius-lg: var(--pf-g-radius-lg);
+  --radius-pill: var(--pf-g-radius-pill);
+
+  --shadow-*: initial;
+  --shadow-1: var(--pf-g-shadow-1);
+  --shadow-2: var(--pf-g-shadow-2);
+  --shadow-glow: 0 0 0 1px var(--pf-g-color-border-2), 0 0 32px var(--pf-g-color-glow-1);
+
+  --ease-*: initial;
+  --ease-standard: var(--pf-g-easing-standard);
+  --ease-emphasised: var(--pf-g-easing-emphasised);
+}
+
+/* Media queries cannot read var(), so breakpoints repeat the token values as literals. */
+@theme {
+  --breakpoint-*: initial;
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1440px;
+}
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  [data-theme='light'] {
+    color-scheme: light;
+  }
+
+  html {
+    background-color: var(--pf-g-color-surface-0);
+    color: var(--pf-g-color-on-surface-1);
+    font-family: var(--pf-g-font-family-body);
+    font-size: 100%;
+    line-height: var(--pf-g-font-line-height-3);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    min-height: 100dvh;
+    font-size: var(--pf-g-font-size-3);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--pf-g-font-family-heading);
+    font-weight: var(--pf-g-font-weight-semibold);
+    color: var(--pf-g-color-on-surface-1);
+    text-wrap: balance;
+  }
+
+  h1 {
+    font-size: var(--pf-g-font-size-8);
+    line-height: var(--pf-g-font-line-height-8);
+  }
+
+  h2 {
+    font-size: var(--pf-g-font-size-7);
+    line-height: var(--pf-g-font-line-height-7);
+  }
+
+  h3 {
+    font-size: var(--pf-g-font-size-6);
+    line-height: var(--pf-g-font-line-height-6);
+  }
+
+  h4 {
+    font-size: var(--pf-g-font-size-5);
+    line-height: var(--pf-g-font-line-height-5);
+  }
+
+  p {
+    max-width: 68ch;
+    text-wrap: pretty;
+  }
+
+  a {
+    color: var(--pf-g-color-accent-1);
+    text-underline-offset: 0.2em;
+    transition: color var(--pf-g-duration-fast) var(--pf-g-easing-standard);
+  }
+
+  a:hover {
+    color: var(--pf-g-color-accent-1-strong);
+  }
+
+  code,
+  kbd,
+  samp {
+    font-family: var(--pf-g-font-family-mono);
+  }
+
+  ::selection {
+    background-color: var(--pf-g-color-accent-1);
+    color: var(--pf-g-color-on-accent);
+  }
+
+  /* One focus ring for every interactive element (WCAG 2.2 focus visible / appearance). */
+  :focus-visible {
+    outline: 2px solid var(--pf-g-color-focus-ring);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
