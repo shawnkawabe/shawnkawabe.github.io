@@ -18,6 +18,7 @@ export default getViteConfig({
         'src/lib/lightbox.ts',
         'src/lib/case-study.ts',
         'src/lib/contact.ts',
+        'src/lib/constellation.ts',
       ],
       thresholds: { lines: 100 },
     },

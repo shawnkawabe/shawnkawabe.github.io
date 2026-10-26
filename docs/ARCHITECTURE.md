@@ -62,7 +62,8 @@ Rule of dependency: **pages → layouts → patterns → ui → tokens**. A laye
 │   │   ├── contact.ts            # contactSchema(), validateContact(), sendContact() (Web3Forms)
 │   │   ├── case-study.ts         # caseStudySections(), visibleImage(), outcomeValue(), stackLinks()
 │   │   ├── focus-trap.ts         # trapFocus(): Tab loop for native modal <dialog>s
-│   │   └── lightbox.ts           # bindLightbox(): gallery paging, focus return
+│   │   ├── lightbox.ts           # bindLightbox(): gallery paging, focus return
+│   │   └── constellation.ts      # canRunScene(), hasWebGL2(), placeNodes(), nextNodeIndex()
 │   ├── styles/
 │   │   ├── tokens.css            # GENERATED, git-ignored — do not edit
 │   │   ├── global.css            # @import tailwind, @theme mapping, base styles
@@ -308,9 +309,9 @@ All pure functions, 100% line coverage.
 | `ThemeToggle`                                                                                   | astro + module script       | — (inline script)      | Writes `data-theme` + localStorage; dispatches `pf-themechange` (`src/lib/theme.ts`)                               |
 | `Hero`                                                                                          | astro                       | —                      | Contains `DataCoreScene` slot                                                                                      |
 | `DataCoreScene`                                                                                 | tsx (R3F)                   | `client:visible`       | Optional; poster first                                                                                             |
-| `CloudConstellation`                                                                            | tsx (R3F)                   | `client:visible`       | Accessible node list rendered as HTML sibling                                                                      |
+| `CloudConstellation`                                                                            | tsx (R3F)                   | `client:visible`       | Shell island; bento as children/fallback; lazy `ConstellationCanvas`; roving-tabindex node list                    |
 | `CloudBento` / `CloudCard`                                                                      | astro                       | —                      | Fallback + Skills page                                                                                             |
-| `CloudPanel`                                                                                    | tsx                         | inside constellation   | Side panel                                                                                                         |
+| `CloudPanel`                                                                                    | tsx                         | inside constellation   | Native modal `<dialog>`; certs, project links, `/work?cloud=`; focus return                                        |
 | `CoverCard`, `ProjectCard`                                                                      | astro                       | —                      | Whole card is one link                                                                                             |
 | `WorkFilters`                                                                                   | tsx                         | `client:load` on /work | Reads/writes URL; filters server-rendered grid by `data-clouds` / `data-caps`                                      |
 | `Marquee`                                                                                       | astro + CSS                 | — (tiny inline script) | CSS animation; pause button (`aria-pressed`, WCAG 2.2.2) and hover pause; wrapped static list under reduced motion |

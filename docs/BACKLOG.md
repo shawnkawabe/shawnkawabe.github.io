@@ -195,9 +195,10 @@ Things that must exist or be decided before the task in **Blocks** can start. De
 
 ## Phase 3 — Signature visuals and launch
 
-- [ ] **P3-01 Cloud constellation** — Deps: P2-06, P0-04
+- [x] **P3-01 Cloud constellation** — Deps: P2-06, P0-04
       SPEC §6 desktop interaction, accessible node list, side panel, fallback swap.
-  - [ ] All acceptance items in SPEC §6.3 pass.
+  - [x] All acceptance items in SPEC §6.3 pass.
+  - Notes: `CloudConstellation` is a shell island wrapping the server-rendered `CloudBento` as `children`; the bento stays when < 1024px, under reduced motion, without WebGL2, with no clouds, and as the Suspense fallback while the lazy `ConstellationCanvas` chunk loads. The island renders a wrapper `<div>` because `client:visible` observes the slot, which is `display: contents` and never intersects. Rules live in `src/lib/constellation.ts` (100% covered). The scene is `aria-hidden`; the HTML node list (`ul` with roving-tabindex buttons; arrows, Home, End) carries every interaction, and hover or focus on either dims the other nodes to 40% and scales the active one 1.15×. The orbit pauses while the pointer is over the canvas; the render loop stops off-screen and in hidden tabs. Colours come from `--pf-g-color-*` and follow `pf-themechange`. `CloudPanel` is a native modal `<dialog>` (25rem, right edge; Esc, backdrop and Close; focus loop; focus returns to the node button) listing certifications, project links and "See projects" (`/work?cloud=`). Measured: 3D chunk 240 KB gzipped, Home eager JS 75.2 KB gzipped (budget 80), no 3D request before the section is within 200px, axe 0 in both themes and under reduced motion, no horizontal scroll on any route at 375/768/1440. `SectionBand` gained `overflow-x-clip` (the tilted Home CTA band added 2px of page overflow). Open: re-check the Lighthouse ≥ 95 performance score when P3-04 adds Lighthouse CI (the P0-04 spike scored 100 with a heavier scene).
 
 - [ ] **P3-02 Hero data core (optional)** — Deps: P3-01
       Only if P3-01 leaves room in the performance budget.

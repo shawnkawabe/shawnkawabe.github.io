@@ -3,6 +3,7 @@
 // Static HTML throughout; the clouds section shows the bento until the Phase 3 constellation.
 import CertificationStrip from '@/components/patterns/CertificationStrip.astro';
 import CloudBento from '@/components/patterns/CloudBento.astro';
+import CloudConstellation from '@/components/patterns/CloudConstellation';
 import CoverCard from '@/components/patterns/CoverCard.astro';
 import Hero from '@/components/patterns/Hero.astro';
 import Marquee from '@/components/patterns/Marquee.astro';
@@ -67,7 +68,10 @@ const container = 'mx-auto flex w-full max-w-300 flex-col gap-8 px-4 sm:px-6 lg:
     {clouds.length > 0 && (
       <section aria-labelledby="clouds-title" class={container}>
         <h2 id="clouds-title">{t.clouds}</h2>
-        <CloudBento clouds={clouds} />
+        {/* The bento is the poster and fallback; on desktop with motion and WebGL2 the scene replaces it. */}
+        <CloudConstellation client:visible={{ rootMargin: '200px' }} nodes={clouds}>
+          <CloudBento clouds={clouds} />
+        </CloudConstellation>
       </section>
     )}
 

@@ -82,6 +82,13 @@
       "messageTooLong": "Keep the message under 2000 characters"
     }
   },
+  "constellation": {
+    "listLabel": "Clouds — choose one to see its projects",
+    "close": "Close",
+    "certifications": "Certifications",
+    "projects": "Projects",
+    "seeProjects": "See projects"
+  },
   "caseStudy": {
     "snapshotLabel": "Project snapshot",
     "client": "Client",
