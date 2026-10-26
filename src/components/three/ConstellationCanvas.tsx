@@ -1,11 +1,17 @@
-// SPEC §6.2 / DESIGN §7 scene: Shawn at the centre, one emissive node per cloud on a slow orbit.
-// Loaded lazily by CloudConstellation only when the scene may run. Colours come from the theme
-// tokens and follow `pf-themechange`; the loop stops off-screen and in hidden tabs.
+// SPEC §6.2 / DESIGN §7 scene: Shawn at the centre, one emissive node per cloud on a slow orbit,
+// with light pulses travelling out along each link. Loaded lazily by CloudConstellation only when
+// the scene may run. Colours come from the theme tokens; the loop stops off-screen.
 import { Canvas, useFrame } from '@react-three/fiber';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { BufferGeometry, Float32BufferAttribute, type Group } from 'three';
+import {
+  AdditiveBlending,
+  BufferGeometry,
+  Float32BufferAttribute,
+  type Group,
+  type Mesh,
+} from 'three';
 import { ORBIT_SPEED, placeNodes } from '@/lib/constellation';
-import { THEME_EVENT } from '@/lib/theme';
+import { token, useOnScreen, useThemeColors } from './scene';
 
 export type SceneNode = { id: string; accent?: string; projectCount: number };
 
@@ -22,49 +28,51 @@ const CENTER_RADIUS = 0.55;
 const DIMMED = 0.4;
 const HOVER_SCALE = 1.15;
 
-const token = (name: string) =>
-  getComputedStyle(document.documentElement).getPropertyValue(`--pf-g-color-${name}`).trim();
+/** Seconds for a pulse to travel from the centre to a node. */
+const PULSE_SECONDS = 2.4;
 
-function useThemeColors(nodes: SceneNode[]) {
-  const read = () => ({
-    center: token('accent-1'),
-    line: token('border-2'),
-    nodes: nodes.map((node) => token(node.accent ?? 'accent-1')),
+/** A light that travels out along one link, staggered by `phase` (0–1) so they never sync. */
+function Pulse({
+  to,
+  color,
+  phase,
+}: {
+  to: readonly [number, number, number];
+  color: string;
+  phase: number;
+}) {
+  const pulse = useRef<Mesh>(null);
+  useFrame(({ clock }) => {
+    if (!pulse.current) return;
+    const progress = (clock.elapsedTime / PULSE_SECONDS + phase) % 1;
+    pulse.current.position.set(to[0] * progress, to[1] * progress, 0);
+    pulse.current.scale.setScalar(Math.sin(progress * Math.PI));
   });
-  const [colors, setColors] = useState(read);
-  useEffect(() => {
-    const update = () => setColors(read());
-    window.addEventListener(THEME_EVENT, update);
-    return () => window.removeEventListener(THEME_EVENT, update);
-  }, [nodes]);
-  return colors;
-}
-
-/** Runs the render loop only while the canvas is on screen and the tab is visible. */
-function useOnScreen(target: React.RefObject<HTMLElement | null>) {
-  const [visible, setVisible] = useState(true);
-  useEffect(() => {
-    const element = target.current;
-    if (!element) return;
-    let inView = true;
-    const update = () => setVisible(inView && !document.hidden);
-    const observer = new IntersectionObserver(([entry]) => {
-      inView = entry.isIntersecting;
-      update();
-    });
-    observer.observe(element);
-    document.addEventListener('visibilitychange', update);
-    return () => {
-      observer.disconnect();
-      document.removeEventListener('visibilitychange', update);
-    };
-  }, [target]);
-  return visible;
+  return (
+    <mesh ref={pulse}>
+      <sphereGeometry args={[0.07, 12, 12]} />
+      <meshBasicMaterial
+        color={color}
+        transparent
+        opacity={0.9}
+        blending={AdditiveBlending}
+        depthWrite={false}
+      />
+    </mesh>
+  );
 }
 
 function Orbit({ nodes, activeIndex, onHover, onSelect, paused }: Props & { paused: boolean }) {
   const group = useRef<Group>(null);
-  const colors = useThemeColors(nodes);
+  const center = useRef<Mesh>(null);
+  const colors = useThemeColors(
+    () => ({
+      center: token('accent-1'),
+      line: token('border-2'),
+      nodes: nodes.map((node) => token(node.accent ?? 'accent-1')),
+    }),
+    [nodes],
+  );
   const placed = useMemo(() => placeNodes(nodes.map((node) => node.projectCount)), [nodes]);
   const positions = useMemo(
     () => placed.map(({ angle }) => [Math.cos(angle) * RING, Math.sin(angle) * RING, 0] as const),
@@ -83,8 +91,10 @@ function Orbit({ nodes, activeIndex, onHover, onSelect, paused }: Props & { paus
   }, [positions]);
   useEffect(() => () => spokes.dispose(), [spokes]);
 
-  useFrame((_, delta) => {
+  useFrame(({ clock }, delta) => {
     if (!paused && group.current) group.current.rotation.z -= ORBIT_SPEED * delta;
+    if (center.current)
+      center.current.scale.setScalar(1 + 0.05 * Math.sin(clock.elapsedTime * 1.2));
   });
 
   return (
@@ -92,13 +102,30 @@ function Orbit({ nodes, activeIndex, onHover, onSelect, paused }: Props & { paus
       <lineSegments geometry={spokes}>
         <lineBasicMaterial color={colors.line} transparent opacity={0.6} />
       </lineSegments>
-      <mesh>
-        <icosahedronGeometry args={[CENTER_RADIUS, 2]} />
+      {positions.map((position, index) => (
+        <Pulse
+          key={nodes[index].id}
+          to={position}
+          color={colors.nodes[index]}
+          phase={index / positions.length}
+        />
+      ))}
+      <mesh ref={center}>
+        <sphereGeometry args={[CENTER_RADIUS, 32, 32]} />
         <meshStandardMaterial
           color={colors.center}
           emissive={colors.center}
-          emissiveIntensity={0.8}
-          flatShading
+          emissiveIntensity={0.9}
+        />
+      </mesh>
+      <mesh scale={1.9}>
+        <sphereGeometry args={[CENTER_RADIUS, 24, 24]} />
+        <meshBasicMaterial
+          color={colors.center}
+          transparent
+          opacity={0.12}
+          depthWrite={false}
+          blending={AdditiveBlending}
         />
       </mesh>
       {nodes.map((node, index) => {
@@ -117,12 +144,12 @@ function Orbit({ nodes, activeIndex, onHover, onSelect, paused }: Props & { paus
                 onSelect(index);
               }}
             >
-              <icosahedronGeometry args={[placed[index].radius, 1]} />
+              <sphereGeometry args={[placed[index].radius, 32, 32]} />
               <meshStandardMaterial
                 color={colors.nodes[index]}
                 emissive={colors.nodes[index]}
-                emissiveIntensity={0.6}
-                flatShading
+                emissiveIntensity={0.7}
+                roughness={0.35}
                 transparent
                 opacity={opacity}
               />
@@ -133,8 +160,9 @@ function Orbit({ nodes, activeIndex, onHover, onSelect, paused }: Props & { paus
               <meshBasicMaterial
                 color={colors.nodes[index]}
                 transparent
-                opacity={0.12 * opacity}
+                opacity={0.14 * opacity}
                 depthWrite={false}
+                blending={AdditiveBlending}
               />
             </mesh>
           </group>

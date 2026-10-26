@@ -22,8 +22,9 @@ const Title = `h${level}` as const;
 
 <a
   href={href}
+  data-tilt
   class:list={[
-    'group block rounded-lg bg-surface-2 p-2 no-underline shadow-1 transition-[translate,box-shadow] duration-250 ease-standard hover:-translate-y-0.5 hover:shadow-glow focus-visible:shadow-glow',
+    'group block rounded-lg bg-surface-2 p-2 no-underline shadow-1 transition-[translate,box-shadow,transform] duration-250 ease-standard hover:-translate-y-0.5 hover:shadow-glow focus-visible:shadow-glow',
     className,
   ]}
 >
@@ -43,3 +44,9 @@ const Title = `h${level}` as const;
     </div>
   </div>
 </a>
+
+<script>
+  import { bindTilt } from '@/lib/tilt';
+
+  bindTilt();
+</script>

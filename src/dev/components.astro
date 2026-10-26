@@ -29,6 +29,7 @@ import SnapshotBar from '@/components/patterns/SnapshotBar.astro';
 import StackChips from '@/components/patterns/StackChips.astro';
 import { stackLinks } from '@/lib/case-study';
 import { strings } from '@/lib/i18n';
+import HeroScene from '@/components/patterns/HeroScene.astro';
 import LanguageSwitcher from '@/components/patterns/LanguageSwitcher.astro';
 import MobileNav from '@/components/patterns/MobileNav.astro';
 import ProjectCard from '@/components/patterns/ProjectCard.astro';
@@ -324,6 +325,20 @@ const accents = ['cloud-sales', 'cloud-service', 'cloud-data', 'cloud-membership
         <StackChips links={stackLinks(sample, skills)} />
         <PrevNext prev={projects[0]} next={projects[1]} />
         <PrevNext prev={undefined} next={projects[1]} />
+      </section>
+
+      <section class="flex flex-col gap-6">
+        <Heading level={2} size={6}>
+          Hero data core
+        </Heading>
+        <Text size={2} tone={2}>
+          HeroScene: starts after load and idle on ≥ 1024px with motion and WebGL2; otherwise
+          nothing renders and the gradient poster behind it shows. Move the pointer to see the
+          parallax. CoverCard and CloudCard above tilt toward a fine pointer.
+        </Text>
+        <div class="pf-hero-glow relative h-120 overflow-hidden rounded-lg border border-border-1">
+          <HeroScene />
+        </div>
       </section>
 
       <section class="flex flex-col gap-6">

@@ -166,6 +166,7 @@ Rules: Orbitron only at `font-size-7` and above and never in sentences. Letter-s
 | `easing-emphasised` | `cubic-bezier(0.3, 0, 0, 1.2)` | Panel enter only             |
 
 - Card hover: translateY(−2px) + `shadow-1` → stronger + border to `border-2`, `duration-base`.
+- Card tilt (`CoverCard`, `CloudCard`, `data-tilt`): with a fine pointer the card leans toward it, at most 6°, through `perspective(900px)`; flat for touch, reduced motion and without JavaScript (`src/lib/tilt.ts`).
 - Section reveal (`Reveal`, CSS + IntersectionObserver, ADR 0005): opacity 0 → 1, y 16 → 0, `duration-slow`, once.
 - Hero text: split by word at build time (`SplitWords`), CSS 30ms stagger, once.
 - Marquee: 40s per loop, linear; pause on hover/focus.
@@ -173,7 +174,7 @@ Rules: Orbitron only at `font-size-7` and above and never in sentences. Letter-s
 
 ## 7. 3D
 
-- Scenes: **Hero data core** (optional, abstract particles/rings, very slow) and **Clouds constellation**. No others in the MVP.
+- Scenes: **Hero data core** (abstract particles/rings, very slow, pointer parallax; `HeroScene.astro` gate script → `DataCoreCanvas`, starts after load + idle) and **Clouds constellation** (orbiting nodes with light pulses along the links). No others in the MVP. Both run only on ≥ 1024px with motion allowed and WebGL2.
 - Colours are read at runtime with `getComputedStyle(document.documentElement).getPropertyValue('--pf-g-color-…')` and re-read on the `pf-themechange` event, so scenes follow the theme.
 - Materials: emissive, low-poly, no textures > 512px. Bloom only if it stays within budget.
 - Budget per scene: ≤ 1 MB gzipped (JS + assets), ≤ 100K triangles, DPR ≤ 2, 60fps target on a mid-range laptop, 30fps acceptable on mobile.

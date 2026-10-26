@@ -6,6 +6,7 @@ import CloudBento from '@/components/patterns/CloudBento.astro';
 import CloudConstellation from '@/components/patterns/CloudConstellation';
 import CoverCard from '@/components/patterns/CoverCard.astro';
 import Hero from '@/components/patterns/Hero.astro';
+import HeroScene from '@/components/patterns/HeroScene.astro';
 import Marquee from '@/components/patterns/Marquee.astro';
 import SectionBand from '@/components/patterns/SectionBand.astro';
 import { buttonVariants } from '@/components/ui/button';
@@ -48,7 +49,9 @@ const container = 'mx-auto flex w-full max-w-300 flex-col gap-8 px-4 sm:px-6 lg:
   meta={pageMeta(site, { page: 'home' }, ui.titleTemplate)}
   jsonLd={personJsonLd(site, siteUrl)}
 >
-  <Hero site={site} />
+  <Hero site={site}>
+    <HeroScene slot="scene" />
+  </Hero>
 
   <div class="flex flex-col gap-20 pb-20 lg:gap-28 lg:pb-28">
     {featured.length > 0 && (

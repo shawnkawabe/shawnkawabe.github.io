@@ -293,3 +293,18 @@
       transparent 70%
     );
 }
+
+/* The data-core canvas fades in from the text side, so it never sits behind the words, and out at
+   the hero's bottom edge, so the rings never end in a hard cut. */
+.pf-hero-scene {
+  mask-image:
+    linear-gradient(to right, transparent, black 40%),
+    linear-gradient(to bottom, black 70%, transparent);
+  mask-composite: intersect;
+}
+
+/* DESIGN §6 card tilt: src/lib/tilt.ts sets the angles while a fine pointer hovers; without them
+   (touch, reduced motion, no JavaScript) the card stays flat. */
+[data-tilt] {
+  transform: perspective(900px) rotateX(var(--pf-tilt-x, 0deg)) rotateY(var(--pf-tilt-y, 0deg));
+}
