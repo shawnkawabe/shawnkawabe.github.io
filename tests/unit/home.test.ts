@@ -5,6 +5,7 @@ import { beforeAll, describe, expect, it } from 'vitest';
 import CertificationStrip from '@/components/patterns/CertificationStrip.astro';
 import Hero from '@/components/patterns/Hero.astro';
 import Marquee from '@/components/patterns/Marquee.astro';
+import SkillGroups from '@/components/patterns/SkillGroups.astro';
 
 let container: AstroContainer;
 
@@ -67,5 +68,25 @@ describe('Marquee', () => {
     expect(html.match(/GRAX/g)).toHaveLength(2);
     expect(html).toMatch(/<ul aria-hidden="true"/);
     expect(html).toMatch(/aria-controls="m"[^>]*aria-pressed="false"/);
+  });
+});
+
+describe('SkillGroups (Skills page)', () => {
+  it('links skills with projects, with a pluralised count, and leaves the rest as text', async () => {
+    const html = await render(SkillGroups, {
+      groups: [
+        {
+          id: 'development',
+          label: 'Development',
+          skills: [
+            { id: 'apex', label: 'Apex', count: 1, href: '/work?cap=apex' },
+            { id: 'aura', label: 'Aura', count: 0 },
+          ],
+        },
+      ],
+    });
+    expect(html).toMatch(/<a href="\/work\?cap=apex"[^>]*>[\s\S]*Apex[\s\S]*1 project</);
+    expect(html).toMatch(/<span[^>]*>\s*Aura\s*<\/span>/);
+    expect(html).not.toContain('0 projects');
   });
 });

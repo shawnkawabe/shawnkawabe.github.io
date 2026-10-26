@@ -106,3 +106,41 @@ export function withBentoSize<T extends Pick<CloudStat, 'projectCount'>>(
   };
   return clouds.map((cloud, index) => ({ ...cloud, size: sizeOf(cloud.projectCount, index) }));
 }
+
+export type SkillChip = {
+  id: string;
+  label: string;
+  count: number;
+  href?: string;
+  accent?: string;
+};
+
+/**
+ * SPEC §5.4: groups in the order and with the labels of `site.skillGroups` (others are not shown).
+ * A skill links to Work filtered by it when it has projects; empty groups are left out.
+ */
+export function skillGroupChips(
+  groups: readonly { id: string; label: string }[],
+  skills: readonly Skill[],
+  projects: readonly Project[],
+): { id: string; label: string; skills: SkillChip[] }[] {
+  const counts = new Map(skillStats(skills, projects).map((stat) => [stat.id, stat.projectCount]));
+  return groups
+    .map((group) => {
+      const param = group.id === 'clouds' ? 'cloud' : 'cap';
+      const chips = skills
+        .filter((skill) => skill.group === group.id)
+        .map((skill): SkillChip => {
+          const count = counts.get(skill.id) ?? 0;
+          return {
+            id: skill.id,
+            label: skill.label,
+            count,
+            href: count > 0 ? `/work?${param}=${skill.id}` : undefined,
+            accent: skill.accent,
+          };
+        });
+      return { ...group, skills: chips };
+    })
+    .filter((group) => group.skills.length > 0);
+}

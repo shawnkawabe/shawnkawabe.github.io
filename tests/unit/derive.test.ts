@@ -4,6 +4,7 @@ import {
   filterProjects,
   inFileOrder,
   prevNext,
+  skillGroupChips,
   skillStats,
   sortProjects,
   withBentoSize,
@@ -174,5 +175,30 @@ describe('withBentoSize', () => {
   it('never widens a cloud without projects', () => {
     expect(sizes([0, 0])).toEqual(['feature', 'base']);
     expect(sizes([])).toEqual([]);
+  });
+});
+
+describe('skillGroupChips (SPEC §5.4)', () => {
+  const skills = [
+    skill('sales-cloud', 'clouds', 'cloud-sales'),
+    skill('apex', 'development'),
+    skill('aura', 'development'),
+    skill('jira', 'tools'),
+  ];
+  const projects = [project({ id: 'p', clouds: ['sales-cloud'], capabilities: ['apex'] })];
+  const groups = [
+    { id: 'development', label: 'Development' },
+    { id: 'clouds', label: 'Clouds' },
+    { id: 'data', label: 'Data' },
+  ];
+
+  it('follows the site group order, links skills with projects and leaves the rest unlinked', () => {
+    const result = skillGroupChips(groups, skills, projects);
+    expect(result.map((group) => group.label)).toEqual(['Development', 'Clouds']);
+    expect(result[0].skills).toEqual([
+      { id: 'apex', label: 'apex', count: 1, href: '/work?cap=apex', accent: undefined },
+      { id: 'aura', label: 'aura', count: 0, href: undefined, accent: undefined },
+    ]);
+    expect(result[1].skills[0]).toMatchObject({ href: '/work?cloud=sales-cloud', count: 1 });
   });
 });

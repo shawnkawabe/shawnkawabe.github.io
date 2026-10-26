@@ -8,6 +8,8 @@ interface Props {
   external?: boolean;
   selected?: boolean;
   mono?: boolean;
+  /** Long text wraps onto more lines instead of overflowing narrow screens. */
+  wrap?: boolean;
   /** Cloud accent token name, e.g. "cloud-sales". */
   accent?: string;
   class?: string;
@@ -18,6 +20,7 @@ const {
   external = false,
   selected = false,
   mono = false,
+  wrap = false,
   accent,
   class: className,
 } = Astro.props;
@@ -30,7 +33,8 @@ const Tag = href ? 'a' : 'span';
   rel={href && external ? 'noopener noreferrer' : undefined}
   data-selected={selected ? 'true' : undefined}
   class:list={[
-    'inline-flex h-7 items-center gap-2 rounded-pill border px-3 whitespace-nowrap no-underline',
+    'inline-flex items-center gap-2 rounded-pill border px-3 no-underline',
+    wrap ? 'min-h-7 py-1' : 'h-7 whitespace-nowrap',
     mono ? 'font-mono text-1 tracking-label uppercase' : 'font-body text-2',
     selected
       ? 'border-accent-1 bg-accent-1/16 text-on-surface-1'

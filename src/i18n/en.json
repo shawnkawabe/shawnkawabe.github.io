@@ -45,6 +45,12 @@
     "certifications": "Certifications",
     "contact": "Get in touch"
   },
+  "skills": {
+    "clouds": "Clouds",
+    "groups": "Skills by area",
+    "certifications": "Certifications",
+    "languages": "Languages"
+  },
   "caseStudy": {
     "snapshotLabel": "Project snapshot",
     "client": "Client",

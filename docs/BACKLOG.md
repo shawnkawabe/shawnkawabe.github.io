@@ -173,9 +173,10 @@ Things that must exist or be decided before the task in **Blocks** can start. De
   - [x] LCP is the hero text; page fully usable without JS.
   - Notes: all static `.astro`; Home ships only the shared nav/theme scripts plus ~0.2 KB for the marquee pause button. `Hero` takes a `scene` slot over a token-based gradient poster (`.pf-hero-glow`) for the Phase 3 data core; GSAP word reveal is left for the motion task (`Reveal`). Intro `**terms**` go through the pure `emphasisParts()`. Buttons on links use `buttonVariants()` at build time, so no React. The marquee repeats the list once with `aria-hidden` for a seamless −50% loop, pauses on hover and with a "Pause scrolling list" toggle (WCAG 2.2.2), and is a wrapped list under reduced motion; without JS the toggle is hidden and only hover pauses it. Certifications are plain chips because `site.links.credentials` is empty; `Chip` gained `external` (new tab + screen-reader hint) for when it is set. The availability chip wraps on narrow screens. Featured: 4 CoverCards, scroll-snap row below lg, 2-column grid from lg. Checked in Playwright: LCP is the hero intro paragraph, axe 0 violations and no horizontal scroll at 375/768/1440 in both themes, JS disabled (hero, 4 card links, toggle hidden), reduced motion (no animation, copy hidden).
 
-- [ ] **P2-07 Skills page** — Deps: P2-03, P1-05
+- [x] **P2-07 Skills page** — Deps: P2-03, P1-05
       SPEC §5.4 with `CloudBento`, groups from `site.skillGroups`, derived counts, certifications, languages.
-  - [ ] Every chip with count > 0 links to the right filtered Work URL.
+  - [x] Every chip with count > 0 links to the right filtered Work URL.
+  - Notes: groups come from the pure `skillGroupChips()` (site order, `cloud=` for the clouds group, `cap=` otherwise; empty groups dropped). Chips read "Apex · 6 projects"; skills with no projects are plain text without a count. The page intro reuses `site.seo.pages.skills.description` (no separate intro field exists). `Chip` gained `wrap` so long labels wrap at 375px (the Home availability chip uses it too). Group headings are plain `h3`s rather than labelled sections, because a "Clouds" group next to the "Clouds" bento section broke axe `landmark-unique`. Checked in Playwright: all 41 linked chips open a Work URL whose result count equals the chip's count; the 17 unlinked skills have no count; axe 0 violations and no horizontal scroll at 375/768/1440 in both themes.
 
 - [ ] **P2-08 About page** — Deps: P2-01, P1-05
       SPEC §5.5: bio, principles, companies row with project chips, resume button.
