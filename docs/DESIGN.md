@@ -175,6 +175,7 @@ Rules: Orbitron only at `font-size-7` and above and never in sentences. Letter-s
 ## 7. 3D
 
 - Scenes: **Hero data core** (abstract particles/rings, very slow, pointer parallax; `HeroScene.astro` gate script → `DataCoreCanvas`, starts after load + idle) and **Clouds constellation** (orbiting nodes with light pulses along the links). No others in the MVP. Both run only on ≥ 1024px with motion allowed and WebGL2.
+- Hero motion, in order: the shell gathers in from outside (3.2 s ease-out), then packets stream from shell points into the heart, a scan ring sweeps the shell like a pendulum (14 s), and the scene rises and shrinks 20 % as the hero scrolls away. Constellation: a faint orbit track and a dust disc turning slowly against the orbit; hovering a cloud doubles its link pulse and dims the others to 40 %. The maths lives in `src/lib/data-core.ts` (pure, tested).
 - Colours are read at runtime with `getComputedStyle(document.documentElement).getPropertyValue('--pf-g-color-…')` and re-read on the `pf-themechange` event, so scenes follow the theme.
 - Materials: emissive, low-poly, no textures > 512px. Bloom only if it stays within budget.
 - Budget per scene: ≤ 1 MB gzipped (JS + assets), ≤ 100K triangles, DPR ≤ 2, 60fps target on a mid-range laptop, 30fps acceptable on mobile.
