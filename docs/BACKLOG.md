@@ -230,14 +230,15 @@ Things that must exist or be decided before the task in **Blocks** can start. De
 
 Per ADR 0003. Starts after the English MVP pages; the English site may launch before it.
 
-- [ ] **P4-01 Locale routing** — Deps: P3-07
+- [x] **P4-01 Locale routing** — Deps: P3-07
       Astro i18n with `en`, `pt`, `es` and `prefixDefaultLocale: true`; pages move under `src/pages/[locale]/`. Root `/` redirect page (stored choice → `navigator.languages` → `en`, no-JS links and meta refresh). Redirect pages for the old unprefixed English URLs. `nav.ts` and `isActive` become locale-aware.
-  - [ ] Every route builds for all three locales and `check:links` passes.
-  - [ ] `/` sends a `pt-BR` browser to `/pt/` and an unknown language to `/en/`.
+  - [x] Every route builds for all three locales and `check:links` passes. (`INCLUDE_DRAFT_LOCALES=true`: 65 pages, 356 links.)
+  - [x] `/` sends a `pt-BR` browser to `/pt/` and an unknown language to `/en/`. (Checked on the dev server; e2e covers `/` → `/en/` and legacy redirects.)
+  - Note: plain `[locale]` routes instead of Astro's `i18n` config, see ADR 0003 amendment.
 
-- [ ] **P4-02 Locale-aware strings and content** — Deps: P4-01
+- [x] **P4-02 Locale-aware strings and content** — Deps: P4-01
       `src/i18n/{en,pt,es}.json` and `content/{en,pt,es}/*.json`; components receive `locale` instead of importing `en.json`. A parity test fails when keys or ids differ between locales. Locales carry a review flag; unreviewed locales are not built in production.
-  - [ ] Parity test passes; an unreviewed locale is absent from `dist/`.
+  - [x] Parity test passes; an unreviewed locale is absent from `dist/`. (`pt`, `es` are still English copies until P4-03.)
 
 - [ ] **P4-03 Draft translations** — Deps: P4-02
       Draft `pt` (Brazilian) and `es` (Latin American) from the English files without adding facts; cloud, product and company names unchanged. Hand over for Shawn's review.

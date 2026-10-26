@@ -2,16 +2,18 @@
 // SPEC §5.3 item 6: masonry of approved images; each opens the lightbox (native <dialog>,
 // logic in src/lib/lightbox.ts). Callers pass only images that passed visibleImage().
 import Icon from '@/components/ui/Icon.astro';
-import en from '@/i18n/en.json';
 import type { Image } from '@/lib/schemas';
 import { format } from '@/lib/seo';
+import { localeFromPath, strings } from '@/lib/i18n';
+
+const ui = strings(localeFromPath(Astro.url.pathname));
 
 interface Props {
   images: Image[];
 }
 
 const { images } = Astro.props;
-const t = en.caseStudy;
+const t = ui.caseStudy;
 const control =
   'inline-flex size-10 items-center justify-center rounded-pill border border-border-1 bg-surface-3 text-on-surface-1 transition-colors duration-150 ease-standard hover:border-border-2';
 ---

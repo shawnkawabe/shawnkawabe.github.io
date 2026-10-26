@@ -1,12 +1,15 @@
 ---
 // Top bar + menu sheet below lg (SPEC §4.1, DESIGN §9), on a native modal <dialog>.
 import Icon from '@/components/ui/Icon.astro';
-import en from '@/i18n/en.json';
 import { getSite } from '@/lib/content';
 import { externalLinks, isActive, pageLinks } from '@/lib/nav';
 import ThemeToggle from './ThemeToggle.astro';
+import { localeFromPath, localePath, strings } from '@/lib/i18n';
 
-const site = getSite();
+const locale = localeFromPath(Astro.url.pathname);
+const ui = strings(locale);
+
+const site = getSite(locale);
 const pathname = Astro.url.pathname;
 
 const linkClass =
@@ -16,14 +19,17 @@ const iconButton =
 ---
 
 <header class="sticky top-0 z-40 flex h-14 items-center justify-between border-b border-border-1 bg-surface-1/90 px-4 backdrop-blur-md sm:px-6 lg:hidden">
-  <a href="/" class="font-heading text-4 font-semibold text-on-surface-1 no-underline">
+  <a
+    href={localePath(locale, '/')}
+    class="font-heading text-4 font-semibold text-on-surface-1 no-underline"
+  >
     {site.name}
   </a>
   <button
     type="button"
     class={iconButton}
     data-mobile-nav-open
-    aria-label={en.nav.openMenu}
+    aria-label={ui.nav.openMenu}
     aria-haspopup="dialog"
     aria-controls="mobile-nav"
     aria-expanded="false"
@@ -41,15 +47,15 @@ const iconButton =
   <div class="flex h-full flex-col gap-6 p-6">
     <div class="flex items-center justify-between">
       <h2 id="mobile-nav-title" class="text-5">
-        {en.nav.menuTitle}
+        {ui.nav.menuTitle}
       </h2>
-      <button type="button" class={iconButton} data-mobile-nav-close aria-label={en.nav.closeMenu}>
+      <button type="button" class={iconButton} data-mobile-nav-close aria-label={ui.nav.closeMenu}>
         <Icon name="close" />
       </button>
     </div>
-    <nav aria-label={en.nav.label} class="flex flex-col gap-6">
+    <nav aria-label={ui.nav.label} class="flex flex-col gap-6">
       <ul class="flex flex-col gap-1 text-4">
-        {pageLinks.map(({ href, label }) => {
+        {pageLinks(locale).map(({ href, label }) => {
           const current = isActive(pathname, href);
           return (
             <li>
@@ -65,18 +71,18 @@ const iconButton =
         })}
       </ul>
       <ul class="flex flex-col gap-1 border-t border-border-1 pt-4 text-3">
-        {externalLinks(site).map(({ href, label }) => (
+        {externalLinks(site, locale).map(({ href, label }) => (
           <li>
             <a href={href} target="_blank" rel="noopener noreferrer" class={linkClass}>
               {label}
-              <span class="sr-only"> ({en.nav.newTab})</span>
+              <span class="sr-only"> ({ui.nav.newTab})</span>
             </a>
           </li>
         ))}
       </ul>
     </nav>
     <div class="mt-auto flex items-center justify-between border-t border-border-1 pt-4 text-2 text-on-surface-2">
-      <span>{en.theme.toggle}</span>
+      <span>{ui.theme.toggle}</span>
       <ThemeToggle class="hover:bg-surface-2" />
     </div>
   </div>

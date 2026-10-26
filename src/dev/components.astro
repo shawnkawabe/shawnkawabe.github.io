@@ -28,12 +28,14 @@ import SectionBand from '@/components/patterns/SectionBand.astro';
 import SnapshotBar from '@/components/patterns/SnapshotBar.astro';
 import StackChips from '@/components/patterns/StackChips.astro';
 import { stackLinks } from '@/lib/case-study';
+import { strings } from '@/lib/i18n';
 import MobileNav from '@/components/patterns/MobileNav.astro';
 import ProjectCard from '@/components/patterns/ProjectCard.astro';
 import ThemeToggle from '@/components/patterns/ThemeToggle.astro';
 import UiGallery from './UiGallery';
 
 const iconNames = [...Object.keys(icons), ...Object.keys(brandIcons)] as IconName[];
+const ui = strings('en');
 const skills = await getSkills();
 const projects = sortProjects(await getProjects());
 const clouds = skills.filter((skill) => skill.group === 'clouds');
@@ -237,7 +239,12 @@ const accents = ['cloud-sales', 'cloud-service', 'cloud-data', 'cloud-membership
         <Text tone={2}>
           CloudConstellation (≥ 1024px, motion allowed, WebGL2; otherwise the bento)
         </Text>
-        <CloudConstellation client:visible nodes={bento}>
+        <CloudConstellation
+          client:visible
+          nodes={bento}
+          ui={{ cards: ui.cards, constellation: ui.constellation }}
+          workPath="/en/work"
+        >
           <CloudBento clouds={bento} />
         </CloudConstellation>
       </section>
@@ -275,6 +282,7 @@ const accents = ['cloud-sales', 'cloud-service', 'cloud-data', 'cloud-membership
         <div class="max-w-180">
           <ContactForm
             client:visible
+            t={ui.contact}
             web3formsKey="dev-gallery-fake-key"
             projectTypes={getSite().contact.projectTypes}
             successMessage={getSite().contact.successMessage}

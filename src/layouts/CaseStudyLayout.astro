@@ -7,6 +7,9 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import { getSite } from '@/lib/content';
 import type { Image, Project, Skill } from '@/lib/schemas';
 import { creativeWorkJsonLd, pageMeta } from '@/lib/seo';
+import { localeFromPath, strings } from '@/lib/i18n';
+
+const locale = localeFromPath(Astro.url.pathname);
 
 type Neighbour = Pick<Project, 'id' | 'title'> | undefined;
 
@@ -21,11 +24,14 @@ interface Props {
 }
 
 const { project, coverImage, deliveredVia, skills, prev, next } = Astro.props;
-const site = getSite();
+const site = getSite(locale);
 const url = new URL(Astro.url.pathname, Astro.site ?? import.meta.env.SITE).href;
 ---
 
-<BaseLayout meta={pageMeta(site, { project })} jsonLd={creativeWorkJsonLd(site, project, url)}>
+<BaseLayout
+  meta={pageMeta(site, { project }, strings(locale).titleTemplate)}
+  jsonLd={creativeWorkJsonLd(site, project, url)}
+>
   <article class="flex flex-col gap-16 overflow-x-clip py-16 lg:gap-20 lg:py-24">
     <header class="mx-auto flex w-full max-w-300 flex-col gap-10 px-4 sm:px-6 lg:px-8">
       <div class="flex max-w-180 flex-col gap-4">

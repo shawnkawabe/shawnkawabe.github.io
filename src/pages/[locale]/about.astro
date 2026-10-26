@@ -4,19 +4,26 @@
 import CompanyList from '@/components/patterns/CompanyList.astro';
 import { buttonVariants } from '@/components/ui/button';
 import Icon from '@/components/ui/Icon.astro';
-import en from '@/i18n/en.json';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { visibleImage } from '@/lib/case-study';
-import { getExperience, getProjects, getSite, publicFileExists } from '@/lib/content';
+import { getExperience, getProjects, getSite, publicFileExists, siteLocales } from '@/lib/content';
+import { strings, toLocale } from '@/lib/i18n';
 import { pageMeta } from '@/lib/seo';
 
-const site = getSite();
-const [experience, projects] = await Promise.all([getExperience(), getProjects()]);
+export function getStaticPaths() {
+  return siteLocales().map((locale) => ({ params: { locale } }));
+}
+
+const locale = toLocale(Astro.params.locale);
+const ui = strings(locale);
+
+const site = getSite(locale);
+const [experience, projects] = await Promise.all([getExperience(locale), getProjects(locale)]);
 const photo = visibleImage(site.photo ?? undefined, publicFileExists);
-const t = en.about;
+const t = ui.about;
 ---
 
-<BaseLayout meta={pageMeta(site, { page: 'about' })}>
+<BaseLayout meta={pageMeta(site, { page: 'about' }, ui.titleTemplate)}>
   <div class="mx-auto flex w-full max-w-300 flex-col gap-16 px-4 py-16 sm:px-6 lg:gap-20 lg:px-8 lg:py-24">
     <header class:list={['grid items-start gap-10', photo && 'md:grid-cols-[1fr_2fr]']}>
       {photo && (
@@ -66,7 +73,7 @@ const t = en.about;
       >
         {t.resume}
         <Icon name="external" />
-        <span class="sr-only"> ({en.nav.newTab})</span>
+        <span class="sr-only"> ({ui.nav.newTab})</span>
       </a>
     </section>
   </div>

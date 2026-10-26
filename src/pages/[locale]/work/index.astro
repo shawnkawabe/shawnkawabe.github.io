@@ -3,16 +3,23 @@
 // WorkFilters only hides items, so without JavaScript all projects stay visible.
 import ProjectCard from '@/components/patterns/ProjectCard.astro';
 import WorkFilters, { type FacetOption } from '@/components/patterns/WorkFilters';
-import en from '@/i18n/en.json';
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import { getProjects, getSite, getSkills } from '@/lib/content';
+import { getProjects, getSite, getSkills, siteLocales } from '@/lib/content';
+import { strings, toLocale } from '@/lib/i18n';
 import { skillStats, sortProjects } from '@/lib/derive';
 import { pageMeta } from '@/lib/seo';
 
+export function getStaticPaths() {
+  return siteLocales().map((locale) => ({ params: { locale } }));
+}
+
+const locale = toLocale(Astro.params.locale);
+const ui = strings(locale);
+
 const GRID_ID = 'work-grid';
 
-const site = getSite();
-const [projects, skills] = await Promise.all([getProjects(), getSkills()]);
+const site = getSite(locale);
+const [projects, skills] = await Promise.all([getProjects(locale), getSkills(locale)]);
 const sorted = sortProjects(projects);
 const stats = new Map(skillStats(skills, projects).map((stat) => [stat.id, stat.projectCount]));
 const skillById = new Map(skills.map((skill) => [skill.id, skill]));
@@ -35,13 +42,13 @@ const cloudLabels = Object.fromEntries(
 );
 ---
 
-<BaseLayout meta={pageMeta(site, { page: 'work' })}>
+<BaseLayout meta={pageMeta(site, { page: 'work' }, ui.titleTemplate)}>
   <div class="mx-auto flex w-full max-w-300 flex-col gap-10 px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
     <header class="flex max-w-180 flex-col gap-4">
       <h1>{site.seo.pages.work.title}</h1>
       <p class="text-4 text-on-surface-2">{site.workIntro}</p>
     </header>
-    <section data-js-only aria-label={en.work.filtersLabel}>
+    <section data-js-only aria-label={ui.work.filtersLabel}>
       <WorkFilters
         client:load
         clouds={clouds}
@@ -49,6 +56,7 @@ const cloudLabels = Object.fromEntries(
         allSkills={allSkills}
         total={sorted.length}
         gridId={GRID_ID}
+        ui={{ work: ui.work, cards: ui.cards }}
       />
     </section>
     <ul id={GRID_ID} class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">

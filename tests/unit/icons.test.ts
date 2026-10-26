@@ -1,6 +1,6 @@
 import { readdirSync, readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import skills from '../../content/skills.json';
+import skills from '../../content/en/skills.json';
 
 const dir = 'src/assets/icons/clouds';
 const files = readdirSync(dir).filter((file) => file.endsWith('.svg'));

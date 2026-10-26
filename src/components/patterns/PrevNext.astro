@@ -1,8 +1,11 @@
 ---
 // SPEC §5.3 item 10: neighbours in sort order (prevNext()); no wrap-around, so an end has one link.
 import Icon from '@/components/ui/Icon.astro';
-import en from '@/i18n/en.json';
 import type { Project } from '@/lib/schemas';
+import { localeFromPath, localePath, strings } from '@/lib/i18n';
+
+const locale = localeFromPath(Astro.url.pathname);
+const ui = strings(locale);
 
 type Neighbour = Pick<Project, 'id' | 'title'> | undefined;
 
@@ -12,7 +15,7 @@ interface Props {
 }
 
 const { prev, next } = Astro.props;
-const t = en.caseStudy;
+const t = ui.caseStudy;
 const link =
   'group flex flex-col gap-1 rounded-md border border-border-1 bg-surface-2 p-5 no-underline transition-[border-color,box-shadow] duration-250 ease-standard hover:border-border-2 hover:shadow-glow';
 ---
@@ -20,7 +23,7 @@ const link =
 {(prev || next) && (
   <nav aria-label={t.pagerLabel} class="grid gap-4 sm:grid-cols-2">
     {prev && (
-      <a href={`/work/${prev.id}`} rel="prev" class={link}>
+      <a href={localePath(locale, `/work/${prev.id}`)} rel="prev" class={link}>
         <span class="flex items-center gap-2 font-mono text-1 tracking-label text-on-surface-2 uppercase">
           <Icon name="arrow-left" size={16} />
           {t.previous}
@@ -29,7 +32,11 @@ const link =
       </a>
     )}
     {next && (
-      <a href={`/work/${next.id}`} rel="next" class:list={[link, 'text-right sm:col-start-2']}>
+      <a
+        href={localePath(locale, `/work/${next.id}`)}
+        rel="next"
+        class:list={[link, 'text-right sm:col-start-2']}
+      >
         <span class="flex items-center justify-end gap-2 font-mono text-1 tracking-label text-on-surface-2 uppercase">
           {t.next}
           <Icon name="arrow-right" size={16} />

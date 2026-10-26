@@ -2,11 +2,11 @@
 // poster and the fallback (< 1024px, reduced motion, no WebGL2, while the 3D chunk loads). When the
 // scene may run, an accessible node list drives a lazily loaded canvas and a side panel.
 import { lazy, Suspense, useEffect, useId, useRef, useState, type ReactNode } from 'react';
-import { cards, constellation as t } from '@/i18n/en.json';
 import type { CloudStat } from '@/lib/derive';
 import { canRunScene, DESKTOP_QUERY, hasWebGL2, nextNodeIndex } from '@/lib/constellation';
 import { trapFocus } from '@/lib/focus-trap';
 import { plural } from '@/lib/format';
+import type { Strings } from '@/lib/i18n';
 import { REDUCED_MOTION_QUERY } from '@/lib/motion';
 
 const ConstellationCanvas = lazy(() => import('@/components/three/ConstellationCanvas'));
@@ -16,9 +16,20 @@ export type CloudNode = Pick<
   'id' | 'label' | 'accent' | 'projectCount' | 'certifications' | 'projects'
 >;
 
-export type CloudConstellationProps = { nodes: CloudNode[]; children?: ReactNode };
+type Localized = {
+  /** Strings in the page's locale. */
+  ui: Pick<Strings, 'cards' | 'constellation'>;
+  /** The Work page in the page's locale (`/pt/work`). */
+  workPath: string;
+};
 
-export default function CloudConstellation({ nodes, children }: CloudConstellationProps) {
+export type CloudConstellationProps = Localized & { nodes: CloudNode[]; children?: ReactNode };
+
+export default function CloudConstellation({
+  nodes,
+  children,
+  ...localized
+}: CloudConstellationProps) {
   const [sceneAllowed, setSceneAllowed] = useState(false);
 
   useEffect(() => {
@@ -46,14 +57,15 @@ export default function CloudConstellation({ nodes, children }: CloudConstellati
         children
       ) : (
         <Suspense fallback={children}>
-          <Constellation nodes={nodes} />
+          <Constellation nodes={nodes} {...localized} />
         </Suspense>
       )}
     </div>
   );
 }
 
-function Constellation({ nodes }: { nodes: CloudNode[] }) {
+function Constellation({ nodes, ui, workPath }: Localized & { nodes: CloudNode[] }) {
+  const { cards, constellation: t } = ui;
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [focusIndex, setFocusIndex] = useState(0);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
@@ -118,6 +130,8 @@ function Constellation({ nodes }: { nodes: CloudNode[] }) {
         ))}
       </ul>
       <CloudPanel
+        ui={ui}
+        workPath={workPath}
         node={openIndex === null ? undefined : nodes[openIndex]}
         onClose={() => {
           if (openIndex !== null) buttons.current[openIndex]?.focus();
@@ -132,7 +146,13 @@ const LINK =
   'inline-flex min-h-7 items-center rounded-pill border border-border-1 bg-surface-2 px-3 py-1 text-2 text-on-surface-2 no-underline transition-colors duration-150 ease-standard hover:border-border-2 hover:text-on-surface-1';
 
 /** DESIGN §9 Panel: 400px from the right, native modal <dialog> (Esc, focus loop, focus return). */
-function CloudPanel({ node, onClose }: { node: CloudNode | undefined; onClose: () => void }) {
+function CloudPanel({
+  node,
+  onClose,
+  ui,
+  workPath,
+}: Localized & { node: CloudNode | undefined; onClose: () => void }) {
+  const { cards, constellation: t } = ui;
   const dialog = useRef<HTMLDialogElement>(null);
   const titleId = useId();
 
@@ -194,7 +214,7 @@ function CloudPanel({ node, onClose }: { node: CloudNode | undefined; onClose: (
               <ul className="flex flex-wrap gap-2">
                 {node.projects.map((project) => (
                   <li key={project.id}>
-                    <a href={`/work/${project.id}`} className={LINK}>
+                    <a href={`${workPath}/${project.id}`} className={LINK}>
                       {project.title}
                     </a>
                   </li>
@@ -204,7 +224,7 @@ function CloudPanel({ node, onClose }: { node: CloudNode | undefined; onClose: (
           )}
           {node.projectCount > 0 && (
             <a
-              href={`/work?cloud=${node.id}`}
+              href={`${workPath}?cloud=${node.id}`}
               className="mt-auto inline-flex h-12 items-center justify-center rounded-pill bg-accent-1 px-5 text-3 font-medium text-on-accent no-underline hover:bg-accent-1-strong"
             >
               {t.seeProjects}

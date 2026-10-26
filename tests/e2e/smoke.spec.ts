@@ -45,13 +45,13 @@ test('the navigation reaches every page and marks the current one', async ({ pag
     return page.getByRole('dialog').getByRole('navigation', { name: 'Main' });
   };
 
-  await page.goto('/');
+  await page.goto('/en/');
   for (const [name, path] of [
-    ['Work', '/work'],
-    ['Skills', '/skills'],
-    ['About', '/about'],
-    ['Contact', '/contact'],
-    ['Home', '/'],
+    ['Work', '/en/work'],
+    ['Skills', '/en/skills'],
+    ['About', '/en/about'],
+    ['Contact', '/en/contact'],
+    ['Home', '/en'],
   ] as const) {
     await (await mainNav()).getByRole('link', { name, exact: true }).click();
     await expect(page).toHaveURL((url) => trimSlash(url.pathname) === path);
@@ -61,4 +61,31 @@ test('the navigation reaches every page and marks the current one', async ({ pag
     );
     if (mobile) await page.keyboard.press('Escape');
   }
+});
+
+// ADR 0003: `/` picks a language; old unprefixed URLs keep working by redirecting to English.
+test('the root sends a visitor to their language home', async ({ page }) => {
+  await page.goto('/');
+  await expect(page).toHaveURL((url) => url.pathname === '/en/');
+});
+
+test('a stored language choice wins at the root when it has pages', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('pf-locale', 'en'));
+  await page.goto('/');
+  await expect(page).toHaveURL((url) => url.pathname === '/en/');
+});
+
+for (const legacy of ['/work', '/about']) {
+  test(`legacy ${legacy} redirects into /en`, async ({ page }) => {
+    await page.goto(legacy);
+    await expect(page).toHaveURL((url) => trimSlash(url.pathname) === `/en${legacy}`);
+  });
+}
+
+test('legacy case-study URLs redirect into /en', async ({ page }) => {
+  const caseStudy = siteRoutes().find((route) => /^\/en\/work\/[^/]+\/$/.test(route));
+  expect(caseStudy).toBeDefined();
+  const legacy = caseStudy!.replace(/^\/en/, '');
+  await page.goto(legacy);
+  await expect(page).toHaveURL((url) => url.pathname === caseStudy);
 });

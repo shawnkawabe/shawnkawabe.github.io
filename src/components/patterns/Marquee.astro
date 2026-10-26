@@ -2,7 +2,9 @@
 // SPEC §5.1 item 4 / DESIGN §7: products and tools scrolling at 40s per loop. Pauses on hover and
 // with the button (WCAG 2.2.2); with reduced motion it is a static wrapped list.
 import Chip from '@/components/ui/Chip.astro';
-import en from '@/i18n/en.json';
+import { localeFromPath, strings } from '@/lib/i18n';
+
+const ui = strings(localeFromPath(Astro.url.pathname));
 
 interface Props {
   items: string[];
@@ -43,7 +45,7 @@ const { items, id } = Astro.props;
     aria-pressed="false"
     class="rounded-pill px-3 py-1 font-mono text-1 tracking-label text-on-surface-2 uppercase transition-colors duration-150 ease-standard hover:text-on-surface-1 aria-pressed:text-on-surface-1 motion-reduce:hidden"
   >
-    {en.home.pauseMarquee}
+    {ui.home.pauseMarquee}
   </button>
 </div>
 

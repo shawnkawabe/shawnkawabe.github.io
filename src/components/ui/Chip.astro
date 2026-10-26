@@ -1,6 +1,8 @@
 ---
+import { localeFromPath, strings } from '@/lib/i18n';
+
+const ui = strings(localeFromPath(Astro.url.pathname));
 // DESIGN §9 Chip: 28px pill; mono uppercase or Inter; optional cloud-accent dot; link when href is set.
-import en from '@/i18n/en.json';
 
 interface Props {
   href?: string;
@@ -52,5 +54,5 @@ const Tag = href ? 'a' : 'span';
     />
   )}
   <slot />
-  {href && external && <span class="sr-only"> ({en.nav.newTab})</span>}
+  {href && external && <span class="sr-only"> ({ui.nav.newTab})</span>}
 </Tag>

@@ -26,7 +26,20 @@ const devGallery = () => ({
 export default defineConfig({
   site: 'https://shawnkawabe.github.io',
   output: 'static',
-  integrations: [react(), sitemap(), devGallery()],
+  // English-only launch URLs now live under /en/ (ADR 0003); static meta-refresh redirect pages.
+  // /work/[id] is src/pages/work/[id].astro: config redirects cannot add a locale to a dynamic route.
+  redirects: {
+    '/work': '/en/work',
+    '/skills': '/en/skills',
+    '/about': '/en/about',
+    '/contact': '/en/contact',
+  },
+  integrations: [
+    react(),
+    // Only localized pages: the root and the legacy URLs just redirect.
+    sitemap({ filter: (page) => /^\/(en|pt|es)\//.test(new URL(page).pathname) }),
+    devGallery(),
+  ],
   vite: {
     plugins: [
       tailwindcss(),

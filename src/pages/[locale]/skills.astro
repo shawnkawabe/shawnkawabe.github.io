@@ -3,24 +3,31 @@
 import CertificationStrip from '@/components/patterns/CertificationStrip.astro';
 import CloudBento from '@/components/patterns/CloudBento.astro';
 import SkillGroups from '@/components/patterns/SkillGroups.astro';
-import en from '@/i18n/en.json';
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import { getCertifications, getProjects, getSite, getSkills } from '@/lib/content';
+import { getCertifications, getProjects, getSite, getSkills, siteLocales } from '@/lib/content';
+import { localePath, strings, toLocale } from '@/lib/i18n';
 import { cloudStats, skillGroupChips } from '@/lib/derive';
 import { pageMeta } from '@/lib/seo';
 
-const site = getSite();
+export function getStaticPaths() {
+  return siteLocales().map((locale) => ({ params: { locale } }));
+}
+
+const locale = toLocale(Astro.params.locale);
+const ui = strings(locale);
+
+const site = getSite(locale);
 const [projects, skills, certifications] = await Promise.all([
-  getProjects(),
-  getSkills(),
-  getCertifications(),
+  getProjects(locale),
+  getSkills(locale),
+  getCertifications(locale),
 ]);
 const clouds = cloudStats(skills, projects, certifications);
-const groups = skillGroupChips(site.skillGroups, skills, projects);
-const t = en.skills;
+const groups = skillGroupChips(site.skillGroups, skills, projects, localePath(locale, '/work'));
+const t = ui.skills;
 ---
 
-<BaseLayout meta={pageMeta(site, { page: 'skills' })}>
+<BaseLayout meta={pageMeta(site, { page: 'skills' }, ui.titleTemplate)}>
   <div class="mx-auto flex w-full max-w-300 flex-col gap-16 px-4 py-16 sm:px-6 lg:gap-20 lg:px-8 lg:py-24">
     <header class="flex max-w-180 flex-col gap-4">
       <h1>{site.seo.pages.skills.title}</h1>

@@ -9,7 +9,7 @@ import {
   personJsonLd,
   serializeJsonLd,
 } from '@/lib/seo';
-import siteJson from '../../content/site.json';
+import siteJson from '../../content/en/site.json';
 
 const site = siteSchema.parse(siteJson);
 
@@ -21,16 +21,18 @@ describe('format', () => {
   });
 });
 
+const TEMPLATE = '{title} — {name}';
+
 describe('pageMeta (SPEC §4.5)', () => {
   it('uses the home title and site description on Home', () => {
-    expect(pageMeta(site, { page: 'home' })).toEqual({
+    expect(pageMeta(site, { page: 'home' }, TEMPLATE)).toEqual({
       title: site.seo.homeTitle,
       description: site.seo.description,
     });
   });
 
   it('uses "{page title} — {name}" and the page description elsewhere', () => {
-    expect(pageMeta(site, { page: 'work' })).toEqual({
+    expect(pageMeta(site, { page: 'work' }, TEMPLATE)).toEqual({
       title: `${site.seo.pages.work.title} — ${site.name}`,
       description: site.seo.pages.work.description,
     });
@@ -38,7 +40,7 @@ describe('pageMeta (SPEC §4.5)', () => {
 
   it('uses the project title and summary on case studies', () => {
     const project = { title: 'Dealer portal', summary: 'A portal for dealers.' };
-    expect(pageMeta(site, { project })).toEqual({
+    expect(pageMeta(site, { project }, TEMPLATE)).toEqual({
       title: `Dealer portal — ${site.name}`,
       description: 'A portal for dealers.',
     });

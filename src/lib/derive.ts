@@ -123,6 +123,7 @@ export function skillGroupChips(
   groups: readonly { id: string; label: string }[],
   skills: readonly Skill[],
   projects: readonly Project[],
+  workPath = '/work',
 ): { id: string; label: string; skills: SkillChip[] }[] {
   const counts = new Map(skillStats(skills, projects).map((stat) => [stat.id, stat.projectCount]));
   return groups
@@ -136,7 +137,7 @@ export function skillGroupChips(
             id: skill.id,
             label: skill.label,
             count,
-            href: count > 0 ? `/work?${param}=${skill.id}` : undefined,
+            href: count > 0 ? `${workPath}?${param}=${skill.id}` : undefined,
             accent: skill.accent,
           };
         });

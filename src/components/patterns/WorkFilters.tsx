@@ -1,10 +1,10 @@
 // SPEC §5.2: cloud and capability chips filter the server-rendered grid and stay in sync with the URL.
 // Grid items carry data-clouds / data-caps; the page hides the bar without JavaScript ([data-js-only]).
 import { useEffect, useId, useRef, useState } from 'react';
-import en from '@/i18n/en.json';
 import { filterProjects, type FilterState } from '@/lib/derive';
 import { parseFilters, serializeFilters, type ValidFilterIds } from '@/lib/filters';
 import { plural } from '@/lib/format';
+import type { Strings } from '@/lib/i18n';
 
 export type FacetOption = { id: string; label: string; count: number; accent?: string };
 
@@ -15,6 +15,8 @@ export type WorkFiltersProps = {
   allSkills: Record<string, string>;
   total: number;
   gridId: string;
+  /** Strings in the page's locale. */
+  ui: Pick<Strings, 'work' | 'cards'>;
 };
 
 type GridItem = { element: HTMLElement; clouds: string[]; capabilities: string[] };
@@ -52,6 +54,7 @@ export default function WorkFilters({
   allSkills,
   total,
   gridId,
+  ui,
 }: WorkFiltersProps) {
   const [items, setItems] = useState<GridItem[]>([]);
   const [filters, setFilters] = useState<FilterState>(NONE);
@@ -107,13 +110,13 @@ export default function WorkFilters({
   return (
     <div className="flex flex-col gap-5">
       <FacetGroup
-        label={en.work.cloud}
+        label={ui.work.cloud}
         options={clouds}
         selected={filters.clouds}
         onToggle={(id) => update({ ...filters, clouds: toggle(filters.clouds, id) })}
       />
       <FacetGroup
-        label={en.work.capability}
+        label={ui.work.capability}
         options={capOptions}
         selected={filters.caps}
         onToggle={(id) => update({ ...filters, caps: toggle(filters.caps, id) })}
@@ -124,15 +127,15 @@ export default function WorkFilters({
           aria-atomic="true"
           className="font-mono text-1 tracking-label text-on-surface-2 uppercase"
         >
-          {plural(en.cards.projects, count)}
+          {plural(ui.cards.projects, count)}
         </p>
         <button ref={clearRef} type="button" className={GHOST} onClick={() => update(NONE)}>
-          {en.work.clear}
+          {ui.work.clear}
         </button>
       </div>
       {count === 0 && (
         <div className="flex flex-col items-start gap-4 rounded-md border border-border-1 bg-surface-2 p-6">
-          <p className="text-3">{en.work.empty}</p>
+          <p className="text-3">{ui.work.empty}</p>
           <button
             type="button"
             className={NEUTRAL}
@@ -142,7 +145,7 @@ export default function WorkFilters({
               clearRef.current?.focus();
             }}
           >
-            {en.work.clear}
+            {ui.work.clear}
           </button>
         </div>
       )}

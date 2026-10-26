@@ -2,7 +2,10 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import CloudConstellation, { type CloudNode } from '@/components/patterns/CloudConstellation';
+import en from '@/i18n/en.json';
 import { hasWebGL2 } from '@/lib/constellation';
+
+const ui = { cards: en.cards, constellation: en.constellation };
 
 // WebGL is out of reach in jsdom: the scene becomes one button per node that reports a click.
 vi.mock('@/components/three/ConstellationCanvas', () => ({
@@ -80,21 +83,33 @@ describe('CloudConstellation', () => {
     ['no WebGL2', { webgl2: false }],
   ])('keeps the bento on %s', (_, env) => {
     stubEnvironment(env);
-    render(<CloudConstellation nodes={nodes}>{fallback}</CloudConstellation>);
+    render(
+      <CloudConstellation ui={ui} workPath="/en/work" nodes={nodes}>
+        {fallback}
+      </CloudConstellation>,
+    );
     expect(screen.getByText('Bento fallback')).toBeInTheDocument();
     expect(screen.queryByRole('list')).not.toBeInTheDocument();
   });
 
   it('keeps the bento when there are no clouds', () => {
     stubEnvironment();
-    render(<CloudConstellation nodes={[]}>{fallback}</CloudConstellation>);
+    render(
+      <CloudConstellation ui={ui} workPath="/en/work" nodes={[]}>
+        {fallback}
+      </CloudConstellation>,
+    );
     expect(screen.getByText('Bento fallback')).toBeInTheDocument();
   });
 
   it('moves focus through the node list with roving tabindex', async () => {
     stubEnvironment();
     const user = userEvent.setup();
-    render(<CloudConstellation nodes={nodes}>{fallback}</CloudConstellation>);
+    render(
+      <CloudConstellation ui={ui} workPath="/en/work" nodes={nodes}>
+        {fallback}
+      </CloudConstellation>,
+    );
     const list = await screen.findByRole('list', { name: /Clouds/ });
     const buttons = [...list.querySelectorAll('button')];
     expect(buttons.map((button) => button.tabIndex)).toEqual([0, -1, -1]);
@@ -114,17 +129,21 @@ describe('CloudConstellation', () => {
   it('opens the panel from a list button and returns focus to it on close', async () => {
     stubEnvironment();
     const user = userEvent.setup();
-    render(<CloudConstellation nodes={nodes}>{fallback}</CloudConstellation>);
+    render(
+      <CloudConstellation ui={ui} workPath="/en/work" nodes={nodes}>
+        {fallback}
+      </CloudConstellation>,
+    );
     const sales = await screen.findByRole('button', { name: /^Sales Cloud/ });
 
     await user.click(sales);
     const panel = screen.getByRole('dialog', { name: 'Sales Cloud' });
     expect(panel).toHaveAttribute('open');
     expect(screen.getByText('Salesforce Certified Administrator')).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Ihara' })).toHaveAttribute('href', '/work/ihara');
+    expect(screen.getByRole('link', { name: 'Ihara' })).toHaveAttribute('href', '/en/work/ihara');
     expect(screen.getByRole('link', { name: 'See projects' })).toHaveAttribute(
       'href',
-      '/work?cloud=sales-cloud',
+      '/en/work?cloud=sales-cloud',
     );
 
     await user.click(screen.getByRole('button', { name: 'Close' }));
@@ -135,7 +154,11 @@ describe('CloudConstellation', () => {
   it('opens from the scene, hides empty sections and closes on the backdrop', async () => {
     stubEnvironment();
     const user = userEvent.setup();
-    const { container } = render(<CloudConstellation nodes={nodes}>{fallback}</CloudConstellation>);
+    const { container } = render(
+      <CloudConstellation ui={ui} workPath="/en/work" nodes={nodes}>
+        {fallback}
+      </CloudConstellation>,
+    );
 
     await user.click(await screen.findByRole('button', { name: 'scene data-cloud' }));
     const panel = container.querySelector('dialog')!;

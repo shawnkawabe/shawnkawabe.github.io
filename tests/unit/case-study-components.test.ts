@@ -74,8 +74,8 @@ describe('PrevNext', () => {
       prev: { id: 'a', title: 'A' },
       next: { id: 'c', title: 'C' },
     });
-    expect(both).toContain('href="/work/a"');
-    expect(both).toContain('href="/work/c"');
+    expect(both).toContain('href="/en/work/a"');
+    expect(both).toContain('href="/en/work/c"');
 
     const end = await render(PrevNext, { prev: { id: 'a', title: 'A' }, next: undefined });
     expect(end).not.toContain('Next project');

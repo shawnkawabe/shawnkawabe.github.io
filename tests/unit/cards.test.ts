@@ -37,14 +37,14 @@ describe('CoverCard', () => {
   const props = {
     title: 'BRF',
     subtitle: 'Referral campaign',
-    href: '/work/brf',
+    href: '/en/work/brf',
     cover: { preset: 'aurora' },
   };
 
   it('is a single link with the title as a heading and the cover text hidden', async () => {
     const html = await render(CoverCard, props);
     expect(count(html, /<a /g)).toBe(1);
-    expect(html).toMatch(/^<a href="\/work\/brf"/);
+    expect(html).toMatch(/^<a href="\/en\/work\/brf"/);
     expect(html).toContain('<h3');
     expect(html).toMatch(/aria-hidden="true"[^>]*>\s*BRF/);
     expect(html).toContain('pf-cover--aurora');
@@ -76,7 +76,7 @@ describe('ProjectCard', () => {
       cloudLabels,
     });
     expect(count(html, /<a /g)).toBe(1);
-    expect(html).toMatch(/^<a href="\/work\/brf"/);
+    expect(html).toMatch(/^<a href="\/en\/work\/brf"/);
     expect(html).toContain('Digital campaigns');
   });
 
@@ -105,7 +105,7 @@ describe('CloudCard', () => {
     const html = await render(CloudCard, {
       cloud: cloud({ id: 'sales-cloud', projectCount: 1 }),
     });
-    expect(html).toMatch(/^<a href="\/work\?cloud=sales-cloud"/);
+    expect(html).toMatch(/^<a href="\/en\/work\?cloud=sales-cloud"/);
     expect(html).toContain('1 project<');
     expect(html).not.toContain('certification');
     expect(html).toContain('--pf-c-cloud-accent: var(--pf-g-color-cloud-sales)');
@@ -145,8 +145,8 @@ describe('CloudBento', () => {
         cloud({ id: 'data-cloud', projectCount: 1 }),
       ],
     });
-    expect(html).toMatch(/data-size="feature"[^>]*>\s*<a href="\/work\?cloud=sales-cloud"/);
-    expect(html).toMatch(/data-size="wide"[^>]*>\s*<a href="\/work\?cloud=service-cloud"/);
+    expect(html).toMatch(/data-size="feature"[^>]*>\s*<a href="\/en\/work\?cloud=sales-cloud"/);
+    expect(html).toMatch(/data-size="wide"[^>]*>\s*<a href="\/en\/work\?cloud=service-cloud"/);
     expect(count(html, /<li/g)).toBe(3);
   });
 });

@@ -3,6 +3,9 @@
 // No dates and no timeline (CLAUDE.md rule 3a); project ids not in projects.json are skipped.
 import Chip from '@/components/ui/Chip.astro';
 import type { Experience, Project } from '@/lib/schemas';
+import { localeFromPath, localePath } from '@/lib/i18n';
+
+const locale = localeFromPath(Astro.url.pathname);
 
 interface Props {
   experience: readonly Pick<Experience, 'id' | 'employer' | 'role' | 'projectIds'>[];
@@ -26,7 +29,7 @@ const byId = new Map(projects.map((project) => [project.id, project]));
           <ul class="flex flex-wrap gap-2">
             {linked.map((project) => (
               <li class="max-w-full">
-                <Chip href={`/work/${project.id}`} wrap>
+                <Chip href={localePath(locale, `/work/${project.id}`)} wrap>
                   {project.title}
                 </Chip>
               </li>

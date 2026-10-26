@@ -3,7 +3,7 @@ import { experimental_AstroContainer as AstroContainer } from 'astro/container';
 import { loadRenderers } from 'astro:container';
 import { beforeAll, describe, expect, it } from 'vitest';
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import siteJson from '../../content/site.json';
+import siteJson from '../../content/en/site.json';
 
 let container: AstroContainer;
 

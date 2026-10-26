@@ -1,8 +1,10 @@
 ---
 // SPEC §5.6: the form renders only with a Web3Forms key; an empty key leaves the direct links alone.
 import ContactForm from '@/components/patterns/ContactForm';
-import en from '@/i18n/en.json';
 import type { Site } from '@/lib/schemas';
+import { localeFromPath, strings } from '@/lib/i18n';
+
+const ui = strings(localeFromPath(Astro.url.pathname));
 
 interface Props {
   web3formsKey: string;
@@ -15,10 +17,11 @@ const { web3formsKey, site } = Astro.props;
 {web3formsKey && (
   <section aria-labelledby="form-title" class="flex flex-col gap-6">
     <h2 id="form-title" class="text-6">
-      {en.contact.formTitle}
+      {ui.contact.formTitle}
     </h2>
     <ContactForm
       client:visible
+      t={ui.contact}
       web3formsKey={web3formsKey}
       projectTypes={site.contact.projectTypes}
       successMessage={site.contact.successMessage}

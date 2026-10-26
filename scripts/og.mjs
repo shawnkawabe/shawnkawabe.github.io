@@ -9,7 +9,7 @@ import { chromium } from '@playwright/test';
 const PORT = 4323;
 const PAGES = ['work', 'skills', 'about', 'contact'];
 
-const projects = JSON.parse(readFileSync('content/projects.json', 'utf8'));
+const projects = JSON.parse(readFileSync('content/en/projects.json', 'utf8'));
 const cards = [
   { route: '', file: 'public/og/default.png' },
   ...[...PAGES, ...projects.map((project) => `work/${project.id}`)].map((route) => ({

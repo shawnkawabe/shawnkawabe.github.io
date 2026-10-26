@@ -5,14 +5,14 @@
 Static site built by Astro 7 and deployed to GitHub Pages by GitHub Actions. Every route is pre-rendered HTML. JavaScript ships only for React islands that need it.
 
 ```
-content/projects|skills|experience|certifications.json ──► src/content.config.ts (collections, zod)
-content/site.json ──────────────────────────────────────► src/lib/content.ts (import + siteSchema.parse)
+content/{locale}/projects|skills|experience|certifications.json ──► src/content.config.ts (collections, zod)
+content/{locale}/site.json ──────────────────────────────────────► src/lib/content.ts (import + siteSchema.parse)
                                     │
                                     ▼
                   src/lib/content.ts getters ──► src/lib/derive.ts (counts, sorting)
                                     │
                                     ▼
-   src/pages/*.astro ──► layouts ──► patterns (.astro / React islands) ──► ui primitives
+   src/pages/[locale]/*.astro ──► layouts ──► patterns (.astro / React islands) ──► ui primitives
                                                 │
 tokens/*.tokens.json ──► Style Dictionary ──► src/styles/tokens.css ──► Tailwind @theme ──► all components
 ```
@@ -32,11 +32,12 @@ Rule of dependency: **pages → layouts → patterns → ui → tokens**. A laye
 ├── .nvmrc                        # 24
 ├── .env.example                  # PUBLIC_WEB3FORMS_KEY=
 ├── content/                      # SINGLE SOURCE OF TRUTH for text and data
-│   ├── site.json                 # one object
-│   ├── projects.json             # array, each entry has "id"
-│   ├── skills.json               # array
-│   ├── experience.json           # array
-│   └── certifications.json       # array
+│   └── {en,pt,es}/               # one folder per locale, same files and ids (ADR 0003)
+│       ├── site.json             # one object
+│       ├── projects.json         # array, each entry has "id"
+│       ├── skills.json           # array
+│       ├── experience.json       # array
+│       └── certifications.json   # array
 ├── tokens/                       # DTCG 2025.10
 │   ├── base.tokens.json
 │   ├── theme.dark.tokens.json
@@ -78,15 +79,18 @@ Rule of dependency: **pages → layouts → patterns → ui → tokens**. A laye
 │   │   ├── PageLayout.astro
 │   │   └── CaseStudyLayout.astro
 │   ├── pages/
-│   │   ├── index.astro
-│   │   ├── work/index.astro
-│   │   ├── work/[id].astro       # getStaticPaths from projects
-│   │   ├── skills.astro
-│   │   ├── about.astro
-│   │   ├── contact.astro
-│   │   └── 404.astro
+│   │   ├── index.astro           # root: picks a locale and redirects (ADR 0003)
+│   │   ├── work/[id].astro       # legacy redirect to /en/work/{id}/
+│   │   ├── [locale]/             # getStaticPaths over siteLocales()
+│   │   │   ├── index.astro
+│   │   │   ├── work/index.astro
+│   │   │   ├── work/[id].astro   # locales × projects
+│   │   │   ├── skills.astro
+│   │   │   ├── about.astro
+│   │   │   └── contact.astro
+│   │   └── 404.astro             # English, unprefixed
 │   ├── dev/components.astro      # component gallery, injected only by `astro dev` (§4.3)
-│   └── i18n/en.json              # UI strings (button labels, aria text, empty states)
+│   └── i18n/                     # locales.json (label, html lang, review flag) + {en,pt,es}.json UI strings
 ├── tests/
 │   ├── unit/                     # vitest: lib, content integrity, .astro via Container API
 │   │   └── islands/              # vitest + Testing Library: React islands
@@ -260,7 +264,9 @@ export const siteSchema = z.object({
 });
 ```
 
-`src/content.config.ts` defines four collections with `file('content/{name}.json')` and the matching schema.
+`src/content.config.ts` defines one collection per type and locale (`projects-en`, `projects-pt`, …) with `file('content/{locale}/{name}.json')` and the shared schema. Every getter in `src/lib/content.ts` takes the page's locale.
+
+Locales (`src/lib/i18n.ts`): pages read `strings(locale)` for UI text and build links with `localePath(locale, path)`; components without the route param use `localeFromPath(Astro.url.pathname)`. React islands receive their strings as props. A locale is built in production only when `src/i18n/locales.json` marks it `reviewed`. `tests/unit/i18n.test.ts` fails when UI keys or content ids differ between locales.
 
 Cross-file integrity (checked in `tests/unit/content.test.ts`):
 

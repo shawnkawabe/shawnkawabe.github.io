@@ -12,7 +12,7 @@ import {
 } from '@/lib/schemas';
 
 const read = (name: string): unknown =>
-  JSON.parse(readFileSync(new URL(`../../content/${name}.json`, import.meta.url), 'utf8'));
+  JSON.parse(readFileSync(new URL(`../../content/en/${name}.json`, import.meta.url), 'utf8'));
 
 const site = siteSchema.parse(read('site'));
 const projects = z.array(projectSchema).parse(read('projects'));

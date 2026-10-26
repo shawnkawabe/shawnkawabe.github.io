@@ -1,5 +1,4 @@
 // Page metadata and structured data (SPEC §4.5). Pure: layouts only render what this returns.
-import en from '@/i18n/en.json';
 import type { Project, Site } from './schemas';
 
 export type SeoPage = keyof Site['seo']['pages'];
@@ -16,16 +15,17 @@ export function format(template: string, values: Record<string, string | number>
   );
 }
 
-export function pageMeta(site: Site, source: MetaSource): PageMeta {
+/** `titleTemplate` comes from the page's locale strings ("{title} — {name}"). */
+export function pageMeta(site: Site, source: MetaSource, titleTemplate: string): PageMeta {
   if ('project' in source) {
     const { title, summary } = source.project;
-    return { title: format(en.titleTemplate, { title, name: site.name }), description: summary };
+    return { title: format(titleTemplate, { title, name: site.name }), description: summary };
   }
   if (source.page === 'home') {
     return { title: site.seo.homeTitle, description: site.seo.description };
   }
   const { title, description } = site.seo.pages[source.page];
-  return { title: format(en.titleTemplate, { title, name: site.name }), description };
+  return { title: format(titleTemplate, { title, name: site.name }), description };
 }
 
 /** schema.org Person for the home page; every value comes from site.json. */

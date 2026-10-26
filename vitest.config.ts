@@ -20,6 +20,7 @@ export default getViteConfig({
         'src/lib/contact.ts',
         'src/lib/constellation.ts',
         'src/lib/motion.ts',
+        'src/lib/i18n.ts',
       ],
       thresholds: { lines: 100 },
     },

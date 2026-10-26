@@ -1,0 +1,128 @@
+{
+  "titleTemplate": "{title} — {name}",
+  "skipLink": "Skip to content",
+  "nav": {
+    "label": "Main",
+    "home": "Home",
+    "work": "Work",
+    "skills": "Skills",
+    "about": "About",
+    "contact": "Contact",
+    "linkedin": "LinkedIn",
+    "github": "GitHub",
+    "resume": "Resume (PDF)",
+    "newTab": "opens in a new tab",
+    "openMenu": "Open menu",
+    "menuTitle": "Menu",
+    "closeMenu": "Close menu"
+  },
+  "theme": {
+    "toggle": "Switch theme",
+    "toLight": "Switch to light theme",
+    "toDark": "Switch to dark theme"
+  },
+  "cards": {
+    "projects": { "one": "{count} project", "other": "{count} projects" },
+    "certifications": { "one": "{count} certification", "other": "{count} certifications" },
+    "moreClouds": "+{count}",
+    "moreCloudsLabel": "{count} more clouds"
+  },
+  "work": {
+    "filtersLabel": "Filter projects",
+    "cloud": "Cloud",
+    "capability": "Capability",
+    "clear": "Clear",
+    "empty": "No projects match these filters"
+  },
+  "home": {
+    "seeWork": "See my work",
+    "resume": "Download resume",
+    "featured": "Featured work",
+    "allProjects": "All projects",
+    "clouds": "Clouds I work in",
+    "products": "Products and tools",
+    "pauseMarquee": "Pause scrolling list",
+    "certifications": "Certifications",
+    "contact": "Get in touch"
+  },
+  "skills": {
+    "clouds": "Clouds",
+    "groups": "Skills by area",
+    "certifications": "Certifications",
+    "languages": "Languages"
+  },
+  "about": {
+    "principles": "How I work",
+    "companies": "Companies I've delivered through",
+    "history": "Full history",
+    "historyLine": "The complete career history is in my resume.",
+    "resume": "Download resume"
+  },
+  "contact": {
+    "emailLabel": "Email",
+    "linkedinLabel": "LinkedIn",
+    "formTitle": "Send a message",
+    "name": "Name",
+    "email": "Email",
+    "projectType": "Project type",
+    "projectTypePlaceholder": "Choose one",
+    "message": "Message",
+    "messageHint": "{min}–{max} characters",
+    "honeypot": "Leave this field empty",
+    "required": "required",
+    "submit": "Send message",
+    "submitting": "Sending…",
+    "retry": "Try again",
+    "errors": {
+      "nameRequired": "Enter your name",
+      "emailRequired": "Enter your email address",
+      "emailInvalid": "Enter a valid email address, like name@example.com",
+      "projectTypeRequired": "Choose a project type",
+      "messageTooShort": "Write at least 20 characters",
+      "messageTooLong": "Keep the message under 2000 characters"
+    }
+  },
+  "constellation": {
+    "listLabel": "Clouds — choose one to see its projects",
+    "close": "Close",
+    "certifications": "Certifications",
+    "projects": "Projects",
+    "seeProjects": "See projects"
+  },
+  "caseStudy": {
+    "snapshotLabel": "Project snapshot",
+    "client": "Client",
+    "role": "Role",
+    "teamSize": "Team size",
+    "deliveredVia": "Delivered via",
+    "clouds": "Clouds",
+    "challenge": "Context and challenge",
+    "architecture": "Solution architecture",
+    "decisions": "Key decisions",
+    "decision": "Decision",
+    "why": "Why",
+    "tradeoff": "Trade-off",
+    "gallery": "Build highlights",
+    "outcomes": "Outcomes",
+    "stack": "Stack",
+    "takeaway": "Takeaway",
+    "pagerLabel": "More projects",
+    "previous": "Previous project",
+    "next": "Next project",
+    "openImage": "Open image: {alt}",
+    "lightboxLabel": "Image viewer",
+    "lightboxPosition": "{index} of {total}",
+    "previousImage": "Previous image",
+    "nextImage": "Next image",
+    "closeImage": "Close image viewer"
+  },
+  "footer": {
+    "copyright": "© {year} {name}",
+    "linksLabel": "Elsewhere",
+    "linkedin": "LinkedIn",
+    "github": "GitHub",
+    "email": "Email"
+  },
+  "ogImageAlt": "{name}, {role}",
+  "ogImageAltPage": "{title}, {role}"
+}

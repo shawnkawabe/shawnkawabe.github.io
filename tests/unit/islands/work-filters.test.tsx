@@ -2,6 +2,7 @@ import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it } from 'vitest';
 import WorkFilters, { type WorkFiltersProps } from '@/components/patterns/WorkFilters';
+import en from '@/i18n/en.json';
 
 const props: WorkFiltersProps = {
   clouds: [
@@ -15,6 +16,7 @@ const props: WorkFiltersProps = {
   allSkills: { lwc: 'LWC', apex: 'Apex', gearset: 'Gearset' },
   total: 3,
   gridId: 'grid',
+  ui: { work: en.work, cards: en.cards },
 };
 
 const projects = [

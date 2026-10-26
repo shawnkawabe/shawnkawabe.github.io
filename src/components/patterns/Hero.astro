@@ -6,17 +6,20 @@ import { buttonVariants } from '@/components/ui/button';
 import Chip from '@/components/ui/Chip.astro';
 import Icon from '@/components/ui/Icon.astro';
 import SplitWords from '@/components/ui/SplitWords.astro';
-import en from '@/i18n/en.json';
 import { emphasisParts } from '@/lib/format';
 import { splitWords } from '@/lib/motion';
 import type { Site } from '@/lib/schemas';
+import { localeFromPath, localePath, strings } from '@/lib/i18n';
+
+const locale = localeFromPath(Astro.url.pathname);
+const ui = strings(locale);
 
 interface Props {
   site: Pick<Site, 'name' | 'role' | 'intro' | 'availability' | 'links'>;
 }
 
 const { site } = Astro.props;
-const t = en.home;
+const t = ui.home;
 ---
 
 <section class="relative isolate overflow-hidden">
@@ -49,7 +52,7 @@ const t = en.home;
     </p>
     <div class="flex flex-wrap gap-3 pt-2">
       <a
-        href="/work"
+        href={localePath(locale, '/work')}
         class:list={[buttonVariants({ variant: 'brand', size: 'lg' }), 'no-underline']}
       >
         {t.seeWork}
@@ -63,7 +66,7 @@ const t = en.home;
       >
         {t.resume}
         <Icon name="external" />
-        <span class="sr-only"> ({en.nav.newTab})</span>
+        <span class="sr-only"> ({ui.nav.newTab})</span>
       </a>
     </div>
   </div>

@@ -34,7 +34,7 @@ describe('Hero', () => {
     const html = await render(Hero, { site });
     expect(html).toMatch(/<h1[^>]*><span class="sr-only">Ada Lovelace<\/span>/);
     expect(html).toMatch(/<strong[^>]*>engines<\/strong> that work\./);
-    expect(html).toContain('href="/work"');
+    expect(html).toContain('href="/en/work"');
     expect(html).toMatch(/href="https:\/\/example\.com\/cv\.pdf" target="_blank"/);
     expect(html).toContain('Open to roles');
   });
@@ -97,13 +97,13 @@ describe('SkillGroups (Skills page)', () => {
           id: 'development',
           label: 'Development',
           skills: [
-            { id: 'apex', label: 'Apex', count: 1, href: '/work?cap=apex' },
+            { id: 'apex', label: 'Apex', count: 1, href: '/en/work?cap=apex' },
             { id: 'aura', label: 'Aura', count: 0 },
           ],
         },
       ],
     });
-    expect(html).toMatch(/<a href="\/work\?cap=apex"[^>]*>[\s\S]*Apex[\s\S]*1 project</);
+    expect(html).toMatch(/<a href="\/en\/work\?cap=apex"[^>]*>[\s\S]*Apex[\s\S]*1 project</);
     expect(html).toMatch(/<span[^>]*>\s*Aura\s*<\/span>/);
     expect(html).not.toContain('0 projects');
   });
@@ -119,8 +119,8 @@ describe('CompanyList (About page)', () => {
       projects: [{ id: 'brf', title: 'BRF' }],
     });
     expect(html).toContain('Globant');
-    expect(html).toMatch(/<a href="\/work\/brf"[^>]*>\s*BRF/);
-    expect(html).not.toContain('/work/gone');
+    expect(html).toMatch(/<a href="\/en\/work\/brf"[^>]*>\s*BRF/);
+    expect(html).not.toContain('/en/work/gone');
     expect(html.match(/<ul/g)).toHaveLength(2);
   });
 });

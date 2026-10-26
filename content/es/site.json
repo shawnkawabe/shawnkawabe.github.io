@@ -1,0 +1,134 @@
+{
+  "name": "Shawn Kawabe",
+  "role": "Senior Salesforce Developer & Functional Specialist",
+  "location": "São Paulo, Brazil — working remotely with US and Brazilian clients",
+  "intro": "I design and build **Salesforce solutions** that teams actually adopt — from **Lightning Web Components** and **Apex** to **SAP integrations**, **Data Cloud** and **data migrations** — across **Sales, Service, Experience and Commerce Cloud**, always grounded in **Salesforce best practices**.",
+  "bio": [
+    "I'm a Senior Salesforce Developer and Functional Specialist with a Bachelor's in Computer Science from Centro Universitário FEI. I've delivered Salesforce work for automotive, agribusiness, financial services, food, education and communications companies.",
+    "I work across the whole delivery: gathering requirements with business teams, modeling data, building with declarative and programmatic tools, integrating with ERPs and cloud services, and documenting so the next team can carry it forward."
+  ],
+  "principles": [
+    {
+      "title": "Best practices first",
+      "body": "Declarative before programmatic, bulkified code, clear sharing models, and tests that mean something."
+    },
+    {
+      "title": "Understand the process",
+      "body": "I map the business process before choosing objects, flows or components."
+    },
+    {
+      "title": "Documentation is a deliverable",
+      "body": "Technical designs and knowledge-transfer material ship with the code."
+    },
+    {
+      "title": "Reusable by default",
+      "body": "Components and services built to be reused across teams and orgs."
+    }
+  ],
+  "availability": "Open to remote Salesforce roles and contracts",
+  "workIntro": "Selected Salesforce projects across clouds and industries. Filter by cloud or capability to see where I've done what.",
+  "ctaLine": "Need a Salesforce developer who also speaks the business's language? Let's talk.",
+  "workFacets": {
+    "clouds": "all clouds with at least one project",
+    "capabilities": [
+      "lwc",
+      "apex",
+      "flow",
+      "sap-integration",
+      "rest-soap",
+      "data-migration",
+      "ci-cd",
+      "requirements"
+    ]
+  },
+  "skillGroups": [
+    {
+      "id": "clouds",
+      "label": "Clouds"
+    },
+    {
+      "id": "development",
+      "label": "Development"
+    },
+    {
+      "id": "integration",
+      "label": "Integration"
+    },
+    {
+      "id": "devops",
+      "label": "DevOps & Release"
+    },
+    {
+      "id": "data",
+      "label": "Data"
+    },
+    {
+      "id": "delivery",
+      "label": "Delivery & Functional"
+    },
+    {
+      "id": "products",
+      "label": "Products"
+    },
+    {
+      "id": "languages-programming",
+      "label": "Programming languages"
+    }
+  ],
+  "notFound": {
+    "title": "Page not found",
+    "body": "This page doesn't exist or has moved. Try the home page or my work."
+  },
+  "languages": [
+    {
+      "label": "Portuguese",
+      "level": "Native"
+    },
+    {
+      "label": "English",
+      "level": "Professional working proficiency"
+    }
+  ],
+  "links": {
+    "email": "kawabeshawn@gmail.com",
+    "linkedin": "https://www.linkedin.com/in/shawnkawabe",
+    "github": "https://github.com/shawnkawabe",
+    "resume": "https://drive.google.com/file/d/1JpU6AKQwpeo_-9F9HSwR6_pBZ6JqDwlG/view?usp=sharing",
+    "credentials": ""
+  },
+  "contact": {
+    "intro": "Hiring for a Salesforce role, or need help on a project? Send a message or email me directly.",
+    "projectTypes": ["Full-time role", "Contract", "Consulting", "Other"],
+    "successMessage": "Thanks — your message is on its way. I usually reply within two working days.",
+    "errorMessage": "Something went wrong sending your message. Please try again, or email me directly."
+  },
+  "seo": {
+    "homeTitle": "Shawn Kawabe — Senior Salesforce Developer",
+    "description": "Senior Salesforce Developer and Functional Specialist: LWC, Apex, integrations, Data Cloud and data migration across Sales, Service, Experience and Commerce Cloud.",
+    "pages": {
+      "work": {
+        "title": "Work",
+        "description": "Salesforce projects across Sales, Service, Experience, Commerce and Data Cloud: clients, roles and outcomes."
+      },
+      "skills": {
+        "title": "Skills",
+        "description": "Salesforce clouds, development, integration, DevOps and data skills, each linked to the projects that used them."
+      },
+      "about": {
+        "title": "About",
+        "description": "Who I am, how I work, and the companies I've delivered Salesforce projects through."
+      },
+      "contact": {
+        "title": "Contact",
+        "description": "Get in touch with Shawn Kawabe about Salesforce roles, contracts or consulting."
+      },
+      "notFound": {
+        "title": "Page not found",
+        "description": "This page doesn't exist."
+      }
+    }
+  },
+  "trademarkNotice": "Salesforce, Sales Cloud, Service Cloud, Experience Cloud, Commerce Cloud, Data Cloud and other names are trademarks of Salesforce, Inc. This site is personal and not affiliated with or endorsed by Salesforce.",
+  "todo": [],
+  "photo": null
+}

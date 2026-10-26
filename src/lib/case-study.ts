@@ -65,10 +65,14 @@ export function outcomeValue(outcome: { value?: string; measured: boolean }): st
 
 export type StackLink = { id: string; label: string; href: string; accent?: string };
 
-/** Clouds then capabilities, each linking to Work filtered by it; unknown ids are skipped. */
+/**
+ * Clouds then capabilities, each linking to Work filtered by it; unknown ids are skipped.
+ * `workPath` is the Work page in the current locale (`/pt/work`).
+ */
 export function stackLinks(
   project: Pick<Project, 'clouds' | 'capabilities'>,
   skills: readonly Skill[],
+  workPath = '/work',
 ): StackLink[] {
   const byId = new Map(skills.map((skill) => [skill.id, skill]));
   const link =
@@ -76,7 +80,7 @@ export function stackLinks(
     (id: string): StackLink[] => {
       const skill = byId.get(id);
       if (!skill) return [];
-      return [{ id, label: skill.label, href: `/work?${param}=${id}`, accent: skill.accent }];
+      return [{ id, label: skill.label, href: `${workPath}?${param}=${id}`, accent: skill.accent }];
     };
   return [...project.clouds.flatMap(link('cloud')), ...project.capabilities.flatMap(link('cap'))];
 }

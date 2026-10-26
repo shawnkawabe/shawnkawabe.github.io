@@ -2,7 +2,6 @@
 // (idle, submitting, success, error). Plain React state and native controls keep the island small
 // enough for the 80 KB budget (ADR 0004); the zod schema lives in src/lib/contact.ts.
 import { useEffect, useId, useRef, useState, type ReactNode } from 'react';
-import { contact as t } from '@/i18n/en.json';
 import {
   EMPTY_CONTACT,
   MESSAGE_MAX,
@@ -13,9 +12,12 @@ import {
   type ContactField,
   type ContactValues,
 } from '@/lib/contact';
+import type { Strings } from '@/lib/i18n';
 import { format } from '@/lib/seo';
 
 export type ContactFormProps = {
+  /** Labels and messages in the page's locale (`strings(locale).contact`). */
+  t: Strings['contact'];
   web3formsKey: string;
   projectTypes: string[];
   successMessage: string;
@@ -33,6 +35,7 @@ const BUTTON =
   'inline-flex h-12 items-center justify-center gap-2 self-start rounded-pill bg-accent-1 px-5 text-3 font-medium text-on-accent transition-colors duration-150 ease-standard hover:bg-accent-1-strong disabled:opacity-60';
 
 export default function ContactForm({
+  t,
   web3formsKey,
   projectTypes,
   successMessage,
@@ -50,7 +53,7 @@ export default function ContactForm({
   }, [status]);
 
   const fieldError = (field: ContactField, next: ContactValues) =>
-    validateContact(next, projectTypes).errors?.[field];
+    validateContact(next, projectTypes, t.errors).errors?.[field];
 
   /** Change keeps typing quiet: it only clears or updates an error that is already showing. */
   const change = (field: ContactField, value: string) => {
@@ -65,7 +68,7 @@ export default function ContactForm({
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
     if (status === 'submitting') return;
-    const result = validateContact(values, projectTypes);
+    const result = validateContact(values, projectTypes, t.errors);
     if (result.errors) {
       setErrors(result.errors);
       const first = FIELDS.find((field) => result.errors[field]);

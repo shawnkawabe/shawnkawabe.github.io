@@ -8,9 +8,13 @@ export const WEB3FORMS_URL = 'https://api.web3forms.com/submit';
 export const MESSAGE_MIN = 20;
 export const MESSAGE_MAX = 2000;
 
-const t = contact.errors;
+export type ContactErrorText = typeof contact.errors;
 
-export function contactSchema(projectTypes: readonly string[]) {
+/** Messages come from the page's locale (`strings(locale).contact.errors`); English by default. */
+export function contactSchema(
+  projectTypes: readonly string[],
+  t: ContactErrorText = contact.errors,
+) {
   return z.object({
     name: z.string().check(z.trim(), z.minLength(1, t.nameRequired)),
     email: z
@@ -47,8 +51,9 @@ export const EMPTY_CONTACT: ContactValues = {
 export function validateContact(
   values: ContactValues,
   projectTypes: readonly string[],
+  errorText?: ContactErrorText,
 ): { data: ContactValues; errors?: undefined } | { data?: undefined; errors: ContactErrors } {
-  const result = contactSchema(projectTypes).safeParse(values);
+  const result = contactSchema(projectTypes, errorText).safeParse(values);
   if (result.success) return { data: result.data };
   const errors: ContactErrors = {};
   for (const issue of result.error.issues) {

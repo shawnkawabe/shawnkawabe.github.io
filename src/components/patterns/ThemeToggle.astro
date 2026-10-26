@@ -1,7 +1,9 @@
 ---
 // Theme switch button (SPEC §4.2). Plain HTML + a shared module script: no React on the page.
 import Icon from '@/components/ui/Icon.astro';
-import en from '@/i18n/en.json';
+import { localeFromPath, strings } from '@/lib/i18n';
+
+const ui = strings(localeFromPath(Astro.url.pathname));
 
 interface Props {
   class?: string;
@@ -13,9 +15,9 @@ const { class: className } = Astro.props;
 <button
   type="button"
   data-theme-toggle
-  data-label-light={en.theme.toLight}
-  data-label-dark={en.theme.toDark}
-  aria-label={en.theme.toggle}
+  data-label-light={ui.theme.toLight}
+  data-label-dark={ui.theme.toDark}
+  aria-label={ui.theme.toggle}
   class:list={[
     'inline-flex size-10 shrink-0 items-center justify-center rounded-pill text-on-surface-2 transition-colors duration-150 ease-standard hover:text-on-surface-1',
     className,

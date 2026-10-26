@@ -6,10 +6,13 @@ import NavRail from '@/components/patterns/NavRail.astro';
 import SiteFooter from '@/components/patterns/SiteFooter.astro';
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
-import en from '@/i18n/en.json';
 import { getSite } from '@/lib/content';
 import { preloadFonts } from '@/lib/fonts';
 import { DEFAULT_OG_IMAGE, format, ogImageFor, serializeJsonLd, type PageMeta } from '@/lib/seo';
+import { localeFromPath, localeInfo, splitLocale, strings } from '@/lib/i18n';
+
+const locale = localeFromPath(Astro.url.pathname);
+const ui = strings(locale);
 
 interface Props {
   meta: PageMeta;
@@ -22,21 +25,24 @@ interface Props {
 }
 
 const { meta, jsonLd, noindex = false } = Astro.props;
-const site = getSite();
+const site = getSite(locale);
 const origin = Astro.site ?? new URL(import.meta.env.SITE);
 const canonical = new URL(Astro.url.pathname, origin).href;
-// Build-time check, so a new project uses the default card until `npm run og` is re-run.
+// Build-time check, so a new project uses the default card until `npm run og` is re-run. Cards
+// are shared by every language, so the lookup ignores the locale prefix.
 const ogImage =
   Astro.props.ogImage ??
-  ogImageFor(Astro.url.pathname, (path) => existsSync(join(process.cwd(), 'public', path)));
+  ogImageFor(splitLocale(Astro.url.pathname).path, (path) =>
+    existsSync(join(process.cwd(), 'public', path)),
+  );
 const ogImageUrl = new URL(ogImage, origin).href;
 const ogImageAlt =
   ogImage === DEFAULT_OG_IMAGE
-    ? format(en.ogImageAlt, { name: site.name, role: site.role })
-    : format(en.ogImageAltPage, { title: meta.title, role: site.role });
+    ? format(ui.ogImageAlt, { name: site.name, role: site.role })
+    : format(ui.ogImageAltPage, { title: meta.title, role: site.role });
 ---
 
-<html lang="en">
+<html lang={localeInfo[locale].htmlLang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -92,7 +98,7 @@ const ogImageAlt =
       href="#content"
       class="fixed top-4 left-4 z-50 -translate-y-24 rounded-pill bg-accent-1 px-5 py-2 text-2 font-medium text-on-accent no-underline transition-transform duration-150 ease-standard focus:translate-y-0"
     >
-      {en.skipLink}
+      {ui.skipLink}
     </a>
     <MobileNav />
     <NavRail />

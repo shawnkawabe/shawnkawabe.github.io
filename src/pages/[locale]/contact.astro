@@ -3,19 +3,26 @@
 // build time (an empty key is valid and leaves the direct links).
 import ContactFormSection from '@/components/patterns/ContactFormSection.astro';
 import Icon from '@/components/ui/Icon.astro';
-import en from '@/i18n/en.json';
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import { getSite } from '@/lib/content';
+import { getSite, siteLocales } from '@/lib/content';
+import { strings, toLocale } from '@/lib/i18n';
 import { pageMeta } from '@/lib/seo';
 
-const site = getSite();
+export function getStaticPaths() {
+  return siteLocales().map((locale) => ({ params: { locale } }));
+}
+
+const locale = toLocale(Astro.params.locale);
+const ui = strings(locale);
+
+const site = getSite(locale);
 const web3formsKey = import.meta.env.PUBLIC_WEB3FORMS_KEY ?? '';
-const t = en.contact;
+const t = ui.contact;
 const link =
   'flex items-center gap-4 rounded-md border border-border-1 bg-surface-2 p-5 no-underline transition-[border-color,box-shadow] duration-250 ease-standard hover:border-border-2 hover:shadow-glow';
 ---
 
-<BaseLayout meta={pageMeta(site, { page: 'contact' })}>
+<BaseLayout meta={pageMeta(site, { page: 'contact' }, ui.titleTemplate)}>
   <div
     class:list={[
       'mx-auto grid w-full max-w-300 items-start gap-12 px-4 py-16 sm:px-6 lg:px-8 lg:py-24',
@@ -50,7 +57,7 @@ const link =
                 {site.links.linkedin.replace(/^https?:\/\/(www\.)?/, '')}
               </span>
             </span>
-            <span class="sr-only"> ({en.nav.newTab})</span>
+            <span class="sr-only"> ({ui.nav.newTab})</span>
           </a>
         </li>
       </ul>

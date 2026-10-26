@@ -11,6 +11,7 @@ const props = {
   successMessage: 'Thanks, sent.',
   errorMessage: 'Could not send.',
   fallbackEmail: 'me@example.com',
+  t,
 };
 
 function setup(responses: (() => Promise<Response>)[] = []) {

@@ -1,13 +1,16 @@
 ---
 // Desktop nav rail (SPEC §4.1, DESIGN §9): floating pill, icon links with CSS-only tooltips.
 import Icon from '@/components/ui/Icon.astro';
-import en from '@/i18n/en.json';
 import { getSite } from '@/lib/content';
 import { externalLinks, isActive, pageLinks } from '@/lib/nav';
 import ThemeToggle from './ThemeToggle.astro';
+import { localeFromPath, strings } from '@/lib/i18n';
+
+const locale = localeFromPath(Astro.url.pathname);
+const ui = strings(locale);
 
 const pathname = Astro.url.pathname;
-const groups = [pageLinks, externalLinks(getSite())];
+const groups = [pageLinks(locale), externalLinks(getSite(locale), locale)];
 
 const item =
   'group relative flex size-10 items-center justify-center rounded-pill text-on-surface-2 no-underline transition-colors duration-150 ease-standard hover:bg-surface-3 hover:text-on-surface-1';
@@ -16,7 +19,7 @@ const tooltip =
 ---
 
 <nav
-  aria-label={en.nav.label}
+  aria-label={ui.nav.label}
   class="fixed top-16 left-6 z-40 hidden w-16 flex-col items-center gap-2 rounded-pill bg-surface-2/90 p-2 shadow-1 backdrop-blur-md lg:flex"
 >
   {groups.map((links, index) => (
@@ -37,7 +40,7 @@ const tooltip =
                 <Icon name={icon} />
                 <span class={tooltip}>
                   {label}
-                  {external && <span class="sr-only"> ({en.nav.newTab})</span>}
+                  {external && <span class="sr-only"> ({ui.nav.newTab})</span>}
                 </span>
                 {current && (
                   <span

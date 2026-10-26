@@ -24,3 +24,7 @@ The MVP was planned in English only, with a Portuguese version listed as post-MV
 - Every component already reads text from `content/` or `src/i18n/`, so the change is mostly routing and data plumbing, not component rewrites. Components take a `locale` instead of importing `en.json` directly.
 - Three times the copy to keep in sync: adding a project means three entries. The parity test catches omissions; review catches wording.
 - The root redirect needs a small inline script. It is far below the JS budget (ARCHITECTURE §9).
+
+## Amendment — 2026-10-26 (P4-01)
+
+Routing uses a plain `src/pages/[locale]/` folder with `getStaticPaths`, not Astro's `i18n` config. The prefix is always present, so Astro's helpers add nothing, and its own root fallback would compete with the custom `/` page. The rules live in `src/lib/i18n.ts` (pure, fully tested), and `getStaticPaths` builds only reviewed locales, plus drafts in `astro dev` or with `INCLUDE_DRAFT_LOCALES=true` for a local check.

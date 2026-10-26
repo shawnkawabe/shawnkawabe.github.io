@@ -1,14 +1,16 @@
 ---
 // SPEC §5.3 item 5: 2–4 cards, each "Decision → Why → Trade-off" (trade-off optional).
-import en from '@/i18n/en.json';
 import type { ProjectSection } from '@/lib/schemas';
+import { localeFromPath, strings } from '@/lib/i18n';
+
+const ui = strings(localeFromPath(Astro.url.pathname));
 
 interface Props {
   items: Extract<ProjectSection, { type: 'decisions' }>['items'];
 }
 
 const { items } = Astro.props;
-const t = en.caseStudy;
+const t = ui.caseStudy;
 ---
 
 <ol class="grid gap-4 md:grid-cols-2">

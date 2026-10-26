@@ -3,10 +3,13 @@
 // The whole card links to Work filtered by the cloud, so chips inside are plain text.
 import Chip from '@/components/ui/Chip.astro';
 import Icon from '@/components/ui/Icon.astro';
-import en from '@/i18n/en.json';
 import type { BentoSize, CloudStat } from '@/lib/derive';
 import { plural } from '@/lib/format';
 import type { CloudIconName } from '@/lib/icons';
+import { localeFromPath, localePath, strings } from '@/lib/i18n';
+
+const locale = localeFromPath(Astro.url.pathname);
+const ui = strings(locale);
 
 interface Props {
   cloud: CloudStat;
@@ -20,14 +23,14 @@ const { cloud, size = 'base', level = 3 } = Astro.props;
 const Title = `h${level}` as const;
 // Orbitron only where the name is at least 32px (CLAUDE.md rule 6): the 2×2 card.
 const display = size === 'feature';
-const stats = [plural(en.cards.projects, cloud.projectCount)];
+const stats = [plural(ui.cards.projects, cloud.projectCount)];
 if (cloud.certifications.length > 0) {
-  stats.push(plural(en.cards.certifications, cloud.certifications.length));
+  stats.push(plural(ui.cards.certifications, cloud.certifications.length));
 }
 ---
 
 <a
-  href={`/work?cloud=${cloud.id}`}
+  href={`${localePath(locale, '/work')}?cloud=${cloud.id}`}
   style={cloud.accent && `--pf-c-cloud-accent: var(--pf-g-color-${cloud.accent})`}
   class="group flex h-full flex-col gap-4 rounded-lg border border-border-1 bg-surface-2 p-6 no-underline transition-[translate,border-color,box-shadow] duration-250 ease-standard hover:-translate-y-0.5 hover:border-border-2 hover:shadow-cloud-glow focus-visible:shadow-cloud-glow"
 >
