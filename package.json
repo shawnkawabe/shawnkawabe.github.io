@@ -20,7 +20,7 @@
     "og": "node scripts/og.mjs",
     "validate:content": "astro sync",
     "check:links": "linkinator dist --recurse --skip \"^(?!http://(localhost|127\\.0\\.0\\.1)[:/])\"",
-    "ci": "npm run lint && npm run validate:content && npm test && npm run build && npm run check:links",
+    "ci": "npm run tokens && npm run lint && npm run validate:content && npm test && npm run build && npm run check:links",
     "prepare": "husky"
   },
   "lint-staged": {

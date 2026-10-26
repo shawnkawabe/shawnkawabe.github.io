@@ -449,12 +449,12 @@ Inline script in `BaseLayout` `<head>` (before CSS paints):
   "og": "node scripts/og.mjs",
   "validate:content": "astro sync",
   "check:links": "linkinator dist --recurse --skip \"^(?!http://(localhost|127\\.0\\.0\\.1)[:/])\"",
-  "ci": "npm run lint && npm run validate:content && npm test && npm run build && npm run check:links",
+  "ci": "npm run tokens && npm run lint && npm run validate:content && npm test && npm run build && npm run check:links",
   "prepare": "husky"
 }
 ```
 
-`tokens` runs `style-dictionary.config.js` as a Node script (Style Dictionary API, two runs: `:root` and `[data-theme="light"]` share token paths, so one CLI build cannot emit both). `test:a11y` (`playwright test`, P3-04) runs against the built `dist/` through `astro preview` on port 4322, in the second workflow (§8.5), not in `ci`; run `npm run build` first. The `check:links` skip pattern checks internal links only; external links are checked manually before launch. Linkinator 8 serves `dist/` on `127.0.0.1`, so a `localhost`-only pattern skips every link and the check passes vacuously; if "Scanned 0 links" ever appears, the pattern is wrong.
+`ci` generates the tokens first: `tokens.css` is git-ignored, and lint needs it because the Prettier Tailwind plugin reads `global.css`, which imports it (a clean CI checkout failed without it). `tokens` runs `style-dictionary.config.js` as a Node script (Style Dictionary API, two runs: `:root` and `[data-theme="light"]` share token paths, so one CLI build cannot emit both). `test:a11y` (`playwright test`, P3-04) runs against the built `dist/` through `astro preview` on port 4322, in the second workflow (§8.5), not in `ci`; run `npm run build` first. The `check:links` skip pattern checks internal links only; external links are checked manually before launch. Linkinator 8 serves `dist/` on `127.0.0.1`, so a `localhost`-only pattern skips every link and the check passes vacuously; if "Scanned 0 links" ever appears, the pattern is wrong.
 
 ### 8.2 `.github/workflows/deploy.yml`
 
