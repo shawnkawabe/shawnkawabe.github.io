@@ -99,7 +99,7 @@
   "contact": {
     "intro": "¿Está contratando para un rol de Salesforce o necesita ayuda en un proyecto? Envíeme un mensaje o escríbame directamente por correo.",
     "projectTypes": ["Puesto de tiempo completo", "Contrato", "Consultoría", "Otro"],
-    "successMessage": "Gracias — su mensaje fue enviado. Normalmente respondo en un plazo de dos días hábiles.",
+    "successMessage": "Gracias — su mensaje fue enviado. Normalmente, respondo en un plazo de dos días hábiles.",
     "errorMessage": "Algo salió mal al enviar su mensaje. Inténtelo de nuevo o escríbame directamente por correo."
   },
   "seo": {

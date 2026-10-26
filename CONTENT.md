@@ -66,3 +66,11 @@ Page titles and descriptions, the Home CTA line, the contact intro, the 404 text
 ## Skills
 
 `content/en/skills.json` entries: `id`, `label`, `group`, optional `accent` (clouds only), optional `aliases`. Groups: `clouds`, `development`, `integration`, `devops`, `data`, `delivery`, `products`, `tools`, `languages-programming`. Project counts are computed; never type them.
+
+## Translations
+
+English (`content/en/`, `src/i18n/en.json`) is the source. `pt` and `es` mirror it with the same files, keys and ids; `npm test` fails when they drift. When you change English, change both translations in the same commit.
+
+1. **Preview:** `npm run dev` builds unreviewed languages too, so `/pt/` and `/es/` work locally. Production builds skip them.
+2. **Grammar check (optional):** start a local [LanguageTool](https://languagetool.org/download/) server (`java -cp languagetool-server.jar org.languagetool.server.HTTPServer --port 8081`), then run `npm run grammar`. It checks only translated strings and skips words that also appear in the English source. Expect jargon (bulkificado, releases) to be flagged; it is a hint list, not a gate.
+3. **Approve:** set `"reviewed": true` for the language in `src/i18n/locales.json`, then run `npm run og` to generate its social cards into `public/og/{locale}/`. Until then the language's pages use the English cards.

@@ -26,7 +26,7 @@
     "sections": [
       {
         "type": "challenge",
-        "body": "Clientes de várias marcas do Volkswagen Group precisavam de uma única experiência de criação de casos em inglês e francês, enquanto cada marca mantinha suas próprias regras e visibilidade de dados dentro de uma org Salesforce grande e compartilhada."
+        "body": "Clientes de várias marcas do Volkswagen Group precisavam de uma única experiência de criação de casos em inglês e francês, enquanto cada marca mantinha suas próprias regras e visibilidade de dados em uma org Salesforce grande e compartilhada."
       },
       {
         "type": "gallery",
@@ -599,7 +599,7 @@
     "category": "Requisitos e design",
     "featured": false,
     "depth": "card",
-    "summary": "Levantei os requisitos do cliente e escrevi os requisitos técnicos junto com a equipe funcional para uma implementação de Sales Cloud.",
+    "summary": "Levantei os requisitos do cliente e escrevi os requisitos técnicos com a equipe funcional para uma implementação de Sales Cloud.",
     "cover": {
       "preset": "aurora"
     },
