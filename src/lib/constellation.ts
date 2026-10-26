@@ -3,7 +3,6 @@
 
 /** SPEC §6.3: the scene replaces the bento only on wide screens, with motion allowed and WebGL2. */
 export const DESKTOP_QUERY = '(min-width: 1024px)';
-export const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
 
 export function canRunScene(env: { desktop: boolean; reducedMotion: boolean; webgl2: boolean }) {
   return env.desktop && !env.reducedMotion && env.webgl2;

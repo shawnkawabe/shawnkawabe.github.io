@@ -10,6 +10,7 @@ import Marquee from '@/components/patterns/Marquee.astro';
 import SectionBand from '@/components/patterns/SectionBand.astro';
 import { buttonVariants } from '@/components/ui/button';
 import Icon from '@/components/ui/Icon.astro';
+import Reveal from '@/components/ui/Reveal.astro';
 import en from '@/i18n/en.json';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { getCertifications, getProjects, getSite, getSkills } from '@/lib/content';
@@ -41,7 +42,7 @@ const container = 'mx-auto flex w-full max-w-300 flex-col gap-8 px-4 sm:px-6 lg:
 
   <div class="flex flex-col gap-20 pb-20 lg:gap-28 lg:pb-28">
     {featured.length > 0 && (
-      <section aria-labelledby="featured-title" class={container}>
+      <Reveal as="section" aria-labelledby="featured-title" class={container}>
         <div class="flex flex-wrap items-end justify-between gap-4">
           <h2 id="featured-title">{t.featured}</h2>
           <a href="/work" class="inline-flex items-center gap-2 text-3 font-medium">
@@ -62,34 +63,34 @@ const container = 'mx-auto flex w-full max-w-300 flex-col gap-8 px-4 sm:px-6 lg:
             </li>
           ))}
         </ul>
-      </section>
+      </Reveal>
     )}
 
     {clouds.length > 0 && (
-      <section aria-labelledby="clouds-title" class={container}>
+      <Reveal as="section" aria-labelledby="clouds-title" class={container}>
         <h2 id="clouds-title">{t.clouds}</h2>
         {/* The bento is the poster and fallback; on desktop with motion and WebGL2 the scene replaces it. */}
         <CloudConstellation client:visible={{ rootMargin: '200px' }} nodes={clouds}>
           <CloudBento clouds={clouds} />
         </CloudConstellation>
-      </section>
+      </Reveal>
     )}
 
     {products.length > 0 && (
-      <section aria-labelledby="products-title" class={container}>
+      <Reveal as="section" aria-labelledby="products-title" class={container}>
         <h2 id="products-title">{t.products}</h2>
         <Marquee items={products} id="products-marquee" />
-      </section>
+      </Reveal>
     )}
 
     {certifications.length > 0 && (
-      <section aria-labelledby="certifications-title" class={container}>
+      <Reveal as="section" aria-labelledby="certifications-title" class={container}>
         <h2 id="certifications-title">{t.certifications}</h2>
         <CertificationStrip
           certifications={certifications}
           credentialsUrl={site.links.credentials}
         />
-      </section>
+      </Reveal>
     )}
 
     <SectionBand tone="a" tilt={-1}>

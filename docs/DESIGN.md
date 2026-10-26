@@ -166,8 +166,8 @@ Rules: Orbitron only at `font-size-7` and above and never in sentences. Letter-s
 | `easing-emphasised` | `cubic-bezier(0.3, 0, 0, 1.2)` | Panel enter only             |
 
 - Card hover: translateY(−2px) + `shadow-1` → stronger + border to `border-2`, `duration-base`.
-- Section reveal (GSAP ScrollTrigger): opacity 0 → 1, y 16 → 0, `duration-slow`, once.
-- Hero text: GSAP SplitText by word, 30ms stagger, once.
+- Section reveal (`Reveal`, CSS + IntersectionObserver, ADR 0005): opacity 0 → 1, y 16 → 0, `duration-slow`, once.
+- Hero text: split by word at build time (`SplitWords`), CSS 30ms stagger, once.
 - Marquee: 40s per loop, linear; pause on hover/focus.
 - **Reduced motion:** all of the above become instant; marquee becomes a wrapped list; 3D shows its poster. Implement with one `prefersReducedMotion()` helper used everywhere.
 

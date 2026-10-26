@@ -7,6 +7,7 @@ import CompanyList from '@/components/patterns/CompanyList.astro';
 import Hero from '@/components/patterns/Hero.astro';
 import Marquee from '@/components/patterns/Marquee.astro';
 import SkillGroups from '@/components/patterns/SkillGroups.astro';
+import SplitWords from '@/components/ui/SplitWords.astro';
 
 let container: AstroContainer;
 
@@ -31,7 +32,7 @@ describe('Hero', () => {
 
   it('renders the name as h1, the intro emphasis and both actions', async () => {
     const html = await render(Hero, { site });
-    expect(html).toMatch(/<h1[^>]*>Ada Lovelace<\/h1>/);
+    expect(html).toMatch(/<h1[^>]*><span class="sr-only">Ada Lovelace<\/span>/);
     expect(html).toMatch(/<strong[^>]*>engines<\/strong> that work\./);
     expect(html).toContain('href="/work"');
     expect(html).toMatch(/href="https:\/\/example\.com\/cv\.pdf" target="_blank"/);
@@ -41,6 +42,22 @@ describe('Hero', () => {
   it('leaves out the availability chip when it is empty', async () => {
     const html = await render(Hero, { site: { ...site, availability: '' } });
     expect(html).not.toContain('Open to roles');
+  });
+});
+
+describe('SplitWords', () => {
+  it('reads the sentence whole and animates one hidden span per word', async () => {
+    const html = await render(SplitWords, { text: ' Senior  Salesforce Developer ' });
+    expect(html).toContain('<span class="sr-only"> Senior  Salesforce Developer </span>');
+    expect(html).toContain('<span aria-hidden="true">');
+    expect(html.match(/class="pf-word"/g)).toHaveLength(3);
+    expect(html).toContain('style="--pf-word-index: 2"');
+    const after = await render(SplitWords, { text: 'Next line', offset: 3 });
+    expect(after).toContain('style="--pf-word-index: 3"');
+    expect(after).toContain('style="--pf-word-index: 4"');
+    expect(html).toMatch(
+      /Senior<\/span> <span[^>]*>Salesforce<\/span> <span[^>]*>Developer<\/span><\/span>/,
+    );
   });
 });
 

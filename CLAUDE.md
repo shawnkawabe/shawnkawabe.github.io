@@ -35,7 +35,7 @@ Read this file at the start of every session. Read the linked docs before workin
 | Styling             | Tailwind CSS mapped to design tokens                    | 4.x                |
 | UI primitives       | shadcn/ui (source copied into `src/components/ui`)      | latest CLI         |
 | 3D                  | three + @react-three/fiber + @react-three/drei          | R3F 9.x, drei 10.x |
-| Motion              | GSAP (all plugins free) + CSS transitions               | 3.x                |
+| Motion              | CSS transitions + IntersectionObserver (ADR 0005)       | —                  |
 | Forms               | zod (`zod/mini`) + React state, to Web3Forms (ADR 0004) | —                  |
 | Tokens              | DTCG 2025.10 JSON → Style Dictionary                    | SD 5.x             |
 | Tests               | Vitest + Testing Library; Playwright + axe for pages    | —                  |

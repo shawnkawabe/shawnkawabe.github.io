@@ -1,0 +1,19 @@
+---
+// DESIGN §6 section reveal: fades and rises once on first view. Hidden only when the head script
+// has flagged JS (`data-motion`) and motion is allowed, so content never depends on the script.
+import type { HTMLAttributes } from 'astro/types';
+
+type Props = HTMLAttributes<'section'> & { as?: 'div' | 'section' };
+
+const { as: Tag = 'div', ...rest } = Astro.props;
+---
+
+<Tag data-reveal {...rest}>
+  <slot />
+</Tag>
+
+<script>
+  import { bindReveal } from '@/lib/motion';
+
+  bindReveal();
+</script>

@@ -6,11 +6,14 @@ import Heading from '@/components/ui/Heading.astro';
 import Icon from '@/components/ui/Icon.astro';
 import Surface from '@/components/ui/Surface.astro';
 import Text from '@/components/ui/Text.astro';
+import Reveal from '@/components/ui/Reveal.astro';
+import SplitWords from '@/components/ui/SplitWords.astro';
 import { getCertifications, getExperience, getProjects, getSite, getSkills } from '@/lib/content';
 import { cloudStats, skillGroupChips, sortProjects } from '@/lib/derive';
 import { brandIcons, icons, type CloudIconName, type IconName } from '@/lib/icons';
 import CertificationStrip from '@/components/patterns/CertificationStrip.astro';
 import CloudBento from '@/components/patterns/CloudBento.astro';
+import CloudConstellation from '@/components/patterns/CloudConstellation';
 import CompanyList from '@/components/patterns/CompanyList.astro';
 import ContactForm from '@/components/patterns/ContactForm';
 import Hero from '@/components/patterns/Hero.astro';
@@ -174,6 +177,23 @@ const accents = ['cloud-sales', 'cloud-service', 'cloud-data', 'cloud-membership
 
       <section class="flex flex-col gap-6">
         <Heading level={2} size={6}>
+          Motion
+        </Heading>
+        <Heading level={3} size={7}>
+          <SplitWords text="Words rise in" />
+        </Heading>
+        <Text tone={2}>
+          <SplitWords text="then this line follows" offset={3} />
+        </Text>
+        <Reveal>
+          <Surface class="p-6">
+            <Text>Reveal: fades and rises once when scrolled into view.</Text>
+          </Surface>
+        </Reveal>
+      </section>
+
+      <section class="flex flex-col gap-6">
+        <Heading level={2} size={6}>
           shadcn/ui (React)
         </Heading>
         <Surface class="p-6">
@@ -214,6 +234,12 @@ const accents = ['cloud-sales', 'cloud-service', 'cloud-data', 'cloud-membership
           />
         </div>
         <CloudBento clouds={bento} />
+        <Text tone={2}>
+          CloudConstellation (≥ 1024px, motion allowed, WebGL2; otherwise the bento)
+        </Text>
+        <CloudConstellation client:visible nodes={bento}>
+          <CloudBento clouds={bento} />
+        </CloudConstellation>
       </section>
 
       <section class="flex flex-col gap-6">

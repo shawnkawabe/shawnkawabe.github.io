@@ -4,15 +4,10 @@
 import { lazy, Suspense, useEffect, useId, useRef, useState, type ReactNode } from 'react';
 import { cards, constellation as t } from '@/i18n/en.json';
 import type { CloudStat } from '@/lib/derive';
-import {
-  canRunScene,
-  DESKTOP_QUERY,
-  hasWebGL2,
-  nextNodeIndex,
-  REDUCED_MOTION_QUERY,
-} from '@/lib/constellation';
+import { canRunScene, DESKTOP_QUERY, hasWebGL2, nextNodeIndex } from '@/lib/constellation';
 import { trapFocus } from '@/lib/focus-trap';
 import { plural } from '@/lib/format';
+import { REDUCED_MOTION_QUERY } from '@/lib/motion';
 
 const ConstellationCanvas = lazy(() => import('@/components/three/ConstellationCanvas'));
 

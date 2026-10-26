@@ -5,8 +5,10 @@
 import { buttonVariants } from '@/components/ui/button';
 import Chip from '@/components/ui/Chip.astro';
 import Icon from '@/components/ui/Icon.astro';
+import SplitWords from '@/components/ui/SplitWords.astro';
 import en from '@/i18n/en.json';
 import { emphasisParts } from '@/lib/format';
+import { splitWords } from '@/lib/motion';
 import type { Site } from '@/lib/schemas';
 
 interface Props {
@@ -29,8 +31,12 @@ const t = en.home;
       </Chip>
     )}
     <div class="flex max-w-180 flex-col gap-4">
-      <h1 class="font-display text-9 font-bold tracking-display text-balance">{site.name}</h1>
-      <p class="font-heading text-5 text-on-surface-1">{site.role}</p>
+      <h1 class="font-display text-9 font-bold tracking-display text-balance">
+        <SplitWords text={site.name} />
+      </h1>
+      <p class="font-heading text-5 text-on-surface-1">
+        <SplitWords text={site.role} offset={splitWords(site.name).length} />
+      </p>
     </div>
     <p class="max-w-180 text-4 text-on-surface-2">
       {emphasisParts(site.intro).map((part) =>
