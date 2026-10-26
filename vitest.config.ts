@@ -6,7 +6,7 @@ export default getViteConfig({
     // Pure derived-data modules must stay fully covered (BACKLOG P1-05).
     coverage: {
       provider: 'v8',
-      include: ['src/lib/derive.ts', 'src/lib/format.ts', 'src/lib/filters.ts'],
+      include: ['src/lib/derive.ts', 'src/lib/format.ts', 'src/lib/filters.ts', 'src/lib/seo.ts'],
       thresholds: { lines: 100 },
     },
     projects: [

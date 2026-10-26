@@ -1,0 +1,26 @@
+---
+// Dev-only 1200×630 Open Graph card (SPEC §4.5). Screenshot it at that viewport to refresh
+// public/og/default.png; P3-05 can extend it for per-page images.
+import '@/styles/global.css';
+import { getSite } from '@/lib/content';
+import { preloadFonts } from '@/lib/fonts';
+
+const site = getSite();
+---
+
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex" />
+    <title>OG card · dev</title>
+    {preloadFonts.map((href) => (
+      <link rel="preload" href={href} as="font" type="font/woff2" crossorigin />
+    ))}
+  </head>
+  <body class="m-0">
+    <div class="pf-cover pf-cover--aurora flex h-157.5 w-300 flex-col justify-end gap-4 p-20">
+      <p class="font-heading text-9 font-bold tracking-display">{site.name}</p>
+      <p class="pf-cover__subtitle text-6 font-medium">{site.role}</p>
+    </div>
+  </body>
+</html>

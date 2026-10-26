@@ -137,9 +137,10 @@ Things that must exist or be decided before the task in **Blocks** can start. De
 
 ## Phase 2 — Shell and pages
 
-- [ ] **P2-01 BaseLayout and SEO** — Deps: P1-03, P1-04
+- [x] **P2-01 BaseLayout and SEO** — Deps: P1-03, P1-04
       `<head>` per SPEC §4.5 (one default OG image `public/og/default.png`, 1200×630, name + role on the `aurora` preset), JSON-LD `Person`, theme script (ARCHITECTURE §6), skip link, footer with `site.trademarkNotice`. `public/robots.txt` pointing to the sitemap.
-  - [ ] No axe violations on a blank page using the layout (check with the axe browser extension until P3-04).
+  - [x] No axe violations on a blank page using the layout (check with the axe browser extension until P3-04).
+  - Notes: titles, descriptions and JSON-LD come from pure functions in `src/lib/seo.ts` (under the 100% coverage gate); UI strings live in `src/i18n/en.json` and are filled with `format()`. `BaseLayout` takes `meta`, optional `jsonLd` and `ogImage` (default `/og/default.png`), and exposes a `nav` slot for P2-02. `public/og/default.png` is a screenshot of the dev-only `/dev/og` route at 1200×630 (remove `astro-dev-toolbar` before capturing); P3-05 can reuse it. Checked with axe-core (WCAG 2.2 AA + best practice): 0 violations at 375/768/1440 in dark and light. The footer copy uses `on-surface-2`: `on-surface-3` fails AA at 12–14px, so later small labels (e.g. SnapshotBar) need ≥ 18px or `on-surface-2` to pass P3-04. Home is still a placeholder (name + role) until its own task.
 
 - [ ] **P2-02 Navigation** — Deps: P2-01, P1-06
       `NavRail` (≥ lg) and `MobileNav` sheet (< lg) per SPEC §4.1, DESIGN §9; `ThemeToggle`.

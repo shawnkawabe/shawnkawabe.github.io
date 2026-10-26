@@ -1,0 +1,12 @@
+{
+  "titleTemplate": "{title} — {name}",
+  "skipLink": "Skip to content",
+  "footer": {
+    "copyright": "© {year} {name}",
+    "linksLabel": "Elsewhere",
+    "linkedin": "LinkedIn",
+    "github": "GitHub",
+    "email": "Email"
+  },
+  "ogImageAlt": "{name}, {role}"
+}

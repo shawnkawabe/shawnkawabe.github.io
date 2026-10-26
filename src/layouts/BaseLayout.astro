@@ -1,0 +1,81 @@
+---
+// <html>, head/SEO, theme script, skip link, nav slot and footer (ARCHITECTURE §2, SPEC §4).
+import '@/styles/global.css';
+import SiteFooter from '@/components/patterns/SiteFooter.astro';
+import en from '@/i18n/en.json';
+import { getSite } from '@/lib/content';
+import { preloadFonts } from '@/lib/fonts';
+import { format, serializeJsonLd, type PageMeta } from '@/lib/seo';
+
+interface Props {
+  meta: PageMeta;
+  /** schema.org object rendered as JSON-LD (Person on Home, CreativeWork on case studies). */
+  jsonLd?: object;
+  /** Site-relative path of a 1200×630 image; per-page images arrive in P3-05. */
+  ogImage?: string;
+}
+
+const { meta, jsonLd, ogImage = '/og/default.png' } = Astro.props;
+const site = getSite();
+const origin = Astro.site ?? new URL(import.meta.env.SITE);
+const canonical = new URL(Astro.url.pathname, origin).href;
+const ogImageUrl = new URL(ogImage, origin).href;
+const ogImageAlt = format(en.ogImageAlt, { name: site.name, role: site.role });
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline>
+      try {
+        const s = localStorage.getItem('pf-theme');
+        const t = s ?? (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+        document.documentElement.dataset.theme = t;
+      } catch {
+        document.documentElement.dataset.theme = 'dark';
+      }
+    </script>
+    <title>{meta.title}</title>
+    <meta name="description" content={meta.description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="color-scheme" content="dark light" />
+    {preloadFonts.map((href) => (
+      <link rel="preload" href={href} as="font" type="font/woff2" crossorigin />
+    ))}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content={meta.title} />
+    <meta property="og:description" content={meta.description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogImageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={meta.title} />
+    <meta name="twitter:description" content={meta.description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
+
+    {jsonLd && <script type="application/ld+json" set:html={serializeJsonLd(jsonLd)} />}
+  </head>
+  <body class="flex min-h-dvh flex-col bg-surface-0 text-on-surface-1">
+    <a
+      href="#content"
+      class="fixed top-4 left-4 z-50 -translate-y-24 rounded-pill bg-accent-1 px-5 py-2 text-2 font-medium text-on-accent no-underline transition-transform duration-150 ease-standard focus:translate-y-0"
+    >
+      {en.skipLink}
+    </a>
+    <slot name="nav" />
+    <main id="content" tabindex="-1" class="flex-1 focus:outline-none">
+      <slot />
+    </main>
+    <SiteFooter />
+  </body>
+</html>
