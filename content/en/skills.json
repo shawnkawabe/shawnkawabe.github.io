@@ -53,7 +53,7 @@
   { "id": "sap-integration", "label": "SAP integration", "group": "integration" },
   { "id": "erp-migration", "label": "ERP integration migration", "group": "integration" },
   { "id": "external-credentials", "label": "Named & External Credentials", "group": "integration" },
-  { "id": "aws", "label": "AWS (App Runner, S3)", "group": "integration" },
+  { "id": "aws", "label": "AWS", "group": "integration" },
   { "id": "python-flask", "label": "Python Flask APIs", "group": "integration" },
 
   { "id": "salesforce-dx", "label": "Salesforce DX", "group": "devops" },
