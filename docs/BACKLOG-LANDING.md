@@ -132,7 +132,7 @@ Research behind L-05 to L-08 is summarised in [ADR 0006](adr/0006-landing-scroll
     carries the state. Repeated copies are `aria-hidden` with `tabindex="-1"` links, so mouse
     users can still click them. Plain rows in the static index no longer show hover effects.
 
-- [ ] **L-11 Typography for a professional landing page** (research done 2026-10-26)
+- [x] **L-11 Typography for a professional landing page** (research done 2026-10-26)
   - Proposal: **Geist Sans** (display and body) + **Geist Mono** (labels and data), self-hosted
     via Fontsource as variable WOFF2, subset to Latin and Latin Extended (PT/ES diacritics).
     Drop **Orbitron** everywhere (hero name, cloud panel titles): it reads as a sci-fi template.
@@ -146,6 +146,13 @@ Research behind L-05 to L-08 is summarised in [ADR 0006](adr/0006-landing-scroll
     fallbacks (`size-adjust`, ascent/descent overrides) so fonts cause no layout shift.
   - Needs ADR 0007 and updates to CLAUDE.md rule 6, DESIGN §3 and the font tokens; OG cards
     regenerated. **[H]** Shawn approves the pairing from a specimen page before the swap.
+  - Notes (2026-10-26): approved from the research summary; shipped per ADR 0007. Geist Sans for
+    display, headings and body, Geist Mono for labels; Orbitron, Space Grotesk, Inter and
+    JetBrains Mono removed. `font-size-1` is now 13px; tracking display −0.03em, labels +0.08em.
+    `Geist Fallback` (Arial with size-adjust 102.35%, ascent 98.68%, descent 29.31%) keeps body
+    wrapping identical before and after the swap. The existing fluid scale was kept: it is
+    within a few pixels of the proposed one. The availability chip now wraps to two lines at
+    375px (it is built to wrap). The L-06 note still says "Space Grotesk"; it describes history.
 
 - [x] **L-12 Background with personality** (research done 2026-10-26)
   - Proposal: a **technical grid** (blueprint lines at 4–6% opacity) across the page, lit by a

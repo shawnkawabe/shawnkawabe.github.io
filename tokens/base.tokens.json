@@ -247,22 +247,37 @@
     "family": {
       "$type": "fontFamily",
       "display": {
-        "$value": ["Orbitron Variable", "Orbitron", "ui-sans-serif", "system-ui", "sans-serif"]
+        "$value": [
+          "Geist Variable",
+          "Geist",
+          "Geist Fallback",
+          "ui-sans-serif",
+          "system-ui",
+          "sans-serif"
+        ]
       },
       "heading": {
         "$value": [
-          "Space Grotesk Variable",
-          "Space Grotesk",
+          "Geist Variable",
+          "Geist",
+          "Geist Fallback",
           "ui-sans-serif",
           "system-ui",
           "sans-serif"
         ]
       },
       "body": {
-        "$value": ["Inter Variable", "Inter", "ui-sans-serif", "system-ui", "sans-serif"]
+        "$value": [
+          "Geist Variable",
+          "Geist",
+          "Geist Fallback",
+          "ui-sans-serif",
+          "system-ui",
+          "sans-serif"
+        ]
       },
       "mono": {
-        "$value": ["JetBrains Mono Variable", "JetBrains Mono", "ui-monospace", "monospace"]
+        "$value": ["Geist Mono Variable", "Geist Mono", "ui-monospace", "monospace"]
       }
     },
     "weight": {
@@ -289,13 +304,13 @@
       "1": {
         "min": {
           "$value": {
-            "value": 12,
+            "value": 13,
             "unit": "px"
           }
         },
         "max": {
           "$value": {
-            "value": 12,
+            "value": 13,
             "unit": "px"
           }
         }

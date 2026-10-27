@@ -116,24 +116,24 @@ Four presets reproducing the references in `docs/reference/cover-*.jpg`. Impleme
 | `violet-edge` | `cover-violet-edge.jpg` | Left half violet `#4A3C9E` → blue `#4D7BD6`, hard falloff to `#050816`                                         |
 | `solid-blue`  | `cover-solid-blue.jpg`  | Flat `#1048F0`; used for highlight/link tiles only                                                             |
 
-Cover title: Space Grotesk 700, `font-size-8` desktop / `font-size-6` mobile, `#FFFFFF`; subtitle Inter 500, `rgba(255,255,255,0.7)`. Title contrast against the busiest gradient area must stay ≥ 4.5:1 (add a 20% black scrim if not).
+Cover title: Geist 700, `font-size-8` desktop / `font-size-6` mobile, `#FFFFFF`; subtitle Geist 500, `rgba(255,255,255,0.7)`. Title contrast against the busiest gradient area must stay ≥ 4.5:1 (add a 20% black scrim if not).
 
 ## 4. Typography
 
-| Role                             | Family                    | Weights | Token                 |
-| -------------------------------- | ------------------------- | ------- | --------------------- |
-| Display (hero name, cloud names) | Orbitron (variable)       | 500–800 | `font-family-display` |
-| Headings                         | Space Grotesk (variable)  | 500–700 | `font-family-heading` |
-| Body, UI                         | Inter (variable)          | 400–600 | `font-family-body`    |
-| Labels, code, data               | JetBrains Mono (variable) | 400–600 | `font-family-mono`    |
+| Role                             | Family                | Weights | Token                 |
+| -------------------------------- | --------------------- | ------- | --------------------- |
+| Display (hero name, cloud names) | Geist Sans (variable) | 600–800 | `font-family-display` |
+| Headings                         | Geist Sans (variable) | 500–700 | `font-family-heading` |
+| Body, UI                         | Geist Sans (variable) | 400–600 | `font-family-body`    |
+| Labels, code, data               | Geist Mono (variable) | 400–600 | `font-family-mono`    |
 
-Self-host via Fontsource packages; preload Space Grotesk 600 and Inter 400 WOFF2 (Latin subset). `font-display: swap`. Fallbacks: `ui-sans-serif, system-ui, sans-serif` / `ui-monospace, monospace`.
+Self-host via Fontsource packages (ADR 0007); preload the Geist variable WOFF2 (Latin subset) only. `font-display: swap`. Fallbacks: `'Geist Fallback'` (Arial with metric overrides, so the swap moves no text), then `ui-sans-serif, system-ui, sans-serif` / `ui-monospace, monospace`.
 
 ### Scale (fluid between 375px and 1440px)
 
 | Token         | Min → max | Line height | Use                   |
 | ------------- | --------- | ----------- | --------------------- |
-| `font-size-1` | 12px      | 1.5         | Captions, mono labels |
+| `font-size-1` | 13px      | 1.5         | Captions, mono labels |
 | `font-size-2` | 14px      | 1.5         | UI, chips, meta       |
 | `font-size-3` | 16px      | 1.6         | Body                  |
 | `font-size-4` | 18 → 20px | 1.5         | Lead paragraphs       |
@@ -141,9 +141,9 @@ Self-host via Fontsource packages; preload Space Grotesk 600 and Inter 400 WOFF2
 | `font-size-6` | 24 → 32px | 1.2         | H3                    |
 | `font-size-7` | 32 → 44px | 1.15        | H2, section titles    |
 | `font-size-8` | 40 → 64px | 1.05        | H1, cover titles      |
-| `font-size-9` | 48 → 88px | 1.0         | Hero name (Orbitron)  |
+| `font-size-9` | 48 → 88px | 1.0         | Hero name (display)   |
 
-Rules: Orbitron only at `font-size-7` and above and never in sentences. Letter-spacing: display −0.01em; mono labels +0.04em uppercase. Max line length 68ch for body.
+Rules: display style only at `font-size-7` and above. Letter-spacing tightens with size: display −0.03em, h1 −0.025em, h2 −0.02em, h3 −0.01em; mono labels +0.08em uppercase, never below 13px. Max line length 68ch for body.
 
 ## 5. Space, size, shape
 
@@ -194,12 +194,12 @@ Rules: Orbitron only at `font-size-7` and above and never in sentences. Letter-s
 | Component           | Spec                                                                                                                                                                                                                                                                                                                             |
 | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **NavRail**         | Tooltips are CSS-only (no shadcn Tooltip). Width 64px, padding `spacing-2`, `surface-2` at 90% + backdrop blur 12px, `radius-pill`, `shadow-1`. Items 40px circles, icon 20px `on-surface-2`; active: `surface-3` fill, icon `on-surface-1`, 4px dot below. Divider 24px `border-1`. Fixed `top: spacing-16`, `left: spacing-6`. |
-| **TopBar (mobile)** | Height 56px, `surface-1` at 90% + blur, bottom `border-1`, name in Space Grotesk 600 `font-size-4`.                                                                                                                                                                                                                              |
+| **TopBar (mobile)** | Height 56px, `surface-1` at 90% + blur, bottom `border-1`, name in Geist 600 `font-size-4`.                                                                                                                                                                                                                                      |
 | **Button**          | Height 40 (md) / 48 (lg), padding x `spacing-5`, `radius-pill`. Brand: `accent-1` bg, `on-accent` text, hover `accent-1-strong`. Neutral: `surface-3` bg, `border-1`. Ghost: transparent, `on-surface-2`, hover `surface-2`. Focus: 2px `focus-ring` outline, 2px offset.                                                        |
 | **Chip**            | Height 28, padding x `spacing-3`, `radius-pill`, mono `font-size-1` uppercase or Inter `font-size-2`; default `surface-3` + `border-1`; selected `accent-1` 16% fill + `accent-1` border + `on-surface-1` text; optional leading 8px dot in cloud accent.                                                                        |
 | **CoverCard**       | `radius-lg`, `surface-2`, 8px inner padding around a 16:9 cover (`radius-md`), footer row: icon 20px + title (`font-size-3` 600) + subtitle (`font-size-2` `on-surface-2`). Hover: lift + glow. Matches `01-home-once-ui.jpg`.                                                                                                   |
 | **ProjectCard**     | `radius-md`, `surface-2`, cover 16:9 top, body padding `spacing-5`: title `font-size-5`, summary 3 lines max, cloud chips (max 3 + "+N"), footer: client (mono) left, category right. No dates.                                                                                                                                  |
-| **CloudCard**       | `radius-lg`, `surface-2`, `border-1`, inner glow in cloud accent at 12% on hover; icon 32px, name Orbitron `font-size-6`, stats row mono.                                                                                                                                                                                        |
+| **CloudCard**       | `radius-lg`, `surface-2`, `border-1`, inner glow in cloud accent at 12% on hover; icon 32px, name Geist `font-size-6`, stats row mono.                                                                                                                                                                                           |
 | **SnapshotBar**     | Grid of label/value pairs, labels mono uppercase `on-surface-3`, values `on-surface-1`; top and bottom `border-1`.                                                                                                                                                                                                               |
 | **SectionBand**     | Full-bleed band with tone `band-a` or `band-b` (colour tokens, §3.1), optional rotation −2°…2° on ≥ lg, content counter-rotated so text is straight.                                                                                                                                                                             |
 | **Panel (side)**    | 400px, `surface-3`, `shadow-2`, `radius-lg` on the inner edge, enters from right with `easing-emphasised`.                                                                                                                                                                                                                       |

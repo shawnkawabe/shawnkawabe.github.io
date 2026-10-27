@@ -21,7 +21,7 @@ const TOP_PROJECTS = 3;
 
 const { cloud, size = 'base', level = 3 } = Astro.props;
 const Title = `h${level}` as const;
-// Orbitron only where the name is at least 32px (CLAUDE.md rule 6): the 2×2 card.
+// Display style (tighter tracking) only where the name is at least 32px (CLAUDE.md rule 6): the 2×2 card.
 const display = size === 'feature';
 const stats = [plural(ui.cards.projects, cloud.projectCount)];
 if (cloud.certifications.length > 0) {

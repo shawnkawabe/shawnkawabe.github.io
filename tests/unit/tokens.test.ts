@@ -117,7 +117,7 @@ describe('generated tokens.css', () => {
 
   it('never quotes generic font families', () => {
     expect(declarations(rootBlock).get('--pf-g-font-family-body')).toBe(
-      "'Inter Variable', Inter, ui-sans-serif, system-ui, sans-serif",
+      "'Geist Variable', Geist, 'Geist Fallback', ui-sans-serif, system-ui, sans-serif",
     );
   });
 });

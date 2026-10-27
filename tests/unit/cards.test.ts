@@ -129,7 +129,7 @@ describe('CloudCard', () => {
     expect(html).not.toContain('Title p4');
   });
 
-  it('uses Orbitron only on the 2×2 card', async () => {
+  it('sets the display style only on the 2×2 card', async () => {
     const sales = cloud({ id: 'sales-cloud', projectCount: 7 });
     expect(await render(CloudCard, { cloud: sales, size: 'feature' })).toContain('font-display');
     expect(await render(CloudCard, { cloud: sales })).not.toContain('font-display');

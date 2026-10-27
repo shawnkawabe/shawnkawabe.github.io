@@ -1,12 +1,23 @@
 @import 'tailwindcss';
-@import '@fontsource-variable/inter';
-@import '@fontsource-variable/space-grotesk';
-@import '@fontsource-variable/jetbrains-mono';
-@import '@fontsource-variable/orbitron';
+/* ADR 0007 typography: Geist Sans for display, headings and body; Geist Mono for labels and data. */
+@import '@fontsource-variable/geist';
+@import '@fontsource-variable/geist-mono';
+
 @import './tokens.css';
 @import './covers.css';
 @import 'tw-animate-css';
 @import 'shadcn/tailwind.css';
+
+/* Arial scaled to Geist's metrics so the swap moves no text (ADR 0007). Measured in Chromium with
+   canvas measureText at 100px: average width 4648.5 vs 4541.7, ascent 101, descent 30. */
+@font-face {
+  font-family: 'Geist Fallback';
+  src: local('Arial');
+  size-adjust: 102.35%;
+  ascent-override: 98.68%;
+  descent-override: 29.31%;
+  line-gap-override: 0%;
+}
 
 /* Theme lives on data-theme (ARCHITECTURE §6), not a .dark class. */
 @custom-variant dark (&:where(:root:not([data-theme='light']), :root:not([data-theme='light']) *));
@@ -93,9 +104,9 @@
   --text-9: var(--pf-g-font-size-9);
   --text-9--line-height: var(--pf-g-font-line-height-9);
 
-  /* DESIGN §4 letter-spacing: display −0.01em, mono labels +0.04em. */
-  --tracking-display: -0.01em;
-  --tracking-label: 0.04em;
+  /* DESIGN §4 letter-spacing (ADR 0007): display −0.03em, mono labels +0.08em. */
+  --tracking-display: -0.03em;
+  --tracking-label: 0.08em;
 
   --font-weight-*: initial;
   --font-weight-regular: var(--pf-g-font-weight-regular);
@@ -177,19 +188,23 @@
     text-wrap: balance;
   }
 
+  /* Tracking tightens as size grows (ADR 0007); positive tracking is for mono caps only. */
   h1 {
     font-size: var(--pf-g-font-size-8);
     line-height: var(--pf-g-font-line-height-8);
+    letter-spacing: -0.025em;
   }
 
   h2 {
     font-size: var(--pf-g-font-size-7);
     line-height: var(--pf-g-font-line-height-7);
+    letter-spacing: -0.02em;
   }
 
   h3 {
     font-size: var(--pf-g-font-size-6);
     line-height: var(--pf-g-font-line-height-6);
+    letter-spacing: -0.01em;
   }
 
   h4 {

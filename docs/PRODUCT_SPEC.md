@@ -71,7 +71,7 @@ Centred, small: "© {year} Shawn Kawabe", links (LinkedIn, GitHub, email), trade
 Sections in order:
 
 1. **Hero**
-   - Name in Orbitron (display size), role line, 3–4 line intro from `site.intro` where `**terms**` render brighter (`on-surface-1`) and the rest `on-surface-2` (Once UI pattern).
+   - Name at display size (Geist, ADR 0007), role line, 3–4 line intro from `site.intro` where `**terms**` render brighter (`on-surface-1`) and the rest `on-surface-2` (Once UI pattern).
    - Two actions: primary "See my work" → `/work`; secondary "Download resume" (external).
    - Availability chip from `site.availability` (e.g. "Open to remote roles").
    - Background: subtle animated "data core" 3D scene **or** static gradient if reduced motion / no WebGL. Must not compete with the text; text contrast ≥ 7:1.
