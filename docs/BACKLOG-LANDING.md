@@ -176,10 +176,12 @@ Research behind L-05 to L-08 is summarised in [ADR 0006](adr/0006-landing-scroll
   - Drop "Open to remote Salesforce roles and contracts" from the hero in every locale: remove the
     `availability` field from `content/{locale}/site.json` and the schema, and the chip from
     `Hero.astro` and the dev gallery.
-- [ ] **L-14 Own favicon**
+- [x] **L-14 Own favicon**
   - `public/favicon.svg` and `favicon.ico` are still Astro's scaffold logo. Replace them with an
     "SK" monogram in Geist on the accent colour (SVG, plus a 32px ICO and a 180px
     `apple-touch-icon.png`). No Salesforce imagery.
+  - Notes (2026-10-27): "SK" drawn as stroked paths (no font dependency) in accent-1 on
+    surface-0. The 32px `favicon.ico` is a PNG payload, as before; browsers accept it.
 - [x] **L-15 No em dash in visible text**
   - Replace every "—" in `content/{locale}/*.json`, `src/i18n/*.json` and code-built strings
     (`titleTemplate`, `seo.ts`, `cn-tables.ts`) with a comma, colon, full stop or "|" as the
@@ -187,6 +189,11 @@ Research behind L-05 to L-08 is summarised in [ADR 0006](adr/0006-landing-scroll
   - Notes (2026-10-26): page titles now read "Work | Shawn Kawabe"; the intro became two
     sentences; "Salesforce Developer, Level 5". `content.test.ts` guards all three locales and the
     UI strings. Code comments and docs keep their dashes: they are not visible copy.
+- [x] **L-19 Rail toggle icon that matches the motion**
+  - The rail folds upward into a circle (L-09), but the toggle showed a sidebar closing to the
+    left. Now chevrons-up to collapse and chevrons-down as the collapsed fallback (inner pages
+    without a matching icon still show their own page icon; Home shows the section number).
+
 - [ ] **L-16 Intro section redesign** (research first)
   - Study professional portfolio templates; propose directions with sketches; Shawn picks one.
 - [ ] **L-17 Certifications section redesign** (research first)
@@ -216,8 +223,9 @@ Research behind L-05 to L-08 is summarised in [ADR 0006](adr/0006-landing-scroll
 | L-11 | Typography                 | done     |
 | L-12 | Background                 | done     |
 | L-13 | Remove availability chip   | done     |
-| L-14 | Favicon                    | to do    |
+| L-14 | Favicon                    | done     |
 | L-15 | No em dash                 | done     |
 | L-16 | Intro redesign             | research |
 | L-17 | Certifications redesign    | research |
 | L-18 | Cloud cards simplified     | done     |
+| L-19 | Rail toggle icon           | done     |

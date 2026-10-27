@@ -43,7 +43,7 @@ const tooltip =
     class:list={[item, 'cursor-pointer']}
   >
     <span data-rail-icon="collapse">
-      <Icon name="panel-close" />
+      <Icon name="rail-collapse" />
     </span>
     <span data-rail-icon="expand">
       {onHome ? (
@@ -51,7 +51,7 @@ const tooltip =
           01
         </span>
       ) : (
-        <Icon name={current?.icon ?? 'panel-open'} />
+        <Icon name={current?.icon ?? 'rail-expand'} />
       )}
     </span>
   </button>
