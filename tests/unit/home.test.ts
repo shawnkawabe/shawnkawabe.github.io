@@ -8,7 +8,7 @@ import Hero from '@/components/patterns/Hero.astro';
 import FeaturedIndex from '@/components/patterns/FeaturedIndex.astro';
 import HeroGlobe from '@/components/patterns/HeroGlobe.astro';
 import LandingSection from '@/components/patterns/LandingSection.astro';
-import RoundAction from '@/components/ui/RoundAction.astro';
+import PrimaryAction from '@/components/ui/PrimaryAction.astro';
 import SculptedShape from '@/components/ui/SculptedShape.astro';
 import SkillGroups from '@/components/patterns/SkillGroups.astro';
 import SplitWords from '@/components/ui/SplitWords.astro';
@@ -53,17 +53,21 @@ describe('Hero', () => {
   });
 });
 
-describe('RoundAction (L-37)', () => {
-  it('is one link named by its visible label, with the circle hidden from assistive tech', async () => {
-    const html = await render(RoundAction, { href: '/en/work', label: 'See my work' });
-    expect(html).toMatch(/<a href="\/en\/work"[^>]*>/);
+describe('PrimaryAction', () => {
+  it('is one accent pill named by its visible label, with the arrow hidden from assistive tech', async () => {
+    const html = await render(PrimaryAction, { href: '/en/work', label: 'See my work' });
+    expect(html).toMatch(/<a href="\/en\/work"[^>]*bg-accent-1[^>]*>\s*See my work/);
     expect(html).not.toContain('target="_blank"');
-    expect(html).toMatch(/<span aria-hidden="true"[^>]*bg-accent-1/);
-    expect(html).toMatch(/See my work\s*<\/span>/);
+    expect(html).toMatch(/<svg[^>]*aria-hidden="true"/);
+    expect(html).not.toContain('size-28');
   });
 
   it('opens external targets in a new tab and says so', async () => {
-    const html = await render(RoundAction, { href: 'https://x.dev', label: 'CV', external: true });
+    const html = await render(PrimaryAction, {
+      href: 'https://x.dev',
+      label: 'CV',
+      external: true,
+    });
     expect(html).toContain('target="_blank" rel="noopener noreferrer"');
     expect(html).toContain('(opens in a new tab)');
   });

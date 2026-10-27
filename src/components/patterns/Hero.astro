@@ -6,7 +6,7 @@
 // slot; below lg it is left-aligned and the globe crops under it. Static HTML, so the claim is the
 // LCP element. The first full-viewport landing section (L-08).
 import Icon from '@/components/ui/Icon.astro';
-import RoundAction from '@/components/ui/RoundAction.astro';
+import PrimaryAction from '@/components/ui/PrimaryAction.astro';
 import SplitWords from '@/components/ui/SplitWords.astro';
 import { emphasisParts, lastWordParts } from '@/lib/format';
 import type { Site } from '@/lib/schemas';
@@ -58,7 +58,7 @@ const claim = lastWordParts(site.headline);
         )}
       </p>
       <div class="flex flex-wrap items-center gap-x-8 gap-y-4 pt-2">
-        <RoundAction href={localePath(locale, '/work')} label={t.seeWork} />
+        <PrimaryAction href={localePath(locale, '/work')} label={t.seeWork} />
         <a
           href={site.links.resume}
           target="_blank"

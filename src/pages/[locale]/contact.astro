@@ -4,7 +4,7 @@
 // PUBLIC_WEB3FORMS_KEY is set at build time. The intro drops "send a message" without the form.
 import ContactFormSection from '@/components/patterns/ContactFormSection.astro';
 import PageHeader from '@/components/ui/PageHeader.astro';
-import RoundAction from '@/components/ui/RoundAction.astro';
+import PrimaryAction from '@/components/ui/PrimaryAction.astro';
 import SectionRow from '@/components/ui/SectionRow.astro';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { getSite, siteLocales } from '@/lib/content';
@@ -30,7 +30,7 @@ const external = { target: '_blank', rel: 'noopener noreferrer' };
       title={site.seo.pages.contact.title}
       lead={web3formsKey ? site.contact.intro : site.contact.introDirect}
     >
-      <RoundAction slot="actions" href={`mailto:${site.links.email}`} label={t.emailAction} />
+      <PrimaryAction slot="actions" href={`mailto:${site.links.email}`} label={t.emailAction} />
     </PageHeader>
 
     <div class="flex flex-col gap-8">

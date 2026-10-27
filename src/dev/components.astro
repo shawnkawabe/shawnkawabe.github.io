@@ -25,7 +25,7 @@ import Outcomes from '@/components/patterns/Outcomes.astro';
 import PrevNext from '@/components/patterns/PrevNext.astro';
 import { strings } from '@/lib/i18n';
 import HeroGlobe from '@/components/patterns/HeroGlobe.astro';
-import RoundAction from '@/components/ui/RoundAction.astro';
+import PrimaryAction from '@/components/ui/PrimaryAction.astro';
 import SculptedShape from '@/components/ui/SculptedShape.astro';
 import InlineLinkList from '@/components/ui/InlineLinkList.astro';
 import LedgerList from '@/components/ui/LedgerList.astro';
@@ -227,12 +227,12 @@ const accents = ['cloud-sales', 'cloud-service', 'cloud-data', 'cloud-membership
           <Hero site={getSite()} />
         </Surface>
         <Text tone={2}>
-          RoundAction (L-37): the page's main action; the label is part of the link. 72px below lg,
-          112px from lg.
+          PrimaryAction: the page's main action, a compact accent pill; the label is part of the
+          link.
         </Text>
         <div class="flex flex-wrap items-center gap-8">
-          <RoundAction href="#" label="See my work" />
-          <RoundAction href="https://example.com" label="External target" external />
+          <PrimaryAction href="#" label="See my work" />
+          <PrimaryAction href="https://example.com" label="External target" external />
         </div>
         <ProductIndex
           items={[
@@ -331,7 +331,7 @@ const accents = ['cloud-sales', 'cloud-service', 'cloud-data', 'cloud-membership
           InlineLinkList. Hairlines and type only; the accent appears on links and hover.
         </Text>
         <PageHeader title="Page title" lead="One lead paragraph in grey, at most 720px wide.">
-          <RoundAction slot="actions" href="#" label="Primary action" />
+          <PrimaryAction slot="actions" href="#" label="Primary action" />
         </PageHeader>
         <MetaList
           items={[

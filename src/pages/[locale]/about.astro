@@ -5,7 +5,7 @@
 // rows and the companies as a ledger. No boxes and no dates anywhere.
 import CompanyList from '@/components/patterns/CompanyList.astro';
 import PageHeader from '@/components/ui/PageHeader.astro';
-import RoundAction from '@/components/ui/RoundAction.astro';
+import PrimaryAction from '@/components/ui/PrimaryAction.astro';
 import SectionRow from '@/components/ui/SectionRow.astro';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { visibleImage } from '@/lib/case-study';
@@ -43,7 +43,7 @@ const t = ui.about;
         ))}
         {site.location && <p class="font-mono text-2 text-on-surface-2">{site.location}</p>}
         <Fragment slot="actions">
-          <RoundAction href={site.links.resume} label={t.resume} external />
+          <PrimaryAction href={site.links.resume} label={t.resume} external />
           <a href={localePath(locale, '/contact')} class="text-3 font-medium underline">
             {ui.nav.contact}
           </a>
