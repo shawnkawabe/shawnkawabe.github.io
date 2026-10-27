@@ -353,6 +353,201 @@ current data-core "neurons" scene is not aligned well and does not say that.
       that and name the closest openly licensed alternatives (for example Geist, already in use,
       and an open serif in the spirit of New York for the L-39 outlined word).
 
+### Refined tasks (2026-10-27, before any build)
+
+Shawn chose these for the Intro: mock-up A, a blue accent, an outlined serif word and dot
+continents. Each task below names what "done" means. Tasks run in the order given under
+**Execution order**.
+
+- [ ] **L-35 Cloud globe hero scene** (L). This replaces the data core. **Done when:**
+  - **Scene (`GlobeCanvas.tsx`, `mountGlobe.tsx`):**
+    - Globe:
+      - a gunmetal sphere lit from the upper left, with a faint rim on the lit edge;
+      - the continents are the 8,635 baked land points (`src/assets/globe/land-points.json`),
+        brighter toward the light;
+      - points on the far side are hidden by the opaque sphere.
+    - It turns once every 120 s about a slightly tilted axis, with the Americas facing the
+      viewer when it starts.
+  - **Framing for layout A:**
+    - The globe is centred horizontally, with its centre below the hero's bottom edge.
+    - The visible cap reaches about 30% of the hero height.
+    - The canvas covers the whole hero behind the text.
+    - A bottom fade blends it into the next section.
+  - **Moons are the clouds from `cloudStats` that have at least one project:**
+    - at most 6, in content order, with the label text taken from content;
+    - each moon is a small grey sphere on an arc just above the globe's rim;
+    - each drifts ±5° around its home angle at its own pace, so the moons never cross or touch;
+    - hover or focus on a moon's label pauses the drift.
+  - **Labels are HTML links, not text drawn in the canvas:**
+    - Each one goes to `/{locale}/work?cap={cloudId}`.
+    - Labels render in the hero's HTML at their home positions. Without the scene they are a
+      static arc over the poster.
+    - When the scene runs, it moves each label with its moon every frame using `transform`
+      only, so nothing reflows.
+    - The label layer is in reading order after the actions, and its list name is "Clouds"
+      from i18n.
+  - **WCAG 2.2.2:** one hero motion toggle (the `ProductTicker` pattern: a round button with
+    `aria-pressed` and a pause/play icon) stops the globe, the moons and the labels.
+  - **Poster (`npm run globe:poster`):**
+    - The script renders the same globe framing to `src/assets/globe/poster.{avif,webp}` (about
+      100 KB or less), shown through `<Picture>`.
+    - The poster is the fallback for mobile, reduced motion and no WebGL2, and what shows
+      before the scene starts.
+    - When the scene is ready it cross-fades in over the poster (450 ms).
+  - **Same gates as today:**
+    - Run conditions: `canRunScene` (≥ 1024px, motion allowed, WebGL2), then `afterLoadIdle`.
+    - Limits: DPR ≤ 2, loop off when off-screen or the tab is hidden, everything disposed on
+      unmount.
+    - Size: the scene chunk, land points included, is ≤ 1 MB.
+  - **Below 1024px:**
+    - The globe poster is cropped to the bottom of the hero.
+    - The cloud links become a plain inline list under the actions; there is no arc.
+  - **Cleanup:**
+    - Remove `DataCoreCanvas.tsx`, `mountDataCore.tsx`, `src/lib/data-core.ts` and its test.
+    - Move the helpers that survive into `src/lib/globe.ts`. These are the sphere projection,
+      the arc placement, the drift and the scroll depth.
+  - **Tests:**
+    - unit tests for `globe.ts` (projection, arc angles for 1 to 6 moons, the drift bound);
+    - a Container test that the hero renders one link per cloud with a project, with the
+      correct `?cap=`;
+    - an e2e check that the poster renders and the scene host exists on desktop;
+    - a dev-gallery entry.
+  - **Docs:** DESIGN §7 and SPEC §5.1 describe the globe instead of the data core.
+- [ ] **L-42 Apple fonts review** (S). Do this before L-39, which needs the serif. **Done when:**
+  - Apple's font licence has been read and quoted in a new ADR 0009, "Display serif".
+  - SF Pro, SF Compact, SF Mono and New York are each marked usable or not on a public website.
+    Expected answer: not usable, because they are licensed for mock-ups of Apple platform UIs.
+  - One openly licensed (SIL OFL) serif is chosen for the single outlined word. Candidates are
+    Instrument Serif, Newsreader and Source Serif 4. The choice covers shape, weight range,
+    Latin subset size and how it looks in outline at 96px.
+  - The font is self-hosted through Fontsource as one weight, Latin and Latin-ext only, at
+    30 KB or less.
+  - A token `font.family.serif` is added.
+  - CLAUDE.md rule 6 is updated to allow the serif for one outlined display word per page,
+    at 48px or more.
+- [ ] **L-36 Charcoal, monochrome palette** (M). **Done when:**
+  - **Dark theme:**
+    - Surfaces move to neutral charcoal: `surface-0` is about `#131313`, with steps for
+      `surface-1` and `surface-2`; chroma is 0 (no blue).
+    - Borders and the text greys are also neutral.
+  - **Light theme:** gets the same treatment, with a neutral off-white.
+  - **Accents:**
+    - `accent-1` (blue) is used only for the primary action, links, focus rings and selected
+      states.
+    - `accent-2` and the cloud accents keep their tokens but appear only where L-40 allows them.
+  - **Backdrop:**
+    - The grid backdrop and the pointer spotlight (`Backdrop.astro`, `src/lib/backdrop.ts`) are
+      removed from every page, and `pf-hero-glow` is removed.
+    - Their tests and dev-gallery entries go too.
+  - **Checks:**
+    - The token test checks AA contrast for every text/surface pair in both themes.
+    - axe passes.
+    - The OG images are regenerated.
+- [ ] **L-39 Hero layout A** (M). **Done when:**
+  - **Order:** a top meta row (name top left, where it does not clash with the rail, and
+    location top right in mono), then role in mono, then the headline (`site.headline`), then
+    the intro, then the actions.
+  - **Headline:**
+    - The last word renders in the L-42 serif as an outline, set with `-webkit-text-stroke` in
+      `on-surface-1` and a transparent fill.
+    - The full sentence stays one `<p>` that reads normally.
+  - **Rule 8 (Shawn, 2026-10-27):**
+    - The claim drops the word "Salesforce" and becomes "CRM solutions that teams actually
+      adopt." The pt and es lines change to match.
+    - No Salesforce product name appears larger than Shawn's name, which is the `h1` at the top
+      left at `text-6` or larger.
+  - **Fact card:** removed. Its tests, the `facts` prop and the i18n keys are retired, and the
+    clouds now appear as the moons.
+  - **Text:**
+    - No text overlaps the globe cap at 1440×900, 1280×720 and 1024×768.
+    - Text contrast is AA over the poster.
+  - **Layout below lg:** left-aligned and stacked, poster at the bottom, cloud list inline
+    (L-35).
+  - **Locales:** pt and es fit without overflow.
+- [ ] **L-37 Round primary action** (S). **Done when:**
+  - A new `RoundAction.astro` exists:
+    - a 112px accent circle with an arrow icon, 72px below lg;
+    - a visible text label beside it that is part of the same link, so its accessible name is
+      the label;
+    - the visible focus ring is offset from the circle;
+    - on hover the arrow nudges 4px, and it is still under reduced motion.
+  - It is used for the hero "See my work" action and the Home contact action. Download resume
+    stays a ghost text link.
+  - It has a dev-gallery entry and a Container test (label, href, external variant).
+- [ ] **L-41 Scroll-linked motion** (M). Research first, then build one effect. **Done when:**
+  - A short research note in `docs/reference/scroll-motion.md` compares:
+    - CSS `animation-timeline: view()`/`scroll()`: support is Chromium and Safari 26; Firefox
+      needs the fallback;
+    - IntersectionObserver steps (ADR 0005);
+    - scrubbing the R3F scene from scroll.
+  - It weighs the samples Shawn gave (the globe expanding, an arrow moving up) and proposes at
+    most two effects tied to content. Default pick:
+    - As the hero scrolls away, the globe rises and grows to fill the screen, then dissolves
+      into the Clouds section, where the same cloud names are the headings. It is driven by the
+      scene's existing scroll depth (no new library), and the poster gets the same effect
+      through a CSS `view()` timeline.
+    - A section progress arrow in the rail moves up the track as sections pass.
+  - The chosen effect is built, and passes these rules:
+    - no scroll-jacking and no pinned trap;
+    - content is never hidden while waiting to animate;
+    - the end state is static under reduced motion;
+    - CLS is 0, measured on the preview;
+    - Firefox shows the step fallback.
+- [ ] **L-38 Sculpted section shapes** (M). **Done when:**
+  - **Shapes:**
+    - Each Home section after the hero (work, clouds, products, certifications, contact) gets
+      one large, soft, monochrome shape: a tube, ring, wave, blob or chevron.
+    - The shapes are our own geometry: authored as SVG (gradients and blur) or rendered once
+      by a script to AVIF/WebP of about 60 KB or less each.
+    - Each bleeds off one or two edges, sits behind the content with `aria-hidden`, and
+      `alt=""` where it is an image.
+  - **No new live 3D:** at most one scene per page stays.
+  - **Contrast:** AA is checked on every text pixel range over a shape, both in a test against
+    the shape's lightest stop and by axe.
+  - **Contact band:** `SectionBand` is replaced by its shape, and `SectionBand` is removed in
+    L-28.
+- [ ] **L-40 Products and tools is the benchmark** (M). **Done when:**
+  - **Audit:** `docs/reference/benchmark-audit.md` scores the Home sections and the inner
+    pages against the products section's traits:
+    - large type is the visual;
+    - content comes first;
+    - no boxes, badges or counts;
+    - the accent is used sparingly;
+    - motion serves reading and pauses on hover or focus.
+  - **Gaps:** each gap is listed with the fix, before any change.
+  - **Fixes:** Home fixes ship in this task, and inner-page gaps are fed into L-21 to L-27.
+    Known candidates:
+    - the featured `CoverCard` gradient covers;
+    - `CloudPanels` boxes;
+    - the contact band.
+
+#### Round 4 refinements (inner pages, carried into the order below)
+
+- **L-21:** add `RoundAction` (L-37) to the shared primitives. The primitives use the L-36
+  palette.
+- **L-22:**
+  - The backdrop is already removed by L-36.
+  - What's left is removing `shadow-glow` and `data-tilt` (`src/lib/tilt.ts`) from `CloudCard`,
+    `CoverCard`, `ProjectCard` and `PrevNext`, and sentence-case labels.
+- **L-23 and L-24:** follow the L-40 audit gaps for Work and the case study.
+- **L-25:** reuses `CredentialLedger` as it is. `CloudBento` and `StackChips` are retired if
+  nothing else uses them.
+- **L-27:** the contact action is the `RoundAction`.
+- **L-28:** `CredentialTickets` is already gone. Remove what is now unused:
+  - `SectionBand` (after L-38);
+  - `Backdrop` (after L-36);
+  - `tilt.ts` (after L-22);
+  - `CloudBento`, `DecisionCards`, `Outcomes`, `SnapshotBar` and `StackChips`, if L-23 to L-27
+    no longer use them, together with their tests and dev-gallery entries.
+- **L-29:** ask Shawn to confirm the reworded claim in pt and es.
+- **L-30:** add the globe hero to the visual QA.
+
+#### Execution order
+
+L-35 → L-42 → L-36 → L-39 with L-37 → L-41 → L-38 → L-40 → L-21 with L-22 → L-23 with L-24 →
+L-25 → L-26 → L-27 → L-28 → L-29 → L-30. Each task ends with `npm run ci`, `npm run test:a11y`,
+screenshots at 375, 768 and 1440 on the built preview, a ticked box with notes, and one commit.
+
 ## Order and status
 
 | #            | Task                            | Status  |
@@ -385,7 +580,7 @@ current data-core "neurons" scene is not aligned well and does not say that.
 | L-36         | Charcoal palette                | planned |
 | L-37         | Round primary action            | planned |
 | L-38         | Sculpted section shapes         | planned |
-| L-39         | Hero layout for the globe       | planned |
+| L-39         | Hero layout A                   | planned |
 | L-40         | Products and tools as benchmark | planned |
 | L-41         | Scroll-linked motion research   | planned |
 | L-42         | Apple fonts review              | planned |
