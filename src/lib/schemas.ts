@@ -108,7 +108,6 @@ export const siteSchema = z.object({
   intro: z.string(), // **term** = brighter highlight
   bio: z.array(z.string()).min(1),
   principles: z.array(z.object({ title: z.string(), body: z.string() })),
-  availability: z.string(),
   workIntro: z.string(),
   ctaLine: z.string(),
   workFacets: z.object({ clouds: z.string(), capabilities: z.array(id) }),

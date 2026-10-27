@@ -170,19 +170,48 @@ Research behind L-05 to L-08 is summarised in [ADR 0006](adr/0006-landing-scroll
     intro/products, accent-3 for work/certifications, accent-2 for clouds/contact; pitch 40–72px.
     The hero's two glows became one faint glow (the no-WebGL poster). axe contrast checks pass.
 
+## Round 3: Shawn's feedback, 2026-10-26 (night)
+
+- [x] **L-13 Remove the availability chip**
+  - Drop "Open to remote Salesforce roles and contracts" from the hero in every locale: remove the
+    `availability` field from `content/{locale}/site.json` and the schema, and the chip from
+    `Hero.astro` and the dev gallery.
+- [ ] **L-14 Own favicon**
+  - `public/favicon.svg` and `favicon.ico` are still Astro's scaffold logo. Replace them with an
+    "SK" monogram in Geist on the accent colour (SVG, plus a 32px ICO and a 180px
+    `apple-touch-icon.png`). No Salesforce imagery.
+- [ ] **L-15 No em dash in visible text**
+  - Replace every "—" in `content/{locale}/*.json`, `src/i18n/*.json` and code-built strings
+    (`titleTemplate`, `seo.ts`, `cn-tables.ts`) with a comma, colon, full stop or "|" as the
+    sentence needs. Add a content test that fails on "—" so it cannot come back.
+- [ ] **L-16 Intro section redesign** (research first)
+  - Study professional portfolio templates; propose directions with sketches; Shawn picks one.
+- [ ] **L-17 Certifications section redesign** (research first)
+  - Shawn does not like the current section (L-07). Diagnose it, propose alternatives with
+    sketches; Shawn picks one.
+- [ ] **L-18 Clouds cards without certifications or project names**
+  - "Clouds I work in" cards show the cloud name, icon and project count only: drop the
+    certification count and the top-project titles.
+
 ## Order and status
 
-| #    | Task                       | Status |
-| ---- | -------------------------- | ------ |
-| L-01 | Resume link                | done   |
-| L-03 | Drop solution architecture | done   |
-| L-04 | AWS label                  | done   |
-| L-02 | Rail + language menu       | done   |
-| L-08 | Landing structure          | done   |
-| L-05 | Clouds                     | done   |
-| L-06 | Products & tools           | done   |
-| L-07 | Certifications             | done   |
-| L-09 | Collapsed rail as a circle | done   |
-| L-10 | Products moving list       | done   |
-| L-11 | Typography                 | to do  |
-| L-12 | Background                 | done   |
+| #    | Task                       | Status   |
+| ---- | -------------------------- | -------- |
+| L-01 | Resume link                | done     |
+| L-03 | Drop solution architecture | done     |
+| L-04 | AWS label                  | done     |
+| L-02 | Rail + language menu       | done     |
+| L-08 | Landing structure          | done     |
+| L-05 | Clouds                     | done     |
+| L-06 | Products & tools           | done     |
+| L-07 | Certifications             | done     |
+| L-09 | Collapsed rail as a circle | done     |
+| L-10 | Products moving list       | done     |
+| L-11 | Typography                 | done     |
+| L-12 | Background                 | done     |
+| L-13 | Remove availability chip   | done     |
+| L-14 | Favicon                    | to do    |
+| L-15 | No em dash                 | to do    |
+| L-16 | Intro redesign             | research |
+| L-17 | Certifications redesign    | research |
+| L-18 | Cloud cards simplified     | to do    |

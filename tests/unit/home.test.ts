@@ -25,7 +25,6 @@ describe('Hero', () => {
     name: 'Ada Lovelace',
     role: 'Engineer',
     intro: 'I build **engines** that work.',
-    availability: 'Open to roles',
     links: { resume: 'https://example.com/cv.pdf' },
   };
 
@@ -35,12 +34,6 @@ describe('Hero', () => {
     expect(html).toMatch(/<strong[^>]*>engines<\/strong> that work\./);
     expect(html).toContain('href="/en/work"');
     expect(html).toMatch(/href="https:\/\/example\.com\/cv\.pdf" target="_blank"/);
-    expect(html).toContain('Open to roles');
-  });
-
-  it('leaves out the availability chip when it is empty', async () => {
-    const html = await render(Hero, { site: { ...site, availability: '' } });
-    expect(html).not.toContain('Open to roles');
   });
 });
 

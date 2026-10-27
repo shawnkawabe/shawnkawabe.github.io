@@ -73,7 +73,6 @@ Sections in order:
 1. **Hero**
    - Name at display size (Geist, ADR 0007), role line, 3–4 line intro from `site.intro` where `**terms**` render brighter (`on-surface-1`) and the rest `on-surface-2` (Once UI pattern).
    - Two actions: primary "See my work" → `/work`; secondary "Download resume" (external).
-   - Availability chip from `site.availability` (e.g. "Open to remote roles").
    - Background: subtle animated "data core" 3D scene **or** static gradient if reduced motion / no WebGL. Must not compete with the text; text contrast ≥ 7:1.
 2. **Featured work**: horizontal row of `CoverCard`s for projects with `featured: true` (max 4), scroll-snap on mobile, "All projects →" link. This is the most important section after the hero.
 3. **Clouds constellation** (signature section — see §6)

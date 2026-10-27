@@ -1,10 +1,9 @@
 ---
-// SPEC §5.1 hero: availability chip, name at display size, role, intro with **terms** brighter, two
+// SPEC §5.1 hero: name at display size, role, intro with **terms** brighter, two
 // actions. Static HTML so the name is the LCP element; the gradient poster sits behind it, and the
 // page passes the data-core scene (HeroScene) into the `scene` slot. The first full-viewport
 // landing section (BACKLOG-LANDING L-08).
 import { buttonVariants } from '@/components/ui/button';
-import Chip from '@/components/ui/Chip.astro';
 import Icon from '@/components/ui/Icon.astro';
 import SplitWords from '@/components/ui/SplitWords.astro';
 import { emphasisParts } from '@/lib/format';
@@ -16,7 +15,7 @@ const locale = localeFromPath(Astro.url.pathname);
 const ui = strings(locale);
 
 interface Props {
-  site: Pick<Site, 'name' | 'role' | 'intro' | 'availability' | 'links'>;
+  site: Pick<Site, 'name' | 'role' | 'intro' | 'links'>;
 }
 
 const { site } = Astro.props;
@@ -36,12 +35,6 @@ const t = ui.home;
     data-landing-content
     class="mx-auto flex w-full max-w-300 flex-col items-start gap-6 px-4 py-20 sm:px-6 lg:px-8 lg:py-24"
   >
-    {/* A sentence, not a tag: it may wrap on narrow screens instead of being clipped. */}
-    {site.availability && (
-      <Chip mono wrap>
-        {site.availability}
-      </Chip>
-    )}
     <div class="flex max-w-180 flex-col gap-4">
       <h1 class="font-display text-9 font-bold tracking-display text-balance">
         <SplitWords text={site.name} />
