@@ -99,6 +99,58 @@ Research behind L-05 to L-08 is summarised in [ADR 0006](adr/0006-landing-scroll
     the certification's own, clouds first. `site.links.credentials` is empty, so tickets are not
     links yet. **[H]** Add the Trailhead/Credly URL to make them link.
 
+## Round 2 — Shawn's feedback, 2026-10-26 (evening)
+
+- [ ] **L-09 Collapsed rail shows where you are**
+  - Collapsed, the rail is a perfect circle (equal width and height, `rounded-full`), not a
+    rounded pill around one button.
+  - The circle shows where the reader is: on Home, the current section's mono number (`03`,
+    kept in sync with the L-08 section indicator); on other pages, that page's nav icon (Work,
+    Skills, About, Contact). Clicking it expands the rail.
+  - Accessible name stays "Expand menu, current: <section or page>"; `aria-expanded` unchanged.
+  - The change of number or icon cross-fades (none under reduced motion).
+  - Tests: unit test for the current-section/page resolution; e2e checks the circle's width equals
+    its height and that the label follows the section on Home.
+
+- [ ] **L-10 Products & tools: a moving list again, restyled** (reworks L-06)
+  - Back to a passing list, but typographic, not chips: names in display type, large, separated
+    by a small accent glyph; two rows drifting in opposite directions, slowly (≥ 40s per loop).
+  - Used products (linked to `/work?cap=<id>`) are filled; the others are outlined text, so the
+    difference reads without colour alone. Hover or focus on a name pauses its row and shows its
+    project count.
+  - WCAG 2.2.2 still needs a way to pause motion that lasts over 5s: a small round icon toggle
+    (pause/play, `aria-pressed`, labelled) replaces the old text button. Rows also pause on hover
+    and on keyboard focus inside them.
+  - Reduced motion or no JavaScript: the L-06 indexed list, static.
+  - Screen readers hear one list of products, once.
+
+- [ ] **L-11 Typography for a professional landing page** (research done 2026-10-26)
+  - Proposal: **Geist Sans** (display and body) + **Geist Mono** (labels and data), self-hosted
+    via Fontsource as variable WOFF2, subset to Latin and Latin Extended (PT/ES diacritics).
+    Drop **Orbitron** everywhere (hero name, cloud panel titles): it reads as a sci-fi template.
+    Alternative if Geist variable files are unavailable: keep Inter body + JetBrains Mono and swap
+    Space Grotesk for Instrument Sans.
+  - Fluid major-third scale with `clamp()` between 375px and 1440px: display
+    `clamp(2.75rem, 1.6rem + 5vw, 5.5rem)` at line-height 1.0 and −0.03em; H2
+    `clamp(1.75rem, 1.3rem + 2vw, 2.5rem)` at 1.15; body `clamp(1rem, 0.95rem + 0.25vw, 1.125rem)`
+    at 1.6; mono caps ≥ 13px at +0.08 to +0.12em. Body measure 60–70ch.
+  - Loading: preload body regular and display only; `font-display: swap` with metric-matched
+    fallbacks (`size-adjust`, ascent/descent overrides) so fonts cause no layout shift.
+  - Needs ADR 0007 and updates to CLAUDE.md rule 6, DESIGN §3 and the font tokens; OG cards
+    regenerated. **[H]** Shawn approves the pairing from a specimen page before the swap.
+
+- [ ] **L-12 Background with personality** (research done 2026-10-26)
+  - Proposal: a **technical grid** (blueprint lines at 4–6% opacity) across the page, lit by a
+    soft accent spotlight that follows the pointer (CSS custom properties, one rAF-throttled
+    listener). It replaces the generic two-glow gradient and fits the data/schema identity
+    without trademarks.
+  - Per section: the grid pitch or accent shifts subtly as each landing section takes over (CSS
+    on the section, no extra JS). The hero keeps its data-core scene as the only WebGL.
+  - Light theme: ink lines at the same low alpha. Reduced motion: static spotlight.
+  - Text contrast measured over the grid at its brightest; still WCAG AA.
+  - Optional later: a topographic contour tile for one section only, if the grid alone feels
+    flat. Mesh-gradient aurora rejected as the same generic look.
+
 ## Order and status
 
 | #    | Task                       | Status |
@@ -111,3 +163,7 @@ Research behind L-05 to L-08 is summarised in [ADR 0006](adr/0006-landing-scroll
 | L-05 | Clouds                     | done   |
 | L-06 | Products & tools           | done   |
 | L-07 | Certifications             | done   |
+| L-09 | Collapsed rail as a circle | to do  |
+| L-10 | Products moving list       | to do  |
+| L-11 | Typography                 | to do  |
+| L-12 | Background                 | to do  |
