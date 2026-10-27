@@ -171,3 +171,34 @@ test('the hero globe shows its poster and cloud links, and its toggle stops the 
   await page.waitForTimeout(600);
   expect(await moon.evaluate((element) => element.style.transform)).toBe(before);
 });
+
+// L-43: the hand-off scales the stage; the canvas must keep its layout size, or a jump back to
+// Intro left it oversized with the sphere framed off screen.
+test('the hero globe is whole again after scrolling away and jumping back to Intro', async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name !== 'desktop', 'the live globe is desktop-only');
+  await page.goto('/en/');
+  const webgl2 = await page.evaluate(() => !!document.createElement('canvas').getContext('webgl2'));
+  test.skip(!webgl2, 'no WebGL2 in this browser');
+  const globe = page.locator('[data-hero-globe]');
+  await expect(globe).toHaveAttribute('data-live', '', { timeout: 15_000 });
+  const scene = globe.locator('[data-globe-scene]');
+  const canvasFitsScene = () =>
+    scene.evaluate((host: HTMLElement) => {
+      const canvas = host.querySelector('canvas')!;
+      return canvas.offsetWidth === host.offsetWidth && canvas.offsetHeight === host.offsetHeight;
+    });
+
+  await page.evaluate(() => window.scrollTo(0, window.innerHeight / 2));
+  await page.waitForTimeout(400);
+  expect(await canvasFitsScene()).toBe(true);
+  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+  await page.waitForTimeout(600);
+  await page.evaluate(() => window.scrollTo(0, 0));
+
+  await expect.poll(canvasFitsScene).toBe(true);
+  await expect
+    .poll(() => globe.locator('.pf-globe__stage').evaluate((el) => getComputedStyle(el).opacity))
+    .toBe('1');
+});

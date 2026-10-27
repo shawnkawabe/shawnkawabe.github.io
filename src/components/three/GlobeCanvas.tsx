@@ -201,6 +201,10 @@ export default function GlobeCanvas({
       <Canvas
         orthographic
         dpr={[1, 2]}
+        // Measure the layout box, not the transformed one: the L-41 hand-off scales the stage,
+        // and a scaled measure resized the canvas every frame and could leave it oversized, with
+        // the sphere framed off screen after a jump back to Intro (L-43).
+        resize={{ offsetSize: true }}
         frameloop={fit === 'poster' ? 'demand' : visible && !paused ? 'always' : 'never'}
         camera={{ position: [0, 0, 2000], near: 1, far: 4000 }}
         gl={{ antialias: true, alpha: true, powerPreference: 'low-power' }}
