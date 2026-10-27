@@ -275,7 +275,7 @@ tokens. Astro portfolio themes found were paid; none adopted.
       Open: team sizes (all empty); 2 to 4 decisions per featured project for "Approach";
       an approved portrait; a Trailhead or Credly URL; Nescara and Globant list the same
       projects (one row "Nescara, via Globant"?); Orchid component library has no sections.
-- [ ] **L-30 Accessibility and visual QA** (S): axe on all routes, heading order, screenshots at
+- [x] **L-30 Accessibility and visual QA** (S): axe on all routes, heading order, screenshots at
       375, 768 and 1440 against the sketches, pt and es overflow check.
 
 Order: L-20, L-21 with L-22, L-23 with L-24, L-25 to L-27, then L-28 to L-30. L-17 ships inside
@@ -726,6 +726,17 @@ continents. Each task below names what "done" means. Tasks run in the order give
     - Portrait and credentials URL are not asked again: decisions 7 and 5 settle them.
     - No content changed.
 - **L-30:** add the globe hero to the visual QA.
+  - Done (2026-10-27):
+    - axe (WCAG 2.2 AA plus best practice, which includes `heading-order`): every sitemap route
+      and the 404, both themes, 329 tests passing. The smoke suite checks one h1 per page.
+    - Overflow sweep: all 51 routes (en, pt, es) at 375, 768 and 1440 for page-level horizontal
+      scroll and visible text past the viewport or clipped. Nothing found. The only hit was the
+      Home h1, which is `sr-only` below lg by design, since the header bar shows the name.
+    - Screenshots at 375, 768 and 1440, dark: Home en and pt (globe hero, fold and full page),
+      es Skills, pt About, es Contact, pt Work, a case study. pt and es reflow without
+      overflow; the claim's outlined last word fits at every width.
+    - Found: job titles stay English on pt/es About. Added as B3 to
+      `docs/briefs/CONTENT_QUESTIONS.md`; content not changed.
 
 #### Execution order
 
@@ -735,37 +746,37 @@ screenshots at 375, 768 and 1440 on the built preview, a ticked box with notes, 
 
 ## Order and status
 
-| #            | Task                            | Status  |
-| ------------ | ------------------------------- | ------- |
-| L-01         | Resume link                     | done    |
-| L-03         | Drop solution architecture      | done    |
-| L-04         | AWS label                       | done    |
-| L-02         | Rail + language menu            | done    |
-| L-08         | Landing structure               | done    |
-| L-05         | Clouds                          | done    |
-| L-06         | Products & tools                | done    |
-| L-07         | Certifications                  | done    |
-| L-09         | Collapsed rail as a circle      | done    |
-| L-10         | Products moving list            | done    |
-| L-11         | Typography                      | done    |
-| L-12         | Background                      | done    |
-| L-13         | Remove availability chip        | done    |
-| L-14         | Favicon                         | done    |
-| L-15         | No em dash                      | done    |
-| L-16         | Intro redesign                  | done    |
-| L-17         | Certifications redesign         | done    |
-| L-18         | Cloud cards simplified          | done    |
-| L-19         | Rail toggle icon                | done    |
-| L-20 to L-30 | Professional inner pages        | planned |
-| L-31         | Better favicon                  | done    |
-| L-32         | Better transitions              | done    |
-| L-33         | Contact full width              | done    |
-| L-34         | Footer notice                   | done    |
-| L-35         | Cloud globe hero                | done    |
-| L-36         | Charcoal palette                | done    |
-| L-37         | Round primary action            | done    |
-| L-38         | Sculpted section shapes         | done    |
-| L-39         | Hero layout A                   | done    |
-| L-40         | Products and tools as benchmark | done    |
-| L-41         | Scroll-linked motion research   | done    |
-| L-42         | Apple fonts review              | done    |
+| #            | Task                            | Status |
+| ------------ | ------------------------------- | ------ |
+| L-01         | Resume link                     | done   |
+| L-03         | Drop solution architecture      | done   |
+| L-04         | AWS label                       | done   |
+| L-02         | Rail + language menu            | done   |
+| L-08         | Landing structure               | done   |
+| L-05         | Clouds                          | done   |
+| L-06         | Products & tools                | done   |
+| L-07         | Certifications                  | done   |
+| L-09         | Collapsed rail as a circle      | done   |
+| L-10         | Products moving list            | done   |
+| L-11         | Typography                      | done   |
+| L-12         | Background                      | done   |
+| L-13         | Remove availability chip        | done   |
+| L-14         | Favicon                         | done   |
+| L-15         | No em dash                      | done   |
+| L-16         | Intro redesign                  | done   |
+| L-17         | Certifications redesign         | done   |
+| L-18         | Cloud cards simplified          | done   |
+| L-19         | Rail toggle icon                | done   |
+| L-20 to L-30 | Professional inner pages        | done   |
+| L-31         | Better favicon                  | done   |
+| L-32         | Better transitions              | done   |
+| L-33         | Contact full width              | done   |
+| L-34         | Footer notice                   | done   |
+| L-35         | Cloud globe hero                | done   |
+| L-36         | Charcoal palette                | done   |
+| L-37         | Round primary action            | done   |
+| L-38         | Sculpted section shapes         | done   |
+| L-39         | Hero layout A                   | done   |
+| L-40         | Products and tools as benchmark | done   |
+| L-41         | Scroll-linked motion research   | done   |
+| L-42         | Apple fonts review              | done   |

@@ -65,6 +65,15 @@ title and summary only. What can be said publicly?
 - Outcomes (qualitative is fine; numbers only if measured):
 - Screenshots you are allowed to show:
 
+### B3. Job titles in Portuguese and Spanish (found in L-30)
+
+`experience.json` keeps every role in English on the pt and es pages ("Senior Salesforce
+Developer", "Ssr. Adv. Salesforce Developer", …), while the pt/es bio and hero translate your
+role ("Desenvolvedor Salesforce Sênior"). Which do you want?
+
+- [ ] Keep the official English titles, as on contracts and LinkedIn.
+- [ ] Translate them. Give the pt and es wording you use, per company.
+
 ## C. Optional depth (decision 13: sections render only when data exists)
 
 Leave blank to keep the case studies as they are.
