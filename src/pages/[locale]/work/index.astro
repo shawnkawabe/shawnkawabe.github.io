@@ -1,12 +1,16 @@
 ---
-// SPEC §5.2: intro, filter bar and every project in curated order. The grid is server-rendered;
-// WorkFilters only hides items, so without JavaScript all projects stay visible.
-import ProjectCard from '@/components/patterns/ProjectCard.astro';
+// SPEC §5.2 (ADR 0008, L-23): a page header, the cloud filter bar and every project as a ledger
+// row in curated order. The list is server-rendered; WorkFilters only hides rows, so without
+// JavaScript all projects stay visible.
 import WorkFilters, { type FacetOption } from '@/components/patterns/WorkFilters';
+import LedgerList from '@/components/ui/LedgerList.astro';
+import LedgerRow from '@/components/ui/LedgerRow.astro';
+import PageHeader from '@/components/ui/PageHeader.astro';
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import { getProjects, getSite, getSkills, siteLocales } from '@/lib/content';
-import { strings, toLocale } from '@/lib/i18n';
+import { getExperience, getProjects, getSite, getSkills, siteLocales } from '@/lib/content';
 import { skillStats, sortProjects } from '@/lib/derive';
+import { projectMeta } from '@/lib/format';
+import { localePath, strings, toLocale } from '@/lib/i18n';
 import { pageMeta } from '@/lib/seo';
 
 export function getStaticPaths() {
@@ -16,55 +20,56 @@ export function getStaticPaths() {
 const locale = toLocale(Astro.params.locale);
 const ui = strings(locale);
 
-const GRID_ID = 'work-grid';
+const LIST_ID = 'work-list';
 
 const site = getSite(locale);
-const [projects, skills] = await Promise.all([getProjects(locale), getSkills(locale)]);
+const [projects, skills, experience] = await Promise.all([
+  getProjects(locale),
+  getSkills(locale),
+  getExperience(locale),
+]);
 const sorted = sortProjects(projects);
 const stats = new Map(skillStats(skills, projects).map((stat) => [stat.id, stat.projectCount]));
-const skillById = new Map(skills.map((skill) => [skill.id, skill]));
 
-const option = (id: string): FacetOption => {
-  const skill = skillById.get(id)!;
-  return { id, label: skill.label, count: stats.get(id) ?? 0, accent: skill.accent };
-};
-
-const clouds = skills
-  .filter((skill) => skill.group === 'clouds' && (stats.get(skill.id) ?? 0) > 0)
-  .map((skill) => option(skill.id));
-const capabilities = site.workFacets.capabilities.map(option);
-// A URL may name any non-cloud skill as a capability (Stack chips on case studies link here).
+const cloudSkills = skills.filter((skill) => skill.group === 'clouds');
+const clouds: FacetOption[] = cloudSkills
+  .filter((skill) => (stats.get(skill.id) ?? 0) > 0)
+  .map(({ id, label }) => ({ id, label }));
+// A URL may name any non-cloud skill as a capability (Stack links on case studies link here).
 const allSkills = Object.fromEntries(
   skills.filter((skill) => skill.group !== 'clouds').map((skill) => [skill.id, skill.label]),
 );
-const cloudLabels = Object.fromEntries(
-  skills.filter((skill) => skill.group === 'clouds').map((skill) => [skill.id, skill.label]),
-);
+const cloudLabels = new Map(cloudSkills.map((skill) => [skill.id, skill.label]));
 ---
 
 <BaseLayout meta={pageMeta(site, { page: 'work' }, ui.titleTemplate)}>
   <div class="mx-auto flex w-full max-w-300 flex-col gap-10 px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
-    <header class="flex max-w-180 flex-col gap-4">
-      <h1>{site.seo.pages.work.title}</h1>
-      <p class="text-4 text-on-surface-2">{site.workIntro}</p>
-    </header>
+    <PageHeader title={site.seo.pages.work.title} lead={site.workIntro} />
     <section data-js-only aria-label={ui.work.filtersLabel}>
       <WorkFilters
         client:load
         clouds={clouds}
-        capabilities={capabilities}
         allSkills={allSkills}
         total={sorted.length}
-        gridId={GRID_ID}
+        gridId={LIST_ID}
         ui={{ work: ui.work, cards: ui.cards }}
       />
     </section>
-    <ul id={GRID_ID} class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+    <LedgerList id={LIST_ID}>
       {sorted.map((project) => (
-        <li data-clouds={project.clouds.join(',')} data-caps={project.capabilities.join(',')}>
-          <ProjectCard project={project} cloudLabels={cloudLabels} level={2} />
-        </li>
+        <LedgerRow
+          href={localePath(locale, `/work/${project.id}`)}
+          title={project.title}
+          subtitle={project.subtitle}
+          meta={projectMeta(project, experience)}
+          tags={project.clouds
+            .map((id) => cloudLabels.get(id))
+            .filter((label) => label !== undefined)}
+          level={2}
+          data-clouds={project.clouds.join(',')}
+          data-caps={project.capabilities.join(',')}
+        />
       ))}
-    </ul>
+    </LedgerList>
   </div>
 </BaseLayout>

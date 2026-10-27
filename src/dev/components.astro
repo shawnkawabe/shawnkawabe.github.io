@@ -11,28 +11,30 @@ import SplitWords from '@/components/ui/SplitWords.astro';
 import { getCertifications, getExperience, getProjects, getSite, getSkills } from '@/lib/content';
 import { cloudStats, skillGroupChips, sortProjects } from '@/lib/derive';
 import { brandIcons, icons, type CloudIconName, type IconName } from '@/lib/icons';
-import CertificationStrip from '@/components/patterns/CertificationStrip.astro';
-import CloudBento from '@/components/patterns/CloudBento.astro';
-import CloudConstellation from '@/components/patterns/CloudConstellation';
+import CredentialLedger from '@/components/patterns/CredentialLedger.astro';
+import CloudPanels from '@/components/patterns/CloudPanels.astro';
 import CompanyList from '@/components/patterns/CompanyList.astro';
 import ContactForm from '@/components/patterns/ContactForm';
 import Hero from '@/components/patterns/Hero.astro';
-import Marquee from '@/components/patterns/Marquee.astro';
+import ProductIndex from '@/components/patterns/ProductIndex.astro';
 import SkillGroups from '@/components/patterns/SkillGroups.astro';
-import CoverCard from '@/components/patterns/CoverCard.astro';
-import DecisionCards from '@/components/patterns/DecisionCards.astro';
+import FeaturedIndex from '@/components/patterns/FeaturedIndex.astro';
+import DecisionList from '@/components/patterns/DecisionList.astro';
 import Gallery from '@/components/patterns/Gallery.astro';
 import Outcomes from '@/components/patterns/Outcomes.astro';
 import PrevNext from '@/components/patterns/PrevNext.astro';
-import SectionBand from '@/components/patterns/SectionBand.astro';
-import SnapshotBar from '@/components/patterns/SnapshotBar.astro';
-import StackChips from '@/components/patterns/StackChips.astro';
-import { stackLinks } from '@/lib/case-study';
 import { strings } from '@/lib/i18n';
-import HeroScene from '@/components/patterns/HeroScene.astro';
+import HeroGlobe from '@/components/patterns/HeroGlobe.astro';
+import PrimaryAction from '@/components/ui/PrimaryAction.astro';
+import SculptedShape from '@/components/ui/SculptedShape.astro';
+import InlineLinkList from '@/components/ui/InlineLinkList.astro';
+import LedgerList from '@/components/ui/LedgerList.astro';
+import LedgerRow from '@/components/ui/LedgerRow.astro';
+import MetaList from '@/components/ui/MetaList.astro';
+import PageHeader from '@/components/ui/PageHeader.astro';
+import SectionRow from '@/components/ui/SectionRow.astro';
 import LanguageSwitcher from '@/components/patterns/LanguageSwitcher.astro';
 import MobileNav from '@/components/patterns/MobileNav.astro';
-import ProjectCard from '@/components/patterns/ProjectCard.astro';
 import ThemeToggle from '@/components/patterns/ThemeToggle.astro';
 import UiGallery from './UiGallery';
 
@@ -41,10 +43,8 @@ const ui = strings('en');
 const skills = await getSkills();
 const projects = sortProjects(await getProjects());
 const clouds = skills.filter((skill) => skill.group === 'clouds');
-const cloudLabels = Object.fromEntries(skills.map((skill) => [skill.id, skill.label]));
 const bento = cloudStats(skills, projects, await getCertifications());
-// Sample content for the case-study components; the gallery reuses files already in public/.
-const sample = projects[0];
+// The gallery sample reuses files already in public/.
 const sampleImages = [
   {
     src: '/og/default.png',
@@ -209,46 +209,14 @@ const accents = ['cloud-sales', 'cloud-service', 'cloud-data', 'cloud-membership
         <Heading level={2} size={6}>
           Cards
         </Heading>
-        <div class="grid gap-6 lg:grid-cols-2">
-          {projects
-            .filter((project) => project.featured)
-            .slice(0, 2)
-            .map((project) => (
-              <CoverCard
-                title={project.title}
-                subtitle={project.subtitle}
-                href={`/work/${project.id}`}
-                cover={project.cover}
-                icon="work"
-              />
-            ))}
-        </div>
-        <div class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-          {projects.slice(2, 5).map((project) => (
-            <ProjectCard project={project} cloudLabels={cloudLabels} />
-          ))}
-          <ProjectCard
-            project={{
-              ...projects[0],
-              id: 'many-clouds',
-              title: 'Many clouds (sample)',
-              clouds: clouds.map((cloud) => cloud.id),
-            }}
-            cloudLabels={cloudLabels}
-          />
-        </div>
-        <CloudBento clouds={bento} />
-        <Text tone={2}>
-          CloudConstellation (≥ 1024px, motion allowed, WebGL2; otherwise the bento)
+        <Text size={2} tone={2}>
+          FeaturedIndex: Home's featured work as a typographic index (L-40).
         </Text>
-        <CloudConstellation
-          client:visible
-          nodes={bento}
-          ui={{ cards: ui.cards, constellation: ui.constellation }}
-          workPath="/en/work"
-        >
-          <CloudBento clouds={bento} />
-        </CloudConstellation>
+        <FeaturedIndex projects={projects.filter((project) => project.featured).slice(0, 3)} />
+        <Text tone={2}>
+          CloudPanels (Home): a row of expanding panels from lg, an accordion below
+        </Text>
+        <CloudPanels clouds={bento} />
       </section>
 
       <section class="flex flex-col gap-6">
@@ -258,17 +226,52 @@ const accents = ['cloud-sales', 'cloud-service', 'cloud-data', 'cloud-membership
         <Surface class="overflow-hidden">
           <Hero site={getSite()} />
         </Surface>
-        <Marquee items={['GRAX', 'D4Sign', 'Nimble AMS', 'Fonteva']} id="dev-marquee" />
+        <Text tone={2}>
+          PrimaryAction: the page's main action, a compact accent pill; the label is part of the
+          link.
+        </Text>
+        <div class="flex flex-wrap items-center gap-8">
+          <PrimaryAction href="#" label="See my work" />
+          <PrimaryAction href="https://example.com" label="External target" external />
+        </div>
+        <ProductIndex
+          items={[
+            { id: 'grax', label: 'GRAX (linked: used by a project)', projectCount: 2 },
+            { id: 'aura', label: 'Unused product (plain text)', projectCount: 0 },
+          ]}
+        />
         <CompanyList experience={(await getExperience()).slice(0, 2)} projects={projects} />
         <SkillGroups
           groups={skillGroupChips(getSite().skillGroups, skills, projects).slice(0, 2)}
         />
-        <CertificationStrip
-          certifications={[{ id: 'admin', label: 'Plain chip (no credentials page)' }]}
+        <CredentialLedger
+          certifications={[
+            {
+              id: 'plain',
+              label: 'Salesforce Certified Plain Row',
+              domain: 'development',
+              skills: ['apex'],
+            },
+            {
+              id: 'data',
+              label: 'Salesforce Certified Data Row',
+              domain: 'data-ai',
+              skills: ['data-cloud'],
+            },
+          ]}
+          skills={skills}
           credentialsUrl=""
         />
-        <CertificationStrip
-          certifications={[{ id: 'admin', label: 'Linked chip' }]}
+        <CredentialLedger
+          certifications={[
+            {
+              id: 'linked',
+              label: 'A name without the issuer word',
+              domain: 'admin',
+              skills: ['sales-cloud'],
+            },
+          ]}
+          skills={skills}
           credentialsUrl="https://example.com"
         />
       </section>
@@ -298,8 +301,7 @@ const accents = ['cloud-sales', 'cloud-service', 'cloud-data', 'cloud-membership
         <Heading level={2} size={6}>
           Case study
         </Heading>
-        <SnapshotBar project={sample} deliveredVia="Nescara · Globant" skills={skills} />
-        <DecisionCards
+        <DecisionList
           items={[
             {
               decision: 'Sample decision written as one sentence',
@@ -316,28 +318,79 @@ const accents = ['cloud-sales', 'cloud-service', 'cloud-data', 'cloud-membership
           ]}
         />
         <Gallery images={sampleImages} />
-        <SectionBand tone="a" tilt={-2}>
-          <Text class="px-6">Band A, tilted −2° on ≥ lg; the text stays straight.</Text>
-        </SectionBand>
-        <SectionBand tone="b" tilt={2}>
-          <Text class="px-6">Band B, tilted 2°.</Text>
-        </SectionBand>
-        <StackChips links={stackLinks(sample, skills)} />
         <PrevNext prev={projects[0]} next={projects[1]} />
         <PrevNext prev={undefined} next={projects[1]} />
       </section>
 
-      <section class="flex flex-col gap-6">
+      <section class="flex flex-col gap-10">
         <Heading level={2} size={6}>
-          Hero data core
+          Inner-page primitives
         </Heading>
         <Text size={2} tone={2}>
-          HeroScene: starts after load and idle on ≥ 1024px with motion and WebGL2; otherwise
-          nothing renders and the gradient poster behind it shows. Move the pointer to see the
-          parallax. CoverCard and CloudCard above tilt toward a fine pointer.
+          ADR 0008 (L-21): PageHeader, SectionRow, LedgerList with LedgerRow, MetaList and
+          InlineLinkList. Hairlines and type only; the accent appears on links and hover.
         </Text>
-        <div class="pf-hero-glow relative h-120 overflow-hidden rounded-lg border border-border-1">
-          <HeroScene />
+        <PageHeader title="Page title" lead="One lead paragraph in grey, at most 720px wide.">
+          <PrimaryAction slot="actions" href="#" label="Primary action" />
+        </PageHeader>
+        <MetaList
+          items={[
+            { label: 'Client', value: 'Sample client' },
+            { label: 'Role', value: 'Senior Salesforce Developer' },
+            { label: 'Team size', value: '' },
+            { label: 'Clouds', value: ['Service Cloud', 'Experience Cloud'] },
+          ]}
+        />
+        <SectionRow label="Section label" id="gallery-section-row" level={3}>
+          <p>The body column holds prose, lists or a ledger.</p>
+          <InlineLinkList
+            items={[
+              { label: 'Linked item', href: '#' },
+              { label: 'Plain item' },
+              { label: 'Another', href: '#' },
+            ]}
+          />
+        </SectionRow>
+        <LedgerList>
+          <LedgerRow
+            href="#"
+            title="Ledger row"
+            subtitle="Subtitle"
+            meta="Client · Employer"
+            tags={['Tag one', 'Tag two']}
+          />
+          <LedgerRow href="#" title="External row" external />
+        </LedgerList>
+      </section>
+
+      <section class="flex flex-col gap-6">
+        <Heading level={2} size={6}>
+          Sculpted shapes
+        </Heading>
+        <Text size={2} tone={2}>
+          SculptedShape: one per Home section (LandingSection's shape prop), clipped by its box.
+        </Text>
+        <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {(['ring', 'tube', 'wave', 'blob', 'chevron'] as const).map((variant) => (
+            <li class="relative isolate h-64 overflow-clip rounded-lg border border-border-1 p-4">
+              <SculptedShape variant={variant} id={`gallery-shape-${variant}`} />
+              <Text size={2}>{variant}</Text>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section class="flex flex-col gap-6">
+        <Heading level={2} size={6}>
+          Hero cloud globe
+        </Heading>
+        <Text size={2} tone={2}>
+          HeroGlobe: the poster and the cloud links on their arc for everyone; on ≥ 1024px with
+          motion and WebGL2 the live globe starts after load and idle, swings the links, and shows
+          the pause toggle. Below 1024px the links wrap above a cropped poster.
+        </Text>
+        <div class="relative isolate h-150 overflow-hidden rounded-lg border border-border-1">
+          <HeroGlobe clouds={skills.filter((skill) => skill.group === 'clouds').slice(0, 5)} />
         </div>
       </section>
 

@@ -1,0 +1,58 @@
+---
+// DESIGN §9 LedgerRow (ADR 0008): one list item whose whole row is one link. Title, optional
+// subtitle and meta line, optional tags as plain text on the right, and an arrow that turns
+// `accent-1` on hover and focus. A hairline under each row; LedgerList draws the top one.
+import type { HTMLAttributes } from 'astro/types';
+import Icon from '@/components/ui/Icon.astro';
+import { localeFromPath, strings } from '@/lib/i18n';
+
+// Other attributes (e.g. `data-*` for WorkFilters) go on the list item.
+type Props = Omit<HTMLAttributes<'li'>, 'title'> & {
+  href: string;
+  title: string;
+  subtitle?: string;
+  meta?: string;
+  tags?: string[];
+  /** Opens in a new tab, with an up-right arrow and a "new tab" note for screen readers. */
+  external?: boolean;
+  level?: 2 | 3;
+};
+
+const ui = strings(localeFromPath(Astro.url.pathname));
+const {
+  href,
+  title,
+  subtitle,
+  meta,
+  tags = [],
+  external = false,
+  level = 3,
+  class: className,
+  ...rest
+} = Astro.props;
+const Tag = `h${level}` as const;
+---
+
+<li class:list={['border-b border-border-1', className]} {...rest}>
+  <a
+    href={href}
+    {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+    class="group grid gap-x-8 gap-y-2 py-6 no-underline sm:grid-cols-[minmax(0,1fr)_auto] sm:items-baseline"
+  >
+    <div class="flex min-w-0 flex-col gap-1">
+      <Tag class="text-5 font-semibold tracking-normal text-on-surface-1 transition-colors duration-150 group-hover:text-accent-1">
+        {title}
+        {external && <span class="sr-only"> ({ui.nav.newTab})</span>}
+      </Tag>
+      {subtitle && <p class="text-3 text-on-surface-2">{subtitle}</p>}
+      {meta && <p class="text-2 text-on-surface-2">{meta}</p>}
+    </div>
+    <div class="flex items-baseline gap-4 sm:justify-end">
+      {tags.length > 0 && <p class="text-2 text-on-surface-2">{tags.join(' · ')}</p>}
+      <Icon
+        name={external ? 'arrow-up-right' : 'arrow-right'}
+        class="shrink-0 self-center text-on-surface-2 transition-colors duration-150 group-hover:text-accent-1 group-focus-visible:text-accent-1"
+      />
+    </div>
+  </a>
+</li>

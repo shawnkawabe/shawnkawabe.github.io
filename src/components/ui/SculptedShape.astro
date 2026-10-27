@@ -1,0 +1,81 @@
+---
+// One large, soft, monochrome shape behind a Home section (BACKLOG-LANDING L-38,
+// docs/reference/sculpted-gradients.md). Our own geometry as inline SVG: a gradient runs from the
+// lit side (`shape-lit`) to the shade (`shape-shade`) and fades out at the far end, which stands
+// in for the reference's shallow-focus blur without a costly filter. Decorative, so aria-hidden.
+// Its own layer clips it sideways only, reaching under the rail gutter on lg,
+// so no hard edge shows beside the rail; strokes may spill past the viewBox. The parent keeps it
+// behind its content (`isolate`).
+export type ShapeVariant = 'ring' | 'tube' | 'wave' | 'blob' | 'chevron';
+
+interface Props {
+  variant: ShapeVariant;
+  /** Unique on the page: the gradient is referenced by id. */
+  id: string;
+}
+
+type Geometry = { d: string; stroke?: number; place: string };
+
+const SHAPES: Record<ShapeVariant, Geometry> = {
+  ring: {
+    d: 'M 500 160 A 340 340 0 1 1 499.9 160 Z',
+    stroke: 150,
+    place: '-right-[22vw] top-1/2 w-[min(64rem,90vw)] -translate-y-1/2',
+  },
+  tube: {
+    d: 'M 60 760 C 260 360, 520 900, 760 480 S 940 140, 940 140',
+    stroke: 170,
+    place: '-right-[12vw] -bottom-[18%] w-[min(60rem,100vw)]',
+  },
+  wave: {
+    d: 'M 40 620 C 200 380, 360 380, 500 560 S 800 760, 960 460',
+    stroke: 160,
+    place: '-right-[22vw] -top-[20%] w-[min(68rem,110vw)]',
+  },
+  blob: {
+    d: 'M 520 120 C 760 100, 920 300, 880 520 C 840 760, 640 900, 420 860 C 200 820, 80 640, 120 420 C 160 220, 320 140, 520 120 Z',
+    place: '-left-[20vw] top-[8%] w-[min(52rem,85vw)]',
+  },
+  chevron: {
+    d: 'M 260 140 L 700 500 L 260 860',
+    stroke: 170,
+    place: '-right-[14vw] top-1/2 w-[min(44rem,70vw)] -translate-y-1/2',
+  },
+};
+
+const { variant, id } = Astro.props;
+const shape = SHAPES[variant];
+const paint = `url(#${id})`;
+---
+
+<div
+  aria-hidden="true"
+  class="pointer-events-none absolute inset-0 -z-10 overflow-x-clip lg:-left-30"
+>
+  <svg
+    focusable="false"
+    viewBox="0 0 1000 1000"
+    data-shape={variant}
+    class:list={['absolute aspect-square h-auto overflow-visible', shape.place]}
+  >
+    <defs>
+      <linearGradient id={id} x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" style="stop-color: var(--pf-g-color-shape-lit)"></stop>
+        <stop offset="0.55" style="stop-color: var(--pf-g-color-shape-shade)"></stop>
+        <stop offset="1" style="stop-color: var(--pf-g-color-shape-shade); stop-opacity: 0"></stop>
+      </linearGradient>
+    </defs>
+    {shape.stroke ? (
+      <path
+        d={shape.d}
+        fill="none"
+        stroke={paint}
+        stroke-width={shape.stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    ) : (
+      <path d={shape.d} fill={paint} />
+    )}
+  </svg>
+</div>

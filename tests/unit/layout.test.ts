@@ -13,7 +13,7 @@ beforeAll(async () => {
   container = await AstroContainer.create({ renderers });
 });
 
-const meta = { title: 'Work — Shawn Kawabe', description: 'Projects.' };
+const meta = { title: 'Work | Shawn Kawabe', description: 'Projects.' };
 /** Attribute values come out HTML-escaped (the role contains `&`). */
 const attr = (value: string) => value.replaceAll('&', '&amp;');
 const render = (props: Record<string, unknown>, path = '/work/') =>
@@ -26,14 +26,14 @@ const render = (props: Record<string, unknown>, path = '/work/') =>
 describe('BaseLayout', () => {
   it('renders title, description, canonical and absolute social image URLs', async () => {
     const html = await render({ meta });
-    expect(html).toContain('<title>Work — Shawn Kawabe</title>');
+    expect(html).toContain('<title>Work | Shawn Kawabe</title>');
     expect(html).toContain('<meta name="description" content="Projects.">');
     expect(html).toContain('<link rel="canonical" href="https://shawnkawabe.github.io/work/">');
     expect(html).toContain(
       '<meta property="og:image" content="https://shawnkawabe.github.io/og/work.png">',
     );
     expect(html).toContain(
-      `<meta property="og:image:alt" content="${attr(`Work — Shawn Kawabe, ${siteJson.role}`)}">`,
+      `<meta property="og:image:alt" content="${attr(`Work | Shawn Kawabe, ${siteJson.role}`)}">`,
     );
     expect(html).toContain('<meta name="twitter:card" content="summary_large_image">');
   });

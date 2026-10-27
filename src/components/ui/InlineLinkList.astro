@@ -1,0 +1,34 @@
+---
+// DESIGN §9 InlineLinkList (ADR 0008): items in a wrapping line split by a grey middot; items with
+// a destination are links, the rest plain text. The middots are decorative and follow their item,
+// so a wrapped line never starts with one. Items flow inline like text, so a long item wraps
+// within the line instead of taking a line of its own. Links keep the soft base underline, so they
+// differ from plain items by more than colour (WCAG 1.4.1, axe link-in-text-block).
+interface Props {
+  items: { label: string; href?: string }[];
+  class?: string;
+}
+
+const { items, class: className } = Astro.props;
+---
+
+{items.length > 0 && (
+  <ul class:list={['text-3', className]}>
+    {items.map((item, index) => (
+      <li class="inline">
+        {item.href ? (
+          <a href={item.href} class="underline">
+            {item.label}
+          </a>
+        ) : (
+          <span class="text-on-surface-1">{item.label}</span>
+        )}
+        {index < items.length - 1 && (
+          <span aria-hidden="true" class="px-2 text-on-surface-3">
+            ·{' '}
+          </span>
+        )}
+      </li>
+    ))}
+  </ul>
+)}

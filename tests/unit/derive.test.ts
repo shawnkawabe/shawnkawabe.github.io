@@ -1,13 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import {
   cloudStats,
+  credentialSkills,
   filterProjects,
   inFileOrder,
   prevNext,
   skillGroupChips,
   skillStats,
   sortProjects,
-  withBentoSize,
 } from '@/lib/derive';
 import { certification, project, skill } from './fixtures';
 
@@ -160,24 +160,6 @@ describe('filterProjects', () => {
   });
 });
 
-describe('withBentoSize', () => {
-  const sizes = (counts: number[]) =>
-    withBentoSize(counts.map((projectCount) => ({ projectCount }))).map((cloud) => cloud.size);
-
-  it('makes the cloud with most projects 2×2 and those with at least half as many 2×1', () => {
-    expect(sizes([2, 7, 4, 3, 0])).toEqual(['base', 'feature', 'wide', 'base', 'base']);
-  });
-
-  it('gives a tie for the top to the first cloud', () => {
-    expect(sizes([5, 5])).toEqual(['feature', 'wide']);
-  });
-
-  it('never widens a cloud without projects', () => {
-    expect(sizes([0, 0])).toEqual(['feature', 'base']);
-    expect(sizes([])).toEqual([]);
-  });
-});
-
 describe('skillGroupChips (SPEC §5.4)', () => {
   const skills = [
     skill('sales-cloud', 'clouds', 'cloud-sales'),
@@ -200,5 +182,17 @@ describe('skillGroupChips (SPEC §5.4)', () => {
       { id: 'aura', label: 'aura', count: 0, href: undefined, accent: undefined },
     ]);
     expect(result[1].skills[0]).toMatchObject({ href: '/work?cloud=sales-cloud', count: 1 });
+  });
+});
+
+describe('credentialSkills', () => {
+  it('keeps known skills, clouds first, with their accent', () => {
+    const skills = [skill('apex', 'development'), skill('sales-cloud', 'clouds', 'cloud-sales')];
+    const result = credentialSkills(
+      certification('admin', ['apex', 'gone', 'sales-cloud']),
+      skills,
+    );
+    expect(result.map((entry) => entry.id)).toEqual(['sales-cloud', 'apex']);
+    expect(result[0].accent).toBe('cloud-sales');
   });
 });

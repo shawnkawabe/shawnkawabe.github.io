@@ -1,0 +1,63 @@
+---
+// Home "Products and tools" (BACKLOG-LANDING L-06): an indexed typographic list, not chips and not a
+// marquee. Mono number, the name at display size, and the number of projects that used it, all from
+// content. Rows link to Work filtered by the product when a project used it; otherwise plain text.
+import Icon from '@/components/ui/Icon.astro';
+import { plural } from '@/lib/format';
+import { localeFromPath, localePath, strings } from '@/lib/i18n';
+
+const locale = localeFromPath(Astro.url.pathname);
+const ui = strings(locale);
+
+interface Props {
+  items: { id: string; label: string; projectCount: number }[];
+}
+
+const { items } = Astro.props;
+const workPath = localePath(locale, '/work');
+const row =
+  'relative grid grid-cols-[3rem_1fr_auto] items-baseline gap-4 border-b border-border-1 py-5 no-underline';
+---
+
+<ol class="grid gap-x-12 lg:grid-cols-2">
+  {items.map((item, index) => {
+    const number = String(index + 1).padStart(2, '0');
+    const count = item.projectCount > 0 && plural(ui.cards.projects, item.projectCount);
+    const body = (
+      <>
+        <span aria-hidden="true" class="font-mono text-1 tracking-label text-on-surface-2">
+          {number}
+        </span>
+        <span class="font-heading text-6 text-on-surface-1 transition-[translate,color] duration-250 ease-standard group-hover:translate-x-2 group-focus-visible:translate-x-2">
+          {item.label}
+        </span>
+        <span class="flex items-center gap-2 font-mono text-1 tracking-label text-on-surface-2 uppercase transition-colors duration-250 group-hover:text-on-surface-1 group-focus-visible:text-on-surface-1">
+          {count}
+          {count && (
+            <Icon
+              name="arrow-up-right"
+              size={16}
+              class="opacity-0 transition-opacity duration-250 group-hover:opacity-100 group-focus-visible:opacity-100"
+            />
+          )}
+        </span>
+        {/* The accent rule sweeps in from the left on hover and focus. */}
+        <span
+          aria-hidden="true"
+          class="absolute inset-x-0 -bottom-px h-px origin-left scale-x-0 bg-accent-1 transition-transform duration-450 ease-emphasised group-hover:scale-x-100 group-focus-visible:scale-x-100"
+        />
+      </>
+    );
+    return (
+      <li data-product-row style={`--pf-row-index: ${index}`}>
+        {count ? (
+          <a href={`${workPath}?cap=${item.id}`} class:list={['group', row]}>
+            {body}
+          </a>
+        ) : (
+          <div class={row}>{body}</div>
+        )}
+      </li>
+    );
+  })}
+</ol>

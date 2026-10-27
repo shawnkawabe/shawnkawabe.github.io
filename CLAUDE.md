@@ -72,7 +72,7 @@ Run `npm run ci` before you say a task is done.
 ### Design
 
 5. **Use tokens only.** No raw hex, rgb, px font sizes or ad-hoc shadows in components. Use Tailwind classes mapped to `--pf-g-*` variables, or the variables directly.
-6. **Fonts:** Space Grotesk (headings), Inter (body/UI), JetBrains Mono (labels, code, data), Orbitron (hero name and cloud names only, ≥ 32px, never in sentences).
+6. **Fonts:** Geist Sans (display, headings, body/UI) and Geist Mono (labels, code, data), via the font tokens only (ADR 0007). Display style (−0.03em tracking) only at ≥ 32px. Mono labels never below 13px. Instrument Serif (`font-serif`) only for one outlined display word per page, at ≥ 48px (ADR 0009). Apple's SF and New York fonts are licensed for mock-ups only: never ship them.
 7. **Banned:** percentage skill bars, emoji as icons, purple-to-pink default gradients, glassmorphism on body text, autoplay audio, carousels that auto-advance, more than two 3D scenes per page.
 8. **Salesforce trademarks:** never draw, trace or imitate Salesforce or cloud logos. Product names appear as text. Shawn's name is always the most prominent brand. Footer carries the trademark notice from `content/{locale}/site.json`.
 

@@ -20,12 +20,6 @@
     "accent": "cloud-data"
   },
   {
-    "id": "platform",
-    "label": "Salesforce Platform",
-    "group": "clouds",
-    "accent": "cloud-platform"
-  },
-  {
     "id": "membership",
     "label": "Associações e Terceiro Setor",
     "group": "clouds",
@@ -52,12 +46,13 @@
     "label": "Bibliotecas de componentes reutilizáveis",
     "group": "development"
   },
+  { "id": "platform", "label": "Salesforce Platform", "group": "development" },
 
   { "id": "rest-soap", "label": "Integrações REST e SOAP", "group": "integration" },
   { "id": "sap-integration", "label": "Integração com SAP", "group": "integration" },
   { "id": "erp-migration", "label": "Migração de integrações de ERP", "group": "integration" },
   { "id": "external-credentials", "label": "Named e External Credentials", "group": "integration" },
-  { "id": "aws", "label": "AWS (App Runner, S3)", "group": "integration" },
+  { "id": "aws", "label": "AWS", "group": "integration" },
   { "id": "python-flask", "label": "APIs em Python Flask", "group": "integration" },
 
   { "id": "salesforce-dx", "label": "Salesforce DX", "group": "devops" },

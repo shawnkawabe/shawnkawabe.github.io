@@ -36,11 +36,6 @@ export const skillSchema = z.object({
 const section = z.discriminatedUnion('type', [
   z.object({ type: z.literal('challenge'), body: z.string() }),
   z.object({
-    type: z.literal('architecture'),
-    body: z.string().optional(),
-    image: image.optional(),
-  }),
-  z.object({
     type: z.literal('decisions'),
     items: z
       .array(
@@ -76,7 +71,7 @@ export const projectSchema = z.object({
   role: z.string(),
   teamSize: z.string().optional(),
   industry: z.string().optional(),
-  clouds: z.array(id).min(1),
+  clouds: z.array(id), // may be empty: platform-wide work sits under capabilities (L-05)
   capabilities: z.array(id),
   category: z.string(),
   featured: z.boolean().default(false),
@@ -101,6 +96,8 @@ export const experienceSchema = z.object({
 export const certificationSchema = z.object({
   id,
   label: z.string(),
+  // Grouping on the certifications ledger (BACKLOG-LANDING L-17), in this order.
+  domain: z.enum(['development', 'data-ai', 'admin']),
   skills: z.array(id), // no dates
 });
 
@@ -110,10 +107,10 @@ export const siteSchema = z.object({
   name: z.string(),
   role: z.string(),
   location: z.string(),
+  headline: z.string(), // one-line claim under the role (BACKLOG-LANDING L-16)
   intro: z.string(), // **term** = brighter highlight
   bio: z.array(z.string()).min(1),
   principles: z.array(z.object({ title: z.string(), body: z.string() })),
-  availability: z.string(),
   workIntro: z.string(),
   ctaLine: z.string(),
   workFacets: z.object({ clouds: z.string(), capabilities: z.array(id) }),
@@ -129,6 +126,8 @@ export const siteSchema = z.object({
   }),
   contact: z.object({
     intro: z.string(),
+    // The intro without "send a message", for builds without the form (SPEC §5.6).
+    introDirect: z.string(),
     projectTypes: z.array(z.string()).min(1),
     successMessage: z.string(),
     errorMessage: z.string(),

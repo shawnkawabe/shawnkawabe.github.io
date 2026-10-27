@@ -1,5 +1,12 @@
 import { describe, expect, it } from 'vitest';
-import { emphasisParts, employerNames, plural } from '@/lib/format';
+import {
+  credentialParts,
+  emphasisParts,
+  employerNames,
+  lastWordParts,
+  plural,
+  projectMeta,
+} from '@/lib/format';
 import { experience } from './fixtures';
 
 describe('employerNames', () => {
@@ -40,5 +47,49 @@ describe('emphasisParts', () => {
   it('returns plain text unchanged and drops empty parts', () => {
     expect(emphasisParts('No emphasis')).toEqual([{ text: 'No emphasis', strong: false }]);
     expect(emphasisParts('**All**')).toEqual([{ text: 'All', strong: true }]);
+  });
+});
+
+describe('credentialParts', () => {
+  it('splits the issuer off at "Certified"', () => {
+    expect(credentialParts('Salesforce Certified Platform Developer I')).toEqual({
+      issuer: 'Salesforce Certified',
+      title: 'Platform Developer I',
+    });
+  });
+
+  it('keeps a name without "Certified" whole', () => {
+    expect(credentialParts(' Scrum Master ')).toEqual({ issuer: '', title: 'Scrum Master' });
+  });
+});
+
+describe('lastWordParts', () => {
+  it('splits before the last word and keeps the space with the lead', () => {
+    expect(lastWordParts(' CRM solutions that teams actually adopt. ')).toEqual({
+      lead: 'CRM solutions that teams actually ',
+      last: 'adopt.',
+    });
+  });
+
+  it('returns a single word as the last part', () => {
+    expect(lastWordParts('Hello')).toEqual({ lead: '', last: 'Hello' });
+  });
+});
+
+describe('projectMeta', () => {
+  const experience = [
+    { id: 'globant', employer: 'Globant', role: 'Developer', projectIds: [] },
+    { id: 'nescara', employer: 'Nescara', role: 'Developer', projectIds: [] },
+    { id: 'orchid', employer: 'Orchid', role: 'Developer', projectIds: [] },
+  ];
+
+  it('names the client, then the delivering employers', () => {
+    expect(projectMeta({ client: 'BRF S.A.', employers: ['nescara', 'globant'] }, experience)).toBe(
+      'BRF S.A. · Nescara · Globant',
+    );
+  });
+
+  it('names the client once when the employer is the client', () => {
+    expect(projectMeta({ client: 'Orchid', employers: ['orchid'] }, experience)).toBe('Orchid');
   });
 });

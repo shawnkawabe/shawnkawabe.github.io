@@ -1,13 +1,14 @@
 ---
-// SPEC §5.3: one page per project; sections in fixed order, each only when its data exists.
-// `depth: "card"` projects get cover, snapshot, challenge, outcomes, stack and prev/next.
-import DecisionCards from '@/components/patterns/DecisionCards.astro';
+// SPEC §5.3 (ADR 0008, L-24): one page per project, as a consultancy page. Each section is a
+// SectionRow and renders only when its data exists; `depth: "card"` projects get the challenge,
+// outcomes and stack. No cover, tilted band or outcome boxes.
+import DecisionList from '@/components/patterns/DecisionList.astro';
 import Gallery from '@/components/patterns/Gallery.astro';
 import Outcomes from '@/components/patterns/Outcomes.astro';
-import SectionBand from '@/components/patterns/SectionBand.astro';
-import StackChips from '@/components/patterns/StackChips.astro';
+import InlineLinkList from '@/components/ui/InlineLinkList.astro';
+import SectionRow from '@/components/ui/SectionRow.astro';
 import CaseStudyLayout from '@/layouts/CaseStudyLayout.astro';
-import { caseStudySections, stackLinks, visibleImage } from '@/lib/case-study';
+import { caseStudySections, stackLinks } from '@/lib/case-study';
 import {
   getExperience,
   getProjects,
@@ -43,7 +44,7 @@ const [projects, skills, experience] = await Promise.all([
 ]);
 const { prev, next } = prevNext(projects, project.id);
 const sections = caseStudySections(project, publicFileExists);
-const { challenge, architecture, decisions, gallery, outcomes, takeaway } = sections;
+const { challenge, decisions, gallery, outcomes, takeaway } = sections;
 const galleryImages = await Promise.all(
   (gallery?.images ?? []).map(async (image) => ({
     ...image,
@@ -51,76 +52,43 @@ const galleryImages = await Promise.all(
   })),
 );
 const t = ui.caseStudy;
-
-const column = 'mx-auto flex w-full flex-col gap-6 px-4 sm:px-6 lg:px-8';
-const text = `${column} max-w-180`;
-const media = `${column} max-w-300`;
+const skillLabels = new Map(skills.map((skill) => [skill.id, skill.label]));
+const clouds = project.clouds.flatMap((id) => skillLabels.get(id) ?? []);
 ---
 
 <CaseStudyLayout
   project={project}
-  coverImage={visibleImage(project.cover.image, publicFileExists)}
   deliveredVia={employerNames(project, experience)}
-  skills={skills}
+  clouds={clouds}
   prev={prev}
   next={next}
 >
   {challenge && (
-    <section class={text}>
-      <h2>{t.challenge}</h2>
-      <p class="text-3">{challenge.body}</p>
-    </section>
-  )}
-  {architecture && (
-    <SectionBand tone="a" tilt={-1}>
-      <section class={media}>
-        <h2 class="max-w-180">{t.architecture}</h2>
-        {architecture.body && <p class="max-w-180 text-3">{architecture.body}</p>}
-        {architecture.image && (
-          <figure class="flex flex-col gap-2">
-            <img
-              src={architecture.image.src}
-              alt={architecture.image.alt}
-              loading="lazy"
-              decoding="async"
-              class="w-full rounded-md border border-border-1"
-            />
-            {architecture.image.caption && (
-              <figcaption class="text-2 text-on-surface-2">{architecture.image.caption}</figcaption>
-            )}
-          </figure>
-        )}
-      </section>
-    </SectionBand>
+    <SectionRow label={t.challenge} id="challenge">
+      <p class="text-4">{challenge.body}</p>
+    </SectionRow>
   )}
   {decisions && (
-    <section class={media}>
-      <h2>{t.decisions}</h2>
-      <DecisionCards items={decisions.items} />
-    </section>
-  )}
-  {gallery && (
-    <section class={media}>
-      <h2>{t.gallery}</h2>
-      <Gallery images={galleryImages} />
-    </section>
+    <SectionRow label={t.decisions} id="decisions">
+      <DecisionList items={decisions.items} />
+    </SectionRow>
   )}
   {outcomes && (
-    <section class={text}>
-      <h2>{t.outcomes}</h2>
+    <SectionRow label={t.outcomes} id="outcomes">
       <Outcomes items={outcomes.items} />
-    </section>
+    </SectionRow>
   )}
-  <section class={text}>
-    <h2>{t.stack}</h2>
-    <StackChips links={stackLinks(project, skills, localePath(locale, '/work'))} />
-  </section>
+  <SectionRow label={t.stack} id="stack">
+    <InlineLinkList items={stackLinks(project, skills, localePath(locale, '/work'))} />
+  </SectionRow>
+  {gallery && (
+    <SectionRow label={t.gallery} id="gallery">
+      <Gallery images={galleryImages} />
+    </SectionRow>
+  )}
   {takeaway && (
-    <SectionBand tone="b" tilt={1}>
-      <section class={text}>
-        <h2>{t.takeaway}</h2>
-        <p class="text-4">{takeaway.body}</p>
-      </section>
-    </SectionBand>
+    <SectionRow label={t.takeaway} id="takeaway">
+      <p class="font-heading text-6 text-balance">{takeaway.body}</p>
+    </SectionRow>
   )}
 </CaseStudyLayout>

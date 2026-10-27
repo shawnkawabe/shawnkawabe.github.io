@@ -8,8 +8,8 @@ Visual references: `docs/reference/` (Once UI Magic Portfolio). Match their spac
 
 ## 1. Principles
 
-1. **Calm surface, sharp signal.** Dark, quiet backgrounds; colour and glow are reserved for things that matter (active state, primary action, the cloud you are looking at).
-2. **Evidence over adjectives.** Components display counts, dates and names, not ratings.
+1. **Calm surface, sharp signal.** Dark, quiet backgrounds; colour is reserved for things that matter (links, focus, the primary action). Inner pages use no glow, tilt or lift (ADR 0008).
+2. **Evidence over adjectives.** Components display names and measured facts, never ratings, meters or dates.
 3. **One idea per screen.** Every section has one headline and one action.
 4. **Motion explains, never decorates.** Animate to show relationships (hover → related items light up), not to fill time.
 5. **Accessible by construction.** Contrast and focus are tokens, not afterthoughts.
@@ -58,29 +58,31 @@ Not tokens (composed in CSS from tokens): `shadow-glow`, cover gradients (§3.3)
 
 ### 3.1 Semantic palette
 
-| Token             | Role                          | Dark                     | Light                   |
-| ----------------- | ----------------------------- | ------------------------ | ----------------------- |
-| `surface-0`       | Page background               | `#0E0F13`                | `#FAFAFB`               |
-| `surface-1`       | Default section               | `#16171B`                | `#FFFFFF`               |
-| `surface-2`       | Cards, nav rail               | `#1E1F24`                | `#F4F5F7`               |
-| `surface-3`       | Raised: menus, panels         | `#26282E`                | `#ECEEF2`               |
-| `on-surface-1`    | Primary text                  | `#F4F4F6`                | `#121318`               |
-| `on-surface-2`    | Secondary text                | `#A0A3AD`                | `#555A66`               |
-| `on-surface-3`    | Tertiary, captions            | `#6E7280`                | `#7C8190`               |
-| `border-1`        | Hairlines                     | `rgba(255,255,255,0.08)` | `rgba(0,0,0,0.08)`      |
-| `border-2`        | Emphasised borders            | `rgba(255,255,255,0.16)` | `rgba(0,0,0,0.16)`      |
-| `accent-1`        | Links, primary action, focus  | `#4DA9FF`                | `#0B5CD5`               |
-| `accent-1-strong` | Hover/pressed of accent       | `#7CC0FF`                | `#0848A8`               |
-| `accent-2`        | Secondary highlight (violet)  | `#8B7CF6`                | `#5B3FD6`               |
-| `accent-3`        | Tertiary highlight (teal)     | `#5ED3C3`                | `#0E8A7A`               |
-| `on-accent`       | Text on accent fills          | `#06121F`                | `#FFFFFF`               |
-| `success`         | Success                       | `#4ADE80`                | `#15803D`               |
-| `warning`         | Warning                       | `#FBBF24`                | `#B45309`               |
-| `error`           | Error                         | `#F87171`                | `#B91C1C`               |
-| `focus-ring`      | Focus outline                 | `#4DA9FF`                | `#0B5CD5`               |
-| `glow-1`          | Accent glow                   | `rgba(77,169,255,0.35)`  | `rgba(11,92,213,0.20)`  |
-| `band-a`          | Case-study band tint (violet) | `rgba(139,124,246,0.08)` | `rgba(91,63,214,0.06)`  |
-| `band-b`          | Case-study band tint (teal)   | `rgba(94,211,195,0.08)`  | `rgba(14,138,122,0.06)` |
+Neutral charcoal and greys with no blue tint (BACKLOG-LANDING L-36). The accent marks only the primary action, links, focus and selected states. No page has a grid backdrop. Every text colour meets AA on every surface in both themes, enforced by `tests/unit/tokens.test.ts`.
+
+| Token             | Role                         | Dark                     | Light                  |
+| ----------------- | ---------------------------- | ------------------------ | ---------------------- |
+| `surface-0`       | Page background              | `#131313`                | `#FAFAFA`              |
+| `surface-1`       | Default section              | `#1A1A1A`                | `#FFFFFF`              |
+| `surface-2`       | Cards, nav rail              | `#212121`                | `#F4F4F4`              |
+| `surface-3`       | Raised: menus, panels        | `#2A2A2A`                | `#EBEBEB`              |
+| `on-surface-1`    | Primary text                 | `#F2F2F2`                | `#141414`              |
+| `on-surface-2`    | Secondary text               | `#A3A3A3`                | `#575757`              |
+| `on-surface-3`    | Tertiary, captions           | `#949494`                | `#666666`              |
+| `border-1`        | Hairlines                    | `rgba(255,255,255,0.08)` | `rgba(0,0,0,0.08)`     |
+| `border-2`        | Emphasised borders           | `rgba(255,255,255,0.16)` | `rgba(0,0,0,0.16)`     |
+| `accent-1`        | Links, primary action, focus | `#4DA9FF`                | `#0B5CD5`              |
+| `accent-1-strong` | Hover/pressed of accent      | `#7CC0FF`                | `#0848A8`              |
+| `accent-2`        | Secondary highlight (violet) | `#8B7CF6`                | `#5B3FD6`              |
+| `accent-3`        | Tertiary highlight (teal)    | `#5ED3C3`                | `#0E8A7A`              |
+| `on-accent`       | Text on accent fills         | `#06121F`                | `#FFFFFF`              |
+| `success`         | Success                      | `#4ADE80`                | `#15803D`              |
+| `warning`         | Warning                      | `#FBBF24`                | `#B45309`              |
+| `error`           | Error                        | `#F87171`                | `#B91C1C`              |
+| `focus-ring`      | Focus outline                | `#4DA9FF`                | `#0B5CD5`              |
+| `glow-1`          | Accent glow                  | `rgba(77,169,255,0.35)`  | `rgba(11,92,213,0.20)` |
+| `shape-shade`     | Section shape, shaded side   | `#1A1A1A`                | `#EBEBEB`              |
+| `shape-lit`       | Section shape, lit side      | `#2A2A2A`                | `#FFFFFF`              |
 
 Contrast requirements (checked in CI by axe and manually in the token PR):
 
@@ -88,6 +90,7 @@ Contrast requirements (checked in CI by axe and manually in the token PR):
 - `on-surface-2` on `surface-0…2`: ≥ 4.5:1.
 - `on-surface-3`: only for text ≥ 18px or non-essential captions; ≥ 3:1.
 - `accent-1` text on `surface-1`: ≥ 4.5:1.
+- Every text colour on `shape-shade` and `shape-lit`: ≥ 4.5:1, since section text crosses the shapes (L-38, checked in `tests/unit/tokens.test.ts`).
 
 ### 3.2 Cloud accents
 
@@ -116,24 +119,25 @@ Four presets reproducing the references in `docs/reference/cover-*.jpg`. Impleme
 | `violet-edge` | `cover-violet-edge.jpg` | Left half violet `#4A3C9E` → blue `#4D7BD6`, hard falloff to `#050816`                                         |
 | `solid-blue`  | `cover-solid-blue.jpg`  | Flat `#1048F0`; used for highlight/link tiles only                                                             |
 
-Cover title: Space Grotesk 700, `font-size-8` desktop / `font-size-6` mobile, `#FFFFFF`; subtitle Inter 500, `rgba(255,255,255,0.7)`. Title contrast against the busiest gradient area must stay ≥ 4.5:1 (add a 20% black scrim if not).
+Cover title: Geist 700, `font-size-8` desktop / `font-size-6` mobile, `#FFFFFF`; subtitle Geist 500, `rgba(255,255,255,0.7)`. Title contrast against the busiest gradient area must stay ≥ 4.5:1 (add a 20% black scrim if not).
 
 ## 4. Typography
 
-| Role                             | Family                    | Weights | Token                 |
-| -------------------------------- | ------------------------- | ------- | --------------------- |
-| Display (hero name, cloud names) | Orbitron (variable)       | 500–800 | `font-family-display` |
-| Headings                         | Space Grotesk (variable)  | 500–700 | `font-family-heading` |
-| Body, UI                         | Inter (variable)          | 400–600 | `font-family-body`    |
-| Labels, code, data               | JetBrains Mono (variable) | 400–600 | `font-family-mono`    |
+| Role                               | Family                | Weights | Token                          |
+| ---------------------------------- | --------------------- | ------- | ------------------------------ |
+| Display (hero name, cloud names)   | Geist Sans (variable) | 600–800 | `font-family-display`          |
+| Headings                           | Geist Sans (variable) | 500–700 | `font-family-heading`          |
+| Body, UI                           | Geist Sans (variable) | 400–600 | `font-family-body`             |
+| Labels, code, data                 | Geist Mono (variable) | 400–600 | `font-family-mono`             |
+| One outlined display word (≥ 48px) | Instrument Serif      | 400     | `font-family-serif` (ADR 0009) |
 
-Self-host via Fontsource packages; preload Space Grotesk 600 and Inter 400 WOFF2 (Latin subset). `font-display: swap`. Fallbacks: `ui-sans-serif, system-ui, sans-serif` / `ui-monospace, monospace`.
+Self-host via Fontsource packages (ADR 0007); preload the Geist variable WOFF2 (Latin subset) only. `font-display: swap`. Fallbacks: `'Geist Fallback'` (Arial with metric overrides, so the swap moves no text), then `ui-sans-serif, system-ui, sans-serif` / `ui-monospace, monospace`.
 
 ### Scale (fluid between 375px and 1440px)
 
 | Token         | Min → max | Line height | Use                   |
 | ------------- | --------- | ----------- | --------------------- |
-| `font-size-1` | 12px      | 1.5         | Captions, mono labels |
+| `font-size-1` | 13px      | 1.5         | Captions, mono labels |
 | `font-size-2` | 14px      | 1.5         | UI, chips, meta       |
 | `font-size-3` | 16px      | 1.6         | Body                  |
 | `font-size-4` | 18 → 20px | 1.5         | Lead paragraphs       |
@@ -141,9 +145,9 @@ Self-host via Fontsource packages; preload Space Grotesk 600 and Inter 400 WOFF2
 | `font-size-6` | 24 → 32px | 1.2         | H3                    |
 | `font-size-7` | 32 → 44px | 1.15        | H2, section titles    |
 | `font-size-8` | 40 → 64px | 1.05        | H1, cover titles      |
-| `font-size-9` | 48 → 88px | 1.0         | Hero name (Orbitron)  |
+| `font-size-9` | 48 → 88px | 1.0         | Hero name (display)   |
 
-Rules: Orbitron only at `font-size-7` and above and never in sentences. Letter-spacing: display −0.01em; mono labels +0.04em uppercase. Max line length 68ch for body.
+Rules: display style only at `font-size-7` and above. Letter-spacing tightens with size: display −0.03em, h1 −0.025em, h2 −0.02em, h3 −0.01em; mono labels +0.08em uppercase on Home only (inner pages use mono in sentence case without tracking, ADR 0008), never below 13px. Max line length 68ch for body.
 
 ## 5. Space, size, shape
 
@@ -165,8 +169,10 @@ Rules: Orbitron only at `font-size-7` and above and never in sentences. Letter-s
 | `easing-standard`   | `cubic-bezier(0.2, 0, 0, 1)`   | Default                      |
 | `easing-emphasised` | `cubic-bezier(0.3, 0, 0, 1.2)` | Panel enter only             |
 
-- Card hover: translateY(−2px) + `shadow-1` → stronger + border to `border-2`, `duration-base`.
-- Card tilt (`CoverCard`, `CloudCard`, `data-tilt`): with a fine pointer the card leans toward it, at most 6°, through `perspective(900px)`; flat for touch, reduced motion and without JavaScript (`src/lib/tilt.ts`).
+- **Inner pages (ADR 0008):** hover changes text colour or underline only, `duration-fast`. No lift, glow or tilt.
+- Home: index rows nudge sideways and sweep an `accent-1` rule on hover and focus (L-40). No card lifts or tilts anywhere since L-22; `src/lib/tilt.ts` was removed in L-28.
+- Rail (L-32): collapsing folds the pill into the circle (height `auto` → 4rem over `duration-slow`, `interpolate-size`), the body fading out first; expanding fades the groups in with a 30ms stagger. Tooltips slide 4px in with their fade.
+- Links: underline fades from 35% to full and rises from 0.3em to 0.18em offset, `duration-base`. Buttons press to 98% on click; a trailing arrow nudges 2px forward on hover.
 - Section reveal (`Reveal`, CSS + IntersectionObserver, ADR 0005): opacity 0 → 1, y 16 → 0, `duration-slow`, once.
 - Hero text: split by word at build time (`SplitWords`), CSS 30ms stagger, once.
 - Marquee: 40s per loop, linear; pause on hover/focus.
@@ -174,8 +180,15 @@ Rules: Orbitron only at `font-size-7` and above and never in sentences. Letter-s
 
 ## 7. 3D
 
-- Scenes: **Hero data core** (abstract particles/rings, very slow, pointer parallax; `HeroScene.astro` gate script → `DataCoreCanvas`, starts after load + idle) and **Clouds constellation** (orbiting nodes with light pulses along the links). No others in the MVP. Both run only on ≥ 1024px with motion allowed and WebGL2.
-- Hero motion, in order: the shell gathers in from outside (3.2 s ease-out), then packets stream from shell points into the heart, a scan ring sweeps the shell like a pendulum (14 s), and the scene rises and shrinks 20 % as the hero scrolls away. Constellation: a faint orbit track and a dust disc turning slowly against the orbit; hovering a cloud doubles its link pulse and dims the others to 40 %. The maths lives in `src/lib/data-core.ts` (pure, tested).
+- Scenes: **Hero cloud globe** (BACKLOG-LANDING L-35; `HeroGlobe.astro` gate script → `GlobeCanvas`, starts after load + idle) and **Clouds constellation** (orbiting nodes with light pulses along the links). No others in the MVP. Both run only on ≥ 1024px with motion allowed and WebGL2.
+- Hero globe:
+  - **Look:** a gunmetal sphere lit from the upper left (`globe-shade`, `globe-lit`), with the continents as about 8.6k dots (`globe-dot`). The dots are baked from Natural Earth (`npm run globe:land`).
+  - **Framing:** the sphere rises from the bottom edge, and the clouds Shawn worked in sit on a dashed arc above it as moons.
+  - **Moons:** each one is a real HTML link to Work filtered by the cloud.
+  - **Motion:** the sphere turns once every 120 s, and the moons swing ±5° around their homes at their own pace. Hovering or focusing a moon holds them, and a round toggle pauses everything (WCAG 2.2.2).
+  - **Alignment:** the poster (`npm run globe:poster`, one per theme), the CSS arc and the orthographic canvas share one framing in `src/lib/globe.ts`, so they line up at any size.
+  - **Poster:** it is the fallback for mobile, reduced motion and missing WebGL2, and the scene cross-fades in over it.
+- Constellation: a faint orbit track and a dust disc turning slowly against the orbit; hovering a cloud doubles its link pulse and dims the others to 40 %. The globe maths lives in `src/lib/globe.ts` (pure, tested).
 - Colours are read at runtime with `getComputedStyle(document.documentElement).getPropertyValue('--pf-g-color-…')` and re-read on the `pf-themechange` event, so scenes follow the theme.
 - Materials: emissive, low-poly, no textures > 512px. Bloom only if it stays within budget.
 - Budget per scene: ≤ 1 MB gzipped (JS + assets), ≤ 100K triangles, DPR ≤ 2, 60fps target on a mid-range laptop, 30fps acceptable on mobile.
@@ -191,25 +204,29 @@ Rules: Orbitron only at `font-size-7` and above and never in sentences. Letter-s
 
 ## 9. Component visual specs
 
-| Component           | Spec                                                                                                                                                                                                                                                                                                                             |
-| ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **NavRail**         | Tooltips are CSS-only (no shadcn Tooltip). Width 64px, padding `spacing-2`, `surface-2` at 90% + backdrop blur 12px, `radius-pill`, `shadow-1`. Items 40px circles, icon 20px `on-surface-2`; active: `surface-3` fill, icon `on-surface-1`, 4px dot below. Divider 24px `border-1`. Fixed `top: spacing-16`, `left: spacing-6`. |
-| **TopBar (mobile)** | Height 56px, `surface-1` at 90% + blur, bottom `border-1`, name in Space Grotesk 600 `font-size-4`.                                                                                                                                                                                                                              |
-| **Button**          | Height 40 (md) / 48 (lg), padding x `spacing-5`, `radius-pill`. Brand: `accent-1` bg, `on-accent` text, hover `accent-1-strong`. Neutral: `surface-3` bg, `border-1`. Ghost: transparent, `on-surface-2`, hover `surface-2`. Focus: 2px `focus-ring` outline, 2px offset.                                                        |
-| **Chip**            | Height 28, padding x `spacing-3`, `radius-pill`, mono `font-size-1` uppercase or Inter `font-size-2`; default `surface-3` + `border-1`; selected `accent-1` 16% fill + `accent-1` border + `on-surface-1` text; optional leading 8px dot in cloud accent.                                                                        |
-| **CoverCard**       | `radius-lg`, `surface-2`, 8px inner padding around a 16:9 cover (`radius-md`), footer row: icon 20px + title (`font-size-3` 600) + subtitle (`font-size-2` `on-surface-2`). Hover: lift + glow. Matches `01-home-once-ui.jpg`.                                                                                                   |
-| **ProjectCard**     | `radius-md`, `surface-2`, cover 16:9 top, body padding `spacing-5`: title `font-size-5`, summary 3 lines max, cloud chips (max 3 + "+N"), footer: client (mono) left, category right. No dates.                                                                                                                                  |
-| **CloudCard**       | `radius-lg`, `surface-2`, `border-1`, inner glow in cloud accent at 12% on hover; icon 32px, name Orbitron `font-size-6`, stats row mono.                                                                                                                                                                                        |
-| **SnapshotBar**     | Grid of label/value pairs, labels mono uppercase `on-surface-3`, values `on-surface-1`; top and bottom `border-1`.                                                                                                                                                                                                               |
-| **SectionBand**     | Full-bleed band with tone `band-a` or `band-b` (colour tokens, §3.1), optional rotation −2°…2° on ≥ lg, content counter-rotated so text is straight.                                                                                                                                                                             |
-| **Panel (side)**    | 400px, `surface-3`, `shadow-2`, `radius-lg` on the inner edge, enters from right with `easing-emphasised`.                                                                                                                                                                                                                       |
-| **Inputs**          | Height 44, `surface-1`, `border-2`, `radius-sm`; focus: `accent-1` border + `shadow-glow`; error: `error` border + message below in `error`.                                                                                                                                                                                     |
+| Component           | Spec                                                                                                                                                                                                                                                                                                                                                              |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **NavRail**         | Tooltips are CSS-only (no shadcn Tooltip). Width 64px, padding `spacing-2`, `surface-2` at 90% + backdrop blur 12px, `radius-pill`, `shadow-1`. Items 40px circles, icon 20px `on-surface-2`; active: `surface-3` fill, icon `on-surface-1`, 4px dot below. Divider 24px `border-1`. Fixed `top: spacing-16`, `left: spacing-6`.                                  |
+| **TopBar (mobile)** | Height 56px, `surface-1` at 90% + blur, bottom `border-1`, name in Geist 600 `font-size-4`.                                                                                                                                                                                                                                                                       |
+| **Button**          | Height 40 (md) / 48 (lg), padding x `spacing-5`, `radius-pill`. Brand: `accent-1` bg, `on-accent` text, hover `accent-1-strong`. Neutral: `surface-3` bg, `border-1`. Ghost: transparent, `on-surface-2`, hover `surface-2`. Focus: 2px `focus-ring` outline, 2px offset.                                                                                         |
+| **Chip**            | Height 28, padding x `spacing-3`, `radius-pill`, mono `font-size-1` in sentence case or Inter `font-size-2`; default `surface-3` + `border-1`; selected `accent-1` 16% fill + `accent-1` border + `on-surface-1` text; optional leading 8px dot in cloud accent.                                                                                                  |
+| **PageHeader**      | h1 `font-size-8`, lead `font-size-4` `on-surface-2`, max 720px, optional actions row (ADR 0008).                                                                                                                                                                                                                                                                  |
+| **SectionRow**      | Grid `[label 11rem] [body]` on ≥ lg, stacked below; label `font-size-2` `on-surface-2`, sentence case; `border-1` top hairline.                                                                                                                                                                                                                                   |
+| **LedgerRow**       | Whole row is one link: title `font-size-5` 600, subtitle `on-surface-2`, meta `font-size-2`; tags as text on the right; arrow turns `accent-1` on hover. `border-1` bottom hairline.                                                                                                                                                                              |
+| **MetaList**        | `dl` in an auto-fit grid; `dt` `font-size-2` `on-surface-2` sentence case, `dd` `on-surface-1`; top and bottom `border-1`. Replaces SnapshotBar.                                                                                                                                                                                                                  |
+| **InlineLinkList**  | Items separated by a middot in `on-surface-3`; items with a destination are links, the rest plain text.                                                                                                                                                                                                                                                           |
+| **Panel (side)**    | 400px, `surface-3`, `shadow-2`, `radius-lg` on the inner edge, enters from right with `easing-emphasised`.                                                                                                                                                                                                                                                        |
+| **SculptedShape**   | One large monochrome shape behind a Home section (L-38): ring, tube, wave, blob or chevron as inline SVG, our own geometry. Gradient `shape-lit` → `shape-shade` → transparent, light from the top left; no blur filter. `aria-hidden`, `-z-10`, bleeds off one or two edges; the section clips it sideways (`overflow-x-clip`). Never more than one per section. |
+| **Inputs**          | Height 44, `surface-1`, `border-2`, `radius-sm`; focus: `accent-1` border + 2px `focus-ring` outline; error: `error` border + message below in `error`.                                                                                                                                                                                                           |
 
 ## 10. Layout patterns
 
-- **Home hero:** left-aligned text column (max 720px) as in `01-home-once-ui.jpg`; 3D sits behind the right half on desktop, behind everything at 20% opacity on mobile.
-- **Card rows:** horizontal scroll-snap on < lg, 2–3 columns grid on ≥ lg.
-- **Case study:** alternating media/text blocks; media never wider than 1200px; text column 720px.
+- **Home hero:** name, role and a one-line claim on the left (max 720px); a solid `surface-2` fact card (Clouds, Certifications, Based in) on the right on ≥ lg, below the text on mobile. The 3D scene sits behind, dimmed.
+- **Page header (inner pages):** h1 + one lead paragraph, left-aligned, max 720px; no cover.
+- **Section row:** a narrow label column (about 11rem, `font-size-2`, `on-surface-2`, sentence case) beside a 720px body column, with a `border-1` hairline between rows. Stacks on < lg.
+- **Ledger list:** rows divided by `border-1` hairlines; each row is one link (title, subtitle, meta line, optional tags as text, arrow). No boxes, no covers.
+- **Typographic index (Home):** the benchmark from Products and tools (L-40, `docs/reference/benchmark-audit.md`). Mono number, the name at display size, `border-1` hairline rows, an `accent-1` rule that sweeps in on hover and focus. Featured work uses it (`FeaturedIndex`); no cover cards on Home.
+- **Case study:** section rows in one 960px column; media never wider than 1200px.
 
 ## 11. Trademark and content rules (design side)
 

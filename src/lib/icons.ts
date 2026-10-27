@@ -5,8 +5,11 @@ import {
   ArrowUpRight,
   BriefcaseBusiness,
   Check,
+  ChevronDown,
   ChevronLeft,
   ChevronRight,
+  ChevronsDown,
+  ChevronsUp,
   ExternalLink,
   FileText,
   House,
@@ -14,6 +17,8 @@ import {
   Mail,
   Menu,
   Moon,
+  Pause,
+  Play,
   Sun,
   User,
   X,
@@ -25,7 +30,6 @@ import commerceCloud from '@/assets/icons/clouds/commerce-cloud.svg';
 import dataCloud from '@/assets/icons/clouds/data-cloud.svg';
 import experienceCloud from '@/assets/icons/clouds/experience-cloud.svg';
 import membership from '@/assets/icons/clouds/membership.svg';
-import platform from '@/assets/icons/clouds/platform.svg';
 import salesCloud from '@/assets/icons/clouds/sales-cloud.svg';
 import serviceCloud from '@/assets/icons/clouds/service-cloud.svg';
 
@@ -45,8 +49,14 @@ export const icons = {
   menu: Menu,
   close: X,
   check: Check,
+  'chevron-down': ChevronDown,
   'chevron-left': ChevronLeft,
   'chevron-right': ChevronRight,
+  // The rail folds upward into a circle (L-09), so its toggle points up and down (L-19).
+  'rail-collapse': ChevronsUp,
+  'rail-expand': ChevronsDown,
+  pause: Pause,
+  play: Play,
 } satisfies Record<string, LucideIcon>;
 
 // Original cloud artwork (DESIGN §8), keyed by the cloud's skill id in content/skills.json.
@@ -56,7 +66,6 @@ export const cloudIcons = {
   'experience-cloud': experienceCloud,
   'commerce-cloud': commerceCloud,
   'data-cloud': dataCloud,
-  platform,
   membership,
 };
 

@@ -1,0 +1,41 @@
+---
+// The page's primary action: a compact accent pill with the label and a small arrow inside, all
+// one link, so the label is its accessible name. Replaces the large accent circle of L-37. On hover
+// the arrow nudges toward its target, except under reduced motion. Only the page's main action
+// uses it; others stay text links.
+import Icon from '@/components/ui/Icon.astro';
+import { localeFromPath, strings } from '@/lib/i18n';
+
+interface Props {
+  href: string;
+  label: string;
+  /** Opens in a new tab, with an up-right arrow and a "new tab" note for screen readers. */
+  external?: boolean;
+  class?: string;
+}
+
+const ui = strings(localeFromPath(Astro.url.pathname));
+const { href, label, external = false, class: className } = Astro.props;
+---
+
+<a
+  href={href}
+  {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+  class:list={[
+    'group inline-flex min-h-12 items-center gap-2 rounded-pill bg-accent-1 px-6 py-3 text-3 font-medium text-on-accent no-underline transition-colors duration-150 hover:bg-accent-1-strong',
+    className,
+  ]}
+>
+  {label}
+  {external && <span class="sr-only"> ({ui.nav.newTab})</span>}
+  <Icon
+    name={external ? 'arrow-up-right' : 'arrow-right'}
+    size={20}
+    class:list={[
+      'transition-transform duration-150 ease-standard',
+      external
+        ? 'motion-safe:group-hover:translate-x-0.5 motion-safe:group-hover:-translate-y-0.5'
+        : 'motion-safe:group-hover:translate-x-0.5',
+    ]}
+  />
+</a>

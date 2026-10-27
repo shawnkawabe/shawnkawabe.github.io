@@ -1,0 +1,131 @@
+---
+// SPEC §5.1 hero cloud globe (BACKLOG-LANDING L-35, DESIGN §7). The clouds Shawn works in are real
+// links (to Work filtered by the cloud) laid on an arc above the globe. Every visitor gets the poster
+// and the static arc; on wide screens with motion allowed and WebGL2, a plain script starts the live
+// globe after load and idle, which turns the sphere and swings the moon links along their arc. A
+// round toggle pauses it (WCAG 2.2.2). The poster, the CSS arc and the scene share one framing
+// (src/lib/globe.ts). Below lg the links are a plain list and the poster crops under them.
+import { Picture } from 'astro:assets';
+import posterDark from '@/assets/globe/poster-dark.webp';
+import posterLight from '@/assets/globe/poster-light.webp';
+import Icon from '@/components/ui/Icon.astro';
+import {
+  CAP_OF_WIDTH,
+  moonAngles,
+  ORBIT,
+  RADIUS_OF_HEIGHT,
+  RADIUS_OF_WIDTH,
+  ROOM_OF_WIDTH,
+} from '@/lib/globe';
+import { localeFromPath, localePath, strings } from '@/lib/i18n';
+
+const locale = localeFromPath(Astro.url.pathname);
+const ui = strings(locale);
+
+interface Props {
+  /** Clouds with at least one project, in content order. */
+  clouds: readonly { id: string; label: string }[];
+}
+
+const MAX_MOONS = 6;
+
+const moons = Astro.props.clouds.slice(0, MAX_MOONS);
+const angles = moonAngles(moons.length);
+const framing = [
+  `--pf-globe-r: min(${RADIUS_OF_WIDTH * 100}cqw, ${RADIUS_OF_HEIGHT * 100}cqh)`,
+  `--pf-globe-cap: ${CAP_OF_WIDTH * 100}cqw`,
+  `--pf-globe-room: ${+(ROOM_OF_WIDTH * 100).toFixed(2)}vw`,
+  `--pf-globe-orbit: ${ORBIT}`,
+].join('; ');
+const posters = [
+  { src: posterDark, theme: 'dark' },
+  { src: posterLight, theme: 'light' },
+];
+---
+
+<div data-hero-globe class="pf-globe mx-auto w-full max-w-300 px-4 sm:px-6" style={framing}>
+  {moons.length > 0 && (
+    <ul aria-label={ui.home.clouds} class="pf-globe__moons">
+      {moons.map((cloud, index) => (
+        <li
+          data-moon
+          data-angle={angles[index]}
+          class:list={['pf-globe__moon', angles[index] > 270 && 'pf-globe__moon--end']}
+          style={`--pf-moon-angle: ${angles[index]}deg`}
+        >
+          <a
+            href={localePath(locale, `/work?cap=${cloud.id}`)}
+            class="inline-flex items-center gap-3 text-2 font-medium whitespace-nowrap text-on-surface-1 no-underline hover:underline"
+          >
+            <span aria-hidden="true" class="pf-globe__dot"></span>
+            {cloud.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  )}
+  <div aria-hidden="true" class="pf-globe__stage">
+    {posters.map(({ src, theme }) => (
+      <Picture
+        src={src}
+        alt=""
+        formats={['avif', 'webp']}
+        fallbackFormat="webp"
+        widths={[800, 1400, 2000, 2400]}
+        sizes="(min-width: 1024px) 92vw, 130vw"
+        loading="lazy"
+        decoding="async"
+        class:list={['pf-globe__poster', `pf-globe__poster--${theme}`]}
+      />
+    ))}
+    <div class="pf-globe__orbit"></div>
+    <div data-globe-scene class="pf-globe__scene"></div>
+  </div>
+  <button
+    type="button"
+    data-globe-toggle
+    hidden
+    aria-pressed="false"
+    aria-label={ui.home.pauseGlobe}
+    class="pf-globe__toggle group/toggle size-11 cursor-pointer items-center justify-center rounded-pill border border-border-1 bg-surface-0 text-on-surface-2 transition-colors duration-150 hover:border-border-2 hover:text-on-surface-1"
+  >
+    <Icon name="pause" class="group-aria-pressed/toggle:hidden" />
+    <Icon name="play" class="hidden group-aria-pressed/toggle:block" />
+  </button>
+</div>
+
+<script>
+  import { canRunScene, DESKTOP_QUERY, hasWebGL2 } from '@/lib/webgl';
+  import { afterLoadIdle } from '@/lib/idle';
+  import { REDUCED_MOTION_QUERY } from '@/lib/motion';
+  import { bindGlobeScroll } from '@/lib/globe-scroll';
+
+  for (const root of document.querySelectorAll<HTMLElement>('[data-hero-globe]')) {
+    const section = root.closest<HTMLElement>('[data-landing-section]');
+    if (section && !window.matchMedia(REDUCED_MOTION_QUERY).matches) {
+      bindGlobeScroll(root, section);
+    }
+    const toggle = root.querySelector<HTMLButtonElement>('[data-globe-toggle]');
+    toggle?.addEventListener('click', () => {
+      toggle.setAttribute('aria-pressed', String(toggle.getAttribute('aria-pressed') !== 'true'));
+    });
+    const host = root.querySelector<HTMLElement>('[data-globe-scene]');
+    const allowed = canRunScene({
+      desktop: window.matchMedia(DESKTOP_QUERY).matches,
+      reducedMotion: window.matchMedia(REDUCED_MOTION_QUERY).matches,
+      webgl2: hasWebGL2(),
+    });
+    if (!host || !allowed) continue;
+    afterLoadIdle(async () => {
+      const { mountGlobe } = await import('@/components/three/mountGlobe');
+      mountGlobe(host, {
+        moons: [...root.querySelectorAll<HTMLElement>('[data-moon]')],
+        toggle,
+        onReady: () => {
+          root.dataset.live = '';
+          if (toggle) toggle.hidden = false;
+        },
+      });
+    });
+  }
+</script>

@@ -16,13 +16,13 @@ const site = siteSchema.parse(siteJson);
 
 describe('format', () => {
   it('fills named placeholders and leaves unknown ones untouched', () => {
-    expect(format('{title} — {name} {missing}', { title: 'Work', name: 'Ada' })).toBe(
-      'Work — Ada {missing}',
+    expect(format('{title} | {name} {missing}', { title: 'Work', name: 'Ada' })).toBe(
+      'Work | Ada {missing}',
     );
   });
 });
 
-const TEMPLATE = '{title} — {name}';
+const TEMPLATE = '{title} | {name}';
 
 describe('pageMeta (SPEC §4.5)', () => {
   it('uses the home title and site description on Home', () => {
@@ -32,9 +32,9 @@ describe('pageMeta (SPEC §4.5)', () => {
     });
   });
 
-  it('uses "{page title} — {name}" and the page description elsewhere', () => {
+  it('uses "{page title} | {name}" and the page description elsewhere', () => {
     expect(pageMeta(site, { page: 'work' }, TEMPLATE)).toEqual({
-      title: `${site.seo.pages.work.title} — ${site.name}`,
+      title: `${site.seo.pages.work.title} | ${site.name}`,
       description: site.seo.pages.work.description,
     });
   });
@@ -42,7 +42,7 @@ describe('pageMeta (SPEC §4.5)', () => {
   it('uses the project title and summary on case studies', () => {
     const project = { title: 'Dealer portal', summary: 'A portal for dealers.' };
     expect(pageMeta(site, { project }, TEMPLATE)).toEqual({
-      title: `Dealer portal — ${site.name}`,
+      title: `Dealer portal | ${site.name}`,
       description: 'A portal for dealers.',
     });
   });

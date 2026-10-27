@@ -1,55 +1,68 @@
 ---
-// SPEC §5.3 frame: title, cover, snapshot bar, the sections (slot) and prev/next links.
+// SPEC §5.3 frame (ADR 0008, L-24): a back link to Work, the page header (title, subtitle), the
+// meta list, the sections (slot) and the prev/next links. No cover block.
 import PrevNext from '@/components/patterns/PrevNext.astro';
-import SnapshotBar from '@/components/patterns/SnapshotBar.astro';
-import Cover from '@/components/ui/Cover.astro';
+import Icon from '@/components/ui/Icon.astro';
+import MetaList from '@/components/ui/MetaList.astro';
+import PageHeader from '@/components/ui/PageHeader.astro';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { getSite } from '@/lib/content';
-import type { Image, Project, Skill } from '@/lib/schemas';
+import type { Project } from '@/lib/schemas';
 import { creativeWorkJsonLd, pageMeta } from '@/lib/seo';
-import { localeFromPath, strings } from '@/lib/i18n';
+import { localeFromPath, localePath, strings } from '@/lib/i18n';
 
 const locale = localeFromPath(Astro.url.pathname);
+const ui = strings(locale);
 
 type Neighbour = Pick<Project, 'id' | 'title'> | undefined;
 
 interface Props {
   project: Project;
-  /** Already checked with visibleImage(); otherwise the gradient preset shows. */
-  coverImage: Image | undefined;
+  /** Employer names already joined, e.g. "Nescara · Globant". */
   deliveredVia: string;
-  skills: readonly Skill[];
+  /** Cloud labels in the project's order. */
+  clouds: string[];
   prev: Neighbour;
   next: Neighbour;
 }
 
-const { project, coverImage, deliveredVia, skills, prev, next } = Astro.props;
+const { project, deliveredVia, clouds, prev, next } = Astro.props;
 const site = getSite(locale);
 const url = new URL(Astro.url.pathname, Astro.site ?? import.meta.env.SITE).href;
+const t = ui.caseStudy;
+const column = 'mx-auto flex w-full max-w-300 flex-col px-4 sm:px-6 lg:px-8';
 ---
 
 <BaseLayout
-  meta={pageMeta(site, { project }, strings(locale).titleTemplate)}
+  meta={pageMeta(site, { project }, ui.titleTemplate)}
   jsonLd={creativeWorkJsonLd(site, project, url)}
 >
-  <article class="flex flex-col gap-16 overflow-x-clip py-16 lg:gap-20 lg:py-24">
-    <header class="mx-auto flex w-full max-w-300 flex-col gap-10 px-4 sm:px-6 lg:px-8">
-      <div class="flex max-w-180 flex-col gap-4">
-        <h1>{project.title}</h1>
-        <p class="text-4 text-on-surface-2">{project.subtitle}</p>
-      </div>
-      <Cover preset={project.cover.preset} image={coverImage} class="rounded-lg shadow-1">
-        <span
-          aria-hidden="true"
-          class="flex size-full items-center justify-center p-6 text-center font-heading text-7 font-bold text-balance"
-        >
-          {project.client}
-        </span>
-      </Cover>
-      <SnapshotBar project={project} deliveredVia={deliveredVia} skills={skills} />
+  <article class="flex flex-col gap-12 py-16 lg:gap-16 lg:py-24">
+    <header class:list={[column, 'gap-8']}>
+      <a
+        href={localePath(locale, '/work')}
+        class="inline-flex items-center gap-2 self-start text-2 font-medium"
+      >
+        <Icon name="arrow-left" size={16} />
+        {ui.home.allProjects}
+      </a>
+      <PageHeader title={project.title} lead={project.subtitle} />
+      <MetaList
+        aria-label={t.snapshotLabel}
+        items={[
+          { label: t.client, value: project.client },
+          { label: t.role, value: project.role },
+          { label: t.teamSize, value: project.teamSize },
+          { label: t.deliveredVia, value: deliveredVia },
+          { label: t.industry, value: project.industry },
+          { label: t.clouds, value: clouds },
+        ]}
+      />
     </header>
-    <slot />
-    <footer class="mx-auto w-full max-w-300 px-4 sm:px-6 lg:px-8">
+    <div class:list={[column, 'gap-12 lg:gap-16']}>
+      <slot />
+    </div>
+    <footer class={column}>
       <PrevNext prev={prev} next={next} />
     </footer>
   </article>

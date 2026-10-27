@@ -16,6 +16,20 @@ export function employerNames(
     .join(' · ');
 }
 
+/**
+ * Work ledger meta line (SPEC §5.2): "Client · Employer · Employer". The client appears once, so an
+ * employer with the client's name (an in-house project) is left out.
+ */
+export function projectMeta(
+  project: Pick<Project, 'client' | 'employers'>,
+  experience: readonly Experience[],
+): string {
+  const employers = employerNames(project, experience)
+    .split(' · ')
+    .filter((name) => name && name !== project.client);
+  return [project.client, ...employers].join(' · ');
+}
+
 /** "1 project" / "7 projects": picks the CLDR plural form, then fills `{count}`. */
 export function plural(forms: { one: string; other: string }, count: number): string {
   return format(pluralRules.select(count) === 'one' ? forms.one : forms.other, { count });
@@ -29,4 +43,24 @@ export function emphasisParts(text: string): TextPart[] {
     .split(/\*\*(.+?)\*\*/)
     .map((part, index) => ({ text: part, strong: index % 2 === 1 }))
     .filter((part) => part.text !== '');
+}
+
+/**
+ * Splits a credential name at its issuer for the ticket layout: "Salesforce Certified
+ * Administrator" → issuer "Salesforce Certified", title "Administrator". Names without
+ * "Certified" stay whole as the title.
+ */
+export function credentialParts(label: string): { issuer: string; title: string } {
+  const match = /^(.*\bCertified)\s+(.+)$/.exec(label.trim());
+  return match ? { issuer: match[1], title: match[2] } : { issuer: '', title: label.trim() };
+}
+
+/**
+ * A headline split before its last word, which the hero sets in the outlined serif (L-39). The
+ * space stays with `lead`, so joining the two gives the sentence back.
+ */
+export function lastWordParts(text: string): { lead: string; last: string } {
+  const trimmed = text.trim();
+  const cut = trimmed.lastIndexOf(' ') + 1;
+  return { lead: trimmed.slice(0, cut), last: trimmed.slice(cut) };
 }

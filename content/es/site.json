@@ -1,8 +1,9 @@
 {
   "name": "Shawn Kawabe",
   "role": "Desarrollador Salesforce Sénior y Especialista Funcional",
-  "location": "São Paulo, Brasil — trabajo de forma remota con clientes de EE. UU. y Brasil",
-  "intro": "Diseño y desarrollo **soluciones Salesforce** que los equipos realmente adoptan — desde **Lightning Web Components** y **Apex** hasta **integraciones con SAP**, **Data Cloud** y **migraciones de datos** — en **Sales, Service, Experience y Commerce Cloud**, siempre con base en las **buenas prácticas de Salesforce**.",
+  "location": "São Paulo, Brasil, trabajando de forma remota con clientes de EE. UU. y Brasil",
+  "headline": "Soluciones de CRM que los equipos realmente adoptan.",
+  "intro": "Las diseño y desarrollo, desde **Lightning Web Components** y **Apex** hasta integraciones con SAP, Data Cloud y migraciones de datos, siempre con base en las buenas prácticas de Salesforce.",
   "bio": [
     "Soy Desarrollador Salesforce Sénior y Especialista Funcional, con licenciatura en Ciencias de la Computación por el Centro Universitário FEI. He entregado proyectos Salesforce para empresas de los sectores automotriz, agronegocios, servicios financieros, alimentos, educación y comunicaciones.",
     "Trabajo en todo el ciclo de entrega: levanto requerimientos con los equipos de negocio, modelo datos, desarrollo con herramientas declarativas y programáticas, integro con ERPs y servicios en la nube, y documento para que el siguiente equipo pueda darle continuidad."
@@ -25,7 +26,6 @@
       "body": "Componentes y servicios construidos para reutilizarse entre equipos y orgs."
     }
   ],
-  "availability": "Disponible para roles y contratos remotos de Salesforce",
   "workIntro": "Una selección de proyectos Salesforce en distintas clouds e industrias. Filtre por cloud o capacidad para ver dónde hice qué.",
   "ctaLine": "¿Necesita un desarrollador Salesforce que también hable el idioma del negocio? Conversemos.",
   "workFacets": {
@@ -93,17 +93,18 @@
     "email": "kawabeshawn@gmail.com",
     "linkedin": "https://www.linkedin.com/in/shawnkawabe",
     "github": "https://github.com/shawnkawabe",
-    "resume": "https://drive.google.com/file/d/1JpU6AKQwpeo_-9F9HSwR6_pBZ6JqDwlG/view?usp=sharing",
+    "resume": "https://drive.google.com/file/d/12LWeIdCstNekzacih7zB2FZE_4DN32A2/view?usp=sharing",
     "credentials": ""
   },
   "contact": {
     "intro": "¿Está contratando para un rol de Salesforce o necesita ayuda en un proyecto? Envíeme un mensaje o escríbame directamente por correo.",
+    "introDirect": "¿Está contratando para un rol de Salesforce o necesita ayuda en un proyecto? Escríbame directamente por correo.",
     "projectTypes": ["Puesto de tiempo completo", "Contrato", "Consultoría", "Otro"],
-    "successMessage": "Gracias — su mensaje fue enviado. Normalmente, respondo en un plazo de dos días hábiles.",
+    "successMessage": "¡Gracias! Su mensaje fue enviado. Normalmente, respondo en un plazo de dos días hábiles.",
     "errorMessage": "Algo salió mal al enviar su mensaje. Inténtelo de nuevo o escríbame directamente por correo."
   },
   "seo": {
-    "homeTitle": "Shawn Kawabe — Desarrollador Salesforce Sénior",
+    "homeTitle": "Shawn Kawabe | Desarrollador Salesforce Sénior",
     "description": "Desarrollador Salesforce Sénior y Especialista Funcional: LWC, Apex, integraciones, Data Cloud y migración de datos en Sales, Service, Experience y Commerce Cloud.",
     "pages": {
       "work": {
@@ -128,7 +129,7 @@
       }
     }
   },
-  "trademarkNotice": "Salesforce, Sales Cloud, Service Cloud, Experience Cloud, Commerce Cloud, Data Cloud y otros nombres son marcas comerciales de Salesforce, Inc. Este sitio es personal y no está afiliado ni respaldado por Salesforce.",
+  "trademarkNotice": "Trabajo como profesional independiente de Salesforce. Salesforce, Sales Cloud, Service Cloud, Experience Cloud, Commerce Cloud, Data Cloud y las marcas relacionadas pertenecen a Salesforce, Inc. y aparecen aquí solo para describir las plataformas con las que trabajo. Este portafolio no está afiliado, patrocinado ni respaldado por Salesforce.",
   "todo": [],
   "photo": null
 }

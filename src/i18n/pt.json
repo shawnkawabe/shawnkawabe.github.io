@@ -1,7 +1,10 @@
 {
-  "titleTemplate": "{title} — {name}",
+  "titleTemplate": "{title} | {name}",
   "skipLink": "Pular para o conteúdo",
   "nav": {
+    "collapse": "Recolher menu",
+    "expand": "Expandir menu",
+    "expandCurrent": "Expandir menu, atual: {name}",
     "label": "Principal",
     "home": "Início",
     "work": "Projetos",
@@ -44,15 +47,25 @@
     "empty": "Nenhum projeto corresponde a esses filtros"
   },
   "home": {
+    "sections": "Seções",
+    "intro": "Início",
     "seeWork": "Ver meus projetos",
     "resume": "Baixar currículo",
     "featured": "Projetos em destaque",
     "allProjects": "Todos os projetos",
     "clouds": "Clouds em que atuo",
     "products": "Produtos e ferramentas",
-    "pauseMarquee": "Pausar lista em rolagem",
+    "pauseTicker": "Pausar a lista em movimento",
+    "pauseGlobe": "Pausar o globo",
     "certifications": "Certificações",
     "contact": "Entre em contato"
+  },
+  "credentials": {
+    "domains": {
+      "development": "Desenvolvimento",
+      "data-ai": "Dados e IA",
+      "admin": "Administração e fundamentos"
+    }
   },
   "skills": {
     "clouds": "Clouds",
@@ -63,13 +76,15 @@
   "about": {
     "principles": "Como eu trabalho",
     "companies": "Empresas pelas quais entreguei projetos",
-    "history": "Histórico completo",
-    "historyLine": "O histórico profissional completo está no meu currículo.",
     "resume": "Baixar currículo"
   },
   "contact": {
     "emailLabel": "E-mail",
     "linkedinLabel": "LinkedIn",
+    "resumeLabel": "Currículo",
+    "emailAction": "Enviar e-mail",
+    "copy": "Copiar",
+    "copied": "Copiado",
     "formTitle": "Enviar uma mensagem",
     "name": "Nome",
     "email": "E-mail",
@@ -91,11 +106,7 @@
       "messageTooLong": "Mantenha a mensagem com menos de 2000 caracteres"
     }
   },
-  "constellation": {
-    "listLabel": "Clouds — escolha uma para ver seus projetos",
-    "close": "Fechar",
-    "certifications": "Certificações",
-    "projects": "Projetos",
+  "cloudPanels": {
     "seeProjects": "Ver projetos"
   },
   "caseStudy": {
@@ -104,9 +115,9 @@
     "role": "Função",
     "teamSize": "Tamanho da equipe",
     "deliveredVia": "Entregue via",
+    "industry": "Setor",
     "clouds": "Clouds",
     "challenge": "Contexto e desafio",
-    "architecture": "Arquitetura da solução",
     "decisions": "Decisões-chave",
     "decision": "Decisão",
     "why": "Por quê",

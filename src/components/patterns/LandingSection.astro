@@ -1,0 +1,40 @@
+---
+// One full-viewport Home section (BACKLOG-LANDING L-08, ADR 0006): at least 100svh, content centred,
+// a proximity snap point. global.css animates `[data-landing-content]` with the scroll where the
+// browser supports scroll-driven animations; elsewhere the ADR 0005 reveal runs on it instead.
+// An optional sculpted shape (L-38) sits behind the content and bleeds off the sides.
+import type { HTMLAttributes } from 'astro/types';
+import SculptedShape, { type ShapeVariant } from '@/components/ui/SculptedShape.astro';
+
+type Props = HTMLAttributes<'section'> & {
+  id: string;
+  /** Full-bleed sections (bands) skip the centred content column. */
+  bleed?: boolean;
+  shape?: ShapeVariant;
+};
+
+const { id, bleed = false, shape, class: className, ...rest } = Astro.props;
+const column = 'mx-auto flex w-full max-w-300 flex-col gap-8 px-4 sm:px-6 lg:px-8';
+---
+
+<section
+  id={id}
+  data-landing-section
+  class:list={[
+    'relative flex min-h-svh snap-start flex-col justify-center py-20 lg:py-24',
+    shape && 'isolate',
+    className,
+  ]}
+  {...rest}
+>
+  {shape && <SculptedShape variant={shape} id={`${id}-shape`} />}
+  <div data-landing-content data-reveal class:list={[!bleed && column]}>
+    <slot />
+  </div>
+</section>
+
+<script>
+  import { bindReveal } from '@/lib/motion';
+
+  bindReveal();
+</script>

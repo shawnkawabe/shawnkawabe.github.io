@@ -19,9 +19,11 @@
     "grammar": "node scripts/grammar.mjs",
     "og": "node scripts/og.mjs",
     "validate:content": "astro sync",
-    "check:links": "linkinator dist --recurse --concurrency 20 --skip \"^(?!http://(localhost|127\\.0\\.0\\.1)[:/])\"",
+    "check:links": "linkinator dist --recurse --concurrency 20 --retry-errors --retry-errors-count 3 --skip \"^(?!http://(localhost|127\\.0\\.0\\.1)[:/])\"",
     "ci": "npm run tokens && npm run lint && npm run validate:content && npm test && npm run build && npm run check:links",
-    "prepare": "husky"
+    "prepare": "husky",
+    "globe:land": "node scripts/globe-land.mjs",
+    "globe:poster": "node scripts/globe-poster.mjs"
   },
   "lint-staged": {
     "*.{astro,ts,tsx,js,mjs}": [
@@ -33,10 +35,9 @@
   "dependencies": {
     "@astrojs/react": "^7.1.1",
     "@astrojs/sitemap": "^3.7.4",
-    "@fontsource-variable/inter": "^5.3.0",
-    "@fontsource-variable/jetbrains-mono": "^5.3.0",
-    "@fontsource-variable/orbitron": "^5.3.0",
-    "@fontsource-variable/space-grotesk": "^5.3.0",
+    "@fontsource-variable/geist": "^5.3.0",
+    "@fontsource-variable/geist-mono": "^5.3.0",
+    "@fontsource/instrument-serif": "^5.3.0",
     "@react-three/drei": "^10.7.9",
     "@react-three/fiber": "^9.8.2",
     "@tailwindcss/vite": "^4.3.3",
@@ -64,6 +65,7 @@
     "@testing-library/user-event": "^14.6.8",
     "@types/three": "^0.186.0",
     "@vitest/coverage-v8": "^5.0.5",
+    "d3-geo": "^3.1.1",
     "eslint": "^9.39.5",
     "eslint-plugin-astro": "^1.7.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
@@ -77,8 +79,10 @@
     "prettier-plugin-tailwindcss": "^0.8.1",
     "shadcn": "^4.22.1",
     "style-dictionary": "^5.7.1",
+    "topojson-client": "^3.1.0",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.72.0",
-    "vitest": "^5.0.5"
+    "vitest": "^5.0.5",
+    "world-atlas": "^2.0.2"
   }
 }

@@ -45,6 +45,8 @@ test('the navigation reaches every page and marks the current one', async ({ pag
     return page.getByRole('dialog').getByRole('navigation', { name: 'Main' });
   };
 
+  // The rail starts collapsed; this test is about the links, so it starts expanded.
+  await page.addInitScript(() => localStorage.setItem('pf-rail', 'expanded'));
   await page.goto('/en/');
   for (const [name, path] of [
     ['Work', '/en/work'],
@@ -98,9 +100,74 @@ test('the language switcher keeps the page and remembers the choice', async ({
   test.skip((await switcher.count()) === 0, 'Only one language is built.');
   if (testInfo.project.name === 'mobile')
     await page.getByRole('button', { name: 'Open menu' }).click();
+  // On desktop the switcher lives in the rail, which starts collapsed.
+  else await page.locator('[data-rail-toggle]').click();
+  await page.locator('[data-language-menu] summary:visible').click();
   await page.locator('[data-locale-link="pt"]:visible').click();
   await expect(page).toHaveURL((url) => url.pathname === '/pt/work/');
   await expect(page.locator('html')).toHaveAttribute('lang', 'pt-BR');
   await page.goto('/');
   await expect(page).toHaveURL((url) => url.pathname === '/pt/');
+});
+
+test('the desktop rail starts collapsed, and an expanded rail stays expanded on the next page', async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name === 'mobile', 'The rail is desktop only.');
+  await page.goto('/en/');
+  const rail = page.locator('nav:has([data-rail-toggle])');
+  const toggle = rail.locator('[data-rail-toggle]');
+  await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+  await expect(rail.getByRole('link', { name: 'Work' })).toBeHidden();
+  await toggle.click();
+  await expect(rail.getByRole('link', { name: 'Work' })).toBeVisible();
+  await page.goto('/en/work/');
+  await expect(toggle).toHaveAttribute('aria-expanded', 'true');
+  await rail.getByRole('button', { name: 'Collapse menu' }).click();
+  await expect(rail.getByRole('link', { name: 'Work' })).toBeHidden();
+});
+
+test('collapsed, the rail is a circle that follows the Home section', async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name === 'mobile', 'The rail is desktop only.');
+  await page.goto('/en/');
+  const rail = page.locator('nav:has([data-rail-toggle])');
+  // Collapsed by default: wait for the circle shape to settle (L-32 transition).
+  await expect
+    .poll(async () => {
+      const box = (await rail.boundingBox())!;
+      return Math.round(box.height) - Math.round(box.width);
+    })
+    .toBe(0);
+  await page.locator('#clouds').scrollIntoViewIfNeeded();
+  await expect(rail.locator('[data-rail-toggle]')).toHaveAttribute(
+    'aria-label',
+    /^Expand menu, current: /,
+  );
+  await expect(rail.locator('[data-rail-section]')).not.toHaveText('01');
+  await rail.locator('[data-rail-toggle]').click();
+});
+
+test('the hero globe shows its poster and cloud links, and its toggle stops the moons', async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name !== 'desktop', 'the arc and the live globe are desktop-only');
+  await page.goto('/en/');
+  const globe = page.locator('[data-hero-globe]');
+  await expect(globe.locator('img.pf-globe__poster').first()).toBeAttached();
+  const moons = globe.locator('[data-moon] a');
+  expect(await moons.count()).toBeGreaterThan(0);
+  await expect(moons.first()).toHaveAttribute('href', /\/en\/work\?cap=/);
+
+  const webgl2 = await page.evaluate(() => !!document.createElement('canvas').getContext('webgl2'));
+  test.skip(!webgl2, 'no WebGL2 in this browser');
+  await expect(globe).toHaveAttribute('data-live', '', { timeout: 15_000 });
+  const toggle = page.locator('[data-globe-toggle]');
+  await toggle.click();
+  await expect(toggle).toHaveAttribute('aria-pressed', 'true');
+  const moon = globe.locator('[data-moon]').first();
+  const before = await moon.evaluate((element) => element.style.transform);
+  await page.waitForTimeout(600);
+  expect(await moon.evaluate((element) => element.style.transform)).toBe(before);
 });

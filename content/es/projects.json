@@ -85,8 +85,9 @@
     "employers": ["cit"],
     "role": "Senior Salesforce Developer",
     "industry": "Educación",
-    "clouds": ["platform"],
+    "clouds": [],
     "capabilities": [
+      "platform",
       "data-migration",
       "backup-archival",
       "own-data",
@@ -338,8 +339,9 @@
     "client": "Orchid",
     "employers": ["orchid"],
     "role": "Senior Salesforce Developer",
-    "clouds": ["platform"],
+    "clouds": [],
     "capabilities": [
+      "platform",
       "component-library",
       "lwc",
       "apex",
@@ -383,15 +385,6 @@
       "preset": "violet-edge"
     },
     "sections": [
-      {
-        "type": "architecture",
-        "body": "Una pantalla de ventas construida como Lightning Web Component llama a servicios Apex que leen el stock de productos desde SAP en tiempo real y envían los contratos a D4Sign para su firma digital. Los servicios de apoyo se ejecutan como una API en Python Flask sobre AWS App Runner, que Salesforce llama vía REST.",
-        "image": {
-          "src": "/img/lavoro-agro/architecture.svg",
-          "alt": "Diagrama: dentro de Salesforce, una pantalla de ventas construida como Lightning Web Component llama a servicios Apex. Apex lee el stock de productos de SAP en tiempo real, envía contratos a D4Sign para su firma y llama vía REST a una API en Python Flask sobre AWS App Runner.",
-          "approved": true
-        }
-      },
       {
         "type": "outcomes",
         "items": [

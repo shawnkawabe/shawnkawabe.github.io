@@ -31,8 +31,11 @@ const SEMANTIC_COLORS = [
   'error',
   'focus-ring',
   'glow-1',
-  'band-a',
-  'band-b',
+  'globe-shade',
+  'globe-lit',
+  'globe-dot',
+  'shape-shade',
+  'shape-lit',
 ];
 const CLOUDS = ['sales', 'service', 'experience', 'commerce', 'data', 'platform', 'membership'];
 const SPACING = [1, 2, 3, 4, 5, 6, 8, 10, 12, 16, 20, 24, 32];
@@ -52,6 +55,7 @@ const OTHER = [
   'font-family-heading',
   'font-family-body',
   'font-family-mono',
+  'font-family-serif',
 ];
 
 beforeAll(() => {
@@ -110,14 +114,65 @@ describe('generated tokens.css', () => {
 
   it('outputs colours as hex, or rgb() with alpha when alpha < 1', () => {
     const root = declarations(rootBlock);
-    expect(root.get('--pf-g-color-surface-0')).toBe('#0E0F13');
+    expect(root.get('--pf-g-color-surface-0')).toBe('#131313');
     expect(root.get('--pf-g-color-border-1')).toBe('rgb(255 255 255 / 0.08)');
     expect(root.get('--pf-g-shadow-2')).toBe('0px 16px 48px 0px rgb(0 0 0 / 0.4)');
   });
 
+  it('keeps every text colour at WCAG AA on every surface and section shape, in both themes (L-36, L-38)', () => {
+    const luminance = (hex: string) => {
+      const [r, g, b] = [1, 3, 5].map((index) => {
+        const channel = parseInt(hex.slice(index, index + 2), 16) / 255;
+        return channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4;
+      });
+      return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+    };
+    const contrast = (a: string, b: string) => {
+      const [light, dark] = [luminance(a), luminance(b)].sort((x, y) => y - x);
+      return (light + 0.05) / (dark + 0.05);
+    };
+    const root = declarations(rootBlock);
+    for (const theme of [root, new Map([...root, ...declarations(lightBlock)])]) {
+      const color = (name: string) => theme.get(`--pf-g-color-${name}`)!;
+      for (const surface of [
+        'surface-0',
+        'surface-1',
+        'surface-2',
+        'surface-3',
+        'shape-shade',
+        'shape-lit',
+      ]) {
+        for (const text of ['on-surface-1', 'on-surface-2', 'on-surface-3', 'accent-1']) {
+          expect(
+            contrast(color(text), color(surface)),
+            `${text} on ${surface}`,
+          ).toBeGreaterThanOrEqual(4.5);
+        }
+      }
+    }
+  });
+
+  it('keeps the greys neutral, with no blue tint (L-36)', () => {
+    const root = declarations(rootBlock);
+    for (const theme of [root, declarations(lightBlock)]) {
+      for (const name of [
+        'surface-0',
+        'surface-1',
+        'surface-2',
+        'surface-3',
+        'on-surface-1',
+        'on-surface-2',
+        'on-surface-3',
+      ]) {
+        const hex = theme.get(`--pf-g-color-${name}`)!;
+        expect(new Set([hex.slice(1, 3), hex.slice(3, 5), hex.slice(5, 7)]).size, name).toBe(1);
+      }
+    }
+  });
+
   it('never quotes generic font families', () => {
     expect(declarations(rootBlock).get('--pf-g-font-family-body')).toBe(
-      "'Inter Variable', Inter, ui-sans-serif, system-ui, sans-serif",
+      "'Geist Variable', Geist, 'Geist Fallback', ui-sans-serif, system-ui, sans-serif",
     );
   });
 });

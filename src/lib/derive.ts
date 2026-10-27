@@ -1,5 +1,6 @@
 // Pure functions over content (ARCHITECTURE §3.2). No dates anywhere: order is curated.
 import type { Certification, Project, Skill } from './schemas';
+import { credentialParts } from './format';
 
 export type SkillStat = { id: string; projectCount: number; projectIds: string[] };
 
@@ -89,24 +90,6 @@ export function filterProjects<T extends Filterable>(
   );
 }
 
-export type BentoSize = 'feature' | 'wide' | 'base';
-
-/**
- * SPEC §6.3: the cloud with the most projects spans 2×2, clouds with at least half as many
- * span 2×1, the rest 1×1. A tie for the top goes to the first in file order.
- */
-export function withBentoSize<T extends Pick<CloudStat, 'projectCount'>>(
-  clouds: readonly T[],
-): (T & { size: BentoSize })[] {
-  const top = Math.max(0, ...clouds.map((cloud) => cloud.projectCount));
-  const featured = clouds.findIndex((cloud) => cloud.projectCount === top);
-  const sizeOf = (count: number, index: number): BentoSize => {
-    if (index === featured) return 'feature';
-    return count > 0 && count * 2 >= top ? 'wide' : 'base';
-  };
-  return clouds.map((cloud, index) => ({ ...cloud, size: sizeOf(cloud.projectCount, index) }));
-}
-
 export type SkillChip = {
   id: string;
   label: string;
@@ -144,4 +127,27 @@ export function skillGroupChips(
       return { ...group, skills: chips };
     })
     .filter((group) => group.skills.length > 0);
+}
+
+export type CredentialSkill = { id: string; label: string; accent: string | undefined };
+
+/** A certification's skills that exist in skills.json, clouds first (they carry an accent). */
+export function credentialSkills(
+  certification: Pick<Certification, 'skills'>,
+  skills: readonly Skill[],
+): CredentialSkill[] {
+  const byId = new Map(skills.map((skill) => [skill.id, skill]));
+  return certification.skills
+    .flatMap((id) => byId.get(id) ?? [])
+    .sort((a, b) => Number(b.group === 'clouds') - Number(a.group === 'clouds'))
+    .map(({ id, label, accent }) => ({ id, label, accent }));
+}
+
+/** Ledger order for certifications (BACKLOG-LANDING L-17). */
+export const CREDENTIAL_DOMAINS = ['development', 'data-ai', 'admin'] as const;
+
+/** The issuer every label shares ("Salesforce Certified"), or '' when they differ or are absent. */
+export function sharedIssuer(certifications: readonly Pick<Certification, 'label'>[]): string {
+  const issuers = new Set(certifications.map((c) => credentialParts(c.label).issuer));
+  return issuers.size === 1 ? [...issuers][0] : '';
 }

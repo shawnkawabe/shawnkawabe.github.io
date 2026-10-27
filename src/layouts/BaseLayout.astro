@@ -62,8 +62,10 @@ const ogImageAlt = isDefaultOgImage(ogImage)
         const s = localStorage.getItem('pf-theme');
         const t = s ?? (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
         document.documentElement.dataset.theme = t;
+        document.documentElement.dataset.rail = localStorage.getItem('pf-rail') ?? 'collapsed';
       } catch {
         document.documentElement.dataset.theme = 'dark';
+        document.documentElement.dataset.rail = 'collapsed';
       }
     </script>
     <!-- Controls that only work with JavaScript (the Work filter bar) are hidden without it. -->
@@ -91,6 +93,7 @@ const ogImageAlt = isDefaultOgImage(ogImage)
     ))}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="sitemap" href="/sitemap-index.xml" />
 
     <meta property="og:type" content="website" />
@@ -126,7 +129,7 @@ const ogImageAlt = isDefaultOgImage(ogImage)
     <MobileNav />
     <NavRail />
     <!-- Desktop content starts right of the rail: left 24 + width 64 + gap 32 (DESIGN §5). -->
-    <div class="flex flex-1 flex-col lg:pl-30">
+    <div class="relative z-[1] flex flex-1 flex-col lg:pl-30">
       <main id="content" tabindex="-1" class="flex-1 focus:outline-none">
         <slot />
       </main>

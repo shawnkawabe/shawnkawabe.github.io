@@ -1,12 +1,37 @@
 @import 'tailwindcss';
-@import '@fontsource-variable/inter';
-@import '@fontsource-variable/space-grotesk';
-@import '@fontsource-variable/jetbrains-mono';
-@import '@fontsource-variable/orbitron';
+/* ADR 0007 typography: Geist Sans for display, headings and body; Geist Mono for labels and data. */
+@import '@fontsource-variable/geist';
+@import '@fontsource-variable/geist-mono';
+/* ADR 0009: one outlined display word per page. */
+@import '@fontsource/instrument-serif/400.css';
+
 @import './tokens.css';
 @import './covers.css';
 @import 'tw-animate-css';
 @import 'shadcn/tailwind.css';
+
+/* Arial scaled to Geist's metrics so the swap moves no text (ADR 0007). Measured in Chromium with
+   canvas measureText at 100px: average width 4648.5 vs 4541.7, ascent 101, descent 30. */
+@font-face {
+  font-family: 'Geist Fallback';
+  src: local('Arial');
+  size-adjust: 102.35%;
+  ascent-override: 98.68%;
+  descent-override: 29.31%;
+  line-gap-override: 0%;
+}
+
+/* Times New Roman scaled to Instrument Serif's metrics (ADR 0009), measured the same way: width
+   2676.0 vs 3196.5, ascent 99, descent 31. Without it the narrower serif rewraps the claim on
+   mobile when it loads (CLS 0.13). */
+@font-face {
+  font-family: 'Instrument Serif Fallback';
+  src: local('Times New Roman');
+  size-adjust: 83.72%;
+  ascent-override: 118.25%;
+  descent-override: 37.03%;
+  line-gap-override: 0%;
+}
 
 /* Theme lives on data-theme (ARCHITECTURE §6), not a .dark class. */
 @custom-variant dark (&:where(:root:not([data-theme='light']), :root:not([data-theme='light']) *));
@@ -37,8 +62,6 @@
   --color-error: var(--pf-g-color-error);
   --color-focus-ring: var(--pf-g-color-focus-ring);
   --color-glow-1: var(--pf-g-color-glow-1);
-  --color-band-a: var(--pf-g-color-band-a);
-  --color-band-b: var(--pf-g-color-band-b);
   --color-cloud-sales: var(--pf-g-color-cloud-sales);
   --color-cloud-service: var(--pf-g-color-cloud-service);
   --color-cloud-experience: var(--pf-g-color-cloud-experience);
@@ -72,6 +95,7 @@
   --font-heading: var(--pf-g-font-family-heading);
   --font-body: var(--pf-g-font-family-body);
   --font-mono: var(--pf-g-font-family-mono);
+  --font-serif: var(--pf-g-font-family-serif);
 
   --text-*: initial;
   --text-1: var(--pf-g-font-size-1);
@@ -93,9 +117,9 @@
   --text-9: var(--pf-g-font-size-9);
   --text-9--line-height: var(--pf-g-font-line-height-9);
 
-  /* DESIGN §4 letter-spacing: display −0.01em, mono labels +0.04em. */
-  --tracking-display: -0.01em;
-  --tracking-label: 0.04em;
+  /* DESIGN §4 letter-spacing (ADR 0007): display −0.03em, mono labels +0.08em. */
+  --tracking-display: -0.03em;
+  --tracking-label: 0.08em;
 
   --font-weight-*: initial;
   --font-weight-regular: var(--pf-g-font-weight-regular);
@@ -117,21 +141,10 @@
   --shadow-1: var(--pf-g-shadow-1);
   --shadow-2: var(--pf-g-shadow-2);
   --shadow-glow: 0 0 0 1px var(--pf-g-color-border-2), 0 0 32px var(--pf-g-color-glow-1);
-  /* CloudCard hover (DESIGN §9): inner glow in the card's cloud accent at 12%. */
-  --shadow-cloud-glow: inset 0 0 48px
-    color-mix(in oklab, var(--pf-c-cloud-accent, transparent) 12%, transparent);
 
   --ease-*: initial;
   --ease-standard: var(--pf-g-easing-standard);
   --ease-emphasised: var(--pf-g-easing-emphasised);
-
-  /* DESIGN §7 marquee: 40s per loop, linear. The track holds the list twice, so −50% loops. */
-  --animate-marquee: pf-marquee 40s linear infinite;
-  @keyframes pf-marquee {
-    to {
-      translate: -50% 0;
-    }
-  }
 }
 
 /* Media queries cannot read var(), so breakpoints repeat the token values as literals. */
@@ -185,19 +198,23 @@
     text-wrap: balance;
   }
 
+  /* Tracking tightens as size grows (ADR 0007); positive tracking is for mono caps only. */
   h1 {
     font-size: var(--pf-g-font-size-8);
     line-height: var(--pf-g-font-line-height-8);
+    letter-spacing: -0.025em;
   }
 
   h2 {
     font-size: var(--pf-g-font-size-7);
     line-height: var(--pf-g-font-line-height-7);
+    letter-spacing: -0.02em;
   }
 
   h3 {
     font-size: var(--pf-g-font-size-6);
     line-height: var(--pf-g-font-line-height-6);
+    letter-spacing: -0.01em;
   }
 
   h4 {
@@ -210,14 +227,21 @@
     text-wrap: pretty;
   }
 
+  /* L-32: the underline sits faint and low, then firms up and settles under the text on hover. */
   a {
     color: var(--pf-g-color-accent-1);
-    text-underline-offset: 0.2em;
-    transition: color var(--pf-g-duration-fast) var(--pf-g-easing-standard);
+    text-decoration-color: color-mix(in oklab, currentColor 35%, transparent);
+    text-underline-offset: 0.3em;
+    transition:
+      color var(--pf-g-duration-fast) var(--pf-g-easing-standard),
+      text-decoration-color var(--pf-g-duration-base) var(--pf-g-easing-standard),
+      text-underline-offset var(--pf-g-duration-base) var(--pf-g-easing-standard);
   }
 
   a:hover {
     color: var(--pf-g-color-accent-1-strong);
+    text-decoration-color: currentColor;
+    text-underline-offset: 0.18em;
   }
 
   code,
@@ -249,8 +273,8 @@
   }
 }
 
-/* Home hero poster (SPEC §5.1): a soft accent glow on the right, away from the text column.
-   Phase 3's data-core scene draws over it; reduced motion and no-WebGL keep only this. */
+/* Home hero poster (SPEC §5.1): one faint accent glow behind the data core, away from the text.
+   The scene draws over it; reduced motion and no-WebGL keep only this and the L-12 grid. */
 /* DESIGN §6 motion in CSS (ADR 0005). Only with motion allowed: the global reduced-motion rule
    shortens durations but not delays, which would leave staggered words hidden. Reveal targets hide
    only once the head script sets `data-motion`, so content never waits on JavaScript. */
@@ -280,31 +304,426 @@
   }
 }
 
-.pf-hero-glow {
-  background:
-    radial-gradient(
-      50% 60% at 85% 35%,
-      color-mix(in oklab, var(--pf-g-color-accent-1) 18%, transparent),
-      transparent 70%
-    ),
-    radial-gradient(
-      40% 50% at 70% 80%,
-      color-mix(in oklab, var(--pf-g-color-accent-2) 10%, transparent),
-      transparent 70%
+/* L-39 / ADR 0009: one display word in the outlined serif. The stroke uses the text colour, so it
+   meets the large-text contrast of the filled words; without text-stroke support, or in forced
+   colours, the word stays filled. A zero line-height keeps the serif out of the line box, so its
+   swap from the fallback font moves nothing (CLS). */
+.pf-outline {
+  line-height: 0;
+}
+
+@supports (-webkit-text-stroke: 1px currentColor) {
+  .pf-outline {
+    color: transparent;
+    -webkit-text-stroke: 0.025em var(--pf-g-color-on-surface-1);
+  }
+}
+
+@media (forced-colors: active) {
+  .pf-outline {
+    color: CanvasText;
+    -webkit-text-stroke: 0;
+  }
+}
+
+/* BACKLOG-LANDING L-35 hero cloud globe. HeroGlobe sets the framing (--pf-globe-r, -cap, -orbit,
+   from src/lib/globe.ts); the stage and the moon list each cover the hero as size containers, so
+   their cq units match the canvas, which reads the same box. Angles are clockwise from 3 o'clock
+   with y downward, as in globe.ts. The stage sits behind the hero text and the moons above it;
+   the wrapper itself stays unpositioned so neither layer is trapped in its stacking context. */
+.pf-globe__poster {
+  position: absolute;
+  max-width: none;
+  height: auto;
+  transition: opacity var(--pf-g-duration-slow) var(--pf-g-easing-standard);
+}
+
+:root:not([data-theme='light']) .pf-globe__poster--light,
+[data-theme='light'] .pf-globe__poster--dark {
+  display: none;
+}
+
+.pf-globe__orbit {
+  display: none;
+}
+
+.pf-globe__scene {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity var(--pf-g-duration-slow) var(--pf-g-easing-standard);
+}
+
+.pf-globe[data-live] .pf-globe__scene {
+  opacity: 1;
+}
+
+.pf-globe[data-live] .pf-globe__poster {
+  opacity: 0;
+}
+
+.pf-globe__dot {
+  flex: none;
+  width: 0.875rem;
+  height: 0.875rem;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 35% 30%,
+    var(--pf-g-color-on-surface-2),
+    var(--pf-g-color-surface-3) 70%
+  );
+  box-shadow: 0 0 0 1px var(--pf-g-color-border-1);
+}
+
+/* Below lg: the links are a wrapped list, and the poster crops under them. */
+.pf-globe__moons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pf-g-spacing-3) var(--pf-g-spacing-6);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* The scene writes each moon's drift as an inline transform; it only applies on the arc. */
+@media (max-width: 63.999rem) {
+  .pf-globe__moon {
+    transform: none !important;
+  }
+}
+
+.pf-globe__stage {
+  position: relative;
+  width: 100vw;
+  height: 45vw;
+  margin: var(--pf-g-spacing-8) 0 0 calc(50% - 50vw);
+  overflow: hidden;
+}
+
+.pf-globe__stage .pf-globe__poster {
+  left: -15%;
+  width: 130%;
+}
+
+.pf-globe__toggle {
+  display: none;
+}
+
+@media (min-width: 64rem) {
+  /* The wrapper keeps the cap and the arc's room free under the text (plus label clearance); the
+     hero grows past one screen only when the text needs it. */
+  .pf-globe {
+    flex: none;
+    height: calc(var(--pf-globe-room) + var(--pf-g-spacing-12));
+  }
+
+  .pf-globe__stage,
+  .pf-globe__moons {
+    position: absolute;
+    inset: 0;
+    width: auto;
+    height: auto;
+    margin: 0;
+    container-type: size;
+    pointer-events: none;
+  }
+
+  .pf-globe__stage {
+    z-index: -10;
+    mask-image: linear-gradient(to top, transparent, black 8%);
+  }
+
+  .pf-globe__moons {
+    z-index: 10;
+    display: block;
+  }
+
+  .pf-globe__moon {
+    --pf-moon-arc: calc(var(--pf-globe-r) * var(--pf-globe-orbit));
+    position: absolute;
+    left: calc(50cqw + cos(var(--pf-moon-angle)) * var(--pf-moon-arc));
+    top: calc(
+      100cqh - var(--pf-globe-cap) + var(--pf-globe-r) + sin(var(--pf-moon-angle)) *
+        var(--pf-moon-arc)
     );
+    translate: -0.4375rem -50%;
+    pointer-events: auto;
+  }
+
+  .pf-globe__moon--end {
+    translate: calc(-100% + 0.4375rem) -50%;
+  }
+
+  .pf-globe__moon--end a {
+    flex-direction: row-reverse;
+  }
+
+  .pf-globe__stage .pf-globe__poster {
+    top: calc(100cqh - var(--pf-globe-cap));
+    left: calc(50cqw - var(--pf-globe-r));
+    width: calc(2 * var(--pf-globe-r));
+  }
+
+  .pf-globe__orbit {
+    --pf-orbit-r: calc(var(--pf-globe-r) * var(--pf-globe-orbit));
+    display: block;
+    position: absolute;
+    top: calc(100cqh - var(--pf-globe-cap) + var(--pf-globe-r) - var(--pf-orbit-r));
+    left: calc(50cqw - var(--pf-orbit-r));
+    width: calc(2 * var(--pf-orbit-r));
+    aspect-ratio: 1;
+    border: 1px dashed var(--pf-g-color-border-1);
+    border-radius: 50%;
+  }
+
+  .pf-globe__toggle:not([hidden]) {
+    display: inline-flex;
+    position: absolute;
+    top: var(--pf-g-spacing-8);
+    right: var(--pf-g-spacing-8);
+    z-index: 10;
+  }
+  /* L-41 (docs/reference/scroll-motion.md): as the hero scrolls away, the globe and its moons
+     grow from the bottom centre and fade in the second half, handing over to the next sections.
+     src/lib/globe-scroll.ts eases --pf-globe-away (0 to 1) toward the scroll position, so the
+     globe glides instead of jumping with each wheel notch. Both layers read it, so the poster,
+     canvas and labels stay aligned. Unset (reduced motion, no JavaScript), the globe is still. */
+  @media (prefers-reduced-motion: no-preference) {
+    .pf-globe__stage,
+    .pf-globe__moons {
+      transform-origin: 50% 100%;
+      scale: calc(1 + 0.35 * var(--pf-globe-away, 0));
+      opacity: clamp(0, 2 - 2 * var(--pf-globe-away, 0), 1);
+      will-change: scale, opacity;
+    }
+  }
 }
 
-/* The data-core canvas fades in from the text side, so it never sits behind the words, and out at
-   the hero's bottom edge, so the rings never end in a hard cut. */
-.pf-hero-scene {
-  mask-image:
-    linear-gradient(to right, transparent, black 40%),
-    linear-gradient(to bottom, black 70%, transparent);
-  mask-composite: intersect;
+/* BACKLOG-LANDING L-02 collapsible rail: BaseLayout's head script sets data-rail before first
+   paint, so a collapsed rail never flashes open. L-32: the pill folds into the circle instead of
+   switching. Its height animates between auto and 4rem (interpolate-size; elsewhere it snaps), the
+   body fades out before it is removed, and on reopening the items fade in one after another. */
+[data-rail='collapsed'] [data-rail-body],
+[data-rail='collapsed'] [data-rail-icon='collapse'],
+:root:not([data-rail='collapsed']) [data-rail-icon='expand'] {
+  display: none;
 }
 
-/* DESIGN §6 card tilt: src/lib/tilt.ts sets the angles while a fine pointer hovers; without them
-   (touch, reduced motion, no JavaScript) the card stays flat. */
-[data-tilt] {
-  transform: perspective(900px) rotateX(var(--pf-tilt-x, 0deg)) rotateY(var(--pf-tilt-y, 0deg));
+@media (prefers-reduced-motion: no-preference) {
+  [data-rail-nav] {
+    interpolate-size: allow-keywords;
+    transition:
+      height var(--pf-g-duration-slow) var(--pf-g-easing-standard),
+      border-radius var(--pf-g-duration-slow) var(--pf-g-easing-standard);
+  }
+
+  [data-rail-toggle] {
+    transition:
+      width var(--pf-g-duration-base) var(--pf-g-easing-standard),
+      height var(--pf-g-duration-base) var(--pf-g-easing-standard),
+      background-color var(--pf-g-duration-fast) var(--pf-g-easing-standard),
+      color var(--pf-g-duration-fast) var(--pf-g-easing-standard);
+  }
+
+  [data-rail-body] {
+    transition:
+      opacity var(--pf-g-duration-fast) var(--pf-g-easing-standard),
+      display var(--pf-g-duration-slow) allow-discrete;
+
+    @starting-style {
+      opacity: 0;
+    }
+  }
+
+  [data-rail='collapsed'] [data-rail-body] {
+    opacity: 0;
+  }
+
+  [data-rail-body] > * {
+    transition:
+      opacity var(--pf-g-duration-base) var(--pf-g-easing-standard),
+      translate var(--pf-g-duration-base) var(--pf-g-easing-standard);
+    transition-delay: calc(var(--pf-rail-i, 0) * 30ms);
+
+    @starting-style {
+      opacity: 0;
+      translate: 0 -0.5rem;
+    }
+  }
+
+  [data-rail-body] > :nth-child(2) {
+    --pf-rail-i: 1;
+  }
+  [data-rail-body] > :nth-child(3) {
+    --pf-rail-i: 2;
+  }
+  [data-rail-body] > :nth-child(4) {
+    --pf-rail-i: 3;
+  }
+  [data-rail-body] > :nth-child(5) {
+    --pf-rail-i: 4;
+  }
+  [data-rail-body] > :nth-child(n + 6) {
+    --pf-rail-i: 5;
+  }
+}
+
+/* BACKLOG-LANDING L-08, ADR 0006: Home is a landing page. Sections snap by proximity only, never
+   mandatory, so zoomed-in, keyboard and long-content readers are never held at a snap point. */
+html:has([data-landing-section]) {
+  scroll-snap-type: y proximity;
+}
+
+/* Where scroll-driven animations exist, each section's content eases in as it enters and settles
+   back as it leaves, tied to the scroll position. It replaces the once-only reveal there; other
+   browsers keep the reveal, and reduced motion keeps everything still. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    :root[data-motion] [data-landing-content][data-reveal]:not([data-revealed]) {
+      opacity: 1;
+      translate: none;
+    }
+
+    /* Two elements, not two animations on one: a later animation's fill would override the
+       earlier one's opacity for the whole timeline. Entering animates the content, leaving the
+       section, and their opacities multiply. Ranges are in vh, not %, so a section taller than the
+       screen is settled while it is being read. The content follows its section's timeline, not its
+       own: centred content enters late, so it would still be faint with the section half shown. */
+    [data-landing-content] {
+      animation-name: pf-section-in;
+      animation-duration: auto;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: --pf-section;
+      animation-range: entry 0% entry 45vh;
+    }
+
+    [data-landing-section] {
+      view-timeline: --pf-section;
+      animation-name: pf-section-out;
+      animation-duration: auto;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: view();
+      animation-range: cover calc(100% - 40vh) cover 100%;
+    }
+  }
+}
+
+@keyframes pf-section-in {
+  from {
+    opacity: 0;
+    translate: 0 var(--pf-g-spacing-12);
+    scale: 0.96;
+  }
+}
+
+@keyframes pf-section-out {
+  to {
+    opacity: 0.25;
+    translate: 0 calc(var(--pf-g-spacing-8) * -1);
+    scale: 0.98;
+  }
+}
+
+/* BACKLOG-LANDING L-05 cloud panels. Closed panels hide their details only once the script has
+   taken over (data-enhanced), so without JavaScript every cloud's details stay readable. */
+[data-cloud-panels][data-enhanced] [data-cloud-panel]:not([data-open]) [data-cloud-detail] {
+  display: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-cloud-detail] {
+    transition:
+      opacity var(--pf-g-duration-slow) var(--pf-g-easing-standard) var(--pf-g-duration-fast),
+      display var(--pf-g-duration-slow) allow-discrete;
+
+    @starting-style {
+      opacity: 0;
+    }
+  }
+}
+
+/* BACKLOG-LANDING L-06: product rows slide in one after another as the list scrolls into view.
+   Each row starts a little later in the same range, which staggers rows that share a line. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    [data-product-row] {
+      animation-name: pf-row-in;
+      animation-duration: auto;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: view();
+      animation-range: entry calc(var(--pf-row-index, 0) * 6%) entry
+        calc(70% + var(--pf-row-index, 0) * 6%);
+    }
+  }
+}
+
+@keyframes pf-row-in {
+  from {
+    opacity: 0;
+    translate: calc(var(--pf-g-spacing-6) * -1) 0;
+  }
+}
+
+/* BACKLOG-LANDING L-09: collapsed, the rail is a perfect circle around a larger handle that shows
+   where the reader is. A new section number rises into place. */
+/* The padding stays as expanded (0.5rem) and the 3rem handle fills the rest, so the circle is
+   4rem without the handle jumping while the height animates (L-32). */
+[data-rail='collapsed'] [data-rail-nav] {
+  height: 4rem;
+  overflow: clip;
+}
+
+[data-rail='collapsed'] [data-rail-toggle] {
+  width: 3rem;
+  height: 3rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-rail-section][data-swapped] {
+    display: inline-block;
+    animation: pf-rise var(--pf-g-duration-base) var(--pf-g-easing-emphasised);
+  }
+}
+
+/* BACKLOG-LANDING L-10 moving product list. It shows only with JavaScript (for the pause toggle)
+   and with motion allowed; otherwise the static index in .pf-ticker-fallback stands in, so the
+   products are never read twice. Each track holds its list twice, so −50% loops seamlessly. */
+.pf-ticker,
+.pf-ticker-toggle {
+  display: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :root[data-motion] .pf-ticker {
+    display: flex;
+  }
+
+  :root[data-motion] .pf-ticker-toggle {
+    display: flex;
+  }
+
+  :root[data-motion] .pf-ticker-fallback {
+    display: none;
+  }
+
+  .pf-ticker-track {
+    animation: pf-ticker 60s linear infinite;
+  }
+
+  .pf-ticker-track--reverse {
+    animation-direction: reverse;
+  }
+
+  [data-ticker][data-paused] .pf-ticker-track {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes pf-ticker {
+  to {
+    translate: -50% 0;
+  }
 }

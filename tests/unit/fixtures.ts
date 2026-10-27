@@ -28,6 +28,7 @@ export const skill = (id: string, group: Skill['group'], accent?: string): Skill
 export const certification = (id: string, skills: string[]): Certification => ({
   id,
   label: `${id} label`,
+  domain: 'admin',
   skills,
 });
 

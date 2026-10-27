@@ -1,0 +1,12 @@
+---
+// DESIGN §10 ledger list (ADR 0008): LedgerRows divided by hairlines, with one above the first.
+import type { HTMLAttributes } from 'astro/types';
+
+type Props = HTMLAttributes<'ul'>;
+
+const { class: className, ...rest } = Astro.props;
+---
+
+<ul class:list={['border-t border-border-1', className]} {...rest}>
+  <slot />
+</ul>

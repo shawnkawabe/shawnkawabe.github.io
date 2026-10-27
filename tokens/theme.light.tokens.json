@@ -23,6 +23,21 @@
     "on-surface-3": {
       "$value": "{color.palette.gray-550}"
     },
+    "globe-shade": {
+      "$value": "{color.palette.gray-100}"
+    },
+    "globe-lit": {
+      "$value": "{color.palette.gray-25}"
+    },
+    "globe-dot": {
+      "$value": "{color.palette.gray-600}"
+    },
+    "shape-shade": {
+      "$value": "{color.palette.gray-100}"
+    },
+    "shape-lit": {
+      "$value": "{color.palette.white}"
+    },
     "accent-1": {
       "$value": "{color.palette.blue-700}"
     },
@@ -93,22 +108,6 @@
         "components": [0.0431, 0.3608, 0.8353],
         "hex": "#0B5CD5",
         "alpha": 0.2
-      }
-    },
-    "band-a": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [0.3569, 0.2471, 0.8392],
-        "hex": "#5B3FD6",
-        "alpha": 0.06
-      }
-    },
-    "band-b": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [0.0549, 0.5412, 0.4784],
-        "hex": "#0E8A7A",
-        "alpha": 0.06
       }
     }
   },

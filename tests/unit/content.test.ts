@@ -27,6 +27,15 @@ const projectIds = new Set(projects.map((project) => project.id));
 const duplicates = (ids: string[]) => ids.filter((id, index) => ids.indexOf(id) !== index);
 
 describe('content files', () => {
+  // BACKLOG-LANDING L-15: visible copy uses commas, colons or "|", never an em dash.
+  it.each(['en', 'pt', 'es'])('%s copy has no em dash', (locale) => {
+    const files = ['site', 'projects', 'skills', 'experience', 'certifications'].map((name) =>
+      readFileSync(new URL(`../../content/${locale}/${name}.json`, import.meta.url), 'utf8'),
+    );
+    files.push(readFileSync(new URL(`../../src/i18n/${locale}.json`, import.meta.url), 'utf8'));
+    expect(files.join('\n')).not.toContain('—');
+  });
+
   it.each([
     ['projects', projects],
     ['skills', skills],
@@ -99,7 +108,7 @@ describe('cross-file references', () => {
   });
 });
 
-/** Every `src` anywhere in a JSON value (gallery images, covers, architecture diagrams). */
+/** Every `src` anywhere in a JSON value (gallery images, covers). */
 function sources(value: unknown): string[] {
   if (Array.isArray(value)) return value.flatMap(sources);
   if (!value || typeof value !== 'object') return [];

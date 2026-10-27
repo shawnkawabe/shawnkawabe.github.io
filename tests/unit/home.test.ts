@@ -2,10 +2,14 @@ import { experimental_AstroContainer as AstroContainer } from 'astro/container';
 import { getContainerRenderer } from '@astrojs/react/container-renderer';
 import { loadRenderers } from 'astro:container';
 import { beforeAll, describe, expect, it } from 'vitest';
-import CertificationStrip from '@/components/patterns/CertificationStrip.astro';
+import CredentialLedger from '@/components/patterns/CredentialLedger.astro';
 import CompanyList from '@/components/patterns/CompanyList.astro';
 import Hero from '@/components/patterns/Hero.astro';
-import Marquee from '@/components/patterns/Marquee.astro';
+import FeaturedIndex from '@/components/patterns/FeaturedIndex.astro';
+import HeroGlobe from '@/components/patterns/HeroGlobe.astro';
+import LandingSection from '@/components/patterns/LandingSection.astro';
+import PrimaryAction from '@/components/ui/PrimaryAction.astro';
+import SculptedShape from '@/components/ui/SculptedShape.astro';
 import SkillGroups from '@/components/patterns/SkillGroups.astro';
 import SplitWords from '@/components/ui/SplitWords.astro';
 
@@ -25,23 +29,70 @@ describe('Hero', () => {
   const site = {
     name: 'Ada Lovelace',
     role: 'Engineer',
+    headline: 'Engines that compute.',
     intro: 'I build **engines** that work.',
-    availability: 'Open to roles',
+    location: 'London',
     links: { resume: 'https://example.com/cv.pdf' },
   };
 
-  it('renders the name as h1, the intro emphasis and both actions', async () => {
+  it('names Ada in the h1, outlines the last word of the claim and offers both actions', async () => {
     const html = await render(Hero, { site });
     expect(html).toMatch(/<h1[^>]*><span class="sr-only">Ada Lovelace<\/span>/);
+    expect(html).toMatch(/Engines that <span class="pf-outline[^"]*">compute\.<\/span>/);
     expect(html).toMatch(/<strong[^>]*>engines<\/strong> that work\./);
+    expect(html).toContain('London');
     expect(html).toContain('href="/en/work"');
     expect(html).toMatch(/href="https:\/\/example\.com\/cv\.pdf" target="_blank"/);
-    expect(html).toContain('Open to roles');
+    expect(html).not.toContain('<aside');
   });
 
-  it('leaves out the availability chip when it is empty', async () => {
-    const html = await render(Hero, { site: { ...site, availability: '' } });
-    expect(html).not.toContain('Open to roles');
+  it('drops the claim and the location when they are empty', async () => {
+    const html = await render(Hero, { site: { ...site, headline: '', location: '' } });
+    expect(html).not.toContain('pf-outline');
+    expect(html).not.toContain('London');
+  });
+});
+
+describe('PrimaryAction', () => {
+  it('is one accent pill named by its visible label, with the arrow hidden from assistive tech', async () => {
+    const html = await render(PrimaryAction, { href: '/en/work', label: 'See my work' });
+    expect(html).toMatch(/<a href="\/en\/work"[^>]*bg-accent-1[^>]*>\s*See my work/);
+    expect(html).not.toContain('target="_blank"');
+    expect(html).toMatch(/<svg[^>]*aria-hidden="true"/);
+    expect(html).not.toContain('size-28');
+  });
+
+  it('opens external targets in a new tab and says so', async () => {
+    const html = await render(PrimaryAction, {
+      href: 'https://x.dev',
+      label: 'CV',
+      external: true,
+    });
+    expect(html).toContain('target="_blank" rel="noopener noreferrer"');
+    expect(html).toContain('(opens in a new tab)');
+  });
+});
+
+describe('HeroGlobe (L-35)', () => {
+  const clouds = ['sales', 'service', 'experience', 'commerce', 'data', 'marketing', 'field'].map(
+    (id) => ({ id: `${id}-cloud`, label: `${id} cloud` }),
+  );
+
+  it('links up to six clouds to Work filtered by the cloud, centred on the arc', async () => {
+    const html = await render(HeroGlobe, { clouds });
+    expect(html.match(/data-moon/g)).toHaveLength(6);
+    expect(html).toContain('href="/en/work?cap=sales-cloud"');
+    expect(html).not.toContain('field-cloud');
+    expect(html).toContain('data-angle="205"');
+    expect(html).toContain('data-angle="335"');
+    expect(html).toContain('aria-label="Clouds I work in"');
+    expect(html).toMatch(/<button[^>]*data-globe-toggle[^>]*hidden/);
+  });
+
+  it('keeps the poster but drops the list when no cloud has a project', async () => {
+    const html = await render(HeroGlobe, { clouds: [] });
+    expect(html).not.toContain('data-moon');
+    expect(html).toContain('pf-globe__poster');
   });
 });
 
@@ -61,36 +112,57 @@ describe('SplitWords', () => {
   });
 });
 
-describe('CertificationStrip', () => {
-  const certifications = [{ id: 'admin', label: 'Administrator' }];
+describe('CredentialLedger (L-17)', () => {
+  const skills = [
+    { id: 'platform', label: 'Salesforce Platform', group: 'development' as const },
+    { id: 'sales-cloud', label: 'Sales Cloud', group: 'clouds' as const, accent: 'cloud-sales' },
+  ];
+  const certifications = [
+    {
+      id: 'dev',
+      label: 'Salesforce Certified Platform Developer I',
+      domain: 'development' as const,
+      skills: ['platform'],
+    },
+    {
+      id: 'admin',
+      label: 'Salesforce Certified Administrator',
+      domain: 'admin' as const,
+      skills: ['platform', 'sales-cloud', 'unknown'],
+    },
+  ];
 
-  it('renders plain chips when there is no credentials page', async () => {
-    const html = await render(CertificationStrip, { certifications, credentialsUrl: '' });
-    expect(html).toContain('Administrator');
+  it('names a shared issuer once and groups rows by domain, in domain order', async () => {
+    const html = await render(CredentialLedger, { certifications, skills, credentialsUrl: '' });
+    expect(html.match(/>Salesforce Certified</g)).toHaveLength(1);
+    expect(html).toContain('<span class="sr-only">Salesforce Certified </span>Administrator');
+    expect(html.indexOf('>Development</h3>')).toBeLessThan(
+      html.indexOf('>Administration and foundations</h3>'),
+    );
+    expect(html).not.toContain('Data and AI');
+    expect(html).toContain('Sales Cloud · Salesforce Platform');
+    expect(html).not.toContain('unknown');
     expect(html).not.toContain('<a');
   });
 
-  it('links every chip to the credentials page in a new tab', async () => {
-    const html = await render(CertificationStrip, {
-      certifications,
+  it('keeps full labels when issuers differ and links rows when a URL is set', async () => {
+    const html = await render(CredentialLedger, {
+      certifications: [
+        ...certifications,
+        { id: 'other', label: 'Other credential', domain: 'data-ai' as const, skills: [] },
+      ],
+      skills,
       credentialsUrl: 'https://example.com/badges',
     });
-    expect(html).toMatch(/<a href="https:\/\/example\.com\/badges" target="_blank"/);
+    expect(html).toContain('Salesforce Certified Administrator');
+    expect(html).not.toContain('sr-only">Salesforce Certified');
+    expect(html.match(/<a href="https:\/\/example\.com\/badges" target="_blank"/g)).toHaveLength(3);
     expect(html).toContain('opens in a new tab');
   });
 });
 
-describe('Marquee', () => {
-  it('announces the list once and controls it with a pause button', async () => {
-    const html = await render(Marquee, { items: ['GRAX', 'D4Sign'], id: 'm' });
-    expect(html.match(/GRAX/g)).toHaveLength(2);
-    expect(html).toMatch(/<ul aria-hidden="true"/);
-    expect(html).toMatch(/aria-controls="m"[^>]*aria-pressed="false"/);
-  });
-});
-
 describe('SkillGroups (Skills page)', () => {
-  it('links skills with projects, with a pluralised count, and leaves the rest as text', async () => {
+  it('gives each group a labelled row and links only skills with projects, with no counts (L-25)', async () => {
     const html = await render(SkillGroups, {
       groups: [
         {
@@ -103,9 +175,10 @@ describe('SkillGroups (Skills page)', () => {
         },
       ],
     });
-    expect(html).toMatch(/<a href="\/en\/work\?cap=apex"[^>]*>[\s\S]*Apex[\s\S]*1 project</);
-    expect(html).toMatch(/<span[^>]*>\s*Aura\s*<\/span>/);
-    expect(html).not.toContain('0 projects');
+    expect(html).toContain('aria-labelledby="skills-development"');
+    expect(html).toMatch(/<a href="\/en\/work\?cap=apex" class="underline">\s*Apex\s*<\/a>/);
+    expect(html).toMatch(/<span class="text-on-surface-1">Aura<\/span>/);
+    expect(html).not.toMatch(/\d project/);
   });
 });
 
@@ -122,5 +195,54 @@ describe('CompanyList (About page)', () => {
     expect(html).toMatch(/<a href="\/en\/work\/brf"[^>]*>\s*BRF/);
     expect(html).not.toContain('/en/work/gone');
     expect(html.match(/<ul/g)).toHaveLength(2);
+    expect(html).not.toContain('bg-surface-2');
+  });
+});
+
+describe('LandingSection shapes (L-38)', () => {
+  it('draws no shape by default', async () => {
+    const html = await render(LandingSection, { id: 'work' });
+    expect(html).not.toContain('<svg');
+    expect(html).not.toContain('isolate');
+  });
+
+  it('puts a hidden shape behind the content, clipped sideways under the rail gutter, with a gradient unique to the section', async () => {
+    const html = await render(LandingSection, { id: 'work', shape: 'ring' });
+    expect(html).toMatch(/<section[^>]*class="[^"]*isolate/);
+    expect(html).toMatch(
+      /<div aria-hidden="true"[^>]*-z-10 overflow-x-clip lg:-left-30[^>]*>\s*<svg[^>]*data-shape="ring"/,
+    );
+    expect(html).toContain('id="work-shape"');
+    expect(html).toContain('stroke="url(#work-shape)"');
+    expect(html.indexOf('<svg')).toBeLessThan(html.indexOf('data-landing-content'));
+  });
+});
+
+describe('SculptedShape', () => {
+  it('fills the blob and strokes the line shapes, fading the far end out', async () => {
+    const blob = await render(SculptedShape, { variant: 'blob', id: 'b' });
+    expect(blob).toContain('fill="url(#b)"');
+    expect(blob).toContain('stop-opacity: 0');
+    const tube = await render(SculptedShape, { variant: 'tube', id: 't' });
+    expect(tube).toContain('fill="none"');
+    expect(tube).toContain('stroke="url(#t)"');
+  });
+});
+
+describe('FeaturedIndex (L-40)', () => {
+  it('lists each project as one numbered link, with no cover, and the subtitle only when given', async () => {
+    const html = await render(FeaturedIndex, {
+      projects: [
+        { id: 'engine', title: 'Analytical Engine', subtitle: 'Punched-card programs' },
+        { id: 'notes', title: 'Notes' },
+      ],
+    });
+    expect(html.match(/<a /g)).toHaveLength(2);
+    expect(html).toContain('/work/engine"');
+    expect(html).toContain('>01<');
+    expect(html).toContain('>02<');
+    expect(html).toContain('Punched-card programs');
+    expect(html.match(/text-3 text-on-surface-2/g)).toHaveLength(1);
+    expect(html).not.toContain('<img');
   });
 });

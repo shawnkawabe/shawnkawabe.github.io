@@ -85,8 +85,9 @@
     "employers": ["cit"],
     "role": "Senior Salesforce Developer",
     "industry": "Education",
-    "clouds": ["platform"],
+    "clouds": [],
     "capabilities": [
+      "platform",
       "data-migration",
       "backup-archival",
       "own-data",
@@ -338,8 +339,9 @@
     "client": "Orchid",
     "employers": ["orchid"],
     "role": "Senior Salesforce Developer",
-    "clouds": ["platform"],
+    "clouds": [],
     "capabilities": [
+      "platform",
       "component-library",
       "lwc",
       "apex",
@@ -383,15 +385,6 @@
       "preset": "violet-edge"
     },
     "sections": [
-      {
-        "type": "architecture",
-        "body": "A Lightning Web Component sales screen calls Apex services that read product stock from SAP in real time and send contracts to D4Sign for digital signature. Supporting services run as a Python Flask API on AWS App Runner, called from Salesforce over REST.",
-        "image": {
-          "src": "/img/lavoro-agro/architecture.svg",
-          "alt": "Diagram: inside Salesforce, a Lightning Web Component sales screen calls Apex services. Apex reads real-time product stock from SAP, sends contracts to D4Sign for signature, and calls a Python Flask API on AWS App Runner over REST.",
-          "approved": true
-        }
-      },
       {
         "type": "outcomes",
         "items": [
