@@ -6,7 +6,9 @@ import CredentialLedger from '@/components/patterns/CredentialLedger.astro';
 import CompanyList from '@/components/patterns/CompanyList.astro';
 import Hero from '@/components/patterns/Hero.astro';
 import HeroGlobe from '@/components/patterns/HeroGlobe.astro';
+import LandingSection from '@/components/patterns/LandingSection.astro';
 import RoundAction from '@/components/ui/RoundAction.astro';
+import SculptedShape from '@/components/ui/SculptedShape.astro';
 import SkillGroups from '@/components/patterns/SkillGroups.astro';
 import SplitWords from '@/components/ui/SplitWords.astro';
 
@@ -187,5 +189,35 @@ describe('CompanyList (About page)', () => {
     expect(html).toMatch(/<a href="\/en\/work\/brf"[^>]*>\s*BRF/);
     expect(html).not.toContain('/en/work/gone');
     expect(html.match(/<ul/g)).toHaveLength(2);
+  });
+});
+
+describe('LandingSection shapes (L-38)', () => {
+  it('draws no shape by default', async () => {
+    const html = await render(LandingSection, { id: 'work' });
+    expect(html).not.toContain('<svg');
+    expect(html).not.toContain('isolate');
+  });
+
+  it('puts a hidden shape behind the content, clipped sideways under the rail gutter, with a gradient unique to the section', async () => {
+    const html = await render(LandingSection, { id: 'work', shape: 'ring' });
+    expect(html).toMatch(/<section[^>]*class="[^"]*isolate/);
+    expect(html).toMatch(
+      /<div aria-hidden="true"[^>]*-z-10 overflow-x-clip lg:-left-30[^>]*>\s*<svg[^>]*data-shape="ring"/,
+    );
+    expect(html).toContain('id="work-shape"');
+    expect(html).toContain('stroke="url(#work-shape)"');
+    expect(html.indexOf('<svg')).toBeLessThan(html.indexOf('data-landing-content'));
+  });
+});
+
+describe('SculptedShape', () => {
+  it('fills the blob and strokes the line shapes, fading the far end out', async () => {
+    const blob = await render(SculptedShape, { variant: 'blob', id: 'b' });
+    expect(blob).toContain('fill="url(#b)"');
+    expect(blob).toContain('stop-opacity: 0');
+    const tube = await render(SculptedShape, { variant: 'tube', id: 't' });
+    expect(tube).toContain('fill="none"');
+    expect(tube).toContain('stroke="url(#t)"');
   });
 });

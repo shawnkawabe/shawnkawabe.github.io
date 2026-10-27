@@ -36,6 +36,8 @@ const SEMANTIC_COLORS = [
   'globe-shade',
   'globe-lit',
   'globe-dot',
+  'shape-shade',
+  'shape-lit',
 ];
 const CLOUDS = ['sales', 'service', 'experience', 'commerce', 'data', 'platform', 'membership'];
 const SPACING = [1, 2, 3, 4, 5, 6, 8, 10, 12, 16, 20, 24, 32];
@@ -119,7 +121,7 @@ describe('generated tokens.css', () => {
     expect(root.get('--pf-g-shadow-2')).toBe('0px 16px 48px 0px rgb(0 0 0 / 0.4)');
   });
 
-  it('keeps every text colour at WCAG AA on every surface, in both themes (L-36)', () => {
+  it('keeps every text colour at WCAG AA on every surface and section shape, in both themes (L-36, L-38)', () => {
     const luminance = (hex: string) => {
       const [r, g, b] = [1, 3, 5].map((index) => {
         const channel = parseInt(hex.slice(index, index + 2), 16) / 255;
@@ -134,7 +136,14 @@ describe('generated tokens.css', () => {
     const root = declarations(rootBlock);
     for (const theme of [root, new Map([...root, ...declarations(lightBlock)])]) {
       const color = (name: string) => theme.get(`--pf-g-color-${name}`)!;
-      for (const surface of ['surface-0', 'surface-1', 'surface-2', 'surface-3']) {
+      for (const surface of [
+        'surface-0',
+        'surface-1',
+        'surface-2',
+        'surface-3',
+        'shape-shade',
+        'shape-lit',
+      ]) {
         for (const text of ['on-surface-1', 'on-surface-2', 'on-surface-3', 'accent-1']) {
           expect(
             contrast(color(text), color(surface)),

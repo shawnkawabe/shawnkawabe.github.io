@@ -323,7 +323,7 @@ current data-core "neurons" scene is not aligned well and does not say that.
       backdrop on any page.
 - [x] **L-37 Round primary action** (S): the hero and contact primary actions become a large round
       accent button with an arrow and a visible text label beside it.
-- [ ] **L-38 Sculpted section shapes** (M): one large soft monochrome shape behind each Home
+- [x] **L-38 Sculpted section shapes** (M): one large soft monochrome shape behind each Home
       section, our own geometry (rendered once to optimised images, not extra live 3D scenes),
       bleeding off the edges. Hidden behind text contrast checks (WCAG AA).
 - [x] **L-39 Hero layout for the globe** (S): Shawn chose mock-up A, "planet horizon"
@@ -559,7 +559,7 @@ continents. Each task below names what "done" means. Tasks run in the order give
       - a metric-matched `Instrument Serif Fallback` face (ADR 0009);
       - `line-height: 0` on the outlined word.
 
-- [ ] **L-38 Sculpted section shapes** (M). **Done when:**
+- [x] **L-38 Sculpted section shapes** (M). **Done when:**
   - **Shapes:**
     - Each Home section after the hero (work, clouds, products, certifications, contact) gets
       one large, soft, monochrome shape: a tube, ring, wave, blob or chevron.
@@ -572,6 +572,19 @@ continents. Each task below names what "done" means. Tasks run in the order give
     the shape's lightest stop and by axe.
   - **Contact band:** `SectionBand` is replaced by its shape, and `SectionBand` is removed in
     L-28.
+  - **Done (2026-10-27):**
+    - `SculptedShape` (inline SVG, no image files): work ring, clouds wave, products chevron,
+      certifications blob, contact tube, set through LandingSection's `shape` prop.
+    - The look comes from a `shape-lit` → `shape-shade` → transparent gradient. A blur filter
+      was left out: it is costly to repaint on large shapes during scroll.
+    - Tokens `shape-shade` and `shape-lit` reuse surface greys. The AA test now covers every
+      text colour on both stops in both themes; axe passes (329 tests).
+    - Each shape has its own clip layer. It clips only sideways and reaches under the rail
+      gutter on lg, so the shape shows no hard edge beside the rail. The SVG uses
+      `overflow: visible` so stroke caps are not cut at the viewBox.
+    - No horizontal overflow at 375, 768 or 1440 in either theme.
+    - Contact no longer uses `SectionBand`; the case-study page and the dev gallery still do,
+      until L-28.
 - [ ] **L-40 Products and tools is the benchmark** (M). **Done when:**
   - **Audit:** `docs/reference/benchmark-audit.md` scores the Home sections and the inner
     pages against the products section's traits:
@@ -645,7 +658,7 @@ screenshots at 375, 768 and 1440 on the built preview, a ticked box with notes, 
 | L-35         | Cloud globe hero                | done    |
 | L-36         | Charcoal palette                | done    |
 | L-37         | Round primary action            | done    |
-| L-38         | Sculpted section shapes         | planned |
+| L-38         | Sculpted section shapes         | done    |
 | L-39         | Hero layout A                   | done    |
 | L-40         | Products and tools as benchmark | planned |
 | L-41         | Scroll-linked motion research   | done    |

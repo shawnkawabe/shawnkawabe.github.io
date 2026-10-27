@@ -32,6 +32,12 @@
     "globe-dot": {
       "$value": "{color.palette.gray-600}"
     },
+    "shape-shade": {
+      "$value": "{color.palette.gray-100}"
+    },
+    "shape-lit": {
+      "$value": "{color.palette.white}"
+    },
     "accent-1": {
       "$value": "{color.palette.blue-700}"
     },

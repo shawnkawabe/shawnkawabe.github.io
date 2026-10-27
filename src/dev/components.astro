@@ -31,6 +31,7 @@ import { stackLinks } from '@/lib/case-study';
 import { strings } from '@/lib/i18n';
 import HeroGlobe from '@/components/patterns/HeroGlobe.astro';
 import RoundAction from '@/components/ui/RoundAction.astro';
+import SculptedShape from '@/components/ui/SculptedShape.astro';
 import LanguageSwitcher from '@/components/patterns/LanguageSwitcher.astro';
 import MobileNav from '@/components/patterns/MobileNav.astro';
 import ProjectCard from '@/components/patterns/ProjectCard.astro';
@@ -354,6 +355,23 @@ const accents = ['cloud-sales', 'cloud-service', 'cloud-data', 'cloud-membership
         <StackChips links={stackLinks(sample, skills)} />
         <PrevNext prev={projects[0]} next={projects[1]} />
         <PrevNext prev={undefined} next={projects[1]} />
+      </section>
+
+      <section class="flex flex-col gap-6">
+        <Heading level={2} size={6}>
+          Sculpted shapes
+        </Heading>
+        <Text size={2} tone={2}>
+          SculptedShape: one per Home section (LandingSection's shape prop), clipped by its box.
+        </Text>
+        <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {(['ring', 'tube', 'wave', 'blob', 'chevron'] as const).map((variant) => (
+            <li class="relative isolate h-64 overflow-clip rounded-lg border border-border-1 p-4">
+              <SculptedShape variant={variant} id={`gallery-shape-${variant}`} />
+              <Text size={2}>{variant}</Text>
+            </li>
+          ))}
+        </ul>
       </section>
 
       <section class="flex flex-col gap-6">

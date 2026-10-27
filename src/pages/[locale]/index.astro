@@ -9,7 +9,6 @@ import HeroGlobe from '@/components/patterns/HeroGlobe.astro';
 import LandingSection from '@/components/patterns/LandingSection.astro';
 import ProductIndex from '@/components/patterns/ProductIndex.astro';
 import ProductTicker from '@/components/patterns/ProductTicker.astro';
-import SectionBand from '@/components/patterns/SectionBand.astro';
 import SectionIndicator from '@/components/patterns/SectionIndicator.astro';
 import Icon from '@/components/ui/Icon.astro';
 import RoundAction from '@/components/ui/RoundAction.astro';
@@ -72,7 +71,7 @@ const sections = [
 
   <div data-landing>
     {featured.length > 0 && (
-      <LandingSection id="work" aria-labelledby="featured-title">
+      <LandingSection id="work" shape="ring" aria-labelledby="featured-title">
         <div class="flex flex-wrap items-end justify-between gap-4">
           <h2 id="featured-title">{t.featured}</h2>
           <a
@@ -100,14 +99,14 @@ const sections = [
     )}
 
     {clouds.length > 0 && (
-      <LandingSection id="clouds" aria-labelledby="clouds-title">
+      <LandingSection id="clouds" shape="wave" aria-labelledby="clouds-title">
         <h2 id="clouds-title">{t.clouds}</h2>
         <CloudPanels clouds={clouds} />
       </LandingSection>
     )}
 
     {products.length > 0 && (
-      <LandingSection id="products" aria-labelledby="products-title">
+      <LandingSection id="products" shape="chevron" aria-labelledby="products-title">
         <h2 id="products-title">{t.products}</h2>
         <ProductTicker items={products} id="products-ticker">
           <ProductIndex items={products} />
@@ -116,7 +115,7 @@ const sections = [
     )}
 
     {certifications.length > 0 && (
-      <LandingSection id="certifications" aria-labelledby="certifications-title">
+      <LandingSection id="certifications" shape="blob" aria-labelledby="certifications-title">
         <h2 id="certifications-title">{t.certifications}</h2>
         <CredentialLedger
           certifications={certifications}
@@ -126,13 +125,11 @@ const sections = [
       </LandingSection>
     )}
 
-    <LandingSection id="contact" aria-label={ui.nav.contact} bleed>
-      <SectionBand tone="a">
-        <div class="mx-auto flex w-full max-w-180 flex-col items-start gap-6 px-4 sm:px-6 lg:px-8">
-          <p class="font-heading text-6 text-balance">{site.ctaLine}</p>
-          <RoundAction href={localePath(locale, '/contact')} label={t.contact} />
-        </div>
-      </SectionBand>
+    <LandingSection id="contact" aria-label={ui.nav.contact} shape="tube" bleed>
+      <div class="mx-auto flex w-full max-w-180 flex-col items-start gap-6 px-4 sm:px-6 lg:px-8">
+        <p class="font-heading text-6 text-balance">{site.ctaLine}</p>
+        <RoundAction href={localePath(locale, '/contact')} label={t.contact} />
+      </div>
     </LandingSection>
   </div>
 </BaseLayout>
