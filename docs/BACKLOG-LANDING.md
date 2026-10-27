@@ -832,6 +832,23 @@ L-35 → L-42 → L-36 → L-39 with L-37 → L-41 → L-38 → L-40 → L-21 wi
 L-25 → L-26 → L-27 → L-28 → L-29 → L-30. Each task ends with `npm run ci`, `npm run test:a11y`,
 screenshots at 375, 768 and 1440 on the built preview, a ticked box with notes, and one commit.
 
+## Round 7: site icon and company name (Shawn, 2026-10-27)
+
+- [x] **L-45 Site icon redesign and a reproducible icon set** (S). Shawn's feedback: fix the site
+      icon. The L-31 tile (white rounded SK on a blue gradient) blurred at 16px and read as a
+      generic app icon; the PNG and ICO were one-off exports and there was no manifest.
+  - Notes (2026-10-27): Shawn chose a dark tile: white geometric SK (square-ended strokes) on
+    surface-0 with an accent-1 underline and a faint accent edge, from the dark theme tokens.
+    `npm run icons` (`scripts/icons.mjs`) now builds every file from one drawing: `favicon.svg`,
+    a real `favicon.ico` (16/32/48 PNG frames), `apple-touch-icon.png` (full bleed),
+    `icon-192/512.png`, a maskable 512 and `site.webmanifest`. Head links carry `?v=` so
+    returning visitors get the new icon; bump `ICON_VERSION` in BaseLayout on the next change.
+- [x] **L-46 Company legal name in the footer** (XS). Shawn works through his own company. Show
+      the legal name, not the CNPJ (Shawn's call), and no trade name for now.
+  - Notes (2026-10-27): `companyLegalName` in `site.json` (same in every locale), rendered under
+    the copyright as a mono uppercase label. If a trade name is registered later, it goes next
+    to it; JSON-LD (Person `worksFor`) was offered and declined for now.
+
 ## Order and status
 
 | #            | Task                            | Status |
@@ -870,3 +887,5 @@ screenshots at 375, 768 and 1440 on the built preview, a ticked box with notes, 
 | L-42         | Apple fonts review              | done   |
 | L-43         | Globe back after jump to Intro  | done   |
 | L-44         | Rail handle lines to chevrons   | done   |
+| L-45         | Site icon redesign              | done   |
+| L-46         | Company name in the footer      | done   |

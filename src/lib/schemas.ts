@@ -144,6 +144,8 @@ export const siteSchema = z.object({
     }),
   }),
   trademarkNotice: z.string(),
+  // The registered company Shawn works through; the same legal name in every locale.
+  companyLegalName: z.string(),
   photo: image.nullable().default(null),
   todo,
 });
