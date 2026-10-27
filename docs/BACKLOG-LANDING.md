@@ -353,7 +353,7 @@ current data-core "neurons" scene is not aligned well and does not say that.
       that and name the closest openly licensed alternatives (for example Geist, already in use,
       and an open serif in the spirit of New York for the L-39 outlined word).
 
-- [ ] **L-43 Globe comes back after a jump to Intro** (M). Shawn's feedback after the merge:
+- [x] **L-43 Globe comes back after a jump to Intro** (M). Shawn's feedback after the merge:
       clicking Intro, or scrolling quickly back to it, sometimes leaves the globe missing.
   - Reproduced (2026-10-27, preview at 1440): load Home, scroll far down, then click the
     section indicator's Intro (or `scrollTo(0, 0)`). The moon labels and the arc return, and
@@ -372,6 +372,15 @@ current data-core "neurons" scene is not aligned well and does not say that.
     - the render loop still pauses off-screen (CLAUDE.md rule 10);
     - a Playwright test covers "scroll away, jump back, the globe is visible";
     - `npm run ci` and `npm run test:a11y` pass.
+  - Done (2026-10-27). **Cause:** not the paused loop. R3F measures its canvas with
+    `getBoundingClientRect`, which includes the L-41 `scale` on the stage. While the globe was
+    scaled, the canvas was resized to the scaled box every frame, and a jump back could leave it
+    oversized (1761×1200 in a 1320×900 hero), framing the sphere off screen while the DOM moons
+    looked fine.
+    - **Fix:** `resize={{ offsetSize: true }}` on the `Canvas`, so it measures the layout box. The
+      canvas now stays 1320×900 through the whole hand-off, which also stops the per-frame buffer
+      reallocation.
+    - The new Playwright test fails without the fix and passes with it.
 
 - [ ] **L-44 Rail handle morphs from three lines to three chevrons** (M). Shawn's feedback: collapsed,
       the rail handle shows three horizontal lines (≡); expanded, it shows three stacked
@@ -846,5 +855,5 @@ screenshots at 375, 768 and 1440 on the built preview, a ticked box with notes, 
 | L-40         | Products and tools as benchmark | done   |
 | L-41         | Scroll-linked motion research   | done   |
 | L-42         | Apple fonts review              | done   |
-| L-43         | Globe back after jump to Intro  | to do  |
+| L-43         | Globe back after jump to Intro  | done   |
 | L-44         | Rail handle lines to chevrons   | to do  |
