@@ -217,14 +217,21 @@
     text-wrap: pretty;
   }
 
+  /* L-32: the underline sits faint and low, then firms up and settles under the text on hover. */
   a {
     color: var(--pf-g-color-accent-1);
-    text-underline-offset: 0.2em;
-    transition: color var(--pf-g-duration-fast) var(--pf-g-easing-standard);
+    text-decoration-color: color-mix(in oklab, currentColor 35%, transparent);
+    text-underline-offset: 0.3em;
+    transition:
+      color var(--pf-g-duration-fast) var(--pf-g-easing-standard),
+      text-decoration-color var(--pf-g-duration-base) var(--pf-g-easing-standard),
+      text-underline-offset var(--pf-g-duration-base) var(--pf-g-easing-standard);
   }
 
   a:hover {
     color: var(--pf-g-color-accent-1-strong);
+    text-decoration-color: currentColor;
+    text-underline-offset: 0.18em;
   }
 
   code,
@@ -311,7 +318,9 @@
 }
 
 /* BACKLOG-LANDING L-02 collapsible rail: BaseLayout's head script sets data-rail before first
-   paint, so a collapsed rail never flashes open. The body fades back in when it reopens. */
+   paint, so a collapsed rail never flashes open. L-32: the pill folds into the circle instead of
+   switching. Its height animates between auto and 4rem (interpolate-size; elsewhere it snaps), the
+   body fades out before it is removed, and on reopening the items fade in one after another. */
 [data-rail='collapsed'] [data-rail-body],
 [data-rail='collapsed'] [data-rail-icon='collapse'],
 :root:not([data-rail='collapsed']) [data-rail-icon='expand'] {
@@ -319,14 +328,61 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
+  [data-rail-nav] {
+    interpolate-size: allow-keywords;
+    transition:
+      height var(--pf-g-duration-slow) var(--pf-g-easing-standard),
+      border-radius var(--pf-g-duration-slow) var(--pf-g-easing-standard);
+  }
+
+  [data-rail-toggle] {
+    transition:
+      width var(--pf-g-duration-base) var(--pf-g-easing-standard),
+      height var(--pf-g-duration-base) var(--pf-g-easing-standard),
+      background-color var(--pf-g-duration-fast) var(--pf-g-easing-standard),
+      color var(--pf-g-duration-fast) var(--pf-g-easing-standard);
+  }
+
   [data-rail-body] {
     transition:
-      opacity var(--pf-g-duration-base) var(--pf-g-easing-standard),
-      display var(--pf-g-duration-base) allow-discrete;
+      opacity var(--pf-g-duration-fast) var(--pf-g-easing-standard),
+      display var(--pf-g-duration-slow) allow-discrete;
 
     @starting-style {
       opacity: 0;
     }
+  }
+
+  [data-rail='collapsed'] [data-rail-body] {
+    opacity: 0;
+  }
+
+  [data-rail-body] > * {
+    transition:
+      opacity var(--pf-g-duration-base) var(--pf-g-easing-standard),
+      translate var(--pf-g-duration-base) var(--pf-g-easing-standard);
+    transition-delay: calc(var(--pf-rail-i, 0) * 30ms);
+
+    @starting-style {
+      opacity: 0;
+      translate: 0 -0.5rem;
+    }
+  }
+
+  [data-rail-body] > :nth-child(2) {
+    --pf-rail-i: 1;
+  }
+  [data-rail-body] > :nth-child(3) {
+    --pf-rail-i: 2;
+  }
+  [data-rail-body] > :nth-child(4) {
+    --pf-rail-i: 3;
+  }
+  [data-rail-body] > :nth-child(5) {
+    --pf-rail-i: 4;
+  }
+  [data-rail-body] > :nth-child(n + 6) {
+    --pf-rail-i: 5;
   }
 }
 
@@ -459,12 +515,11 @@ html:has([data-landing-section]) {
 
 /* BACKLOG-LANDING L-09: collapsed, the rail is a perfect circle around a larger handle that shows
    where the reader is. A new section number rises into place. */
+/* The padding stays as expanded (0.5rem) and the 3rem handle fills the rest, so the circle is
+   4rem without the handle jumping while the height animates (L-32). */
 [data-rail='collapsed'] [data-rail-nav] {
-  width: 4rem;
   height: 4rem;
-  padding: 0;
-  justify-content: center;
-  border-radius: 50%;
+  overflow: clip;
 }
 
 [data-rail='collapsed'] [data-rail-toggle] {

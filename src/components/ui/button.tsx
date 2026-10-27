@@ -4,8 +4,9 @@ import { cn } from '@/lib/utils';
 import { Slot } from 'radix-ui';
 
 // DESIGN §9 Button: pill, 40/48px, brand / neutral / ghost. Focus uses the global ring.
+// L-32: a slight press on click, and a trailing icon (arrow) nudges forward on hover.
 const buttonVariants = cva(
-  "inline-flex shrink-0 items-center justify-center gap-2 rounded-pill border border-transparent font-body text-2 font-medium whitespace-nowrap transition-colors duration-150 ease-standard select-none disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-5",
+  "inline-flex shrink-0 items-center justify-center gap-2 rounded-pill border border-transparent font-body text-2 font-medium whitespace-nowrap transition-[color,background-color,border-color,scale] duration-150 ease-standard select-none active:scale-[0.98] [&_svg:last-child]:transition-transform [&_svg:last-child]:duration-250 [&_svg:last-child]:ease-standard hover:[&_svg:last-child]:translate-x-0.5 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-5",
   {
     variants: {
       variant: {

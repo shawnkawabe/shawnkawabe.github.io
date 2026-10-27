@@ -128,8 +128,13 @@ test('collapsed, the rail is a circle that follows the Home section', async ({
   await page.goto('/en/');
   const rail = page.locator('nav:has([data-rail-toggle])');
   await rail.getByRole('button', { name: 'Collapse menu' }).click();
-  const box = (await rail.boundingBox())!;
-  expect(Math.round(box.width)).toBe(Math.round(box.height));
+  // The pill folds into the circle over a transition (L-32), so wait for the shape to settle.
+  await expect
+    .poll(async () => {
+      const box = (await rail.boundingBox())!;
+      return Math.round(box.height) - Math.round(box.width);
+    })
+    .toBe(0);
   await page.locator('#clouds').scrollIntoViewIfNeeded();
   await expect(rail.locator('[data-rail-toggle]')).toHaveAttribute(
     'aria-label',

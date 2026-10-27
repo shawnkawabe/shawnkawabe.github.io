@@ -167,6 +167,8 @@ Rules: display style only at `font-size-7` and above. Letter-spacing tightens wi
 
 - **Inner pages (ADR 0008):** hover changes text colour or underline only, `duration-fast`. No lift, glow or tilt.
 - Home only: card hover lifts (translateY(−2px), border to `border-2`, `duration-base`); `CoverCard` may tilt toward a fine pointer, at most 6°, flat for touch, reduced motion and without JavaScript (`src/lib/tilt.ts`).
+- Rail (L-32): collapsing folds the pill into the circle (height `auto` → 4rem over `duration-slow`, `interpolate-size`), the body fading out first; expanding fades the groups in with a 30ms stagger. Tooltips slide 4px in with their fade.
+- Links: underline fades from 35% to full and rises from 0.3em to 0.18em offset, `duration-base`. Buttons press to 98% on click; a trailing arrow nudges 2px forward on hover.
 - Section reveal (`Reveal`, CSS + IntersectionObserver, ADR 0005): opacity 0 → 1, y 16 → 0, `duration-slow`, once.
 - Hero text: split by word at build time (`SplitWords`), CSS 30ms stagger, once.
 - Marquee: 40s per loop, linear; pause on hover/focus.
