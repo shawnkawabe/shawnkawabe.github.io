@@ -1,5 +1,7 @@
 // DESIGN §7 hero "data core": a shell of evenly spaced points around a wireframe core, three thin
 // orbit rings with a light riding each, all turning very slowly and leaning toward the pointer.
+// On start the shell gathers in from outside; then packets stream from the shell into the core, a
+// scan ring sweeps the shell, and the scene sinks back as the hero scrolls away.
 // Loaded lazily by HeroScene; colours follow the theme; the loop stops off-screen.
 import { Canvas, useFrame } from '@react-three/fiber';
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -9,14 +11,35 @@ import {
   Float32BufferAttribute,
   MathUtils,
   type Group,
+  type LineBasicMaterial,
+  type LineLoop,
   type Mesh,
+  type PointsMaterial,
 } from 'three';
-import { CORE_TURN_SECONDS, fibonacciSphere, pointerOffset, turnRate } from '@/lib/data-core';
+import {
+  assembleProgress,
+  blendPoints,
+  CORE_TURN_SECONDS,
+  fibonacciSphere,
+  packetTrip,
+  pointerOffset,
+  scanRing,
+  scatterOutward,
+  scrollDepth,
+  turnRate,
+} from '@/lib/data-core';
 import { token, useOnScreen, useThemeColors } from './scene';
 
 const POINTS = 1400;
 const SHELL_RADIUS = 2.3;
 const CORE_RADIUS = 1.05;
+const HEART_RADIUS = 0.32;
+/** Packets in flight at once, and the seconds each takes from the shell to the heart. */
+const PACKETS = 28;
+const PACKET_SECONDS = 3.2;
+/** Seconds for the scan ring to sweep down and back up. */
+const SCAN_SECONDS = 14;
+const SCAN_SEGMENTS = 128;
 /** Tilt of each ring (radians) and its turn time (seconds); different, so they never line up. */
 const RINGS = [
   { radius: 2.9, tilt: [1.2, 0.2, 0], seconds: 40 },
@@ -46,6 +69,45 @@ function usePointer() {
     return () => window.removeEventListener('pointermove', move);
   }, []);
   return pointer;
+}
+
+/** Scroll depth of the hero (0…1), read in the render loop without re-rendering. */
+function useScrollDepth() {
+  const depth = useRef(0);
+  useEffect(() => {
+    const update = () => {
+      depth.current = scrollDepth(window.scrollY, window.innerHeight);
+    };
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    return () => window.removeEventListener('scroll', update);
+  }, []);
+  return depth;
+}
+
+/** Writes each packet's position: a straight run from its shell point to the heart, easing in. */
+function placePackets(shell: Float32Array, out: Float32Array, elapsed: number) {
+  const points = shell.length / 3;
+  for (let index = 0; index < PACKETS; index++) {
+    const { progress, origin } = packetTrip(index, PACKETS, elapsed, PACKET_SECONDS);
+    const from = (origin % points) * 3;
+    const scale = 1 - (1 - HEART_RADIUS / SHELL_RADIUS) * progress * progress;
+    out[index * 3] = shell[from] * scale;
+    out[index * 3 + 1] = shell[from + 1] * scale;
+    out[index * 3 + 2] = shell[from + 2] * scale;
+  }
+}
+
+/** A unit circle in the x–z plane, scaled each frame into the scan ring. */
+function circleGeometry() {
+  const geometry = new BufferGeometry();
+  const positions: number[] = [];
+  for (let index = 0; index < SCAN_SEGMENTS; index++) {
+    const angle = (index / SCAN_SEGMENTS) * Math.PI * 2;
+    positions.push(Math.cos(angle), 0, Math.sin(angle));
+  }
+  geometry.setAttribute('position', new Float32BufferAttribute(positions, 3));
+  return geometry;
 }
 
 function Ring({ radius, tilt, seconds, color }: (typeof RINGS)[number] & { color: string }) {
@@ -83,26 +145,59 @@ function Ring({ radius, tilt, seconds, color }: (typeof RINGS)[number] & { color
 function Core() {
   const colors = useThemeColors(readColors);
   const pointer = usePointer();
+  const depth = useScrollDepth();
   const scene = useRef<Group>(null);
   const shell = useRef<Group>(null);
   const heart = useRef<Mesh>(null);
-  const points = useMemo(() => {
-    const geometry = new BufferGeometry();
-    geometry.setAttribute(
-      'position',
-      new Float32BufferAttribute(fibonacciSphere(POINTS, SHELL_RADIUS), 3),
-    );
-    return geometry;
+  const scan = useRef<LineLoop>(null);
+  const scanMaterial = useRef<LineBasicMaterial>(null);
+  const packetMaterial = useRef<PointsMaterial>(null);
+  const assembled = useRef(false);
+  const { target, start, points, packets, circle } = useMemo(() => {
+    const target = fibonacciSphere(POINTS, SHELL_RADIUS);
+    const start = scatterOutward(target);
+    const points = new BufferGeometry();
+    points.setAttribute('position', new Float32BufferAttribute(start.slice(), 3));
+    const packets = new BufferGeometry();
+    packets.setAttribute('position', new Float32BufferAttribute(new Float32Array(PACKETS * 3), 3));
+    return { target, start, points, packets, circle: circleGeometry() };
   }, []);
-  useEffect(() => () => points.dispose(), [points]);
+  useEffect(
+    () => () => {
+      points.dispose();
+      packets.dispose();
+      circle.dispose();
+    },
+    [points, packets, circle],
+  );
 
   useFrame(({ clock }, delta) => {
+    const elapsed = clock.elapsedTime;
+    if (!assembled.current) {
+      const progress = assembleProgress(elapsed);
+      const position = points.getAttribute('position');
+      blendPoints(start, target, progress, position.array as Float32Array);
+      position.needsUpdate = true;
+      if (packetMaterial.current) packetMaterial.current.opacity = 0.95 * progress;
+      assembled.current = progress === 1;
+    }
+    const packetPosition = packets.getAttribute('position');
+    placePackets(target, packetPosition.array as Float32Array, elapsed);
+    packetPosition.needsUpdate = true;
+    if (scan.current && scanMaterial.current) {
+      const ring = scanRing(elapsed, SCAN_SECONDS, SHELL_RADIUS);
+      scan.current.position.y = ring.y;
+      scan.current.scale.set(ring.radius, 1, ring.radius);
+      scanMaterial.current.opacity = 0.5 * (ring.radius / SHELL_RADIUS);
+    }
     if (shell.current) {
       shell.current.rotation.y += turnRate(CORE_TURN_SECONDS) * delta;
       shell.current.rotation.x += turnRate(CORE_TURN_SECONDS * 3) * delta;
     }
-    if (heart.current) heart.current.scale.setScalar(1 + 0.06 * Math.sin(clock.elapsedTime * 0.8));
+    if (heart.current) heart.current.scale.setScalar(1 + 0.06 * Math.sin(elapsed * 0.8));
     if (scene.current) {
+      scene.current.position.y = depth.current * 1.6;
+      scene.current.scale.setScalar(1 - 0.2 * depth.current);
       const ease = 1 - Math.exp(-FOLLOW * delta);
       scene.current.rotation.y = MathUtils.lerp(
         scene.current.rotation.y,
@@ -135,9 +230,31 @@ function Core() {
           <icosahedronGeometry args={[CORE_RADIUS, 1]} />
           <meshBasicMaterial color={colors.secondary} wireframe transparent opacity={0.35} />
         </mesh>
+        {/* Packets ride with the shell, so each stream stays on its own point. */}
+        <points geometry={packets}>
+          <pointsMaterial
+            ref={packetMaterial}
+            color={colors.secondary}
+            size={0.09}
+            sizeAttenuation
+            transparent
+            opacity={0}
+            depthWrite={false}
+            blending={AdditiveBlending}
+          />
+        </points>
       </group>
+      <lineLoop ref={scan} geometry={circle}>
+        <lineBasicMaterial
+          ref={scanMaterial}
+          color={colors.primary}
+          transparent
+          depthWrite={false}
+          blending={AdditiveBlending}
+        />
+      </lineLoop>
       <mesh ref={heart}>
-        <icosahedronGeometry args={[0.32, 3]} />
+        <icosahedronGeometry args={[HEART_RADIUS, 3]} />
         <meshStandardMaterial
           color={colors.primary}
           emissive={colors.primary}

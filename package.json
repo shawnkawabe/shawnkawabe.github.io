@@ -19,7 +19,7 @@
     "grammar": "node scripts/grammar.mjs",
     "og": "node scripts/og.mjs",
     "validate:content": "astro sync",
-    "check:links": "linkinator dist --recurse --skip \"^(?!http://(localhost|127\\.0\\.0\\.1)[:/])\"",
+    "check:links": "linkinator dist --recurse --concurrency 20 --skip \"^(?!http://(localhost|127\\.0\\.0\\.1)[:/])\"",
     "ci": "npm run tokens && npm run lint && npm run validate:content && npm test && npm run build && npm run check:links",
     "prepare": "husky"
   },
