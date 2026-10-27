@@ -20,12 +20,6 @@
     "accent": "cloud-data"
   },
   {
-    "id": "platform",
-    "label": "Salesforce Platform",
-    "group": "clouds",
-    "accent": "cloud-platform"
-  },
-  {
     "id": "membership",
     "label": "Membresías y sin fines de lucro",
     "group": "clouds",
@@ -52,6 +46,7 @@
     "label": "Bibliotecas de componentes reutilizables",
     "group": "development"
   },
+  { "id": "platform", "label": "Salesforce Platform", "group": "development" },
 
   { "id": "rest-soap", "label": "Integraciones REST y SOAP", "group": "integration" },
   { "id": "sap-integration", "label": "Integración con SAP", "group": "integration" },

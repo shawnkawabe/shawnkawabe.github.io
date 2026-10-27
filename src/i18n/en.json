@@ -95,9 +95,7 @@
       "messageTooLong": "Keep the message under 2000 characters"
     }
   },
-  "constellation": {
-    "listLabel": "Clouds — choose one to see its projects",
-    "close": "Close",
+  "cloudPanels": {
     "certifications": "Certifications",
     "projects": "Projects",
     "seeProjects": "See projects"

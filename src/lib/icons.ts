@@ -28,7 +28,6 @@ import commerceCloud from '@/assets/icons/clouds/commerce-cloud.svg';
 import dataCloud from '@/assets/icons/clouds/data-cloud.svg';
 import experienceCloud from '@/assets/icons/clouds/experience-cloud.svg';
 import membership from '@/assets/icons/clouds/membership.svg';
-import platform from '@/assets/icons/clouds/platform.svg';
 import salesCloud from '@/assets/icons/clouds/sales-cloud.svg';
 import serviceCloud from '@/assets/icons/clouds/service-cloud.svg';
 
@@ -62,7 +61,6 @@ export const cloudIcons = {
   'experience-cloud': experienceCloud,
   'commerce-cloud': commerceCloud,
   'data-cloud': dataCloud,
-  platform,
   membership,
 };
 

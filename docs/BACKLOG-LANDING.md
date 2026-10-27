@@ -57,7 +57,7 @@ Research behind L-05 to L-08 is summarised in [ADR 0006](adr/0006-landing-scroll
     are in `vh` so tall sections settle while being read. Lighthouse not re-measured yet. On
     phones the hero is one screen plus the sticky header.
 
-- [ ] **L-05 Clouds I work in**
+- [x] **L-05 Clouds I work in**
   - Salesforce Platform is no longer listed as a cloud: it underlies every project, so it moves out
     of the `clouds` group (to `development`) and out of the home section, the Skills clouds grid and
     the Work cloud filter. Projects that only tagged `platform` as a cloud get their real cloud or keep `platform` as a
@@ -69,6 +69,12 @@ Research behind L-05 to L-08 is summarised in [ADR 0006](adr/0006-landing-scroll
   - The section fits inside one viewport at 1440×900 and 768×1024, with nothing hidden at top or
     bottom.
   - The constellation island and its canvas are deleted if nothing else uses them.
+  - Notes (2026-10-26): `platform` is now a `development` skill; Adtalem and the Orchid component
+    library had it as their only cloud, so they now list no cloud (schema allows an empty list)
+    and carry `platform` as a capability rather than an invented cloud. Its cloud icon is deleted;
+    the `cloud-platform` colour token stays unused. The constellation island, canvas, helpers and
+    tests are removed; `canRunScene`/`hasWebGL2` moved to `src/lib/webgl.ts` for the hero scene.
+    Checked at 1440×900 (section exactly one screen) and 375px (accordion).
 
 - [ ] **L-06 Products & tools**
   - No chips/badges and no marquee; the "Pause scrolling list" button goes away.
@@ -95,6 +101,6 @@ Research behind L-05 to L-08 is summarised in [ADR 0006](adr/0006-landing-scroll
 | L-04 | AWS label                  | done   |
 | L-02 | Rail + language menu       | done   |
 | L-08 | Landing structure          | done   |
-| L-05 | Clouds                     | to do  |
+| L-05 | Clouds                     | done   |
 | L-06 | Products & tools           | to do  |
 | L-07 | Certifications             | to do  |

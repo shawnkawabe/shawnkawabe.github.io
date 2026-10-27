@@ -85,8 +85,9 @@
     "employers": ["cit"],
     "role": "Senior Salesforce Developer",
     "industry": "Educação",
-    "clouds": ["platform"],
+    "clouds": [],
     "capabilities": [
+      "platform",
       "data-migration",
       "backup-archival",
       "own-data",
@@ -338,8 +339,9 @@
     "client": "Orchid",
     "employers": ["orchid"],
     "role": "Senior Salesforce Developer",
-    "clouds": ["platform"],
+    "clouds": [],
     "capabilities": [
+      "platform",
       "component-library",
       "lwc",
       "apex",

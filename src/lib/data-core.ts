@@ -26,24 +26,6 @@ export function fibonacciSphere(count: number, radius: number): Float32Array {
   return points;
 }
 
-/**
- * `count` points scattered over a flat ring between `inner` and `outer` (x, y, with a little z
- * depth): the dust disc behind the constellation.
- */
-export function dustDisc(count: number, inner: number, outer: number): Float32Array {
-  const points = new Float32Array(count * 3);
-  const golden = Math.PI * (3 - Math.sqrt(5));
-  for (let index = 0; index < count; index++) {
-    const radius = inner + (outer - inner) * Math.sqrt(hash01(index));
-    const angle = golden * index;
-    points.set(
-      [Math.cos(angle) * radius, Math.sin(angle) * radius, (hash01(index + count) - 0.5) * 0.6],
-      index * 3,
-    );
-  }
-  return points;
-}
-
 /** Seconds the shell takes to gather into its sphere when the scene starts. */
 export const ASSEMBLE_SECONDS = 3.2;
 

@@ -71,7 +71,7 @@ export const projectSchema = z.object({
   role: z.string(),
   teamSize: z.string().optional(),
   industry: z.string().optional(),
-  clouds: z.array(id).min(1),
+  clouds: z.array(id), // may be empty: platform-wide work sits under capabilities (L-05)
   capabilities: z.array(id),
   category: z.string(),
   featured: z.boolean().default(false),

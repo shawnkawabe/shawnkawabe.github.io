@@ -380,3 +380,41 @@ html:has([data-landing-section]) {
     scale: 0.98;
   }
 }
+
+/* BACKLOG-LANDING L-05 cloud panels. Closed panels hide their details only once the script has
+   taken over (data-enhanced), so without JavaScript every cloud's details stay readable. The glow
+   follows the pointer via --pf-glow-x/y, set by src/lib/cloud-panels.ts. */
+[data-cloud-panels][data-enhanced] [data-cloud-panel]:not([data-open]) [data-cloud-detail] {
+  display: none;
+}
+
+.pf-cloud-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(
+    28rem circle at var(--pf-glow-x, 30%) var(--pf-glow-y, 0%),
+    color-mix(in oklab, var(--pf-c-cloud-accent) 16%, transparent),
+    transparent 65%
+  );
+  opacity: 0.5;
+  transition: opacity var(--pf-g-duration-base) var(--pf-g-easing-standard);
+}
+
+.pf-cloud-panel[data-open]::before,
+.pf-cloud-panel:hover::before {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-cloud-detail] {
+    transition:
+      opacity var(--pf-g-duration-slow) var(--pf-g-easing-standard) var(--pf-g-duration-fast),
+      display var(--pf-g-duration-slow) allow-discrete;
+
+    @starting-style {
+      opacity: 0;
+    }
+  }
+}

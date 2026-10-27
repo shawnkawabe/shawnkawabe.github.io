@@ -2,7 +2,6 @@ import { describe, expect, it } from 'vitest';
 import {
   assembleProgress,
   blendPoints,
-  dustDisc,
   fibonacciSphere,
   hash01,
   packetTrip,
@@ -124,19 +123,5 @@ describe('scrollDepth', () => {
     expect(scrollDepth(400, 800)).toBe(0.5);
     expect(scrollDepth(5000, 800)).toBe(1);
     expect(scrollDepth(-20, 800)).toBe(0);
-  });
-});
-
-describe('dustDisc', () => {
-  it('keeps every grain inside the ring, close to its plane', () => {
-    const points = dustDisc(300, 1, 3);
-    expect(points).toHaveLength(900);
-    for (let index = 0; index < 300; index++) {
-      const [x, y, z] = points.slice(index * 3, index * 3 + 3);
-      const radius = Math.hypot(x, y);
-      expect(radius).toBeGreaterThanOrEqual(1 - 1e-6);
-      expect(radius).toBeLessThanOrEqual(3 + 1e-6);
-      expect(Math.abs(z)).toBeLessThanOrEqual(0.3);
-    }
   });
 });
