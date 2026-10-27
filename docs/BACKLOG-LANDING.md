@@ -204,7 +204,11 @@ Research behind L-05 to L-08 is summarised in [ADR 0006](adr/0006-landing-scroll
     behind the card at lower opacity. Needs `site.headline`; rows derived from content.
   - C. Capability index: six numbered capabilities linking to `/work?cap=`. Competes with the
     products list lower on Home.
-- [ ] **L-17 Certifications section redesign** (Shawn chose the grouped ledger, 2026-10-27)
+- [x] **L-17 Certifications section redesign** (Shawn chose the grouped ledger, 2026-10-27)
+  - Notes (2026-10-27): `CredentialLedger` replaces `CredentialTickets` on Home and Skills.
+    Certifications gained a `domain` field (development, data-ai, admin); group labels live in
+    `src/i18n`. A shared issuer is derived from the labels, shown once, and kept for screen
+    readers on each row. Ticket CSS removed (part of L-28).
   - Diagnosis (`CredentialTickets.astro`): "Salesforce Certified" repeats five times; the ticket
     stub, vertical `CERT·01` serial and check icon are ornament; cards lift on hover but are not
     links; five cards in three columns leave an orphan row; no lead line.
@@ -314,7 +318,7 @@ L-25 (and on Home).
 | L-14         | Favicon                    | done     |
 | L-15         | No em dash                 | done     |
 | L-16         | Intro redesign             | decision |
-| L-17         | Certifications redesign    | decision |
+| L-17         | Certifications redesign    | done     |
 | L-18         | Cloud cards simplified     | done     |
 | L-19         | Rail toggle icon           | done     |
 | L-20 to L-30 | Professional inner pages   | planned  |

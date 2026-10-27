@@ -8,7 +8,7 @@ All text, dates and facts about Shawn live in `content/{locale}/*.json` (`en`, `
 | `content/en/projects.json`       | One object per project / case study                                    |
 | `content/en/skills.json`         | Every skill, cloud, product and tool, with its group                   |
 | `content/en/experience.json`     | Companies you delivered through: name, role, projects (no dates)       |
-| `content/en/certifications.json` | Certifications and related skills                                      |
+| `content/en/certifications.json` | Certifications, their domain (ledger group) and related skills         |
 
 ## Add a project in five steps
 

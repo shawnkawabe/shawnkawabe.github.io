@@ -59,6 +59,13 @@
     "certifications": "Certificaciones",
     "contact": "Contáctame"
   },
+  "credentials": {
+    "domains": {
+      "development": "Desarrollo",
+      "data-ai": "Datos e IA",
+      "admin": "Administración y fundamentos"
+    }
+  },
   "skills": {
     "clouds": "Clouds",
     "groups": "Habilidades por área",

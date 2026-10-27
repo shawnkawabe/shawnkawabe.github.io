@@ -2,7 +2,7 @@ import { experimental_AstroContainer as AstroContainer } from 'astro/container';
 import { getContainerRenderer } from '@astrojs/react/container-renderer';
 import { loadRenderers } from 'astro:container';
 import { beforeAll, describe, expect, it } from 'vitest';
-import CredentialTickets from '@/components/patterns/CredentialTickets.astro';
+import CredentialLedger from '@/components/patterns/CredentialLedger.astro';
 import CompanyList from '@/components/patterns/CompanyList.astro';
 import Hero from '@/components/patterns/Hero.astro';
 import SkillGroups from '@/components/patterns/SkillGroups.astro';
@@ -53,38 +53,51 @@ describe('SplitWords', () => {
   });
 });
 
-describe('CredentialTickets', () => {
+describe('CredentialLedger (L-17)', () => {
   const skills = [
     { id: 'platform', label: 'Salesforce Platform', group: 'development' as const },
     { id: 'sales-cloud', label: 'Sales Cloud', group: 'clouds' as const, accent: 'cloud-sales' },
   ];
   const certifications = [
     {
+      id: 'dev',
+      label: 'Salesforce Certified Platform Developer I',
+      domain: 'development' as const,
+      skills: ['platform'],
+    },
+    {
       id: 'admin',
       label: 'Salesforce Certified Administrator',
+      domain: 'admin' as const,
       skills: ['platform', 'sales-cloud', 'unknown'],
     },
   ];
 
-  it('splits the issuer off the title and lists known skills, clouds first', async () => {
-    const html = await render(CredentialTickets, { certifications, skills, credentialsUrl: '' });
-    expect(html).toContain('Salesforce Certified</p>');
-    expect(html).toMatch(
-      /<h3[^>]*><span class="sr-only">Salesforce Certified <\/span>Administrator<\/h3>/,
+  it('names a shared issuer once and groups rows by domain, in domain order', async () => {
+    const html = await render(CredentialLedger, { certifications, skills, credentialsUrl: '' });
+    expect(html.match(/>Salesforce Certified</g)).toHaveLength(1);
+    expect(html).toContain('<span class="sr-only">Salesforce Certified </span>Administrator');
+    expect(html.indexOf('>Development</h3>')).toBeLessThan(
+      html.indexOf('>Administration and foundations</h3>'),
     );
-    expect(html.indexOf('Sales Cloud')).toBeLessThan(html.indexOf('Salesforce Platform'));
+    expect(html).not.toContain('Data and AI');
+    expect(html).toContain('Sales Cloud · Salesforce Platform');
     expect(html).not.toContain('unknown');
-    expect(html).toContain('--pf-c-cloud-accent: var(--pf-g-color-cloud-sales)');
     expect(html).not.toContain('<a');
   });
 
-  it('links the whole ticket to the credentials page in a new tab', async () => {
-    const html = await render(CredentialTickets, {
-      certifications,
+  it('keeps full labels when issuers differ and links rows when a URL is set', async () => {
+    const html = await render(CredentialLedger, {
+      certifications: [
+        ...certifications,
+        { id: 'other', label: 'Other credential', domain: 'data-ai' as const, skills: [] },
+      ],
       skills,
       credentialsUrl: 'https://example.com/badges',
     });
-    expect(html).toMatch(/<a href="https:\/\/example\.com\/badges" target="_blank"/);
+    expect(html).toContain('Salesforce Certified Administrator');
+    expect(html).not.toContain('sr-only">Salesforce Certified');
+    expect(html.match(/<a href="https:\/\/example\.com\/badges" target="_blank"/g)).toHaveLength(3);
     expect(html).toContain('opens in a new tab');
   });
 });

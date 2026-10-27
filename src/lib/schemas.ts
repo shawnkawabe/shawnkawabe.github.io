@@ -96,6 +96,8 @@ export const experienceSchema = z.object({
 export const certificationSchema = z.object({
   id,
   label: z.string(),
+  // Grouping on the certifications ledger (BACKLOG-LANDING L-17), in this order.
+  domain: z.enum(['development', 'data-ai', 'admin']),
   skills: z.array(id), // no dates
 });
 
