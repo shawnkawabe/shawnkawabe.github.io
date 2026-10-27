@@ -65,11 +65,11 @@ describe('BaseLayout', () => {
     expect(html).toContain('<script type="application/ld+json">{"@type":"Person","name":"Shawn"}');
   });
 
-  it('carries the company legal name and the trademark notice in the footer', async () => {
+  it('keeps the footer to links and the copyright, with no trademark notice', async () => {
     const html = await render({ meta });
     const footer = html.slice(html.indexOf('<footer'));
-    expect(footer).toContain(siteJson.companyLegalName);
-    expect(footer).toContain(siteJson.trademarkNotice);
+    expect(footer).toContain(`© ${new Date().getFullYear()} ${siteJson.name}`);
+    expect(footer).not.toMatch(/trademark/i);
   });
 
   it('links site icons and a manifest that all exist in public/', async () => {
