@@ -303,6 +303,32 @@ L-25 (and on Home).
       with "I work as an independent Salesforce professional", says the marks are named only to
       describe the platforms, and states no affiliation, sponsorship or endorsement (en, pt, es).
 
+## Round 6: sculpted look and the cloud globe (Shawn, 2026-10-27)
+
+Shawn shared `docs/source-figma/` (git-ignored; notes in `docs/reference/sculpted-gradients.md`):
+charcoal ground, one large soft monochrome sculpted shape per screen, bold sans headline, one vivid
+accent on a round action button. He also restated the original hero idea: "an earth globe (that we
+can recognize the continents) with the Salesforce clouds floating around it like moons". The
+current data-core "neurons" scene is not aligned well and does not say that.
+
+- [ ] **L-35 Cloud globe hero scene** (L): replace the data core with an Earth globe whose
+      continents are recognisable, and the clouds Shawn worked in orbiting it as moons, each
+      labelled with its name as text (no logos; ≤ 6 moons, from content). Land shapes baked once
+      from Natural Earth (public domain) into a small committed asset; no map data fetched at
+      runtime. Same gates as today: desktop, motion allowed, WebGL2, after load and idle, ≤ 1 MB,
+      DPR ≤ 2, paused off-screen, poster first and as the fallback. Moons pause and name
+      themselves on hover or focus, and link to Work filtered by the cloud.
+- [ ] **L-36 Charcoal, monochrome palette** (M): neutral charcoal surfaces (no blue tint), greys for
+      text and lines, the accent kept for the primary action, links and focus only. No grid
+      backdrop on any page.
+- [ ] **L-37 Round primary action** (S): the hero and contact primary actions become a large round
+      accent button with an arrow and a visible text label beside it.
+- [ ] **L-38 Sculpted section shapes** (M): one large soft monochrome shape behind each Home
+      section, our own geometry (rendered once to optimised images, not extra live 3D scenes),
+      bleeding off the edges. Hidden behind text contrast checks (WCAG AA).
+- [ ] **L-39 Hero layout for the globe** (S): the globe takes the right half; the fact card's three
+      facts move to a row under the actions so it no longer covers the scene.
+
 ## Order and status
 
 | #            | Task                       | Status  |
@@ -331,3 +357,8 @@ L-25 (and on Home).
 | L-32         | Better transitions         | done    |
 | L-33         | Contact full width         | done    |
 | L-34         | Footer notice              | done    |
+| L-35         | Cloud globe hero           | planned |
+| L-36         | Charcoal palette           | planned |
+| L-37         | Round primary action       | planned |
+| L-38         | Sculpted section shapes    | planned |
+| L-39         | Hero layout for the globe  | planned |

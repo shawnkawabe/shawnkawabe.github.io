@@ -10,6 +10,8 @@ playwright-report/
 test-results/
 .lighthouseci/
 docs/source-images/
+# Licensed design references (Envato, Figma Community): look, never ship
+docs/source-figma/
 .DS_Store
 .playwright-mcp/
 
