@@ -329,36 +329,43 @@ current data-core "neurons" scene is not aligned well and does not say that.
 - [ ] **L-39 Hero layout for the globe** (S): the globe takes the right half; the fact card's three
       facts move to a row under the actions so it no longer covers the scene.
 
+- [ ] **L-40 Products and tools is the benchmark** (M): Shawn: "The best section so far is the
+      Product and Tools, ensure that the others are compliant with it." Bring every Home section
+      (and the rebuilt inner pages) to its standard: large typography as the visual, content
+      first, no boxes or badges, accent used sparingly, motion that serves reading and pauses on
+      hover or focus. Audit each section against it and list the gaps before changing them.
+
 ## Order and status
 
-| #            | Task                       | Status  |
-| ------------ | -------------------------- | ------- |
-| L-01         | Resume link                | done    |
-| L-03         | Drop solution architecture | done    |
-| L-04         | AWS label                  | done    |
-| L-02         | Rail + language menu       | done    |
-| L-08         | Landing structure          | done    |
-| L-05         | Clouds                     | done    |
-| L-06         | Products & tools           | done    |
-| L-07         | Certifications             | done    |
-| L-09         | Collapsed rail as a circle | done    |
-| L-10         | Products moving list       | done    |
-| L-11         | Typography                 | done    |
-| L-12         | Background                 | done    |
-| L-13         | Remove availability chip   | done    |
-| L-14         | Favicon                    | done    |
-| L-15         | No em dash                 | done    |
-| L-16         | Intro redesign             | done    |
-| L-17         | Certifications redesign    | done    |
-| L-18         | Cloud cards simplified     | done    |
-| L-19         | Rail toggle icon           | done    |
-| L-20 to L-30 | Professional inner pages   | planned |
-| L-31         | Better favicon             | done    |
-| L-32         | Better transitions         | done    |
-| L-33         | Contact full width         | done    |
-| L-34         | Footer notice              | done    |
-| L-35         | Cloud globe hero           | planned |
-| L-36         | Charcoal palette           | planned |
-| L-37         | Round primary action       | planned |
-| L-38         | Sculpted section shapes    | planned |
-| L-39         | Hero layout for the globe  | planned |
+| #            | Task                            | Status  |
+| ------------ | ------------------------------- | ------- |
+| L-01         | Resume link                     | done    |
+| L-03         | Drop solution architecture      | done    |
+| L-04         | AWS label                       | done    |
+| L-02         | Rail + language menu            | done    |
+| L-08         | Landing structure               | done    |
+| L-05         | Clouds                          | done    |
+| L-06         | Products & tools                | done    |
+| L-07         | Certifications                  | done    |
+| L-09         | Collapsed rail as a circle      | done    |
+| L-10         | Products moving list            | done    |
+| L-11         | Typography                      | done    |
+| L-12         | Background                      | done    |
+| L-13         | Remove availability chip        | done    |
+| L-14         | Favicon                         | done    |
+| L-15         | No em dash                      | done    |
+| L-16         | Intro redesign                  | done    |
+| L-17         | Certifications redesign         | done    |
+| L-18         | Cloud cards simplified          | done    |
+| L-19         | Rail toggle icon                | done    |
+| L-20 to L-30 | Professional inner pages        | planned |
+| L-31         | Better favicon                  | done    |
+| L-32         | Better transitions              | done    |
+| L-33         | Contact full width              | done    |
+| L-34         | Footer notice                   | done    |
+| L-35         | Cloud globe hero                | planned |
+| L-36         | Charcoal palette                | planned |
+| L-37         | Round primary action            | planned |
+| L-38         | Sculpted section shapes         | planned |
+| L-39         | Hero layout for the globe       | planned |
+| L-40         | Products and tools as benchmark | planned |
