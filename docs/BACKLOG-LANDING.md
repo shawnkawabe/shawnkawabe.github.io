@@ -837,9 +837,12 @@ screenshots at 375, 768 and 1440 on the built preview, a ticked box with notes, 
 - [x] **L-45 Site icon redesign and a reproducible icon set** (S). Shawn's feedback: fix the site
       icon. The L-31 tile (white rounded SK on a blue gradient) blurred at 16px and read as a
       generic app icon; the PNG and ICO were one-off exports and there was no manifest.
-  - Notes (2026-10-27): a first dark-tile SK with an accent underline was rejected; Shawn chose
-    the orbit badge: a round surface-0 badge, white geometric SK (square-ended strokes), a thin
-    accent-1 ring carrying one accent moon, after the hero globe and its cloud moons.
+  - Notes (2026-10-27): two drawn-letter rounds (a dark-tile SK with an accent underline, then an
+    orbit badge) gave way to Shawn's call for a brand mark in the hero's serif: an interlocked SK
+    in Instrument Serif (ADR 0009), an accent-1 S crossing a white K, parted by a thin cut in the
+    tile colour, on a dark rounded tile. One idea and one accent; the colour split keeps the
+    letters apart at 16px, and a light same-colour stroke thickens the hairlines. The outlines
+    are baked into the script (OFL font), so the icon needs no font at runtime.
     `npm run icons` (`scripts/icons.mjs`) builds every file from that one drawing and the dark
     theme tokens: `favicon.svg`, a real `favicon.ico` (16/32/48 PNG frames),
     `apple-touch-icon.png` (full bleed), `icon-192/512.png`, a maskable 512 and
