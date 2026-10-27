@@ -147,7 +147,7 @@ Research behind L-05 to L-08 is summarised in [ADR 0006](adr/0006-landing-scroll
   - Needs ADR 0007 and updates to CLAUDE.md rule 6, DESIGN §3 and the font tokens; OG cards
     regenerated. **[H]** Shawn approves the pairing from a specimen page before the swap.
 
-- [ ] **L-12 Background with personality** (research done 2026-10-26)
+- [x] **L-12 Background with personality** (research done 2026-10-26)
   - Proposal: a **technical grid** (blueprint lines at 4–6% opacity) across the page, lit by a
     soft accent spotlight that follows the pointer (CSS custom properties, one rAF-throttled
     listener). It replaces the generic two-glow gradient and fits the data/schema identity
@@ -158,6 +158,10 @@ Research behind L-05 to L-08 is summarised in [ADR 0006](adr/0006-landing-scroll
   - Text contrast measured over the grid at its brightest; still WCAG AA.
   - Optional later: a topographic contour tile for one section only, if the grid alone feels
     flat. Mesh-gradient aurora rejected as the same generic look.
+  - Notes (2026-10-26): `Backdrop.astro` in `BaseLayout`, so every page has it. Lines are 5% of
+    the text colour; inside the spotlight they take the section tint at 22%. Tints: accent-1 for
+    intro/products, accent-3 for work/certifications, accent-2 for clouds/contact; pitch 40–72px.
+    The hero's two glows became one faint glow (the no-WebGL poster). axe contrast checks pass.
 
 ## Order and status
 
@@ -174,4 +178,4 @@ Research behind L-05 to L-08 is summarised in [ADR 0006](adr/0006-landing-scroll
 | L-09 | Collapsed rail as a circle | done   |
 | L-10 | Products moving list       | done   |
 | L-11 | Typography                 | to do  |
-| L-12 | Background                 | to do  |
+| L-12 | Background                 | done   |

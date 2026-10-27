@@ -1,0 +1,16 @@
+---
+// Site background (BACKLOG-LANDING L-12): a technical grid, faint everywhere and brighter under a
+// soft accent spotlight that follows the pointer. On Home the tint and grid pitch shift with the
+// current section. Decorative: hidden from assistive tech, never takes pointer events.
+---
+
+<div aria-hidden="true" data-backdrop class="pf-backdrop pointer-events-none fixed inset-0 z-0">
+  <div class="pf-backdrop-grid absolute inset-0"></div>
+  <div class="pf-backdrop-spot absolute inset-0"></div>
+</div>
+
+<script>
+  import { bindBackdrop } from '@/lib/backdrop';
+
+  bindBackdrop();
+</script>
