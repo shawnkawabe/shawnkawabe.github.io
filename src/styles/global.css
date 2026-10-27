@@ -469,3 +469,43 @@ html:has([data-landing-section]) {
     animation: pf-rise var(--pf-g-duration-base) var(--pf-g-easing-emphasised);
   }
 }
+
+/* BACKLOG-LANDING L-10 moving product list. It shows only with JavaScript (for the pause toggle)
+   and with motion allowed; otherwise the static index in .pf-ticker-fallback stands in, so the
+   products are never read twice. Each track holds its list twice, so −50% loops seamlessly. */
+.pf-ticker,
+.pf-ticker-toggle {
+  display: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :root[data-motion] .pf-ticker {
+    display: flex;
+  }
+
+  :root[data-motion] .pf-ticker-toggle {
+    display: flex;
+  }
+
+  :root[data-motion] .pf-ticker-fallback {
+    display: none;
+  }
+
+  .pf-ticker-track {
+    animation: pf-ticker 60s linear infinite;
+  }
+
+  .pf-ticker-track--reverse {
+    animation-direction: reverse;
+  }
+
+  [data-ticker][data-paused] .pf-ticker-track {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes pf-ticker {
+  to {
+    translate: -50% 0;
+  }
+}

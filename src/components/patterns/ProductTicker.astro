@@ -1,0 +1,101 @@
+---
+// Home "Products and tools" as a moving typographic list (BACKLOG-LANDING L-10). Two rows drift in
+// opposite directions; used products are bright, linked and carry their project count, the rest are
+// dimmer plain text. A round toggle pauses the motion (WCAG 2.2.2), and a row also pauses on hover
+// or focus inside it. With reduced motion or no JavaScript, global.css shows the static index
+// (passed in the default slot) instead, so the list is never read twice.
+import Icon from '@/components/ui/Icon.astro';
+import { plural } from '@/lib/format';
+import { localeFromPath, localePath, strings } from '@/lib/i18n';
+
+const locale = localeFromPath(Astro.url.pathname);
+const ui = strings(locale);
+
+interface Props {
+  items: { id: string; label: string; projectCount: number }[];
+  id: string;
+}
+
+const { items, id } = Astro.props;
+const workPath = localePath(locale, '/work');
+// The second row runs the other way and starts elsewhere, so the two never line up.
+const half = Math.ceil(items.length / 2);
+const rows = [items, [...items.slice(half), ...items.slice(0, half)]];
+---
+
+<div data-ticker class="flex flex-col gap-4">
+  <div id={id} class="pf-ticker flex-col gap-2">
+    {rows.map((row, rowIndex) => (
+      <div
+        class="group/row overflow-hidden mask-x-from-85% mask-x-to-100%"
+        aria-hidden={rowIndex > 0 ? 'true' : undefined}
+      >
+        <div
+          class:list={[
+            'pf-ticker-track flex w-max group-focus-within/row:[animation-play-state:paused] group-hover/row:[animation-play-state:paused]',
+            rowIndex > 0 && 'pf-ticker-track--reverse',
+          ]}
+        >
+          {[0, 1].map((copy) => {
+            // Only the first copy of the first row is announced and focusable; the rest repeat it.
+            const echo = rowIndex > 0 || copy > 0;
+            return (
+              <ul
+                class="flex shrink-0 items-center"
+                aria-hidden={echo && rowIndex === 0 ? 'true' : undefined}
+              >
+                {row.map((item) => (
+                  <li class="flex items-center">
+                    {item.projectCount > 0 ? (
+                      <a
+                        href={`${workPath}?cap=${item.id}`}
+                        tabindex={echo ? -1 : undefined}
+                        class="group/item flex items-start gap-1 px-6 font-heading text-8 whitespace-nowrap text-on-surface-1 no-underline transition-colors duration-250 hover:text-accent-1 focus-visible:text-accent-1"
+                      >
+                        {item.label}
+                        <sup class="font-mono text-1 tracking-label text-on-surface-2 group-hover/item:text-accent-1">
+                          <span aria-hidden="true">
+                            {String(item.projectCount).padStart(2, '0')}
+                          </span>
+                          <span class="sr-only">
+                            {' '}
+                            ({plural(ui.cards.projects, item.projectCount)})
+                          </span>
+                        </sup>
+                      </a>
+                    ) : (
+                      <span class="px-6 font-heading text-8 whitespace-nowrap text-on-surface-2">
+                        {item.label}
+                      </span>
+                    )}
+                    <span aria-hidden="true" class="size-2 shrink-0 rotate-45 bg-accent-1/60" />
+                  </li>
+                ))}
+              </ul>
+            );
+          })}
+        </div>
+      </div>
+    ))}
+  </div>
+  <button
+    type="button"
+    data-ticker-toggle
+    aria-controls={id}
+    aria-pressed="false"
+    aria-label={ui.home.pauseTicker}
+    class="pf-ticker-toggle group/toggle size-11 cursor-pointer items-center justify-center self-end rounded-pill border border-border-1 text-on-surface-2 transition-colors duration-150 hover:border-border-2 hover:text-on-surface-1"
+  >
+    <Icon name="pause" class="group-aria-pressed/toggle:hidden" />
+    <Icon name="play" class="hidden group-aria-pressed/toggle:block" />
+  </button>
+  <div class="pf-ticker-fallback">
+    <slot />
+  </div>
+</div>
+
+<script>
+  import { bindTickers } from '@/lib/ticker';
+
+  bindTickers();
+</script>

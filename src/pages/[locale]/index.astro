@@ -7,6 +7,7 @@ import CoverCard from '@/components/patterns/CoverCard.astro';
 import Hero from '@/components/patterns/Hero.astro';
 import LandingSection from '@/components/patterns/LandingSection.astro';
 import ProductIndex from '@/components/patterns/ProductIndex.astro';
+import ProductTicker from '@/components/patterns/ProductTicker.astro';
 import HeroScene from '@/components/patterns/HeroScene.astro';
 import SectionBand from '@/components/patterns/SectionBand.astro';
 import SectionIndicator from '@/components/patterns/SectionIndicator.astro';
@@ -106,7 +107,9 @@ const sections = [
     {products.length > 0 && (
       <LandingSection id="products" aria-labelledby="products-title">
         <h2 id="products-title">{t.products}</h2>
-        <ProductIndex items={products} />
+        <ProductTicker items={products} id="products-ticker">
+          <ProductIndex items={products} />
+        </ProductTicker>
       </LandingSection>
     )}
 

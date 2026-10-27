@@ -16,7 +16,7 @@ interface Props {
 const { items } = Astro.props;
 const workPath = localePath(locale, '/work');
 const row =
-  'group relative grid grid-cols-[3rem_1fr_auto] items-baseline gap-4 border-b border-border-1 py-5 no-underline';
+  'relative grid grid-cols-[3rem_1fr_auto] items-baseline gap-4 border-b border-border-1 py-5 no-underline';
 ---
 
 <ol class="grid gap-x-12 lg:grid-cols-2">
@@ -51,7 +51,7 @@ const row =
     return (
       <li data-product-row style={`--pf-row-index: ${index}`}>
         {count ? (
-          <a href={`${workPath}?cap=${item.id}`} class={row}>
+          <a href={`${workPath}?cap=${item.id}`} class:list={['group', row]}>
             {body}
           </a>
         ) : (

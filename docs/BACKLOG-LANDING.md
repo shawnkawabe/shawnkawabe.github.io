@@ -115,7 +115,7 @@ Research behind L-05 to L-08 is summarised in [ADR 0006](adr/0006-landing-scroll
     `pf-sectionchange`; the rail listens, so neither module imports the other's DOM. Pages
     outside the nav (404) fall back to the expand icon.
 
-- [ ] **L-10 Products & tools: a moving list again, restyled** (reworks L-06)
+- [x] **L-10 Products & tools: a moving list again, restyled** (reworks L-06)
   - Back to a passing list, but typographic, not chips: names in display type, large, separated
     by a small accent glyph; two rows drifting in opposite directions, slowly (≥ 40s per loop).
   - Used products (linked to `/work?cap=<id>`) are filled; the others are outlined text, so the
@@ -126,6 +126,11 @@ Research behind L-05 to L-08 is summarised in [ADR 0006](adr/0006-landing-scroll
     and on keyboard focus inside them.
   - Reduced motion or no JavaScript: the L-06 indexed list, static.
   - Screen readers hear one list of products, once.
+  - Notes (2026-10-26): outlined text was dropped: a 1px outline cannot be held to WCAG 1.4.3
+    contrast. Used products are bright, linked and carry a mono count superscript; unused ones
+    are dimmer plain text. The toggle keeps one label ("Pause the moving list") and `aria-pressed`
+    carries the state. Repeated copies are `aria-hidden` with `tabindex="-1"` links, so mouse
+    users can still click them. Plain rows in the static index no longer show hover effects.
 
 - [ ] **L-11 Typography for a professional landing page** (research done 2026-10-26)
   - Proposal: **Geist Sans** (display and body) + **Geist Mono** (labels and data), self-hosted
@@ -167,6 +172,6 @@ Research behind L-05 to L-08 is summarised in [ADR 0006](adr/0006-landing-scroll
 | L-06 | Products & tools           | done   |
 | L-07 | Certifications             | done   |
 | L-09 | Collapsed rail as a circle | done   |
-| L-10 | Products moving list       | to do  |
+| L-10 | Products moving list       | done   |
 | L-11 | Typography                 | to do  |
 | L-12 | Background                 | to do  |

@@ -17,6 +17,8 @@ import {
   Moon,
   PanelLeftClose,
   PanelLeftOpen,
+  Pause,
+  Play,
   Sun,
   User,
   X,
@@ -52,6 +54,8 @@ export const icons = {
   'chevron-right': ChevronRight,
   'panel-close': PanelLeftClose,
   'panel-open': PanelLeftOpen,
+  pause: Pause,
+  play: Play,
 } satisfies Record<string, LucideIcon>;
 
 // Original cloud artwork (DESIGN §8), keyed by the cloud's skill id in content/skills.json.
