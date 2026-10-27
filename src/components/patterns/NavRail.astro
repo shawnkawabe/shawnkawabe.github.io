@@ -17,7 +17,8 @@ const pathname = Astro.url.pathname;
 const groups = [pageLinks(locale), externalLinks(getSite(locale), locale)];
 const current = groups[0].find((link) => isActive(pathname, link.href));
 const onHome = current?.icon === 'home';
-const currentName = onHome ? ui.home.intro : current?.label;
+// On Home the handle shows the section number, so the name includes it (WCAG 2.5.3 label in name).
+const currentName = onHome ? `01 ${ui.home.intro}` : current?.label;
 
 const item =
   'group relative flex size-10 items-center justify-center rounded-pill text-on-surface-2 no-underline transition-colors duration-150 ease-standard hover:bg-surface-3 hover:text-on-surface-1';

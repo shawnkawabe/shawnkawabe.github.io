@@ -56,17 +56,17 @@ describe('collapsed rail (L-09)', () => {
     document.documentElement.dataset.rail = 'collapsed';
     document.body.innerHTML = `
       <button data-rail-toggle data-label-collapse="Collapse" data-label-expand="Expand"
-        data-label-expand-current="Expand, current: {name}" data-current="Intro">
+        data-label-expand-current="Expand, current: {name}" data-current="01 Intro">
         <span data-rail-section> 01 </span>
       </button>`;
     bindRailToggles();
     const toggle = document.querySelector('button')!;
-    expect(toggle.getAttribute('aria-label')).toBe('Expand, current: Intro');
+    expect(toggle.getAttribute('aria-label')).toBe('Expand, current: 01 Intro');
 
     window.dispatchEvent(
       new CustomEvent(SECTION_EVENT, { detail: { id: 'clouds', number: '03', label: 'Clouds' } }),
     );
-    expect(toggle.getAttribute('aria-label')).toBe('Expand, current: Clouds');
+    expect(toggle.getAttribute('aria-label')).toBe('Expand, current: 03 Clouds');
     const section = toggle.querySelector('[data-rail-section]')!;
     expect(section.textContent).toBe('03');
     expect(section.hasAttribute('data-swapped')).toBe(true);

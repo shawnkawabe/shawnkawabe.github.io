@@ -45,6 +45,8 @@ test('the navigation reaches every page and marks the current one', async ({ pag
     return page.getByRole('dialog').getByRole('navigation', { name: 'Main' });
   };
 
+  // The rail starts collapsed; this test is about the links, so it starts expanded.
+  await page.addInitScript(() => localStorage.setItem('pf-rail', 'expanded'));
   await page.goto('/en/');
   for (const [name, path] of [
     ['Work', '/en/work'],
@@ -98,6 +100,8 @@ test('the language switcher keeps the page and remembers the choice', async ({
   test.skip((await switcher.count()) === 0, 'Only one language is built.');
   if (testInfo.project.name === 'mobile')
     await page.getByRole('button', { name: 'Open menu' }).click();
+  // On desktop the switcher lives in the rail, which starts collapsed.
+  else await page.locator('[data-rail-toggle]').click();
   await page.locator('[data-language-menu] summary:visible').click();
   await page.locator('[data-locale-link="pt"]:visible').click();
   await expect(page).toHaveURL((url) => url.pathname === '/pt/work/');
@@ -106,19 +110,21 @@ test('the language switcher keeps the page and remembers the choice', async ({
   await expect(page).toHaveURL((url) => url.pathname === '/pt/');
 });
 
-test('the desktop rail collapses and stays collapsed on the next page', async ({
+test('the desktop rail starts collapsed, and an expanded rail stays expanded on the next page', async ({
   page,
 }, testInfo) => {
   test.skip(testInfo.project.name === 'mobile', 'The rail is desktop only.');
   await page.goto('/en/');
   const rail = page.locator('nav:has([data-rail-toggle])');
-  await rail.getByRole('button', { name: 'Collapse menu' }).click();
-  await expect(rail.getByRole('link', { name: 'Work' })).toBeHidden();
-  await page.goto('/en/work/');
-  const toggle = rail.getByRole('button', { name: 'Expand menu' });
+  const toggle = rail.locator('[data-rail-toggle]');
   await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+  await expect(rail.getByRole('link', { name: 'Work' })).toBeHidden();
   await toggle.click();
   await expect(rail.getByRole('link', { name: 'Work' })).toBeVisible();
+  await page.goto('/en/work/');
+  await expect(toggle).toHaveAttribute('aria-expanded', 'true');
+  await rail.getByRole('button', { name: 'Collapse menu' }).click();
+  await expect(rail.getByRole('link', { name: 'Work' })).toBeHidden();
 });
 
 test('collapsed, the rail is a circle that follows the Home section', async ({
@@ -127,8 +133,7 @@ test('collapsed, the rail is a circle that follows the Home section', async ({
   test.skip(testInfo.project.name === 'mobile', 'The rail is desktop only.');
   await page.goto('/en/');
   const rail = page.locator('nav:has([data-rail-toggle])');
-  await rail.getByRole('button', { name: 'Collapse menu' }).click();
-  // The pill folds into the circle over a transition (L-32), so wait for the shape to settle.
+  // Collapsed by default: wait for the circle shape to settle (L-32 transition).
   await expect
     .poll(async () => {
       const box = (await rail.boundingBox())!;

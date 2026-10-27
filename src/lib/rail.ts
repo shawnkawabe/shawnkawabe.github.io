@@ -49,7 +49,7 @@ export function bindRailToggles(scope: ParentNode = document): void {
   window.addEventListener(SECTION_EVENT, (event) => {
     const { number, label } = (event as CustomEvent<SectionChange>).detail;
     buttons.forEach((button) => {
-      button.dataset.current = label;
+      button.dataset.current = `${number} ${label}`;
       const section = button.querySelector<HTMLElement>('[data-rail-section]');
       if (section && section.textContent?.trim() !== number) {
         section.textContent = number;
