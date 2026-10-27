@@ -326,14 +326,32 @@ current data-core "neurons" scene is not aligned well and does not say that.
 - [ ] **L-38 Sculpted section shapes** (M): one large soft monochrome shape behind each Home
       section, our own geometry (rendered once to optimised images, not extra live 3D scenes),
       bleeding off the edges. Hidden behind text contrast checks (WCAG AA).
-- [ ] **L-39 Hero layout for the globe** (S): the globe takes the right half; the fact card's three
-      facts move to a row under the actions so it no longer covers the scene.
+- [ ] **L-39 Hero layout for the globe** (S): Shawn chose mock-up A, "planet horizon"
+      (2026-10-27). The headline, intro and actions sit centred at the top, and the globe rises from
+      the bottom edge with the cloud moons along an arc above it. The location goes top right and
+      the fact card is dropped. The accent stays blue, and the globe uses dot continents. The last
+      headline word is set in an outlined serif ("adopt."), which needs an ADR for one self-hosted,
+      openly licensed serif.
 
 - [ ] **L-40 Products and tools is the benchmark** (M): Shawn: "The best section so far is the
       Product and Tools, ensure that the others are compliant with it." Bring every Home section
       (and the rebuilt inner pages) to its standard: large typography as the visual, content
       first, no boxes or badges, accent used sparingly, motion that serves reading and pauses on
       hover or focus. Audit each section against it and list the gaps before changing them.
+- [ ] **L-41 Scroll-linked motion research** (M): Shawn wants animations that move with the
+      scroll, for example the globe expanding as sections change or an arrow moving up. Treat
+      those as samples and find the best fit for this site. Compare CSS scroll-driven animations
+      (`animation-timeline: view()`/`scroll()`, with an IntersectionObserver fallback, per ADR 0005)
+      against scroll-scrubbed 3D. Propose one or two uses tied to content, such as the globe
+      handing off to the Clouds section. Rules: no scroll-jacking or pinned scroll traps, nothing
+      that hides content until it animates, full static result under `prefers-reduced-motion`, no
+      new animation library without an ADR, and no layout shift (CLS stays at 0).
+- [ ] **L-42 Apple fonts review** (S): check whether anything at
+      https://developer.apple.com/fonts/ (SF Pro, SF Compact, SF Mono, New York) can be used here.
+      Read the licence first: Apple licenses these fonts for designing and mocking up UIs for
+      Apple platforms, which likely excludes self-hosting them on a public website. If so, record
+      that and name the closest openly licensed alternatives (for example Geist, already in use,
+      and an open serif in the spirit of New York for the L-39 outlined word).
 
 ## Order and status
 
@@ -369,3 +387,5 @@ current data-core "neurons" scene is not aligned well and does not say that.
 | L-38         | Sculpted section shapes         | planned |
 | L-39         | Hero layout for the globe       | planned |
 | L-40         | Products and tools as benchmark | planned |
+| L-41         | Scroll-linked motion research   | planned |
+| L-42         | Apple fonts review              | planned |
