@@ -3,7 +3,6 @@
 import '@/styles/global.css';
 import MobileNav from '@/components/patterns/MobileNav.astro';
 import NavRail from '@/components/patterns/NavRail.astro';
-import Backdrop from '@/components/patterns/Backdrop.astro';
 import SiteFooter from '@/components/patterns/SiteFooter.astro';
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
@@ -126,7 +125,6 @@ const ogImageAlt = isDefaultOgImage(ogImage)
     >
       {ui.skipLink}
     </a>
-    <Backdrop />
     <MobileNav />
     <NavRail />
     <!-- Desktop content starts right of the rail: left 24 + width 64 + gap 32 (DESIGN §5). -->

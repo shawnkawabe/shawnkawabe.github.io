@@ -58,15 +58,17 @@ Not tokens (composed in CSS from tokens): `shadow-glow`, cover gradients (§3.3)
 
 ### 3.1 Semantic palette
 
+Neutral charcoal and greys with no blue tint (BACKLOG-LANDING L-36). The accent marks only the primary action, links, focus and selected states. No page has a grid backdrop. Every text colour meets AA on every surface in both themes, enforced by `tests/unit/tokens.test.ts`.
+
 | Token             | Role                          | Dark                     | Light                   |
 | ----------------- | ----------------------------- | ------------------------ | ----------------------- |
-| `surface-0`       | Page background               | `#0E0F13`                | `#FAFAFB`               |
-| `surface-1`       | Default section               | `#16171B`                | `#FFFFFF`               |
-| `surface-2`       | Cards, nav rail               | `#1E1F24`                | `#F4F5F7`               |
-| `surface-3`       | Raised: menus, panels         | `#26282E`                | `#ECEEF2`               |
-| `on-surface-1`    | Primary text                  | `#F4F4F6`                | `#121318`               |
-| `on-surface-2`    | Secondary text                | `#A0A3AD`                | `#555A66`               |
-| `on-surface-3`    | Tertiary, captions            | `#6E7280`                | `#7C8190`               |
+| `surface-0`       | Page background               | `#131313`                | `#FAFAFA`               |
+| `surface-1`       | Default section               | `#1A1A1A`                | `#FFFFFF`               |
+| `surface-2`       | Cards, nav rail               | `#212121`                | `#F4F4F4`               |
+| `surface-3`       | Raised: menus, panels         | `#2A2A2A`                | `#EBEBEB`               |
+| `on-surface-1`    | Primary text                  | `#F2F2F2`                | `#141414`               |
+| `on-surface-2`    | Secondary text                | `#A3A3A3`                | `#575757`               |
+| `on-surface-3`    | Tertiary, captions            | `#949494`                | `#666666`               |
 | `border-1`        | Hairlines                     | `rgba(255,255,255,0.08)` | `rgba(0,0,0,0.08)`      |
 | `border-2`        | Emphasised borders            | `rgba(255,255,255,0.16)` | `rgba(0,0,0,0.16)`      |
 | `accent-1`        | Links, primary action, focus  | `#4DA9FF`                | `#0B5CD5`               |
