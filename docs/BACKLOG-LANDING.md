@@ -35,7 +35,7 @@ Research behind L-05 to L-08 is summarised in [ADR 0006](adr/0006-landing-scroll
 
 ## Landing home (structure first, then each section)
 
-- [ ] **L-08 Full-viewport landing structure** (do before L-05 to L-07)
+- [x] **L-08 Full-viewport landing structure** (do before L-05 to L-07)
   - Home sections (hero, featured work, clouds, products & tools, certifications, contact) are each
     at least `100svh` tall, content centred vertically; they grow past the viewport when content
     or zoom needs it (never clipped).
@@ -51,6 +51,11 @@ Research behind L-05 to L-08 is summarised in [ADR 0006](adr/0006-landing-scroll
   - The 3D hero scene still pauses off-screen; the scroll animations don't touch it.
   - Checks: 375 / 768 / 1440 screenshots; zoom 200% has no clipped or unreachable content;
     axe passes; Lighthouse performance stays at or above today's score.
+  - Notes (2026-10-26): checked at 1440×900, 375×812 and 720×450 (≈ 200% zoom); sections grow past
+    the viewport instead of clipping, no horizontal scroll; axe suite green. Section content fades
+    in on its section's named view timeline (`--pf-section`), the section dims on exit; the ranges
+    are in `vh` so tall sections settle while being read. Lighthouse not re-measured yet. On
+    phones the hero is one screen plus the sticky header.
 
 - [ ] **L-05 Clouds I work in**
   - Salesforce Platform is no longer listed as a cloud: it underlies every project, so it moves out
@@ -88,8 +93,8 @@ Research behind L-05 to L-08 is summarised in [ADR 0006](adr/0006-landing-scroll
 | L-01 | Resume link                | done   |
 | L-03 | Drop solution architecture | done   |
 | L-04 | AWS label                  | done   |
-| L-02 | Rail + language menu       | to do  |
-| L-08 | Landing structure          | to do  |
+| L-02 | Rail + language menu       | done   |
+| L-08 | Landing structure          | done   |
 | L-05 | Clouds                     | to do  |
 | L-06 | Products & tools           | to do  |
 | L-07 | Certifications             | to do  |

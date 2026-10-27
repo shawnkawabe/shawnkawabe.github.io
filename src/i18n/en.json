@@ -46,6 +46,8 @@
     "empty": "No projects match these filters"
   },
   "home": {
+    "sections": "Sections",
+    "intro": "Intro",
     "seeWork": "See my work",
     "resume": "Download resume",
     "featured": "Featured work",

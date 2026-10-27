@@ -46,6 +46,8 @@
     "empty": "Nenhum projeto corresponde a esses filtros"
   },
   "home": {
+    "sections": "Seções",
+    "intro": "Início",
     "seeWork": "Ver meus projetos",
     "resume": "Baixar currículo",
     "featured": "Projetos em destaque",

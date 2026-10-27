@@ -1,7 +1,8 @@
 ---
 // SPEC §5.1 hero: availability chip, name in Orbitron, role, intro with **terms** brighter, two
 // actions. Static HTML so the name is the LCP element; the gradient poster sits behind it, and the
-// page passes the data-core scene (HeroScene) into the `scene` slot.
+// page passes the data-core scene (HeroScene) into the `scene` slot. The first full-viewport
+// landing section (BACKLOG-LANDING L-08).
 import { buttonVariants } from '@/components/ui/button';
 import Chip from '@/components/ui/Chip.astro';
 import Icon from '@/components/ui/Icon.astro';
@@ -22,11 +23,19 @@ const { site } = Astro.props;
 const t = ui.home;
 ---
 
-<section class="relative isolate overflow-hidden">
+<section
+  id="intro"
+  aria-label={site.name}
+  data-landing-section
+  class="relative isolate flex min-h-svh snap-start flex-col justify-center overflow-hidden"
+>
   <div aria-hidden="true" class="pf-hero-glow absolute inset-0 -z-10">
     <slot name="scene" />
   </div>
-  <div class="mx-auto flex w-full max-w-300 flex-col items-start gap-6 px-4 pt-20 pb-16 sm:px-6 lg:px-8 lg:pt-32 lg:pb-24">
+  <div
+    data-landing-content
+    class="mx-auto flex w-full max-w-300 flex-col items-start gap-6 px-4 py-20 sm:px-6 lg:px-8 lg:py-24"
+  >
     {/* A sentence, not a tag: it may wrap on narrow screens instead of being clipped. */}
     {site.availability && (
       <Chip mono wrap>

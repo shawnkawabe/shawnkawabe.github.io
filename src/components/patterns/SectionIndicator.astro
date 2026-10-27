@@ -1,0 +1,48 @@
+---
+// Home section indicator (BACKLOG-LANDING L-08): numbered anchors on the right edge, desktop only.
+// The script marks the section crossing the middle of the screen; without it, the links still work.
+import { localeFromPath, strings } from '@/lib/i18n';
+
+interface Props {
+  sections: { id: string; label: string }[];
+}
+
+const { sections } = Astro.props;
+const ui = strings(localeFromPath(Astro.url.pathname));
+const label =
+  'pointer-events-none absolute top-1/2 right-full mr-3 -translate-y-1/2 rounded-sm bg-surface-3 px-3 py-1 text-2 whitespace-nowrap text-on-surface-1 opacity-0 shadow-2 transition-opacity duration-150 ease-standard group-hover:opacity-100 group-focus-visible:opacity-100';
+---
+
+<nav
+  aria-label={ui.home.sections}
+  data-section-indicator
+  class="fixed top-1/2 right-2 z-30 hidden -translate-y-1/2 print:hidden lg:block"
+>
+  <ol class="flex flex-col items-end gap-1">
+    {sections.map(({ id, label: name }, index) => (
+      <li>
+        <a
+          href={`#${id}`}
+          data-section-link={id}
+          class="group relative flex items-center gap-2 rounded-pill px-2 py-1 font-mono text-1 tracking-label text-on-surface-2 no-underline transition-colors duration-150 ease-standard hover:text-on-surface-1 aria-current:text-on-surface-1"
+        >
+          <span aria-hidden="true" class={label}>
+            {name}
+          </span>
+          <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+          <span class="sr-only">{name}</span>
+          <span
+            aria-hidden="true"
+            class="h-px w-4 bg-current transition-[width] duration-250 ease-standard group-aria-current:w-8"
+          ></span>
+        </a>
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<script>
+  import { bindSectionIndicator } from '@/lib/section-indicator';
+
+  bindSectionIndicator();
+</script>
