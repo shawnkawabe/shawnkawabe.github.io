@@ -2,6 +2,8 @@
   "titleTemplate": "{title} — {name}",
   "skipLink": "Saltar al contenido",
   "nav": {
+    "collapse": "Contraer menú",
+    "expand": "Expandir menú",
     "label": "Principal",
     "home": "Inicio",
     "work": "Proyectos",

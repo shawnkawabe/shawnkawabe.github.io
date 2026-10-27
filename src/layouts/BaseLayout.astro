@@ -62,6 +62,7 @@ const ogImageAlt = isDefaultOgImage(ogImage)
         const s = localStorage.getItem('pf-theme');
         const t = s ?? (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
         document.documentElement.dataset.theme = t;
+        document.documentElement.dataset.rail = localStorage.getItem('pf-rail') ?? 'expanded';
       } catch {
         document.documentElement.dataset.theme = 'dark';
       }

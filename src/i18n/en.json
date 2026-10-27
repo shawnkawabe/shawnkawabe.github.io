@@ -2,6 +2,8 @@
   "titleTemplate": "{title} — {name}",
   "skipLink": "Skip to content",
   "nav": {
+    "collapse": "Collapse menu",
+    "expand": "Expand menu",
     "label": "Main",
     "home": "Home",
     "work": "Work",

@@ -5,6 +5,7 @@ import {
   ArrowUpRight,
   BriefcaseBusiness,
   Check,
+  ChevronDown,
   ChevronLeft,
   ChevronRight,
   ExternalLink,
@@ -14,6 +15,8 @@ import {
   Mail,
   Menu,
   Moon,
+  PanelLeftClose,
+  PanelLeftOpen,
   Sun,
   User,
   X,
@@ -45,8 +48,11 @@ export const icons = {
   menu: Menu,
   close: X,
   check: Check,
+  'chevron-down': ChevronDown,
   'chevron-left': ChevronLeft,
   'chevron-right': ChevronRight,
+  'panel-close': PanelLeftClose,
+  'panel-open': PanelLeftOpen,
 } satisfies Record<string, LucideIcon>;
 
 // Original cloud artwork (DESIGN §8), keyed by the cloud's skill id in content/skills.json.

@@ -22,7 +22,7 @@ Research behind L-05 to L-08 is summarised in [ADR 0006](adr/0006-landing-scroll
 
 ## Navigation
 
-- [ ] **L-02 Collapsible rail and language menu**
+- [x] **L-02 Collapsible rail and language menu**
   - The desktop rail has a collapse button. Collapsed, it shrinks to a small handle that keeps only
     the expand button. The choice survives page loads (`localStorage`, with a safe default when
     storage is blocked) and applies before first paint, so there is no flash.

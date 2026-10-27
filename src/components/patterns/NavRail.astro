@@ -1,5 +1,6 @@
 ---
 // Desktop nav rail (SPEC §4.1, DESIGN §9): floating pill, icon links with CSS-only tooltips.
+// Collapsible to a single handle (BACKLOG-LANDING L-02); global.css hides the body on <html data-rail>.
 import Icon from '@/components/ui/Icon.astro';
 import { getSite } from '@/lib/content';
 import { externalLinks, isActive, pageLinks } from '@/lib/nav';
@@ -23,40 +24,66 @@ const tooltip =
   aria-label={ui.nav.label}
   class="fixed top-16 left-6 z-40 hidden w-16 flex-col items-center gap-2 rounded-pill bg-surface-2/90 p-2 shadow-1 backdrop-blur-md lg:flex"
 >
-  {groups.map((links, index) => (
-    <>
-      {index > 0 && <span class="my-1 h-px w-6 bg-border-1" aria-hidden="true" />}
-      <ul class="flex flex-col items-center gap-2">
-        {links.map(({ href, label, icon, external }) => {
-          const current = !external && isActive(pathname, href);
-          return (
-            <li>
-              <a
-                href={href}
-                class:list={[item, current && 'bg-surface-3 text-on-surface-1']}
-                aria-current={current ? 'page' : undefined}
-                target={external ? '_blank' : undefined}
-                rel={external ? 'noopener noreferrer' : undefined}
-              >
-                <Icon name={icon} />
-                <span class={tooltip}>
-                  {label}
-                  {external && <span class="sr-only"> ({ui.nav.newTab})</span>}
-                </span>
-                {current && (
-                  <span
-                    class="absolute bottom-0.5 size-1 rounded-pill bg-on-surface-1"
-                    aria-hidden="true"
-                  />
-                )}
-              </a>
-            </li>
-          );
-        })}
-      </ul>
-    </>
-  ))}
-  <span class="my-1 h-px w-6 bg-border-1" aria-hidden="true"></span>
-  <LanguageSwitcher variant="rail" />
-  <ThemeToggle class="hover:bg-surface-3" />
+  <button
+    type="button"
+    data-rail-toggle
+    data-label-collapse={ui.nav.collapse}
+    data-label-expand={ui.nav.expand}
+    aria-controls="rail-body"
+    aria-expanded="true"
+    aria-label={ui.nav.collapse}
+    class:list={[item, 'cursor-pointer']}
+  >
+    <span data-rail-icon="collapse">
+      <Icon name="panel-close" />
+    </span>
+    <span data-rail-icon="expand">
+      <Icon name="panel-open" />
+    </span>
+  </button>
+  <div id="rail-body" data-rail-body class="flex flex-col items-center gap-2">
+    <span class="my-1 h-px w-6 bg-border-1" aria-hidden="true"></span>
+    {groups.map((links, index) => (
+      <>
+        {index > 0 && <span class="my-1 h-px w-6 bg-border-1" aria-hidden="true" />}
+        <ul class="flex flex-col items-center gap-2">
+          {links.map(({ href, label, icon, external }) => {
+            const current = !external && isActive(pathname, href);
+            return (
+              <li>
+                <a
+                  href={href}
+                  class:list={[item, current && 'bg-surface-3 text-on-surface-1']}
+                  aria-current={current ? 'page' : undefined}
+                  target={external ? '_blank' : undefined}
+                  rel={external ? 'noopener noreferrer' : undefined}
+                >
+                  <Icon name={icon} />
+                  <span class={tooltip}>
+                    {label}
+                    {external && <span class="sr-only"> ({ui.nav.newTab})</span>}
+                  </span>
+                  {current && (
+                    <span
+                      class="absolute bottom-0.5 size-1 rounded-pill bg-on-surface-1"
+                      aria-hidden="true"
+                    />
+                  )}
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      </>
+    ))}
+    <span class="my-1 h-px w-6 bg-border-1" aria-hidden="true"></span>
+    <LanguageSwitcher variant="rail" />
+    <ThemeToggle class="hover:bg-surface-3" />
+  </div>
 </nav>
+
+<script>
+  import { bindRailToggles } from '@/lib/rail';
+
+  bindRailToggles();
+</script>

@@ -1,11 +1,14 @@
 ---
-// Language switcher (ADR 0003, BACKLOG P4-04): plain links to this page in every built language.
-// A click remembers the choice for the root redirect. Hidden while only one language is built.
+// Language switcher (ADR 0003, BACKLOG P4-04, BACKLOG-LANDING L-02): one disclosure showing the
+// current language that opens links to this page in every built language. A native <details>, so
+// it works without JavaScript; the script adds Esc, outside click and remembering the choice.
+// Hidden while only one language is built.
+import Icon from '@/components/ui/Icon.astro';
 import { siteLocales } from '@/lib/content';
 import { alternates, localeFromPath, localeInfo, strings, type Locale } from '@/lib/i18n';
 
 interface Props {
-  /** `rail`: stacked two-letter codes for the desktop rail; `sheet`: a row of names. */
+  /** `rail`: code button, list pops out to the right; `sheet`: name button, list opens below. */
   variant: 'rail' | 'sheet';
   /** Languages to offer; defaults to the built ones. */
   locales?: Locale[];
@@ -19,53 +22,81 @@ const links = alternates(Astro.url.pathname, locales);
 // The rail sits on surface-2 and the sheet on surface-3, so each highlights with the other.
 const style = {
   rail: {
-    list: 'flex flex-col items-center gap-2',
-    item: 'flex size-10 items-center justify-center rounded-pill font-mono text-1 tracking-label uppercase hover:bg-surface-3',
-    current: 'bg-surface-3',
+    root: 'relative',
+    summary:
+      'size-10 justify-center rounded-pill font-mono text-1 tracking-label uppercase hover:bg-surface-3',
+    list: 'absolute top-1/2 left-full z-10 ml-4 flex -translate-y-1/2 flex-col gap-1 rounded-md bg-surface-3 p-1 shadow-2',
+    item: 'hover:bg-surface-2',
+    current: 'bg-surface-2',
   },
   sheet: {
-    list: 'grid grid-cols-3 gap-1',
-    item: 'rounded-sm px-2 py-2 text-center text-2 hover:bg-surface-2',
+    root: 'w-full',
+    summary: 'w-full justify-between rounded-sm px-3 py-2 text-3 hover:bg-surface-2',
+    list: 'mt-1 flex flex-col gap-1',
+    item: 'hover:bg-surface-2',
     current: 'bg-surface-2',
   },
 }[variant];
 ---
 
 {links.length > 1 && (
-  <ul aria-label={ui.language.label} class={style.list}>
-    {links.map(({ locale, hreflang, path }) => (
-      <li>
-        <a
-          href={path}
-          hreflang={hreflang}
-          lang={hreflang}
-          data-locale-link={locale}
-          aria-current={locale === current ? 'true' : undefined}
-          class:list={[
-            style.item,
-            'text-on-surface-2 no-underline transition-colors duration-150 ease-standard hover:text-on-surface-1',
-            locale === current && [style.current, 'text-on-surface-1'],
-          ]}
-        >
-          {variant === 'rail' ? (
-            <>
+  <details data-language-menu class:list={['group/lang', style.root]}>
+    <summary
+      class:list={[
+        'flex cursor-pointer list-none items-center gap-1 text-on-surface-2 transition-colors duration-150 ease-standard hover:text-on-surface-1 group-open/lang:text-on-surface-1 [&::-webkit-details-marker]:hidden',
+        style.summary,
+      ]}
+    >
+      {variant === 'rail' ? (
+        <>
+          {current}
+          {/* The name keeps the visible code first (WCAG 2.5.3 label in name). */}
+          <span class="sr-only">
+            {' '}
+            {localeInfo[current].label}, {ui.language.label}
+          </span>
+        </>
+      ) : (
+        <>
+          <span>
+            <span class="sr-only">{ui.language.label}: </span>
+            {localeInfo[current].label}
+          </span>
+          <Icon
+            name="chevron-down"
+            class="transition-transform duration-150 ease-standard group-open/lang:rotate-180"
+          />
+        </>
+      )}
+    </summary>
+    <ul aria-label={ui.language.label} class={style.list}>
+      {links.map(({ locale, hreflang, path }) => (
+        <li>
+          <a
+            href={path}
+            hreflang={hreflang}
+            lang={hreflang}
+            data-locale-link={locale}
+            aria-current={locale === current ? 'true' : undefined}
+            class:list={[
+              'flex items-center justify-between gap-4 rounded-sm px-3 py-2 text-2 whitespace-nowrap text-on-surface-2 no-underline transition-colors duration-150 ease-standard hover:text-on-surface-1',
+              style.item,
+              locale === current && [style.current, 'text-on-surface-1'],
+            ]}
+          >
+            {localeInfo[locale].label}
+            <span class="font-mono text-1 tracking-label uppercase" aria-hidden="true">
               {locale}
-              {/* The name keeps the visible code first (WCAG 2.5.3 label in name). */}
-              <span class="sr-only"> {localeInfo[locale].label}</span>
-            </>
-          ) : (
-            localeInfo[locale].label
-          )}
-        </a>
-      </li>
-    ))}
-  </ul>
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </details>
 )}
 
 <script>
-  import { rememberLocale } from '@/lib/i18n';
+  import { bindLanguageMenus } from '@/lib/language-menu';
 
-  for (const link of document.querySelectorAll<HTMLAnchorElement>('[data-locale-link]')) {
-    link.addEventListener('click', () => rememberLocale(link.dataset.localeLink ?? ''));
-  }
+  bindLanguageMenus();
 </script>

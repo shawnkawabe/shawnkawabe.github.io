@@ -308,3 +308,23 @@
 [data-tilt] {
   transform: perspective(900px) rotateX(var(--pf-tilt-x, 0deg)) rotateY(var(--pf-tilt-y, 0deg));
 }
+
+/* BACKLOG-LANDING L-02 collapsible rail: BaseLayout's head script sets data-rail before first
+   paint, so a collapsed rail never flashes open. The body fades back in when it reopens. */
+[data-rail='collapsed'] [data-rail-body],
+[data-rail='collapsed'] [data-rail-icon='collapse'],
+:root:not([data-rail='collapsed']) [data-rail-icon='expand'] {
+  display: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-rail-body] {
+    transition:
+      opacity var(--pf-g-duration-base) var(--pf-g-easing-standard),
+      display var(--pf-g-duration-base) allow-discrete;
+
+    @starting-style {
+      opacity: 0;
+    }
+  }
+}
