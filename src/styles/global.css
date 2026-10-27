@@ -21,6 +21,18 @@
   line-gap-override: 0%;
 }
 
+/* Times New Roman scaled to Instrument Serif's metrics (ADR 0009), measured the same way: width
+   2676.0 vs 3196.5, ascent 99, descent 31. Without it the narrower serif rewraps the claim on
+   mobile when it loads (CLS 0.13). */
+@font-face {
+  font-family: 'Instrument Serif Fallback';
+  src: local('Times New Roman');
+  size-adjust: 83.72%;
+  ascent-override: 118.25%;
+  descent-override: 37.03%;
+  line-gap-override: 0%;
+}
+
 /* Theme lives on data-theme (ARCHITECTURE §6), not a .dark class. */
 @custom-variant dark (&:where(:root:not([data-theme='light']), :root:not([data-theme='light']) *));
 
@@ -299,7 +311,12 @@
 
 /* L-39 / ADR 0009: one display word in the outlined serif. The stroke uses the text colour, so it
    meets the large-text contrast of the filled words; without text-stroke support, or in forced
-   colours, the word stays filled. */
+   colours, the word stays filled. A zero line-height keeps the serif out of the line box, so its
+   swap from the fallback font moves nothing (CLS). */
+.pf-outline {
+  line-height: 0;
+}
+
 @supports (-webkit-text-stroke: 1px currentColor) {
   .pf-outline {
     color: transparent;
@@ -471,6 +488,27 @@
     right: var(--pf-g-spacing-8);
     z-index: 10;
   }
+  /* L-41 (docs/reference/scroll-motion.md): as the hero scrolls away, the globe and its moons
+     grow from the bottom centre and fade in the second half, handing over to the next sections. Both layers
+     share the keyframes, so the poster, canvas and labels stay aligned. They follow the hero's
+     named timeline (the hero clips its overflow, so its own view() would never move). CSS only;
+     where view() is unsupported (Firefox) or motion is reduced, the globe simply scrolls away. */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .pf-globe__stage,
+      .pf-globe__moons {
+        transform-origin: 50% 100%;
+        /* Longhands: the minifier would fold animation-timeline into an `animation` shorthand,
+           which browsers reject (the timeline is reset-only there). */
+        animation-name: pf-globe-away;
+        animation-duration: auto;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
+        animation-timeline: --pf-section;
+        animation-range: exit 0% exit 100%;
+      }
+    }
+  }
 }
 
 /* DESIGN §6 card tilt: src/lib/tilt.ts sets the angles while a fine pointer hovers; without them
@@ -570,14 +608,20 @@ html:has([data-landing-section]) {
        screen is settled while it is being read. The content follows its section's timeline, not its
        own: centred content enters late, so it would still be faint with the section half shown. */
     [data-landing-content] {
-      animation: pf-section-in auto linear both;
+      animation-name: pf-section-in;
+      animation-duration: auto;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
       animation-timeline: --pf-section;
       animation-range: entry 0% entry 45vh;
     }
 
     [data-landing-section] {
       view-timeline: --pf-section;
-      animation: pf-section-out auto linear both;
+      animation-name: pf-section-out;
+      animation-duration: auto;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
       animation-timeline: view();
       animation-range: cover calc(100% - 40vh) cover 100%;
     }
@@ -643,7 +687,10 @@ html:has([data-landing-section]) {
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
     [data-product-row] {
-      animation: pf-row-in auto linear both;
+      animation-name: pf-row-in;
+      animation-duration: auto;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
       animation-timeline: view();
       animation-range: entry calc(var(--pf-row-index, 0) * 6%) entry
         calc(70% + var(--pf-row-index, 0) * 6%);
@@ -716,5 +763,16 @@ html:has([data-landing-section]) {
 @keyframes pf-ticker {
   to {
     translate: -50% 0;
+  }
+}
+
+@keyframes pf-globe-away {
+  50% {
+    opacity: 1;
+  }
+
+  to {
+    scale: 1.35;
+    opacity: 0;
   }
 }

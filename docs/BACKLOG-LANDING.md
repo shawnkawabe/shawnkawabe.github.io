@@ -338,7 +338,7 @@ current data-core "neurons" scene is not aligned well and does not say that.
       (and the rebuilt inner pages) to its standard: large typography as the visual, content
       first, no boxes or badges, accent used sparingly, motion that serves reading and pauses on
       hover or focus. Audit each section against it and list the gaps before changing them.
-- [ ] **L-41 Scroll-linked motion research** (M): Shawn wants animations that move with the
+- [x] **L-41 Scroll-linked motion research** (M): Shawn wants animations that move with the
       scroll, for example the globe expanding as sections change or an arrow moving up. Treat
       those as samples and find the best fit for this site. Compare CSS scroll-driven animations
       (`animation-timeline: view()`/`scroll()`, with an IntersectionObserver fallback, per ADR 0005)
@@ -523,7 +523,7 @@ continents. Each task below names what "done" means. Tasks run in the order give
     - Used for the hero "See my work" and the Home contact action.
     - The contact band keeps its `band-a` tint until L-38 replaces it with a shape.
 
-- [ ] **L-41 Scroll-linked motion** (M). Research first, then build one effect. **Done when:**
+- [x] **L-41 Scroll-linked motion** (M). Research first, then build one effect. **Done when:**
   - A short research note in `docs/reference/scroll-motion.md` compares:
     - CSS `animation-timeline: view()`/`scroll()`: support is Chromium and Safari 26; Firefox
       needs the fallback;
@@ -542,6 +542,23 @@ continents. Each task below names what "done" means. Tasks run in the order give
     - the end state is static under reduced motion;
     - CLS is 0, measured on the preview;
     - Firefox shows the step fallback.
+  - Notes (2026-10-27):
+    - Research: `docs/reference/scroll-motion.md`.
+    - Built: the globe hand-off. The stage and the moon layer follow the hero's named timeline,
+      grow to 1.35 from the bottom centre and fade out in the second half.
+    - Not built:
+      - the rail progress arrow, since the section indicator already marks the current section;
+      - a Firefox fallback, since the effect is decorative and Firefox simply shows the static
+        globe.
+    - **Bug fixed along the way:** the production minifier folded `animation-timeline` into the
+      `animation` shorthand, which browsers reject. The fix writes every scroll-driven animation
+      as longhands.
+      - Until now, the landing section fades (L-08) and the product rows' entry (L-10) had never
+        run in builds; dev worked because it does not minify.
+    - CLS is 0 at 375, 768 and 1440, and in pt and es. Two fixes got it there:
+      - a metric-matched `Instrument Serif Fallback` face (ADR 0009);
+      - `line-height: 0` on the outlined word.
+
 - [ ] **L-38 Sculpted section shapes** (M). **Done when:**
   - **Shapes:**
     - Each Home section after the hero (work, clouds, products, certifications, contact) gets
@@ -631,5 +648,5 @@ screenshots at 375, 768 and 1440 on the built preview, a ticked box with notes, 
 | L-38         | Sculpted section shapes         | planned |
 | L-39         | Hero layout A                   | done    |
 | L-40         | Products and tools as benchmark | planned |
-| L-41         | Scroll-linked motion research   | planned |
+| L-41         | Scroll-linked motion research   | done    |
 | L-42         | Apple fonts review              | done    |

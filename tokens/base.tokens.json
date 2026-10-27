@@ -280,7 +280,7 @@
         "$value": ["Geist Mono Variable", "Geist Mono", "ui-monospace", "monospace"]
       },
       "serif": {
-        "$value": ["Instrument Serif", "ui-serif", "Georgia", "serif"]
+        "$value": ["Instrument Serif", "Instrument Serif Fallback", "ui-serif", "Georgia", "serif"]
       }
     },
     "weight": {

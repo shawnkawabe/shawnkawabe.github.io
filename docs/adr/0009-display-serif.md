@@ -46,6 +46,11 @@ Geist.
 - One weight, normal style. The Fontsource CSS splits it by `unicode-range`, so English pages fetch
   only the Latin file (21 KB); Portuguese and Spanish accents pull Latin Extended (12 KB) on demand.
   It is not preloaded: the outlined word is never the LCP element.
+- **No layout shift on swap:** an `Instrument Serif Fallback` face maps `local('Times New Roman')`
+  to the serif's metrics (`size-adjust: 83.72%`, `ascent-override: 118.25%`,
+  `descent-override: 37.03%`, `line-gap-override: 0%`), measured like the Geist fallback.
+  - Without it, the narrower serif rewrapped the claim on mobile when it loaded (CLS 0.13).
+  - The outlined word also has `line-height: 0`, so it never changes the line box.
 - Token `font.family.serif` → Tailwind `font-serif`.
 - Rule: at most one outlined serif word per page, at 48px or larger, never in running text. CLAUDE.md
   rule 6 says so.
