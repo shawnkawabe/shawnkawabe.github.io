@@ -8,8 +8,8 @@ Visual references: `docs/reference/` (Once UI Magic Portfolio). Match their spac
 
 ## 1. Principles
 
-1. **Calm surface, sharp signal.** Dark, quiet backgrounds; colour and glow are reserved for things that matter (active state, primary action, the cloud you are looking at).
-2. **Evidence over adjectives.** Components display counts, dates and names, not ratings.
+1. **Calm surface, sharp signal.** Dark, quiet backgrounds; colour is reserved for things that matter (links, focus, the primary action). Inner pages use no glow, tilt or lift (ADR 0008).
+2. **Evidence over adjectives.** Components display names and measured facts, never ratings, meters or dates.
 3. **One idea per screen.** Every section has one headline and one action.
 4. **Motion explains, never decorates.** Animate to show relationships (hover → related items light up), not to fill time.
 5. **Accessible by construction.** Contrast and focus are tokens, not afterthoughts.
@@ -165,8 +165,8 @@ Rules: display style only at `font-size-7` and above. Letter-spacing tightens wi
 | `easing-standard`   | `cubic-bezier(0.2, 0, 0, 1)`   | Default                      |
 | `easing-emphasised` | `cubic-bezier(0.3, 0, 0, 1.2)` | Panel enter only             |
 
-- Card hover: translateY(−2px) + `shadow-1` → stronger + border to `border-2`, `duration-base`.
-- Card tilt (`CoverCard`, `CloudCard`, `data-tilt`): with a fine pointer the card leans toward it, at most 6°, through `perspective(900px)`; flat for touch, reduced motion and without JavaScript (`src/lib/tilt.ts`).
+- **Inner pages (ADR 0008):** hover changes text colour or underline only, `duration-fast`. No lift, glow or tilt.
+- Home only: card hover lifts (translateY(−2px), border to `border-2`, `duration-base`); `CoverCard` may tilt toward a fine pointer, at most 6°, flat for touch, reduced motion and without JavaScript (`src/lib/tilt.ts`).
 - Section reveal (`Reveal`, CSS + IntersectionObserver, ADR 0005): opacity 0 → 1, y 16 → 0, `duration-slow`, once.
 - Hero text: split by word at build time (`SplitWords`), CSS 30ms stagger, once.
 - Marquee: 40s per loop, linear; pause on hover/focus.
@@ -201,15 +201,22 @@ Rules: display style only at `font-size-7` and above. Letter-spacing tightens wi
 | **ProjectCard**     | `radius-md`, `surface-2`, cover 16:9 top, body padding `spacing-5`: title `font-size-5`, summary 3 lines max, cloud chips (max 3 + "+N"), footer: client (mono) left, category right. No dates.                                                                                                                                  |
 | **CloudCard**       | `radius-lg`, `surface-2`, `border-1`, inner glow in cloud accent at 12% on hover; icon 32px, name Geist `font-size-6`, stats row mono.                                                                                                                                                                                           |
 | **SnapshotBar**     | Grid of label/value pairs, labels mono uppercase `on-surface-3`, values `on-surface-1`; top and bottom `border-1`.                                                                                                                                                                                                               |
-| **SectionBand**     | Full-bleed band with tone `band-a` or `band-b` (colour tokens, §3.1), optional rotation −2°…2° on ≥ lg, content counter-rotated so text is straight.                                                                                                                                                                             |
+| **PageHeader**      | h1 `font-size-8`, lead `font-size-4` `on-surface-2`, max 720px, optional actions row (ADR 0008).                                                                                                                                                                                                                                 |
+| **SectionRow**      | Grid `[label 11rem] [body]` on ≥ lg, stacked below; label `font-size-2` `on-surface-2`, sentence case; `border-1` top hairline.                                                                                                                                                                                                  |
+| **LedgerRow**       | Whole row is one link: title `font-size-5` 600, subtitle `on-surface-2`, meta `font-size-2`; tags as text on the right; arrow turns `accent-1` on hover. `border-1` bottom hairline.                                                                                                                                             |
+| **MetaList**        | `dl` in an auto-fit grid; `dt` `font-size-2` `on-surface-2` sentence case, `dd` `on-surface-1`; top and bottom `border-1`. Replaces SnapshotBar.                                                                                                                                                                                 |
+| **InlineLinkList**  | Items separated by a middot in `on-surface-3`; items with a destination are links, the rest plain text.                                                                                                                                                                                                                          |
 | **Panel (side)**    | 400px, `surface-3`, `shadow-2`, `radius-lg` on the inner edge, enters from right with `easing-emphasised`.                                                                                                                                                                                                                       |
-| **Inputs**          | Height 44, `surface-1`, `border-2`, `radius-sm`; focus: `accent-1` border + `shadow-glow`; error: `error` border + message below in `error`.                                                                                                                                                                                     |
+| **Inputs**          | Height 44, `surface-1`, `border-2`, `radius-sm`; focus: `accent-1` border + 2px `focus-ring` outline; error: `error` border + message below in `error`.                                                                                                                                                                          |
 
 ## 10. Layout patterns
 
-- **Home hero:** left-aligned text column (max 720px) as in `01-home-once-ui.jpg`; 3D sits behind the right half on desktop, behind everything at 20% opacity on mobile.
-- **Card rows:** horizontal scroll-snap on < lg, 2–3 columns grid on ≥ lg.
-- **Case study:** alternating media/text blocks; media never wider than 1200px; text column 720px.
+- **Home hero:** name, role and a one-line claim on the left (max 720px); a solid `surface-2` fact card (Clouds, Certifications, Based in) on the right on ≥ lg, below the text on mobile. The 3D scene sits behind, dimmed.
+- **Page header (inner pages):** h1 + one lead paragraph, left-aligned, max 720px; no cover.
+- **Section row:** a narrow label column (about 11rem, `font-size-2`, `on-surface-2`, sentence case) beside a 720px body column, with a `border-1` hairline between rows. Stacks on < lg.
+- **Ledger list:** rows divided by `border-1` hairlines; each row is one link (title, subtitle, meta line, optional tags as text, arrow). No boxes, no covers.
+- **Card rows (Home only):** horizontal scroll-snap on < lg, 2–3 columns grid on ≥ lg.
+- **Case study:** section rows in one 960px column; media never wider than 1200px.
 
 ## 11. Trademark and content rules (design side)
 

@@ -71,13 +71,14 @@ Centred, small: "© {year} Shawn Kawabe", links (LinkedIn, GitHub, email), trade
 Sections in order:
 
 1. **Hero**
-   - Name at display size (Geist, ADR 0007), role line, 3–4 line intro from `site.intro` where `**terms**` render brighter (`on-surface-1`) and the rest `on-surface-2` (Once UI pattern).
+   - Name at display size (Geist, ADR 0007), role line, a one-line claim (`site.headline`) and a short intro (`site.intro`, at most two `**terms**`).
+   - Fact card (L-16, direction B): solid `surface-2`, rows Clouds (cloud skills with projects), Certifications (names from `certifications.json`) and Based in (`site.location`). No availability line.
    - Two actions: primary "See my work" → `/work`; secondary "Download resume" (external).
    - Background: subtle animated "data core" 3D scene **or** static gradient if reduced motion / no WebGL. Must not compete with the text; text contrast ≥ 7:1.
 2. **Featured work**: horizontal row of `CoverCard`s for projects with `featured: true` (max 4), scroll-snap on mobile, "All projects →" link. This is the most important section after the hero.
 3. **Clouds constellation** (signature section — see §6)
 4. **Products and tools marquee**: infinite marquee of `skills` where `group = "products"` or `"tools"` (Gleamy-style). Pauses on hover/focus; static wrapped list when reduced motion.
-5. **Certifications strip**: badges as text chips (no dates); each links to `site.links.credentials` when it is non-empty, otherwise renders as plain text.
+5. **Certifications**: a ledger grouped by domain (L-17); the issuer named once in the header; rows link to `site.links.credentials` when it is non-empty, otherwise plain text. No dates, no ticket or badge styling.
 6. **Contact CTA band**: `site.ctaLine` + button to `/contact`.
 
 Acceptance:
@@ -88,62 +89,58 @@ Acceptance:
 
 ### 5.2 Work `/work`
 
-- Title + one-paragraph intro (`site.workIntro`).
-- **Filter bar**: two chip groups, both using **skill ids** from `skills.json`:
-  - **Cloud**: every skill with `group = "clouds"` that has at least one project (today: Sales, Service, Experience, Commerce, Data Cloud, Platform). Clouds with zero projects are hidden.
-  - **Capability**: the ids listed in `site.workFacets.capabilities`, in that order, each shown with its project count.
-  - Multi-select within a group (OR), AND across groups. "Clear" resets.
-- Filters sync to the URL: `/work?cloud=sales-cloud,service-cloud&cap=lwc`. Loading a URL with params applies them. Back button restores previous filter state.
-- A `cap` id in the URL that is a valid skill id but not in the facet list (e.g. `cap=gearset`, from a Stack chip on a case study) is added as an extra selected chip with its label from `skills.json`. Unknown ids are ignored.
-- Result count announced via `aria-live="polite"` ("6 projects").
-- **Grid**: `ProjectCard`s in curated order: featured first, then the order of `projects.json`. No dates. Columns: 1 (< 640px), 2 (640–1279px), 3 (≥ 1280px).
-- **Empty state**: "No projects match these filters" + Clear button.
+Professional ledger (ADR 0008).
+
+- `PageHeader`: title + `site.workIntro`.
+- **Filter bar**: one segmented row of cloud chips (skills with `group = "clouds"` that have at least one project). No counts on chips. Multi-select (OR); "All" resets.
+- `cap` in the URL still filters (from Stack links on case studies and the Home products list); a valid `cap` id shows as one removable chip with its label from `skills.json`. Unknown ids are ignored. Filters sync to the URL; Back restores the previous state.
+- Result count announced via `aria-live="polite"`, screen-reader only.
+- **List**: a `LedgerRow` per project in curated order (featured first, then file order): title, subtitle, a meta line with client and delivering employer(s), clouds as text on the right, arrow. The client appears once. No covers, no dates.
+- **Empty state**: "No projects match these filters" + a reset link.
 - Without JavaScript: all projects visible, filter bar hidden.
 
 ### 5.3 Case study `/work/[id]`
 
-Generated for every project in `projects.json`. Layout follows `docs/reference/02-magic-portfolio-overview.png` (middle column pages).
+Consultancy layout (ADR 0008). Sections render only when their data exists:
 
-Fixed order — sections render only when their data exists:
+1. **Header**: back link to Work, title (h1), subtitle.
+2. **Meta list** (`MetaList`): Client Â· Role Â· Team size Â· Delivered via Â· Industry Â· Clouds (as text). No dates.
+3. **Problem** (`sections[type=challenge]`), as a `SectionRow`.
+4. **Approach** (`type=decisions`): numbered prose, each "decision, why, trade-off".
+5. **Outcome** (`type=outcomes`): a plain list; numbers only when `measured: true`.
+6. **Stack**: `InlineLinkList` of every skill in `clouds` + `capabilities`, each linking to `/work?â€¦`.
+7. **Gallery** (`type=gallery`): approved images only, two columns, captions, lightbox (arrows, Esc).
+8. **Takeaway** (`type=takeaway`): one pull-quote paragraph, no band or rotation.
+9. **Next project** link (by sort order).
 
-1. **Cover**: large gradient/image cover with title + subtitle (Once UI cover style).
-2. **Snapshot bar**: Client · Role · Team size · Delivered via (employer names, e.g. "Nescara · Globant") · Clouds (chips). No dates.
-3. **Context and challenge** (`sections[type=challenge]`).
-4. **Key decisions** (`type=decisions`): 2–4 cards, each "Decision → Why → Trade-off".
-5. **Build highlights** (`type=gallery`): masonry gallery, approved images only, lightbox on click (keyboard: arrows, Esc).
-6. **Outcomes** (`type=outcomes`): list; numbers only when `measured: true`.
-7. **Stack**: chips for every skill id in `clouds` + `capabilities`, each linking to `/work?…`.
-8. **Takeaway** (`type=takeaway`): tinted band, one paragraph.
-9. **Prev / Next** project links (by sort order).
-
-Tinted section bands alternate tone (`band-a`, `band-b`) and may be rotated −2° to 2° on ≥ 1024px only (Once UI style); never rotate text itself.
-
-Projects with `"depth": "card"` (non-flagship) still get a page, but only sections 1, 2, 3, 6, 7, 9. No solution-architecture section: the site stays at showcase depth (removed 2026-10-26).
+Projects with `"depth": "card"` get sections 1, 2, 3, 5, 6, 9. No solution-architecture section.
 
 ### 5.4 Skills `/skills`
 
-1. **Clouds grid** (same data as the constellation, bento layout, see §6.3).
-2. **Skill groups**: rendered in the order and with the labels in `site.skillGroups` (groups not listed there, such as `tools`, are not shown). Each skill is a chip showing `label · N projects`; clicking navigates to `/work?cloud={id}` for clouds and `/work?cap={id}` for other groups. Skills with 0 projects show without a count and without a link.
-3. **Certifications** (names only).
-4. **Languages**: Portuguese (native), English (from `site.languages`).
+Capability index (ADR 0008), each block a `SectionRow`:
 
-No percentages, stars or self-ratings anywhere.
+1. **Clouds**: one `InlineLinkList` of clouds with projects (â†’ `/work?cloud={id}`).
+2. **Skill groups**: in the order and with the labels in `site.skillGroups` (`tools` not shown); each skill links to `/work?cap={id}` when it has projects, otherwise plain text. No counts.
+3. **Certifications**: the L-17 ledger grouped by domain.
+4. **Languages**: from `site.languages`.
+
+No percentages, stars, meters, counts or self-ratings anywhere.
 
 ### 5.5 About `/about`
 
-1. Photo from `site.photo` (rendered only when present and `approved: true`; otherwise the bio takes the full width) + bio paragraphs (`site.bio`).
-2. **"How I work"" — 3–5 principles from `site.principles` (e.g. Salesforce best practices first, declarative before imperative, documentation as deliverable).
-3. **Companies I've delivered through**: a simple row of `experience.json` entries (company name + role), each listing its project chips. No dates, no timeline.
-4. **Full history**: one line + "Download resume" button (`site.links.resume`).
+1. `PageHeader` with the first bio paragraph as lead; remaining `site.bio` paragraphs; `site.location`; actions "Download resume" (`site.links.resume`) and "Contact". Photo from `site.photo` only when present and `approved: true`.
+2. **How I work**: `site.principles` as numbered rows, no boxes.
+3. **Experience**: a ledger of `experience.json` (company, role, linked project names). No dates, no timeline.
 
 ### 5.6 Contact `/contact`
 
-- `site.contact.intro` + email link (`mailto:` to `site.links.email`) + LinkedIn.
-- If `PUBLIC_WEB3FORMS_KEY` is empty at build time, the form is not rendered; the page shows the email and LinkedIn links only.
-- **Form** (React island): Name (required), Email (required, valid), Project type (select: Full-time role, Contract, Consulting, Other), Message (required, 20–2000 chars), honeypot field (visually hidden, `tabindex="-1"`, `autocomplete="off"`).
+- `PageHeader` with `site.contact.intro` (a variant without "send a message" when the form is absent).
+- Direct rows (`SectionRow`): Email (`mailto:` link + copy button), LinkedIn, Resume.
+- If `PUBLIC_WEB3FORMS_KEY` is empty at build time, the form is not rendered.
+- **Form** (React island): Name (required), Email (required, valid), Project type (select: Full-time role, Contract, Consulting, Other), Message (required, 20â€“2000 chars), honeypot field (visually hidden, `tabindex="-1"`, `autocomplete="off"`).
 - Validation inline on blur and on submit (zod schema shared with tests). Errors linked with `aria-describedby`.
-- Submit → POST to `https://api.web3forms.com/submit` with `access_key = PUBLIC_WEB3FORMS_KEY`. States: idle, submitting (button disabled + spinner), success (message replaces form, focus moves to it), error (message + retry, form data kept).
-- Visual: glass surface, glowing focus ring, animated border on focus-within. No 3D in the form.
+- Submit â†’ POST to `https://api.web3forms.com/submit` with `access_key = PUBLIC_WEB3FORMS_KEY`. States: idle, submitting (button disabled + spinner), success (message replaces form, focus moves to it), error (message + retry, form data kept).
+- Visual: plain bordered inputs on `surface-1`, 2px `focus-ring` outline. No glass, glow or animated border.
 
 ### 5.7 404
 

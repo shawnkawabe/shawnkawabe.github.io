@@ -194,7 +194,7 @@ Research behind L-05 to L-08 is summarised in [ADR 0006](adr/0006-landing-scroll
     left. Now chevrons-up to collapse and chevrons-down as the collapsed fallback (inner pages
     without a matching icon still show their own page icon; Home shows the section number).
 
-- [ ] **L-16 Intro section redesign** (research done 2026-10-27; **[H]** Shawn picks A, B or C)
+- [ ] **L-16 Intro section redesign** (research done 2026-10-27; Shawn chose **B**)
   - Diagnosis: the intro is one long sentence with seven bold terms, so emphasis stops working;
     a 30-second reader cannot find "which clouds, which credentials".
   - A. Statement first (Brittany Chiang, Rauno): name, role, one-line claim, one stack line,
@@ -204,7 +204,7 @@ Research behind L-05 to L-08 is summarised in [ADR 0006](adr/0006-landing-scroll
     behind the card at lower opacity. Needs `site.headline`; rows derived from content.
   - C. Capability index: six numbered capabilities linking to `/work?cap=`. Competes with the
     products list lower on Home.
-- [ ] **L-17 Certifications section redesign** (research done 2026-10-27; **[H]** Shawn confirms)
+- [ ] **L-17 Certifications section redesign** (Shawn chose the grouped ledger, 2026-10-27)
   - Diagnosis (`CredentialTickets.astro`): "Salesforce Certified" repeats five times; the ticket
     stub, vertical `CERT·01` serial and check icon are ornament; cards lift on hover but are not
     links; five cards in three columns leave an orphan row; no lead line.
@@ -221,7 +221,7 @@ Research behind L-05 to L-08 is summarised in [ADR 0006](adr/0006-landing-scroll
     projects") and to the Skills `CloudCard`. The `cloudPanels.projects` and `.certifications`
     strings were removed from all three locales.
 
-## Round 4: professional inner pages (plan 2026-10-27; **[H]** Shawn approves before L-20)
+## Round 4: professional inner pages (plan approved by Shawn 2026-10-27)
 
 Shawn: Work, Skills, About and Contact read as "gamified"; they must look professional and
 attractive for any position. Audit (screenshots in `.playwright-mcp/audit-*.png`) found the
@@ -233,7 +233,14 @@ list-first layout. Calm `surface-0`, one accent for links and focus, hairline ru
 boxes, mono only for small metadata in sentence case, hover changes colour or underline only.
 Home keeps its landing motion and 3D scene.
 
-- [ ] **L-20 ADR 0008 and docs** (S): "Professional inner pages". DESIGN §6, §9, §10 and SPEC
+References (verified 2026-10-27; ideas only, no code, images or copy): Brittany Chiang
+(brittanychiang.com) for the Work and experience ledgers; Stripe customer stories
+(stripe.com/customers) for case-study sections; Vercel customer stories (vercel.com/customers)
+for the meta row; Paco Coursey (paco.me) and Emil Kowalski (emilkowal.ski) for the bio and
+plain lists. No checked site pairs the hero with a fact panel, so L-16 is designed from our
+tokens. Astro portfolio themes found were paid; none adopted.
+
+- [x] **L-20 ADR 0008 and docs** (S): "Professional inner pages". DESIGN §6, §9, §10 and SPEC
       §5.2 to §5.6 updated (including the §5.6 "glass, glow" contact line).
 - [ ] **L-21 Shared primitives** (M): `PageHeader`, `SectionRow` (label column plus body),
       `LedgerList`/`LedgerRow`, `MetaList` (`dl`), `InlineLinkList`. Tokens only, dev-gallery
@@ -265,6 +272,17 @@ Home keeps its landing motion and 3D scene.
 Order: L-20, L-21 with L-22, L-23 with L-24, L-25 to L-27, then L-28 to L-30. L-17 ships inside
 L-25 (and on Home).
 
+## Round 5: Shawn's feedback, 2026-10-27
+
+- [ ] **L-31 Better favicon**: the L-14 monogram reads as plain text on a dark square. Make it a
+      designed mark: tighter letterforms, an accent tile, legible at 16px, and a light-tab version.
+- [ ] **L-32 Better transitions**: the rail's collapse and expand should morph (size, radius,
+      items fading in sequence) rather than switch; hover transitions consistent across links,
+      buttons and rows (one duration and easing, colour plus underline offset). Reduced motion
+      keeps them instant.
+- [ ] **L-33 Contact section full width**: the Home contact section's background must span the
+      whole viewport width, not the content column.
+
 ## Order and status
 
 | #            | Task                       | Status   |
@@ -289,3 +307,6 @@ L-25 (and on Home).
 | L-18         | Cloud cards simplified     | done     |
 | L-19         | Rail toggle icon           | done     |
 | L-20 to L-30 | Professional inner pages   | planned  |
+| L-31         | Better favicon             | to do    |
+| L-32         | Better transitions         | to do    |
+| L-33         | Contact full width         | to do    |
