@@ -274,8 +274,10 @@ L-25 (and on Home).
 
 ## Round 5: Shawn's feedback, 2026-10-27
 
-- [ ] **L-31 Better favicon**: the L-14 monogram reads as plain text on a dark square. Make it a
+- [x] **L-31 Better favicon**: the L-14 monogram reads as plain text on a dark square. Make it a
       designed mark: tighter letterforms, an accent tile, legible at 16px, and a light-tab version.
+  - Notes (2026-10-27): white 3px strokes on a tile graded from the dark-theme to the light-theme
+    accent, so one file reads on light and dark tabs (no separate light version needed).
 - [ ] **L-32 Better transitions**: the rail's collapse and expand should morph (size, radius,
       items fading in sequence) rather than switch; hover transitions consistent across links,
       buttons and rows (one duration and easing, colour plus underline offset). Reduced motion
