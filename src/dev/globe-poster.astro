@@ -1,0 +1,30 @@
+---
+// Dev-only stage for the hero globe poster (BACKLOG-LANDING L-35): the live globe scene, still and
+// filling a 2400px square on a transparent page, in the theme the path names. `npm run
+// globe:poster` screenshots its top half into src/assets/globe/poster-{theme}.webp.
+import '@/styles/global.css';
+import GlobePosterStage from './GlobePosterStage';
+
+export function getStaticPaths() {
+  return ['dark', 'light'].map((theme) => ({ params: { theme } }));
+}
+
+const { theme } = Astro.params;
+---
+
+<html lang="en" data-theme={theme}>
+  <head>
+    <meta charset="utf-8" />
+    <title>Globe poster</title>
+    <style is:global>
+      html,
+      body {
+        margin: 0;
+        background: transparent;
+      }
+    </style>
+  </head>
+  <body>
+    <GlobePosterStage size={2400} client:only="react" />
+  </body>
+</html>

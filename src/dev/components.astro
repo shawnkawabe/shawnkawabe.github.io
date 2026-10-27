@@ -29,7 +29,7 @@ import SnapshotBar from '@/components/patterns/SnapshotBar.astro';
 import StackChips from '@/components/patterns/StackChips.astro';
 import { stackLinks } from '@/lib/case-study';
 import { strings } from '@/lib/i18n';
-import HeroScene from '@/components/patterns/HeroScene.astro';
+import HeroGlobe from '@/components/patterns/HeroGlobe.astro';
 import LanguageSwitcher from '@/components/patterns/LanguageSwitcher.astro';
 import MobileNav from '@/components/patterns/MobileNav.astro';
 import ProjectCard from '@/components/patterns/ProjectCard.astro';
@@ -349,15 +349,16 @@ const accents = ['cloud-sales', 'cloud-service', 'cloud-data', 'cloud-membership
 
       <section class="flex flex-col gap-6">
         <Heading level={2} size={6}>
-          Hero data core
+          Hero cloud globe
         </Heading>
         <Text size={2} tone={2}>
-          HeroScene: starts after load and idle on ≥ 1024px with motion and WebGL2; otherwise
-          nothing renders and the gradient poster behind it shows. Move the pointer to see the
-          parallax. CoverCard and CloudCard above tilt toward a fine pointer.
+          HeroGlobe: the poster and the cloud links on their arc for everyone; on ≥ 1024px with
+          motion and WebGL2 the live globe starts after load and idle, swings the links, and shows
+          the pause toggle. Below 1024px the links wrap above a cropped poster. CoverCard and
+          CloudCard above tilt toward a fine pointer.
         </Text>
-        <div class="pf-hero-glow relative h-120 overflow-hidden rounded-lg border border-border-1">
-          <HeroScene />
+        <div class="relative isolate h-150 overflow-hidden rounded-lg border border-border-1">
+          <HeroGlobe clouds={skills.filter((skill) => skill.group === 'clouds').slice(0, 5)} />
         </div>
       </section>
 

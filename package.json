@@ -22,7 +22,8 @@
     "check:links": "linkinator dist --recurse --concurrency 20 --retry-errors --retry-errors-count 3 --skip \"^(?!http://(localhost|127\\.0\\.0\\.1)[:/])\"",
     "ci": "npm run tokens && npm run lint && npm run validate:content && npm test && npm run build && npm run check:links",
     "prepare": "husky",
-    "globe:land": "node scripts/globe-land.mjs"
+    "globe:land": "node scripts/globe-land.mjs",
+    "globe:poster": "node scripts/globe-poster.mjs"
   },
   "lint-staged": {
     "*.{astro,ts,tsx,js,mjs}": [

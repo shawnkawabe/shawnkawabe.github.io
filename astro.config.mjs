@@ -10,6 +10,7 @@ import { cn } from 'cn/vite';
 const devRoutes = [
   { pattern: '/dev/components', entrypoint: './src/dev/components.astro' },
   { pattern: '/dev/og/[...route]', entrypoint: './src/dev/og.astro' },
+  { pattern: '/dev/globe-poster/[theme]', entrypoint: './src/dev/globe-poster.astro' },
 ];
 
 const devGallery = () => ({

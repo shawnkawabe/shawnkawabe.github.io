@@ -294,21 +294,156 @@
   }
 }
 
-.pf-hero-glow {
-  background: radial-gradient(
-    45% 55% at 80% 40%,
-    color-mix(in oklab, var(--pf-g-color-accent-1) 9%, transparent),
-    transparent 70%
-  );
+/* BACKLOG-LANDING L-35 hero cloud globe. HeroGlobe sets the framing (--pf-globe-r, -cap, -orbit,
+   from src/lib/globe.ts); the stage and the moon list each cover the hero as size containers, so
+   their cq units match the canvas, which reads the same box. Angles are clockwise from 3 o'clock
+   with y downward, as in globe.ts. The stage sits behind the hero text and the moons above it;
+   the wrapper itself stays unpositioned so neither layer is trapped in its stacking context. */
+.pf-globe__poster {
+  position: absolute;
+  max-width: none;
+  height: auto;
+  transition: opacity var(--pf-g-duration-slow) var(--pf-g-easing-standard);
 }
 
-/* The data-core canvas fades in from the text side, so it never sits behind the words, and out at
-   the hero's bottom edge, so the rings never end in a hard cut. */
-.pf-hero-scene {
-  mask-image:
-    linear-gradient(to right, transparent, black 40%),
-    linear-gradient(to bottom, black 70%, transparent);
-  mask-composite: intersect;
+:root:not([data-theme='light']) .pf-globe__poster--light,
+[data-theme='light'] .pf-globe__poster--dark {
+  display: none;
+}
+
+.pf-globe__orbit {
+  display: none;
+}
+
+.pf-globe__scene {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity var(--pf-g-duration-slow) var(--pf-g-easing-standard);
+}
+
+.pf-globe[data-live] .pf-globe__scene {
+  opacity: 1;
+}
+
+.pf-globe[data-live] .pf-globe__poster {
+  opacity: 0;
+}
+
+.pf-globe__dot {
+  flex: none;
+  width: 0.875rem;
+  height: 0.875rem;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 35% 30%,
+    var(--pf-g-color-on-surface-2),
+    var(--pf-g-color-surface-3) 70%
+  );
+  box-shadow: 0 0 0 1px var(--pf-g-color-border-1);
+}
+
+/* Below lg: the links are a wrapped list, and the poster crops under them. */
+.pf-globe__moons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pf-g-spacing-3) var(--pf-g-spacing-6);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* The scene writes each moon's drift as an inline transform; it only applies on the arc. */
+@media (max-width: 63.999rem) {
+  .pf-globe__moon {
+    transform: none !important;
+  }
+}
+
+.pf-globe__stage {
+  position: relative;
+  width: 100vw;
+  height: 45vw;
+  margin: var(--pf-g-spacing-8) 0 0 calc(50% - 50vw);
+  overflow: hidden;
+}
+
+.pf-globe__stage .pf-globe__poster {
+  left: -15%;
+  width: 130%;
+}
+
+.pf-globe__toggle {
+  display: none;
+}
+
+@media (min-width: 64rem) {
+  .pf-globe__stage,
+  .pf-globe__moons {
+    position: absolute;
+    inset: 0;
+    width: auto;
+    height: auto;
+    margin: 0;
+    container-type: size;
+    pointer-events: none;
+  }
+
+  .pf-globe__stage {
+    z-index: -10;
+    mask-image: linear-gradient(to top, transparent, black 8%);
+  }
+
+  .pf-globe__moons {
+    z-index: 10;
+    display: block;
+  }
+
+  .pf-globe__moon {
+    --pf-moon-arc: calc(var(--pf-globe-r) * var(--pf-globe-orbit));
+    position: absolute;
+    left: calc(50cqw + cos(var(--pf-moon-angle)) * var(--pf-moon-arc));
+    top: calc(
+      100cqh - var(--pf-globe-cap) + var(--pf-globe-r) + sin(var(--pf-moon-angle)) *
+        var(--pf-moon-arc)
+    );
+    translate: -0.4375rem -50%;
+    pointer-events: auto;
+  }
+
+  .pf-globe__moon--end {
+    translate: calc(-100% + 0.4375rem) -50%;
+  }
+
+  .pf-globe__moon--end a {
+    flex-direction: row-reverse;
+  }
+
+  .pf-globe__stage .pf-globe__poster {
+    top: calc(100cqh - var(--pf-globe-cap));
+    left: calc(50cqw - var(--pf-globe-r));
+    width: calc(2 * var(--pf-globe-r));
+  }
+
+  .pf-globe__orbit {
+    --pf-orbit-r: calc(var(--pf-globe-r) * var(--pf-globe-orbit));
+    display: block;
+    position: absolute;
+    top: calc(100cqh - var(--pf-globe-cap) + var(--pf-globe-r) - var(--pf-orbit-r));
+    left: calc(50cqw - var(--pf-orbit-r));
+    width: calc(2 * var(--pf-orbit-r));
+    aspect-ratio: 1;
+    border: 1px dashed var(--pf-g-color-border-1);
+    border-radius: 50%;
+  }
+
+  .pf-globe__toggle:not([hidden]) {
+    display: inline-flex;
+    position: absolute;
+    top: var(--pf-g-spacing-8);
+    right: var(--pf-g-spacing-8);
+    z-index: 10;
+  }
 }
 
 /* DESIGN §6 card tilt: src/lib/tilt.ts sets the angles while a fine pointer hovers; without them

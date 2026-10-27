@@ -176,8 +176,15 @@ Rules: display style only at `font-size-7` and above. Letter-spacing tightens wi
 
 ## 7. 3D
 
-- Scenes: **Hero data core** (abstract particles/rings, very slow, pointer parallax; `HeroScene.astro` gate script → `DataCoreCanvas`, starts after load + idle) and **Clouds constellation** (orbiting nodes with light pulses along the links). No others in the MVP. Both run only on ≥ 1024px with motion allowed and WebGL2.
-- Hero motion, in order: the shell gathers in from outside (3.2 s ease-out), then packets stream from shell points into the heart, a scan ring sweeps the shell like a pendulum (14 s), and the scene rises and shrinks 20 % as the hero scrolls away. Constellation: a faint orbit track and a dust disc turning slowly against the orbit; hovering a cloud doubles its link pulse and dims the others to 40 %. The maths lives in `src/lib/data-core.ts` (pure, tested).
+- Scenes: **Hero cloud globe** (BACKLOG-LANDING L-35; `HeroGlobe.astro` gate script → `GlobeCanvas`, starts after load + idle) and **Clouds constellation** (orbiting nodes with light pulses along the links). No others in the MVP. Both run only on ≥ 1024px with motion allowed and WebGL2.
+- Hero globe:
+  - **Look:** a gunmetal sphere lit from the upper left (`globe-shade`, `globe-lit`), with the continents as about 8.6k dots (`globe-dot`). The dots are baked from Natural Earth (`npm run globe:land`).
+  - **Framing:** the sphere rises from the bottom edge, and the clouds Shawn worked in sit on a dashed arc above it as moons.
+  - **Moons:** each one is a real HTML link to Work filtered by the cloud.
+  - **Motion:** the sphere turns once every 120 s, and the moons swing ±5° around their homes at their own pace. Hovering or focusing a moon holds them, and a round toggle pauses everything (WCAG 2.2.2).
+  - **Alignment:** the poster (`npm run globe:poster`, one per theme), the CSS arc and the orthographic canvas share one framing in `src/lib/globe.ts`, so they line up at any size.
+  - **Poster:** it is the fallback for mobile, reduced motion and missing WebGL2, and the scene cross-fades in over it.
+- Constellation: a faint orbit track and a dust disc turning slowly against the orbit; hovering a cloud doubles its link pulse and dims the others to 40 %. The globe maths lives in `src/lib/globe.ts` (pure, tested).
 - Colours are read at runtime with `getComputedStyle(document.documentElement).getPropertyValue('--pf-g-color-…')` and re-read on the `pf-themechange` event, so scenes follow the theme.
 - Materials: emissive, low-poly, no textures > 512px. Bloom only if it stays within budget.
 - Budget per scene: ≤ 1 MB gzipped (JS + assets), ≤ 100K triangles, DPR ≤ 2, 60fps target on a mid-range laptop, 30fps acceptable on mobile.

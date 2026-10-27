@@ -19,7 +19,7 @@ for (let i = 0; i < SAMPLES; i++) {
   const y = 1 - (2 * (i + 0.5)) / SAMPLES;
   const lat = (Math.asin(y) * 180) / Math.PI;
   const lon = (((((i * golden * 180) / Math.PI) % 360) + 360) % 360) - 180;
-  if (geoContains(land, [lon, lat])) points.push(+lat.toFixed(2), +lon.toFixed(2));
+  if (geoContains(land, [lon, lat])) points.push(Math.round(lat * 100), Math.round(lon * 100));
 }
 
 mkdirSync('src/assets/globe', { recursive: true });
@@ -28,8 +28,9 @@ writeFileSync(
   JSON.stringify({
     source: 'Natural Earth 1:50m land via world-atlas (public domain)',
     samples: SAMPLES,
-    // Flat [lat, lon, lat, lon, …] in degrees.
-    points,
+    // Little-endian Int16 pairs [lat, lon, …] in hundredths of a degree, base64: a third the size
+    // of plain JSON numbers in the scene's chunk. Decoded by landVectors (src/lib/globe.ts).
+    points: Buffer.from(new Int16Array(points).buffer).toString('base64'),
   }) + '\n',
 );
 console.log(`globe:land wrote ${points.length / 2} land points to ${OUT}`);

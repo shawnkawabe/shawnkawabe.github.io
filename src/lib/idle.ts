@@ -1,4 +1,4 @@
-// Defers optional work (the hero data core, SPEC §5.1) until the page has loaded and the main
+// Defers optional work (the hero globe, SPEC §5.1) until the page has loaded and the main
 // thread is idle, so it never competes with the LCP element.
 
 /** Calls `start` once the page has loaded and gone idle; returns a cancel function. */

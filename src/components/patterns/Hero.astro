@@ -2,8 +2,8 @@
 // SPEC §5.1 hero (BACKLOG-LANDING L-16, direction B): name at display size, role, a one-line claim,
 // a short intro with **terms** brighter, two actions, and a solid fact card (clouds,
 // certifications, location) a recruiter can scan. Static HTML so the name is the LCP element; the
-// gradient poster sits behind it, and the page passes the data-core scene (HeroScene) into the
-// `scene` slot. The first full-viewport landing section (L-08).
+// page passes the cloud globe (HeroGlobe, L-35) into the `globe` slot, which places itself behind
+// and around the text. The first full-viewport landing section (L-08).
 import { buttonVariants } from '@/components/ui/button';
 import Icon from '@/components/ui/Icon.astro';
 import SplitWords from '@/components/ui/SplitWords.astro';
@@ -36,9 +36,6 @@ const rows = [
   data-landing-section
   class="relative isolate flex min-h-svh snap-start flex-col justify-center overflow-hidden"
 >
-  <div aria-hidden="true" class="pf-hero-glow absolute inset-0 -z-10">
-    <slot name="scene" />
-  </div>
   <div
     data-landing-content
     class="mx-auto grid w-full max-w-300 items-center gap-12 px-4 py-20 sm:px-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,24rem)] lg:px-8 lg:py-24"
@@ -102,4 +99,5 @@ const rows = [
       </aside>
     )}
   </div>
+  <slot name="globe" />
 </section>

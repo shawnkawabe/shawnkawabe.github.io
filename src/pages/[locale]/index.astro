@@ -5,10 +5,10 @@ import CloudPanels from '@/components/patterns/CloudPanels.astro';
 import CredentialLedger from '@/components/patterns/CredentialLedger.astro';
 import CoverCard from '@/components/patterns/CoverCard.astro';
 import Hero from '@/components/patterns/Hero.astro';
+import HeroGlobe from '@/components/patterns/HeroGlobe.astro';
 import LandingSection from '@/components/patterns/LandingSection.astro';
 import ProductIndex from '@/components/patterns/ProductIndex.astro';
 import ProductTicker from '@/components/patterns/ProductTicker.astro';
-import HeroScene from '@/components/patterns/HeroScene.astro';
 import SectionBand from '@/components/patterns/SectionBand.astro';
 import SectionIndicator from '@/components/patterns/SectionIndicator.astro';
 import { buttonVariants } from '@/components/ui/button';
@@ -47,9 +47,11 @@ const products = skillStats(productSkills, projects).map((stat, index) => ({
   label: productSkills[index].label,
   projectCount: stat.projectCount,
 }));
-// Hero fact card (L-16): clouds with projects, and certification titles in ledger order.
+// Hero fact card (L-16) and globe moons (L-35): clouds with projects, and certification titles in
+// ledger order.
+const workedClouds = clouds.filter((cloud) => cloud.projectCount > 0);
 const facts = {
-  clouds: clouds.filter((cloud) => cloud.projectCount > 0).map((cloud) => cloud.label),
+  clouds: workedClouds.map((cloud) => cloud.label),
   certifications: credentialTitles(certifications),
 };
 const t = ui.home;
@@ -68,7 +70,7 @@ const sections = [
   jsonLd={personJsonLd(site, siteUrl)}
 >
   <Hero site={site} facts={facts}>
-    <HeroScene slot="scene" />
+    <HeroGlobe slot="globe" clouds={workedClouds} />
   </Hero>
 
   <SectionIndicator sections={sections} />

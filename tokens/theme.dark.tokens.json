@@ -23,6 +23,15 @@
     "on-surface-3": {
       "$value": "{color.palette.gray-500}"
     },
+    "globe-shade": {
+      "$value": "{color.palette.gray-950}"
+    },
+    "globe-lit": {
+      "$value": "{color.palette.gray-600}"
+    },
+    "globe-dot": {
+      "$value": "{color.palette.gray-50}"
+    },
     "accent-1": {
       "$value": "{color.palette.blue-400}"
     },

@@ -359,7 +359,7 @@ Shawn chose these for the Intro: mock-up A, a blue accent, an outlined serif wor
 continents. Each task below names what "done" means. Tasks run in the order given under
 **Execution order**.
 
-- [ ] **L-35 Cloud globe hero scene** (L). This replaces the data core. **Done when:**
+- [x] **L-35 Cloud globe hero scene** (L). This replaces the data core. **Done when:**
   - **Scene (`GlobeCanvas.tsx`, `mountGlobe.tsx`):**
     - Globe:
       - a gunmetal sphere lit from the upper left, with a faint rim on the lit edge;
@@ -413,6 +413,19 @@ continents. Each task below names what "done" means. Tasks run in the order give
     - an e2e check that the poster renders and the scene host exists on desktop;
     - a dev-gallery entry.
   - **Docs:** DESIGN §7 and SPEC §5.1 describe the globe instead of the data core.
+  - Notes (2026-10-27):
+    - Built as specified. Size: the scene chunk is 963 KB raw (284 KB gzipped). The land points
+      are now base64 Int16 (46 KB, down from 108 KB of JSON).
+    - Posters: dark and light, one per theme, both 2400×1200 WebP sources. The served AVIF files
+      are 16 to 52 KB.
+    - The globe has its own tokens (`globe-shade`, `globe-lit`, `globe-dot`), so the light theme is
+      lit correctly.
+    - The pause toggle sits at the top right of the hero until L-39 places the meta row.
+    - The fact card still duplicates the cloud list until L-39 removes it.
+    - Dev server: Home has no hydrated island, so the live globe only starts in builds. Vite's
+      React preamble is missing in dev, so check the scene on `npm run preview`.
+    - `npm run og` and `npm run globe:poster` now share `scripts/dev-server.mjs`.
+
 - [ ] **L-42 Apple fonts review** (S). Do this before L-39, which needs the serif. **Done when:**
   - Apple's font licence has been read and quoted in a new ADR 0009, "Display serif".
   - SF Pro, SF Compact, SF Mono and New York are each marked usable or not on a public website.
@@ -576,7 +589,7 @@ screenshots at 375, 768 and 1440 on the built preview, a ticked box with notes, 
 | L-32         | Better transitions              | done    |
 | L-33         | Contact full width              | done    |
 | L-34         | Footer notice                   | done    |
-| L-35         | Cloud globe hero                | planned |
+| L-35         | Cloud globe hero                | done    |
 | L-36         | Charcoal palette                | planned |
 | L-37         | Round primary action            | planned |
 | L-38         | Sculpted section shapes         | planned |

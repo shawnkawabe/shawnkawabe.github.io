@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { bindTilt } from '@/lib/tilt';
+import { bindTilt, MAX_TILT, pointerOffset, tiltAngles } from '@/lib/tilt';
 
 function stubPointer({ fine = true, reducedMotion = false } = {}) {
   vi.stubGlobal('matchMedia', (query: string) => ({
@@ -49,5 +49,26 @@ describe('bindTilt', () => {
     bindTilt();
     move(element, 100, 0);
     expect(element.style.getPropertyValue('--pf-tilt-x')).toBe('');
+  });
+});
+
+describe('pointerOffset', () => {
+  const box = { left: 100, top: 50, width: 200, height: 100 };
+
+  it('maps the box to −1…1 with 0 at the centre', () => {
+    expect(pointerOffset(box, 200, 100)).toEqual({ x: 0, y: 0 });
+    expect(pointerOffset(box, 100, 50)).toEqual({ x: -1, y: -1 });
+    expect(pointerOffset(box, 300, 150)).toEqual({ x: 1, y: 1 });
+  });
+
+  it('clamps a pointer outside the box', () => {
+    expect(pointerOffset(box, 1000, -500)).toEqual({ x: 1, y: -1 });
+  });
+});
+
+describe('tiltAngles', () => {
+  it('leans toward the pointer, at most MAX_TILT degrees', () => {
+    expect(tiltAngles({ x: 1, y: -1 })).toEqual({ rotateX: MAX_TILT, rotateY: MAX_TILT });
+    expect(tiltAngles({ x: -0.5, y: 0.5 }, 10)).toEqual({ rotateX: -5, rotateY: -5 });
   });
 });

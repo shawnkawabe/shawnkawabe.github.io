@@ -33,6 +33,9 @@ const SEMANTIC_COLORS = [
   'glow-1',
   'band-a',
   'band-b',
+  'globe-shade',
+  'globe-lit',
+  'globe-dot',
 ];
 const CLOUDS = ['sales', 'service', 'experience', 'commerce', 'data', 'platform', 'membership'];
 const SPACING = [1, 2, 3, 4, 5, 6, 8, 10, 12, 16, 20, 24, 32];

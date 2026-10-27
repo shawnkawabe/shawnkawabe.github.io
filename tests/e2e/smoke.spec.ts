@@ -143,3 +143,26 @@ test('collapsed, the rail is a circle that follows the Home section', async ({
   await expect(rail.locator('[data-rail-section]')).not.toHaveText('01');
   await rail.locator('[data-rail-toggle]').click();
 });
+
+test('the hero globe shows its poster and cloud links, and its toggle stops the moons', async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name !== 'desktop', 'the arc and the live globe are desktop-only');
+  await page.goto('/en/');
+  const globe = page.locator('[data-hero-globe]');
+  await expect(globe.locator('img.pf-globe__poster').first()).toBeAttached();
+  const moons = globe.locator('[data-moon] a');
+  expect(await moons.count()).toBeGreaterThan(0);
+  await expect(moons.first()).toHaveAttribute('href', /\/en\/work\?cap=/);
+
+  const webgl2 = await page.evaluate(() => !!document.createElement('canvas').getContext('webgl2'));
+  test.skip(!webgl2, 'no WebGL2 in this browser');
+  await expect(globe).toHaveAttribute('data-live', '', { timeout: 15_000 });
+  const toggle = page.locator('[data-globe-toggle]');
+  await toggle.click();
+  await expect(toggle).toHaveAttribute('aria-pressed', 'true');
+  const moon = globe.locator('[data-moon]').first();
+  const before = await moon.evaluate((element) => element.style.transform);
+  await page.waitForTimeout(600);
+  expect(await moon.evaluate((element) => element.style.transform)).toBe(before);
+});

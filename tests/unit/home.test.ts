@@ -5,6 +5,7 @@ import { beforeAll, describe, expect, it } from 'vitest';
 import CredentialLedger from '@/components/patterns/CredentialLedger.astro';
 import CompanyList from '@/components/patterns/CompanyList.astro';
 import Hero from '@/components/patterns/Hero.astro';
+import HeroGlobe from '@/components/patterns/HeroGlobe.astro';
 import SkillGroups from '@/components/patterns/SkillGroups.astro';
 import SplitWords from '@/components/ui/SplitWords.astro';
 
@@ -48,6 +49,29 @@ describe('Hero', () => {
     expect(html).toMatch(/<dt[^>]*>Clouds<\/dt>\s*<dd[^>]*>Sales Cloud, Data Cloud<\/dd>/);
     expect(html).toMatch(/<dt[^>]*>Based in<\/dt>\s*<dd[^>]*>London<\/dd>/);
     expect(html).not.toContain('>Certifications</dt>');
+  });
+});
+
+describe('HeroGlobe (L-35)', () => {
+  const clouds = ['sales', 'service', 'experience', 'commerce', 'data', 'marketing', 'field'].map(
+    (id) => ({ id: `${id}-cloud`, label: `${id} cloud` }),
+  );
+
+  it('links up to six clouds to Work filtered by the cloud, centred on the arc', async () => {
+    const html = await render(HeroGlobe, { clouds });
+    expect(html.match(/data-moon/g)).toHaveLength(6);
+    expect(html).toContain('href="/en/work?cap=sales-cloud"');
+    expect(html).not.toContain('field-cloud');
+    expect(html).toContain('data-angle="205"');
+    expect(html).toContain('data-angle="335"');
+    expect(html).toContain('aria-label="Clouds I work in"');
+    expect(html).toMatch(/<button[^>]*data-globe-toggle[^>]*hidden/);
+  });
+
+  it('keeps the poster but drops the list when no cloud has a project', async () => {
+    const html = await render(HeroGlobe, { clouds: [] });
+    expect(html).not.toContain('data-moon');
+    expect(html).toContain('pf-globe__poster');
   });
 });
 
