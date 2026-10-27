@@ -191,6 +191,7 @@ describe('CompanyList (About page)', () => {
     expect(html).toMatch(/<a href="\/en\/work\/brf"[^>]*>\s*BRF/);
     expect(html).not.toContain('/en/work/gone');
     expect(html.match(/<ul/g)).toHaveLength(2);
+    expect(html).not.toContain('bg-surface-2');
   });
 });
 

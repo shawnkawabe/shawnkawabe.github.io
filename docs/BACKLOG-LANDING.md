@@ -265,7 +265,7 @@ tokens. Astro portfolio themes found were paid; none adopted.
 - [x] **L-25 Skills as a capability index** (M): clouds on one line, skill groups as label plus
       list, certifications as the L-17 ledger, languages. No bento, counts, tickets or
       duplicate cloud group. Mobile page about a third of today's height.
-- [ ] **L-26 About as a professional bio** (M): bio, location and resume action first;
+- [x] **L-26 About as a professional bio** (M): bio, location and resume action first;
       principles as numbered rows; experience as a ledger without dates; photo only if approved.
 - [ ] **L-27 Contact, calm and direct** (S): email (with copy), LinkedIn and resume rows; form
       without glass or glow, hidden without a key, intro text matching whether it shows.
@@ -675,6 +675,16 @@ continents. Each task below names what "done" means. Tasks run in the order give
       pre-change mobile height was not measured.
     - Unused now, for L-28: `CloudBento`, `CloudCard`, and the `count` and `accent` fields of
       `SkillChip`.
+- **L-26** done (2026-10-27):
+  - `PageHeader` holds the first bio paragraph as lead, the rest of the bio and the location (via
+    its new default slot). Its actions are the round "Download resume" and a Contact link.
+  - The photo still shows only when approved; there is none today.
+  - "How I work" uses numbered hairline rows.
+  - "Companies" is a ledger (`CompanyList`, rewritten): company, role, and projects as an inline
+    link list.
+  - The "Full history" block is dropped, since the resume is now the header's action. Its i18n
+    keys `about.history` and `about.historyLine` are unused, for L-28.
+  - Nescara and Globant still list the same projects; L-29 asks Shawn.
 - **L-27:** the contact action is the `RoundAction`.
 - **L-28:** `CredentialTickets` is already gone. Remove what is now unused:
   - `SectionBand` (after L-38);
