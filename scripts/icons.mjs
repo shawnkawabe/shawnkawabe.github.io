@@ -1,8 +1,8 @@
-// Regenerates the site icons in public/ (BACKLOG-LANDING L-45) from one drawing: an interlocked
-// SK monogram in Instrument Serif, the face of the hero's outlined word (ADR 0009). An accent S
-// crosses a white K, parted by a thin cut in the tile colour, on a dark rounded tile. Colours come
-// from the dark theme in src/styles/tokens.css, so re-run `npm run icons` after changing
-// surface-0, on-surface-1 or accent-1.
+// Regenerates the site icons in public/ (BACKLOG-LANDING L-45) from one drawing: an "Sk" signature
+// in Instrument Serif Italic, the family of the hero's outlined word (ADR 0009). A white capital S
+// with an accent lowercase k tucked into it, the k parted from the S by a thin cut in the tile
+// colour, on a dark rounded tile. Colours come from the dark theme in src/styles/tokens.css, so
+// re-run `npm run icons` after changing surface-0, on-surface-1 or accent-1.
 // Writes favicon.svg, favicon.ico (16, 32 and 48px PNG frames), apple-touch-icon.png, the
 // manifest icons and site.webmanifest.
 import { readFileSync, writeFileSync } from 'node:fs';
@@ -15,29 +15,29 @@ const surface = token('surface-0');
 const accent = token('accent-1');
 const ink = token('on-surface-1');
 
-// Instrument Serif Regular (OFL-1.1, @fontsource/instrument-serif) outlines, in font units with
+// Instrument Serif Italic (OFL-1.1, @fontsource/instrument-serif) outlines, in font units with
 // y up, so the icon needs no font at runtime.
 const S =
-  'M184 -9Q164 -9 139.5 -5Q115 -1 93.5 5Q72 11 60 18Q53 22 49.5 26.5Q46 31 46 42L41 199Q41 219 54 219Q65 219 69 201L78 163Q112 20 205 20Q255 20 284.5 53.5Q314 87 314 148Q314 207 283.5 258Q253 309 186 359Q112 412 78 461.5Q44 511 44 567Q44 641 95.5 685.5Q147 730 227 730Q257 730 285 723Q313 716 331 703Q337 699 340.5 694Q344 689 344 681L347 530Q347 513 334 513Q325 513 321 527L314 552Q292 629 268.5 664.5Q245 700 201 700Q158 700 132.5 672Q107 644 107 593Q107 550 135 511Q163 472 233 416Q308 355 342.5 298.5Q377 242 377 178Q377 122 352 80Q327 38 283.5 14.5Q240 -9 184 -9Z';
+  'M173 -9Q145 -9 113.5 -3Q82 3 54.5 13.5Q27 24 11 38Q6 43 4.5 48Q3 53 5 63L33 220Q36 238 49 238Q61 238 61 218L62 179Q64 95 91 58Q118 21 179 21Q235 21 272 61.5Q309 102 309 170Q309 214 285 262Q261 310 218 358Q167 415 142.5 462Q118 509 118 561Q118 602 138 640.5Q158 679 198.5 704.5Q239 730 302 730Q389 730 435 691Q449 680 445 658L417 512Q414 497 403 497Q392 497 390 514L389 535Q385 616 366.5 658.5Q348 701 293 701Q253 701 229 683Q205 665 194 638.5Q183 612 183 586Q183 557 191 530.5Q199 504 218.5 474.5Q238 445 272 403Q320 346 347 294Q374 242 374 193Q374 134 347.5 88.5Q321 43 276 17Q231 -9 173 -9Z';
 const K =
-  'M34 0Q19 0 19 11Q19 20 32 23L55 27Q76 31 82.5 38Q89 45 89 66L89 654Q89 675 82.5 682Q76 689 55 693L32 697Q19 700 19 709Q19 720 34 720L217 720Q232 720 232 708Q232 699 221 697L194 693Q173 690 166.5 682Q160 674 160 653L160 383Q160 373 166 371Q172 369 177 378L341 635Q374 686 335 693L312 697Q299 700 299 710Q299 720 313 720L483 720Q497 720 497 709Q497 698 484 697L465 695Q434 692 414 677Q394 662 369 623L256 446Q246 429 255 413L443 59Q451 43 459.5 36Q468 29 480 27L504 23Q516 22 516 11Q516 0 502 0L324 0Q310 0 310 11Q310 21 323 23L340 25Q379 30 356 74L212 348Q208 356 203 356.5Q198 357 193 349L172 316Q165 306 162.5 297Q160 288 160 274L160 67Q160 46 166.5 38Q173 30 194 27L221 23Q232 21 232 12Q232 0 217 0Z';
-/** K starts here, so its stem runs under the S's right side. */
-const K_OFFSET = 300;
+  'M318 -9Q267 -9 235 74L180 219Q170 243 155 243Q140 243 129 218Q119 196 107.5 158.5Q96 121 86 77L71 11Q68 0 57 0L18 0Q4 0 7 13L153 640Q157 657 153 664.5Q149 672 135 673L105 676Q90 678 92 689Q94 698 106 700Q149 707 175 716Q201 725 215 737Q223 743 229 743Q242 743 239 728L146 332Q145 325 149 324Q153 323 156 329L189 388Q261 516 351 516Q385 516 405 498Q425 480 425 449Q425 400 377.5 351Q330 302 253 271Q229 262 239 239L297 91Q307 66 317 55.5Q327 45 342 45Q365 45 377 73.5Q389 102 398 173Q400 186 410 186Q421 186 420 166Q415 82 388.5 36.5Q362 -9 318 -9ZM165 288Q161 279 164.5 274.5Q168 270 177 272Q260 293 311 341Q362 389 362 447Q362 485 333 485Q299 485 254 432.5Q209 380 165 288Z';
+/** The k starts here: the S's advance (424) less a tuck, so its bowl sits in the S's lower curve. */
+const K_OFFSET = 334;
 /** A light stroke in each glyph's own colour thickens the hairlines enough to hold at 16px. */
-const WEIGHT = 22;
-/** The cut between the letters, in font units. */
-const GAP = 70;
+const WEIGHT = 18;
+/** The cut around the k, in font units. */
+const GAP = 60;
 /** Ink height on the 32 grid. */
-const HEIGHT = 20;
+const HEIGHT = 21;
 
-const box = { minX: 41, maxX: K_OFFSET + 516, minY: -9, maxY: 730 };
+const box = { minX: 4, maxX: K_OFFSET + 425, minY: -9, maxY: 743 };
 const scale = HEIGHT / (box.maxY - box.minY);
 const glyph = (d, color, stroke = WEIGHT, x = 0) =>
   `<path d="${d}" transform="translate(${x} 0)" fill="${color}" stroke="${color}" stroke-width="${stroke}" stroke-linejoin="round" />`;
 const mark = `<g transform="translate(${16 - (scale * (box.minX + box.maxX)) / 2} ${16 + (scale * (box.minY + box.maxY)) / 2}) scale(${scale} ${-scale})">
-    ${glyph(K, ink, WEIGHT, K_OFFSET)}
-    ${glyph(S, surface, GAP)}
-    ${glyph(S, accent)}
+    ${glyph(S, ink)}
+    ${glyph(K, surface, GAP, K_OFFSET)}
+    ${glyph(K, accent, WEIGHT, K_OFFSET)}
   </g>`;
 
 /** The tab icon: a dark rounded tile. */
