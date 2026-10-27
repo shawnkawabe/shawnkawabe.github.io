@@ -271,7 +271,7 @@ tokens. Astro portfolio themes found were paid; none adopted.
       without glass or glow, hidden without a key, intro text matching whether it shows.
 - [x] **L-28 Retire unused patterns** (S): remove `CredentialTickets`, `SectionBand`, ticket CSS
       and anything else left unused.
-- [ ] **L-29 Content questions for Shawn** (S): write to `docs/briefs/`; nothing invented.
+- [x] **L-29 Content questions for Shawn** (S): write to `docs/briefs/`; nothing invented.
       Open: team sizes (all empty); 2 to 4 decisions per featured project for "Approach";
       an approved portrait; a Trailhead or Credly URL; Nescara and Globant list the same
       projects (one row "Nescara, via Globant"?); Orchid component library has no sections.
@@ -717,6 +717,14 @@ continents. Each task below names what "done" means. Tasks run in the order give
     change, so it is left open.
   - ARCHITECTURE, DESIGN and PRODUCT_SPEC no longer list the removed components.
 - **L-29:** ask Shawn to confirm the reworded claim in pt and es.
+  - Done (2026-10-27): `docs/briefs/CONTENT_QUESTIONS.md`, linked from the decisions log.
+    - To confirm: the pt/es claim, `contact.introDirect` (en/pt/es), the Work intro (still says
+      "Filter by cloud or capability"; capability chips now appear only from `cap=` links).
+    - To decide: one or two About rows for Nescara and Globant; public text for the Orchid
+      component library.
+    - Optional (decision 13): team sizes and 2 to 4 "Approach" decisions per featured project.
+    - Portrait and credentials URL are not asked again: decisions 7 and 5 settle them.
+    - No content changed.
 - **L-30:** add the globe hero to the visual QA.
 
 #### Execution order

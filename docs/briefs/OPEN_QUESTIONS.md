@@ -30,3 +30,4 @@ Every question raised while planning has been settled. The Code Agent follows th
 2. In GitHub: Settings → Pages → Source = GitHub Actions (P0-03).
 3. Create a free Web3Forms access key for `kawabeshawn@gmail.com` and save it as the repository variable `PUBLIC_WEB3FORMS_KEY` (any time; the site works without it).
 4. Optional, whenever convenient: fill `docs/briefs/{project}.md` from `_TEMPLATE.md` to deepen a case study.
+5. Answer `docs/briefs/CONTENT_QUESTIONS.md` (raised during the landing redesign, L-29): confirm the drafted pt/es claim and contact intro, reword the Work intro, and settle the Nescara/Globant rows.
