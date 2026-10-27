@@ -38,7 +38,14 @@ describe('CloudPanels', () => {
     expect(states).toEqual(['true', 'false']);
     expect(html).toContain('aria-controls="cloud-panel-sales-cloud"');
     expect(html).toContain('<span class="sr-only">sales-cloud label</span>');
-    expect(html).toContain('--pf-c-cloud-accent: var(--pf-g-color-cloud-sales)');
+  });
+
+  it('draws no box and no cloud colour, per the products benchmark (L-40)', async () => {
+    const html = await render([cloud('sales-cloud', 2)]);
+    expect(html).not.toContain('--pf-c-cloud-accent');
+    expect(html).not.toContain('bg-surface-2');
+    expect(html).not.toContain('rounded-lg');
+    expect(html).toContain('group-data-open:scale-x-100');
   });
 
   it('shows the project count and the filtered Work link, no names (L-18)', async () => {

@@ -1,6 +1,6 @@
 // Home cloud panels (BACKLOG-LANDING L-05). One panel open at a time. On desktop a panel also opens
-// when a fine pointer rests on it, and its accent glow follows the pointer. Below lg the open panel
-// can be closed again, like any accordion. CSS does the drawing; this only sets state.
+// when a fine pointer rests on it. Below lg the open panel can be closed again, like any
+// accordion. CSS does the drawing; this only sets state.
 import { DESKTOP_QUERY } from './webgl';
 
 /** How long a fine pointer rests on a panel before it opens, so passing over does nothing. */
@@ -37,11 +37,6 @@ export function bindCloudPanels(
         timer = setTimeout(() => open(panel), HOVER_OPEN_MS);
       });
       panel.addEventListener('pointerleave', () => clearTimeout(timer));
-      panel.addEventListener('pointermove', (event) => {
-        const box = panel.getBoundingClientRect();
-        panel.style.setProperty('--pf-glow-x', `${event.clientX - box.left}px`);
-        panel.style.setProperty('--pf-glow-y', `${event.clientY - box.top}px`);
-      });
     }
   }
 }

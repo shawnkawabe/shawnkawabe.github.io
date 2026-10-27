@@ -5,6 +5,7 @@ import { beforeAll, describe, expect, it } from 'vitest';
 import CredentialLedger from '@/components/patterns/CredentialLedger.astro';
 import CompanyList from '@/components/patterns/CompanyList.astro';
 import Hero from '@/components/patterns/Hero.astro';
+import FeaturedIndex from '@/components/patterns/FeaturedIndex.astro';
 import HeroGlobe from '@/components/patterns/HeroGlobe.astro';
 import LandingSection from '@/components/patterns/LandingSection.astro';
 import RoundAction from '@/components/ui/RoundAction.astro';
@@ -219,5 +220,23 @@ describe('SculptedShape', () => {
     const tube = await render(SculptedShape, { variant: 'tube', id: 't' });
     expect(tube).toContain('fill="none"');
     expect(tube).toContain('stroke="url(#t)"');
+  });
+});
+
+describe('FeaturedIndex (L-40)', () => {
+  it('lists each project as one numbered link, with no cover, and the subtitle only when given', async () => {
+    const html = await render(FeaturedIndex, {
+      projects: [
+        { id: 'engine', title: 'Analytical Engine', subtitle: 'Punched-card programs' },
+        { id: 'notes', title: 'Notes' },
+      ],
+    });
+    expect(html.match(/<a /g)).toHaveLength(2);
+    expect(html).toContain('/work/engine"');
+    expect(html).toContain('>01<');
+    expect(html).toContain('>02<');
+    expect(html).toContain('Punched-card programs');
+    expect(html.match(/text-3 text-on-surface-2/g)).toHaveLength(1);
+    expect(html).not.toContain('<img');
   });
 });

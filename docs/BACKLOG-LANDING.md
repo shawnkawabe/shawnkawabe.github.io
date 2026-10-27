@@ -333,7 +333,7 @@ current data-core "neurons" scene is not aligned well and does not say that.
       headline word is set in an outlined serif ("adopt."), which needs an ADR for one self-hosted,
       openly licensed serif.
 
-- [ ] **L-40 Products and tools is the benchmark** (M): Shawn: "The best section so far is the
+- [x] **L-40 Products and tools is the benchmark** (M): Shawn: "The best section so far is the
       Product and Tools, ensure that the others are compliant with it." Bring every Home section
       (and the rebuilt inner pages) to its standard: large typography as the visual, content
       first, no boxes or badges, accent used sparingly, motion that serves reading and pauses on
@@ -585,7 +585,7 @@ continents. Each task below names what "done" means. Tasks run in the order give
     - No horizontal overflow at 375, 768 or 1440 in either theme.
     - Contact no longer uses `SectionBand`; the case-study page and the dev gallery still do,
       until L-28.
-- [ ] **L-40 Products and tools is the benchmark** (M). **Done when:**
+- [x] **L-40 Products and tools is the benchmark** (M). **Done when:**
   - **Audit:** `docs/reference/benchmark-audit.md` scores the Home sections and the inner
     pages against the products section's traits:
     - large type is the visual;
@@ -599,6 +599,18 @@ continents. Each task below names what "done" means. Tasks run in the order give
     - the featured `CoverCard` gradient covers;
     - `CloudPanels` boxes;
     - the contact band.
+  - **Done (2026-10-27):**
+    - The audit is in `docs/reference/benchmark-audit.md`: five traits, every Home section and
+      inner page scored, each gap with its fix and target task.
+    - Featured work is now `FeaturedIndex`, a numbered typographic index with titles at
+      `font-size-7` and the products' hover rule. `CoverCard` is gone from Home.
+    - `CloudPanels` keeps its expanding behaviour but drops the box:
+      - hairline dividers and grey icons;
+      - no cloud colours and no pointer glow (the CSS and the `pointermove` handler are removed);
+      - the open panel's rule uses `accent-1`.
+    - Hero, products, certifications and contact already met the benchmark.
+    - Fed forward: the inner-page gaps go to L-21 to L-27 (see the audit table).
+    - L-28 also removes `CoverCard` and, if Skills no longer uses them, the cloud accent tokens.
 
 #### Round 4 refinements (inner pages, carried into the order below)
 
@@ -617,7 +629,8 @@ continents. Each task below names what "done" means. Tasks run in the order give
   - `Backdrop` (after L-36);
   - `tilt.ts` (after L-22);
   - `CloudBento`, `DecisionCards`, `Outcomes`, `SnapshotBar` and `StackChips`, if L-23 to L-27
-    no longer use them, together with their tests and dev-gallery entries.
+    no longer use them, together with their tests and dev-gallery entries;
+  - `CoverCard` (after L-40), and the cloud accent tokens if nothing uses them after L-25.
 - **L-29:** ask Shawn to confirm the reworded claim in pt and es.
 - **L-30:** add the globe hero to the visual QA.
 
@@ -660,6 +673,6 @@ screenshots at 375, 768 and 1440 on the built preview, a ticked box with notes, 
 | L-37         | Round primary action            | done    |
 | L-38         | Sculpted section shapes         | done    |
 | L-39         | Hero layout A                   | done    |
-| L-40         | Products and tools as benchmark | planned |
+| L-40         | Products and tools as benchmark | done    |
 | L-41         | Scroll-linked motion research   | done    |
 | L-42         | Apple fonts review              | done    |

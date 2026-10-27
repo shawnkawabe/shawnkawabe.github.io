@@ -1,0 +1,43 @@
+---
+// Home "Featured work" (BACKLOG-LANDING L-40, docs/reference/benchmark-audit.md): the products
+// index's grammar applied to projects. Mono number, the title at display size, the subtitle in
+// grey, hairline rows; each row is one link whose title nudges and whose accent rule sweeps in on
+// hover and focus. No covers: the names are the visual.
+import Icon from '@/components/ui/Icon.astro';
+import { localeFromPath, localePath } from '@/lib/i18n';
+
+const locale = localeFromPath(Astro.url.pathname);
+
+interface Props {
+  projects: { id: string; title: string; subtitle?: string }[];
+}
+
+const { projects } = Astro.props;
+---
+
+<ol class="border-t border-border-1">
+  {projects.map((project, index) => (
+    <li>
+      <a
+        href={localePath(locale, `/work/${project.id}`)}
+        class="group relative grid grid-cols-[3rem_1fr_auto] items-baseline gap-4 border-b border-border-1 py-6 no-underline"
+      >
+        <span aria-hidden="true" class="font-mono text-1 tracking-label text-on-surface-2">
+          {String(index + 1).padStart(2, '0')}
+        </span>
+        <span class="flex flex-col gap-2 transition-[translate] duration-250 ease-standard group-hover:translate-x-2 group-focus-visible:translate-x-2">
+          <span class="font-heading text-7 text-balance text-on-surface-1">{project.title}</span>
+          {project.subtitle && <span class="text-3 text-on-surface-2">{project.subtitle}</span>}
+        </span>
+        <Icon
+          name="arrow-right"
+          class="text-on-surface-2 transition-colors duration-250 group-hover:text-on-surface-1 group-focus-visible:text-on-surface-1"
+        />
+        <span
+          aria-hidden="true"
+          class="absolute inset-x-0 -bottom-px h-px origin-left scale-x-0 bg-accent-1 transition-transform duration-450 ease-emphasised group-hover:scale-x-100 group-focus-visible:scale-x-100"
+        />
+      </a>
+    </li>
+  ))}
+</ol>

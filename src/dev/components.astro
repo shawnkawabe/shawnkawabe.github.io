@@ -20,6 +20,7 @@ import Hero from '@/components/patterns/Hero.astro';
 import ProductIndex from '@/components/patterns/ProductIndex.astro';
 import SkillGroups from '@/components/patterns/SkillGroups.astro';
 import CoverCard from '@/components/patterns/CoverCard.astro';
+import FeaturedIndex from '@/components/patterns/FeaturedIndex.astro';
 import DecisionCards from '@/components/patterns/DecisionCards.astro';
 import Gallery from '@/components/patterns/Gallery.astro';
 import Outcomes from '@/components/patterns/Outcomes.astro';
@@ -225,6 +226,11 @@ const accents = ['cloud-sales', 'cloud-service', 'cloud-data', 'cloud-membership
               />
             ))}
         </div>
+        <Text size={2} tone={2}>
+          FeaturedIndex: Home's featured work as a typographic index (L-40); replaces CoverCard
+          there.
+        </Text>
+        <FeaturedIndex projects={projects.filter((project) => project.featured).slice(0, 3)} />
         <div class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
           {projects.slice(2, 5).map((project) => (
             <ProjectCard project={project} cloudLabels={cloudLabels} />

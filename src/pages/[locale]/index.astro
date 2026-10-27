@@ -3,7 +3,7 @@
 // (BACKLOG-LANDING L-08, ADR 0006): every section fills the screen and snaps by proximity.
 import CloudPanels from '@/components/patterns/CloudPanels.astro';
 import CredentialLedger from '@/components/patterns/CredentialLedger.astro';
-import CoverCard from '@/components/patterns/CoverCard.astro';
+import FeaturedIndex from '@/components/patterns/FeaturedIndex.astro';
 import Hero from '@/components/patterns/Hero.astro';
 import HeroGlobe from '@/components/patterns/HeroGlobe.astro';
 import LandingSection from '@/components/patterns/LandingSection.astro';
@@ -82,19 +82,7 @@ const sections = [
             <Icon name="arrow-right" />
           </a>
         </div>
-        {/* Scroll-snap row below lg, 2-column grid from lg (DESIGN §10). */}
-        <ul class="-mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 sm:-mx-6 sm:px-6 lg:mx-0 lg:grid lg:grid-cols-2 lg:gap-6 lg:overflow-visible lg:px-0 lg:pb-0">
-          {featured.map((project) => (
-            <li class="w-[85%] shrink-0 snap-start sm:w-[60%] lg:w-auto">
-              <CoverCard
-                title={project.title}
-                subtitle={project.subtitle}
-                href={localePath(locale, `/work/${project.id}`)}
-                cover={project.cover}
-              />
-            </li>
-          ))}
-        </ul>
+        <FeaturedIndex projects={featured} />
       </LandingSection>
     )}
 

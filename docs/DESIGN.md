@@ -231,7 +231,7 @@ Rules: display style only at `font-size-7` and above. Letter-spacing tightens wi
 - **Page header (inner pages):** h1 + one lead paragraph, left-aligned, max 720px; no cover.
 - **Section row:** a narrow label column (about 11rem, `font-size-2`, `on-surface-2`, sentence case) beside a 720px body column, with a `border-1` hairline between rows. Stacks on < lg.
 - **Ledger list:** rows divided by `border-1` hairlines; each row is one link (title, subtitle, meta line, optional tags as text, arrow). No boxes, no covers.
-- **Card rows (Home only):** horizontal scroll-snap on < lg, 2–3 columns grid on ≥ lg.
+- **Typographic index (Home):** the benchmark from Products and tools (L-40, `docs/reference/benchmark-audit.md`). Mono number, the name at display size, `border-1` hairline rows, an `accent-1` rule that sweeps in on hover and focus. Featured work uses it (`FeaturedIndex`); no cover cards on Home.
 - **Case study:** section rows in one 960px column; media never wider than 1200px.
 
 ## 11. Trademark and content rules (design side)
