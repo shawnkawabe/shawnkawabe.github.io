@@ -267,7 +267,7 @@ tokens. Astro portfolio themes found were paid; none adopted.
       duplicate cloud group. Mobile page about a third of today's height.
 - [x] **L-26 About as a professional bio** (M): bio, location and resume action first;
       principles as numbered rows; experience as a ledger without dates; photo only if approved.
-- [ ] **L-27 Contact, calm and direct** (S): email (with copy), LinkedIn and resume rows; form
+- [x] **L-27 Contact, calm and direct** (S): email (with copy), LinkedIn and resume rows; form
       without glass or glow, hidden without a key, intro text matching whether it shows.
 - [ ] **L-28 Retire unused patterns** (S): remove `CredentialTickets`, `SectionBand`, ticket CSS
       and anything else left unused.
@@ -686,6 +686,19 @@ continents. Each task below names what "done" means. Tasks run in the order give
     keys `about.history` and `about.historyLine` are unused, for L-28.
   - Nescara and Globant still list the same projects; L-29 asks Shawn.
 - **L-27:** the contact action is the `RoundAction`.
+  - Done (2026-10-27):
+    - `PageHeader` with the round "Email me" (`mailto:`) action.
+    - Direct `SectionRow`s: Email (with a Copy button), LinkedIn and Resume.
+      - Copy uses `src/lib/copy.ts`, a bound script rather than a React island.
+      - Copy is hidden without JavaScript and announces "Copied" through a live region.
+    - The form is a plain `SectionRow`: no glass, blur or focus glow. Focus uses the global
+      `focus-ring` outline.
+    - New content field `contact.introDirect` is used when no Web3Forms key is set. The
+      en/pt/es texts reword the existing intros without "send a message"; L-29 asks Shawn to
+      confirm them.
+    - New i18n keys: `contact.resumeLabel`, `emailAction`, `copy` and `copied`.
+    - Checked both builds: without a key (direct intro, no form) and with a dummy key (form
+      shown, then rebuilt without it).
 - **L-28:** `CredentialTickets` is already gone. Remove what is now unused:
   - `SectionBand` (after L-38);
   - `Backdrop` (after L-36);

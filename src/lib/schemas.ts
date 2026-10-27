@@ -126,6 +126,8 @@ export const siteSchema = z.object({
   }),
   contact: z.object({
     intro: z.string(),
+    // The intro without "send a message", for builds without the form (SPEC §5.6).
+    introDirect: z.string(),
     projectTypes: z.array(z.string()).min(1),
     successMessage: z.string(),
     errorMessage: z.string(),

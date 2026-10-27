@@ -83,6 +83,10 @@
   "contact": {
     "emailLabel": "Email",
     "linkedinLabel": "LinkedIn",
+    "resumeLabel": "Resume",
+    "emailAction": "Email me",
+    "copy": "Copy",
+    "copied": "Copied",
     "formTitle": "Send a message",
     "name": "Name",
     "email": "Email",

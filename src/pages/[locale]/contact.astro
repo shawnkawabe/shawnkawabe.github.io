@@ -1,8 +1,11 @@
 ---
-// SPEC §5.6: intro, email and LinkedIn always; the form only when PUBLIC_WEB3FORMS_KEY is set at
-// build time (an empty key is valid and leaves the direct links).
+// SPEC §5.6 (ADR 0008, L-27): the page header with the round "Email me" action, then direct rows
+// for email (with a copy button), LinkedIn and the resume, then the form only when
+// PUBLIC_WEB3FORMS_KEY is set at build time. The intro drops "send a message" without the form.
 import ContactFormSection from '@/components/patterns/ContactFormSection.astro';
-import Icon from '@/components/ui/Icon.astro';
+import PageHeader from '@/components/ui/PageHeader.astro';
+import RoundAction from '@/components/ui/RoundAction.astro';
+import SectionRow from '@/components/ui/SectionRow.astro';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { getSite, siteLocales } from '@/lib/content';
 import { strings, toLocale } from '@/lib/i18n';
@@ -18,46 +21,56 @@ const ui = strings(locale);
 const site = getSite(locale);
 const web3formsKey = import.meta.env.PUBLIC_WEB3FORMS_KEY ?? '';
 const t = ui.contact;
-const link =
-  'flex items-center gap-4 rounded-md border border-border-1 bg-surface-2 p-5 no-underline transition-[border-color] duration-250 ease-standard hover:border-border-2';
+const external = { target: '_blank', rel: 'noopener noreferrer' };
 ---
 
 <BaseLayout meta={pageMeta(site, { page: 'contact' }, ui.titleTemplate)}>
-  <div
-    class:list={[
-      'mx-auto grid w-full max-w-300 items-start gap-12 px-4 py-16 sm:px-6 lg:px-8 lg:py-24',
-      web3formsKey && 'lg:grid-cols-[2fr_3fr]',
-    ]}
-  >
-    <div class="flex max-w-180 flex-col gap-8">
-      <header class="flex flex-col gap-4">
-        <h1>{site.seo.pages.contact.title}</h1>
-        <p class="text-4 text-on-surface-2">{site.contact.intro}</p>
-      </header>
-      <ul class="flex flex-col gap-3">
-        <li>
-          <a href={`mailto:${site.links.email}`} class={link}>
-            <Icon name="contact" size={24} />
-            <span class="flex flex-col">
-              <span class="font-mono text-1 text-on-surface-2">{t.emailLabel}</span>
-              <span class="text-3 break-all text-on-surface-1">{site.links.email}</span>
-            </span>
+  <div class="mx-auto flex w-full max-w-300 flex-col gap-12 px-4 py-16 sm:px-6 lg:gap-16 lg:px-8 lg:py-24">
+    <PageHeader
+      title={site.seo.pages.contact.title}
+      lead={web3formsKey ? site.contact.intro : site.contact.introDirect}
+    >
+      <RoundAction slot="actions" href={`mailto:${site.links.email}`} label={t.emailAction} />
+    </PageHeader>
+
+    <div class="flex flex-col gap-8">
+      <SectionRow label={t.emailLabel} id="email-title">
+        <div class="flex flex-wrap items-baseline gap-x-4 gap-y-2">
+          <a href={`mailto:${site.links.email}`} class="text-4 break-all underline">
+            {site.links.email}
           </a>
-        </li>
-        <li>
-          <a href={site.links.linkedin} target="_blank" rel="noopener noreferrer" class={link}>
-            <Icon name="linkedin" size={24} />
-            <span class="flex flex-col">
-              <span class="font-mono text-1 text-on-surface-2">{t.linkedinLabel}</span>
-              <span class="text-3 break-all text-on-surface-1">
-                {site.links.linkedin.replace(/^https?:\/\/(www\.)?/, '')}
-              </span>
-            </span>
-            <span class="sr-only"> ({ui.nav.newTab})</span>
-          </a>
-        </li>
-      </ul>
+          <span data-js-only class="flex items-baseline gap-3">
+            <button
+              type="button"
+              data-copy={site.links.email}
+              data-copied={t.copied}
+              class="cursor-pointer text-2 font-medium text-on-surface-2 underline hover:text-on-surface-1"
+            >
+              {t.copy}
+            </button>
+            <span data-copy-status aria-live="polite" class="text-2 text-on-surface-2"></span>
+          </span>
+        </div>
+      </SectionRow>
+      <SectionRow label={t.linkedinLabel} id="linkedin-title">
+        <a href={site.links.linkedin} {...external} class="text-4 break-all underline">
+          {site.links.linkedin.replace(/^https?:\/\/(www\.)?/, '')}
+          <span class="sr-only"> ({ui.nav.newTab})</span>
+        </a>
+      </SectionRow>
+      <SectionRow label={t.resumeLabel} id="resume-title">
+        <a href={site.links.resume} {...external} class="text-4 underline">
+          {ui.nav.resume}
+          <span class="sr-only"> ({ui.nav.newTab})</span>
+        </a>
+      </SectionRow>
+      <ContactFormSection web3formsKey={web3formsKey} site={site} />
     </div>
-    <ContactFormSection web3formsKey={web3formsKey} site={site} />
   </div>
 </BaseLayout>
+
+<script>
+  import { bindCopy } from '@/lib/copy';
+
+  bindCopy();
+</script>

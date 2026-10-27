@@ -30,7 +30,7 @@ type Status = 'idle' | 'submitting' | 'success' | 'error';
 const FIELDS: ContactField[] = ['name', 'email', 'projectType', 'message'];
 
 const CONTROL =
-  'w-full rounded-sm border border-border-2 bg-surface-1 px-3 text-3 text-on-surface-1 transition-[border-color,box-shadow] duration-150 ease-standard focus:border-accent-1 focus:shadow-glow focus:outline-none aria-invalid:border-error';
+  'w-full rounded-sm border border-border-2 bg-surface-1 px-3 text-3 text-on-surface-1 transition-[border-color] duration-150 ease-standard focus:border-accent-1 aria-invalid:border-error';
 const BUTTON =
   'inline-flex h-12 items-center justify-center gap-2 self-start rounded-pill bg-accent-1 px-5 text-3 font-medium text-on-accent transition-colors duration-150 ease-standard hover:bg-accent-1-strong disabled:opacity-60';
 
@@ -102,11 +102,7 @@ export default function ContactForm({
   });
 
   return (
-    <form
-      noValidate
-      onSubmit={submit}
-      className="flex flex-col gap-5 rounded-lg border border-border-1 bg-surface-2/80 p-6 backdrop-blur-md transition-[border-color,box-shadow] duration-250 ease-standard focus-within:border-border-2 focus-within:shadow-glow sm:p-8"
-    >
+    <form noValidate onSubmit={submit} className="flex flex-col gap-5">
       <Field id={`${formId}-name`} label={t.name} error={errors.name}>
         {(a11y) => (
           <input

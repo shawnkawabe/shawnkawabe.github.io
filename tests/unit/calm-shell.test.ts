@@ -17,6 +17,8 @@ const INNER = [
   'src/components/patterns/Gallery.astro',
   'src/components/patterns/DecisionList.astro',
   'src/components/patterns/WorkFilters.tsx',
+  'src/components/patterns/ContactForm.tsx',
+  'src/components/patterns/ContactFormSection.astro',
   'src/components/ui/Chip.astro',
 ];
 

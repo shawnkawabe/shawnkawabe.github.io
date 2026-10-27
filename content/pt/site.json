@@ -98,6 +98,7 @@
   },
   "contact": {
     "intro": "Está contratando para uma vaga Salesforce ou precisa de ajuda em um projeto? Envie uma mensagem ou me mande um e-mail diretamente.",
+    "introDirect": "Está contratando para uma vaga Salesforce ou precisa de ajuda em um projeto? Me mande um e-mail diretamente.",
     "projectTypes": ["Vaga em tempo integral", "Contrato", "Consultoria", "Outro"],
     "successMessage": "Obrigado! Sua mensagem foi enviada. Costumo responder em até dois dias úteis.",
     "errorMessage": "Algo deu errado ao enviar sua mensagem. Tente novamente ou me mande um e-mail diretamente."

@@ -90,6 +90,9 @@ describe('ContactFormSection', () => {
     const render = (web3formsKey: string) =>
       container.renderToString(ContactFormSection, { props: { web3formsKey, site } });
     expect(await render('')).not.toContain('<form');
-    expect(await render('abc')).toContain('<form');
+    const html = await render('abc');
+    expect(html).toContain('<form');
+    expect(html).toContain('aria-labelledby="form-title"');
+    expect(html).not.toMatch(/backdrop-blur|shadow-glow/);
   });
 });

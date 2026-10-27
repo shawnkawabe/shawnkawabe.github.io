@@ -98,6 +98,7 @@
   },
   "contact": {
     "intro": "Hiring for a Salesforce role, or need help on a project? Send a message or email me directly.",
+    "introDirect": "Hiring for a Salesforce role, or need help on a project? Email me directly.",
     "projectTypes": ["Full-time role", "Contract", "Consulting", "Other"],
     "successMessage": "Thanks, your message is on its way. I usually reply within two working days.",
     "errorMessage": "Something went wrong sending your message. Please try again, or email me directly."
