@@ -18,6 +18,7 @@
     "test:a11y": "playwright test",
     "grammar": "node scripts/grammar.mjs",
     "og": "node scripts/og.mjs",
+    "icons": "node scripts/icons.mjs",
     "validate:content": "astro sync",
     "check:links": "linkinator dist --recurse --concurrency 20 --retry-errors --retry-errors-count 3 --skip \"^(?!http://(localhost|127\\.0\\.0\\.1)[:/])\"",
     "ci": "npm run tokens && npm run lint && npm run validate:content && npm test && npm run build && npm run check:links",
