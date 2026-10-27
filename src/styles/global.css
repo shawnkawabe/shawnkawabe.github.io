@@ -447,3 +447,25 @@ html:has([data-landing-section]) {
       )
       bottom / 100% 51% no-repeat;
 }
+
+/* BACKLOG-LANDING L-09: collapsed, the rail is a perfect circle around a larger handle that shows
+   where the reader is. A new section number rises into place. */
+[data-rail='collapsed'] [data-rail-nav] {
+  width: 4rem;
+  height: 4rem;
+  padding: 0;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+[data-rail='collapsed'] [data-rail-toggle] {
+  width: 3rem;
+  height: 3rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-rail-section][data-swapped] {
+    display: inline-block;
+    animation: pf-rise var(--pf-g-duration-base) var(--pf-g-easing-emphasised);
+  }
+}

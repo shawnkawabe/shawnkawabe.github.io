@@ -2,6 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { LOCALE_KEY } from '@/lib/i18n';
 import { bindLanguageMenus } from '@/lib/language-menu';
 import { bindRailToggles, currentRail, RAIL_KEY } from '@/lib/rail';
+import { SECTION_EVENT } from '@/lib/section-indicator';
 
 beforeEach(() => {
   delete document.documentElement.dataset.rail;
@@ -47,6 +48,28 @@ describe('rail', () => {
     bindRailToggles();
     document.querySelector('button')!.click();
     expect(currentRail()).toBe('collapsed');
+  });
+});
+
+describe('collapsed rail (L-09)', () => {
+  it('names the current place and follows the Home section', () => {
+    document.documentElement.dataset.rail = 'collapsed';
+    document.body.innerHTML = `
+      <button data-rail-toggle data-label-collapse="Collapse" data-label-expand="Expand"
+        data-label-expand-current="Expand, current: {name}" data-current="Intro">
+        <span data-rail-section> 01 </span>
+      </button>`;
+    bindRailToggles();
+    const toggle = document.querySelector('button')!;
+    expect(toggle.getAttribute('aria-label')).toBe('Expand, current: Intro');
+
+    window.dispatchEvent(
+      new CustomEvent(SECTION_EVENT, { detail: { id: 'clouds', number: '03', label: 'Clouds' } }),
+    );
+    expect(toggle.getAttribute('aria-label')).toBe('Expand, current: Clouds');
+    const section = toggle.querySelector('[data-rail-section]')!;
+    expect(section.textContent).toBe('03');
+    expect(section.hasAttribute('data-swapped')).toBe(true);
   });
 });
 

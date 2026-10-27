@@ -1,6 +1,8 @@
 ---
 // Desktop nav rail (SPEC §4.1, DESIGN §9): floating pill, icon links with CSS-only tooltips.
 // Collapsible to a single handle (BACKLOG-LANDING L-02); global.css hides the body on <html data-rail>.
+// Collapsed, the handle is a circle showing where the reader is (L-09): the page's icon, or on Home
+// the current section's number, which src/lib/rail.ts keeps in sync with the section indicator.
 import Icon from '@/components/ui/Icon.astro';
 import { getSite } from '@/lib/content';
 import { externalLinks, isActive, pageLinks } from '@/lib/nav';
@@ -13,6 +15,9 @@ const ui = strings(locale);
 
 const pathname = Astro.url.pathname;
 const groups = [pageLinks(locale), externalLinks(getSite(locale), locale)];
+const current = groups[0].find((link) => isActive(pathname, link.href));
+const onHome = current?.icon === 'home';
+const currentName = onHome ? ui.home.intro : current?.label;
 
 const item =
   'group relative flex size-10 items-center justify-center rounded-pill text-on-surface-2 no-underline transition-colors duration-150 ease-standard hover:bg-surface-3 hover:text-on-surface-1';
@@ -22,6 +27,7 @@ const tooltip =
 
 <nav
   aria-label={ui.nav.label}
+  data-rail-nav
   class="fixed top-16 left-6 z-40 hidden w-16 flex-col items-center gap-2 rounded-pill bg-surface-2/90 p-2 shadow-1 backdrop-blur-md lg:flex"
 >
   <button
@@ -29,6 +35,8 @@ const tooltip =
     data-rail-toggle
     data-label-collapse={ui.nav.collapse}
     data-label-expand={ui.nav.expand}
+    data-label-expand-current={ui.nav.expandCurrent}
+    data-current={currentName}
     aria-controls="rail-body"
     aria-expanded="true"
     aria-label={ui.nav.collapse}
@@ -38,7 +46,13 @@ const tooltip =
       <Icon name="panel-close" />
     </span>
     <span data-rail-icon="expand">
-      <Icon name="panel-open" />
+      {onHome ? (
+        <span data-rail-section class="font-mono text-2 tracking-label text-on-surface-1">
+          01
+        </span>
+      ) : (
+        <Icon name={current?.icon ?? 'panel-open'} />
+      )}
     </span>
   </button>
   <div id="rail-body" data-rail-body class="flex flex-col items-center gap-2">

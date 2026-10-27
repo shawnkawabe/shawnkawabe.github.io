@@ -120,3 +120,21 @@ test('the desktop rail collapses and stays collapsed on the next page', async ({
   await toggle.click();
   await expect(rail.getByRole('link', { name: 'Work' })).toBeVisible();
 });
+
+test('collapsed, the rail is a circle that follows the Home section', async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name === 'mobile', 'The rail is desktop only.');
+  await page.goto('/en/');
+  const rail = page.locator('nav:has([data-rail-toggle])');
+  await rail.getByRole('button', { name: 'Collapse menu' }).click();
+  const box = (await rail.boundingBox())!;
+  expect(Math.round(box.width)).toBe(Math.round(box.height));
+  await page.locator('#clouds').scrollIntoViewIfNeeded();
+  await expect(rail.locator('[data-rail-toggle]')).toHaveAttribute(
+    'aria-label',
+    /^Expand menu, current: /,
+  );
+  await expect(rail.locator('[data-rail-section]')).not.toHaveText('01');
+  await rail.locator('[data-rail-toggle]').click();
+});

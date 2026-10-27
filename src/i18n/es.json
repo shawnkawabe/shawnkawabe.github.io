@@ -4,6 +4,7 @@
   "nav": {
     "collapse": "Contraer menú",
     "expand": "Expandir menú",
+    "expandCurrent": "Expandir menú, actual: {name}",
     "label": "Principal",
     "home": "Inicio",
     "work": "Proyectos",

@@ -24,6 +24,8 @@ const label =
         <a
           href={`#${id}`}
           data-section-link={id}
+          data-section-number={String(index + 1).padStart(2, '0')}
+          data-section-label={name}
           class="group relative flex items-center gap-2 rounded-pill px-2 py-1 font-mono text-1 tracking-label text-on-surface-2 no-underline transition-colors duration-150 ease-standard hover:text-on-surface-1 aria-current:text-on-surface-1"
         >
           <span aria-hidden="true" class={label}>

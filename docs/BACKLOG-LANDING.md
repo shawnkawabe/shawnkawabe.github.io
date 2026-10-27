@@ -101,7 +101,7 @@ Research behind L-05 to L-08 is summarised in [ADR 0006](adr/0006-landing-scroll
 
 ## Round 2 — Shawn's feedback, 2026-10-26 (evening)
 
-- [ ] **L-09 Collapsed rail shows where you are**
+- [x] **L-09 Collapsed rail shows where you are**
   - Collapsed, the rail is a perfect circle (equal width and height, `rounded-full`), not a
     rounded pill around one button.
   - The circle shows where the reader is: on Home, the current section's mono number (`03`,
@@ -111,6 +111,9 @@ Research behind L-05 to L-08 is summarised in [ADR 0006](adr/0006-landing-scroll
   - The change of number or icon cross-fades (none under reduced motion).
   - Tests: unit test for the current-section/page resolution; e2e checks the circle's width equals
     its height and that the label follows the section on Home.
+  - Notes (2026-10-26): 64px circle around a 48px handle. The section indicator dispatches
+    `pf-sectionchange`; the rail listens, so neither module imports the other's DOM. Pages
+    outside the nav (404) fall back to the expand icon.
 
 - [ ] **L-10 Products & tools: a moving list again, restyled** (reworks L-06)
   - Back to a passing list, but typographic, not chips: names in display type, large, separated
@@ -163,7 +166,7 @@ Research behind L-05 to L-08 is summarised in [ADR 0006](adr/0006-landing-scroll
 | L-05 | Clouds                     | done   |
 | L-06 | Products & tools           | done   |
 | L-07 | Certifications             | done   |
-| L-09 | Collapsed rail as a circle | to do  |
+| L-09 | Collapsed rail as a circle | done   |
 | L-10 | Products moving list       | to do  |
 | L-11 | Typography                 | to do  |
 | L-12 | Background                 | to do  |

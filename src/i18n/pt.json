@@ -4,6 +4,7 @@
   "nav": {
     "collapse": "Recolher menu",
     "expand": "Expandir menu",
+    "expandCurrent": "Expandir menu, atual: {name}",
     "label": "Principal",
     "home": "Início",
     "work": "Projetos",

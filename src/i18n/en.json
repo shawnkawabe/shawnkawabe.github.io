@@ -4,6 +4,7 @@
   "nav": {
     "collapse": "Collapse menu",
     "expand": "Expand menu",
+    "expandCurrent": "Expand menu, current: {name}",
     "label": "Main",
     "home": "Home",
     "work": "Work",
