@@ -12,23 +12,17 @@ import { getCertifications, getExperience, getProjects, getSite, getSkills } fro
 import { cloudStats, skillGroupChips, sortProjects } from '@/lib/derive';
 import { brandIcons, icons, type CloudIconName, type IconName } from '@/lib/icons';
 import CredentialLedger from '@/components/patterns/CredentialLedger.astro';
-import CloudBento from '@/components/patterns/CloudBento.astro';
 import CloudPanels from '@/components/patterns/CloudPanels.astro';
 import CompanyList from '@/components/patterns/CompanyList.astro';
 import ContactForm from '@/components/patterns/ContactForm';
 import Hero from '@/components/patterns/Hero.astro';
 import ProductIndex from '@/components/patterns/ProductIndex.astro';
 import SkillGroups from '@/components/patterns/SkillGroups.astro';
-import CoverCard from '@/components/patterns/CoverCard.astro';
 import FeaturedIndex from '@/components/patterns/FeaturedIndex.astro';
 import DecisionList from '@/components/patterns/DecisionList.astro';
 import Gallery from '@/components/patterns/Gallery.astro';
 import Outcomes from '@/components/patterns/Outcomes.astro';
 import PrevNext from '@/components/patterns/PrevNext.astro';
-import SectionBand from '@/components/patterns/SectionBand.astro';
-import SnapshotBar from '@/components/patterns/SnapshotBar.astro';
-import StackChips from '@/components/patterns/StackChips.astro';
-import { stackLinks } from '@/lib/case-study';
 import { strings } from '@/lib/i18n';
 import HeroGlobe from '@/components/patterns/HeroGlobe.astro';
 import RoundAction from '@/components/ui/RoundAction.astro';
@@ -41,7 +35,6 @@ import PageHeader from '@/components/ui/PageHeader.astro';
 import SectionRow from '@/components/ui/SectionRow.astro';
 import LanguageSwitcher from '@/components/patterns/LanguageSwitcher.astro';
 import MobileNav from '@/components/patterns/MobileNav.astro';
-import ProjectCard from '@/components/patterns/ProjectCard.astro';
 import ThemeToggle from '@/components/patterns/ThemeToggle.astro';
 import UiGallery from './UiGallery';
 
@@ -50,10 +43,8 @@ const ui = strings('en');
 const skills = await getSkills();
 const projects = sortProjects(await getProjects());
 const clouds = skills.filter((skill) => skill.group === 'clouds');
-const cloudLabels = Object.fromEntries(skills.map((skill) => [skill.id, skill.label]));
 const bento = cloudStats(skills, projects, await getCertifications());
-// Sample content for the case-study components; the gallery reuses files already in public/.
-const sample = projects[0];
+// The gallery sample reuses files already in public/.
 const sampleImages = [
   {
     src: '/og/default.png',
@@ -218,40 +209,10 @@ const accents = ['cloud-sales', 'cloud-service', 'cloud-data', 'cloud-membership
         <Heading level={2} size={6}>
           Cards
         </Heading>
-        <div class="grid gap-6 lg:grid-cols-2">
-          {projects
-            .filter((project) => project.featured)
-            .slice(0, 2)
-            .map((project) => (
-              <CoverCard
-                title={project.title}
-                subtitle={project.subtitle}
-                href={`/work/${project.id}`}
-                cover={project.cover}
-                icon="work"
-              />
-            ))}
-        </div>
         <Text size={2} tone={2}>
-          FeaturedIndex: Home's featured work as a typographic index (L-40); replaces CoverCard
-          there.
+          FeaturedIndex: Home's featured work as a typographic index (L-40).
         </Text>
         <FeaturedIndex projects={projects.filter((project) => project.featured).slice(0, 3)} />
-        <div class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-          {projects.slice(2, 5).map((project) => (
-            <ProjectCard project={project} cloudLabels={cloudLabels} />
-          ))}
-          <ProjectCard
-            project={{
-              ...projects[0],
-              id: 'many-clouds',
-              title: 'Many clouds (sample)',
-              clouds: clouds.map((cloud) => cloud.id),
-            }}
-            cloudLabels={cloudLabels}
-          />
-        </div>
-        <CloudBento clouds={bento} />
         <Text tone={2}>
           CloudPanels (Home): a row of expanding panels from lg, an accordion below
         </Text>
@@ -340,7 +301,6 @@ const accents = ['cloud-sales', 'cloud-service', 'cloud-data', 'cloud-membership
         <Heading level={2} size={6}>
           Case study
         </Heading>
-        <SnapshotBar project={sample} deliveredVia="Nescara · Globant" skills={skills} />
         <DecisionList
           items={[
             {
@@ -358,13 +318,6 @@ const accents = ['cloud-sales', 'cloud-service', 'cloud-data', 'cloud-membership
           ]}
         />
         <Gallery images={sampleImages} />
-        <SectionBand tone="a" tilt={-2}>
-          <Text class="px-6">Band A, tilted −2° on ≥ lg; the text stays straight.</Text>
-        </SectionBand>
-        <SectionBand tone="b" tilt={2}>
-          <Text class="px-6">Band B, tilted 2°.</Text>
-        </SectionBand>
-        <StackChips links={stackLinks(sample, skills)} />
         <PrevNext prev={projects[0]} next={projects[1]} />
         <PrevNext prev={undefined} next={projects[1]} />
       </section>
@@ -434,8 +387,7 @@ const accents = ['cloud-sales', 'cloud-service', 'cloud-data', 'cloud-membership
         <Text size={2} tone={2}>
           HeroGlobe: the poster and the cloud links on their arc for everyone; on ≥ 1024px with
           motion and WebGL2 the live globe starts after load and idle, swings the links, and shows
-          the pause toggle. Below 1024px the links wrap above a cropped poster. CoverCard and
-          CloudCard above tilt toward a fine pointer.
+          the pause toggle. Below 1024px the links wrap above a cropped poster.
         </Text>
         <div class="relative isolate h-150 overflow-hidden rounded-lg border border-border-1">
           <HeroGlobe clouds={skills.filter((skill) => skill.group === 'clouds').slice(0, 5)} />

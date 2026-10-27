@@ -60,31 +60,29 @@ Not tokens (composed in CSS from tokens): `shadow-glow`, cover gradients (§3.3)
 
 Neutral charcoal and greys with no blue tint (BACKLOG-LANDING L-36). The accent marks only the primary action, links, focus and selected states. No page has a grid backdrop. Every text colour meets AA on every surface in both themes, enforced by `tests/unit/tokens.test.ts`.
 
-| Token             | Role                          | Dark                     | Light                   |
-| ----------------- | ----------------------------- | ------------------------ | ----------------------- |
-| `surface-0`       | Page background               | `#131313`                | `#FAFAFA`               |
-| `surface-1`       | Default section               | `#1A1A1A`                | `#FFFFFF`               |
-| `surface-2`       | Cards, nav rail               | `#212121`                | `#F4F4F4`               |
-| `surface-3`       | Raised: menus, panels         | `#2A2A2A`                | `#EBEBEB`               |
-| `on-surface-1`    | Primary text                  | `#F2F2F2`                | `#141414`               |
-| `on-surface-2`    | Secondary text                | `#A3A3A3`                | `#575757`               |
-| `on-surface-3`    | Tertiary, captions            | `#949494`                | `#666666`               |
-| `border-1`        | Hairlines                     | `rgba(255,255,255,0.08)` | `rgba(0,0,0,0.08)`      |
-| `border-2`        | Emphasised borders            | `rgba(255,255,255,0.16)` | `rgba(0,0,0,0.16)`      |
-| `accent-1`        | Links, primary action, focus  | `#4DA9FF`                | `#0B5CD5`               |
-| `accent-1-strong` | Hover/pressed of accent       | `#7CC0FF`                | `#0848A8`               |
-| `accent-2`        | Secondary highlight (violet)  | `#8B7CF6`                | `#5B3FD6`               |
-| `accent-3`        | Tertiary highlight (teal)     | `#5ED3C3`                | `#0E8A7A`               |
-| `on-accent`       | Text on accent fills          | `#06121F`                | `#FFFFFF`               |
-| `success`         | Success                       | `#4ADE80`                | `#15803D`               |
-| `warning`         | Warning                       | `#FBBF24`                | `#B45309`               |
-| `error`           | Error                         | `#F87171`                | `#B91C1C`               |
-| `focus-ring`      | Focus outline                 | `#4DA9FF`                | `#0B5CD5`               |
-| `glow-1`          | Accent glow                   | `rgba(77,169,255,0.35)`  | `rgba(11,92,213,0.20)`  |
-| `band-a`          | Case-study band tint (violet) | `rgba(139,124,246,0.08)` | `rgba(91,63,214,0.06)`  |
-| `band-b`          | Case-study band tint (teal)   | `rgba(94,211,195,0.08)`  | `rgba(14,138,122,0.06)` |
-| `shape-shade`     | Section shape, shaded side    | `#1A1A1A`                | `#EBEBEB`               |
-| `shape-lit`       | Section shape, lit side       | `#2A2A2A`                | `#FFFFFF`               |
+| Token             | Role                         | Dark                     | Light                  |
+| ----------------- | ---------------------------- | ------------------------ | ---------------------- |
+| `surface-0`       | Page background              | `#131313`                | `#FAFAFA`              |
+| `surface-1`       | Default section              | `#1A1A1A`                | `#FFFFFF`              |
+| `surface-2`       | Cards, nav rail              | `#212121`                | `#F4F4F4`              |
+| `surface-3`       | Raised: menus, panels        | `#2A2A2A`                | `#EBEBEB`              |
+| `on-surface-1`    | Primary text                 | `#F2F2F2`                | `#141414`              |
+| `on-surface-2`    | Secondary text               | `#A3A3A3`                | `#575757`              |
+| `on-surface-3`    | Tertiary, captions           | `#949494`                | `#666666`              |
+| `border-1`        | Hairlines                    | `rgba(255,255,255,0.08)` | `rgba(0,0,0,0.08)`     |
+| `border-2`        | Emphasised borders           | `rgba(255,255,255,0.16)` | `rgba(0,0,0,0.16)`     |
+| `accent-1`        | Links, primary action, focus | `#4DA9FF`                | `#0B5CD5`              |
+| `accent-1-strong` | Hover/pressed of accent      | `#7CC0FF`                | `#0848A8`              |
+| `accent-2`        | Secondary highlight (violet) | `#8B7CF6`                | `#5B3FD6`              |
+| `accent-3`        | Tertiary highlight (teal)    | `#5ED3C3`                | `#0E8A7A`              |
+| `on-accent`       | Text on accent fills         | `#06121F`                | `#FFFFFF`              |
+| `success`         | Success                      | `#4ADE80`                | `#15803D`              |
+| `warning`         | Warning                      | `#FBBF24`                | `#B45309`              |
+| `error`           | Error                        | `#F87171`                | `#B91C1C`              |
+| `focus-ring`      | Focus outline                | `#4DA9FF`                | `#0B5CD5`              |
+| `glow-1`          | Accent glow                  | `rgba(77,169,255,0.35)`  | `rgba(11,92,213,0.20)` |
+| `shape-shade`     | Section shape, shaded side   | `#1A1A1A`                | `#EBEBEB`              |
+| `shape-lit`       | Section shape, lit side      | `#2A2A2A`                | `#FFFFFF`              |
 
 Contrast requirements (checked in CI by axe and manually in the token PR):
 
@@ -172,7 +170,7 @@ Rules: display style only at `font-size-7` and above. Letter-spacing tightens wi
 | `easing-emphasised` | `cubic-bezier(0.3, 0, 0, 1.2)` | Panel enter only             |
 
 - **Inner pages (ADR 0008):** hover changes text colour or underline only, `duration-fast`. No lift, glow or tilt.
-- Home: index rows nudge sideways and sweep an `accent-1` rule on hover and focus (L-40). No card lifts or tilts anywhere since L-22; `src/lib/tilt.ts` is retired in L-28.
+- Home: index rows nudge sideways and sweep an `accent-1` rule on hover and focus (L-40). No card lifts or tilts anywhere since L-22; `src/lib/tilt.ts` was removed in L-28.
 - Rail (L-32): collapsing folds the pill into the circle (height `auto` → 4rem over `duration-slow`, `interpolate-size`), the body fading out first; expanding fades the groups in with a 30ms stagger. Tooltips slide 4px in with their fade.
 - Links: underline fades from 35% to full and rises from 0.3em to 0.18em offset, `duration-base`. Buttons press to 98% on click; a trailing arrow nudges 2px forward on hover.
 - Section reveal (`Reveal`, CSS + IntersectionObserver, ADR 0005): opacity 0 → 1, y 16 → 0, `duration-slow`, once.
@@ -212,10 +210,6 @@ Rules: display style only at `font-size-7` and above. Letter-spacing tightens wi
 | **TopBar (mobile)** | Height 56px, `surface-1` at 90% + blur, bottom `border-1`, name in Geist 600 `font-size-4`.                                                                                                                                                                                                                                                                       |
 | **Button**          | Height 40 (md) / 48 (lg), padding x `spacing-5`, `radius-pill`. Brand: `accent-1` bg, `on-accent` text, hover `accent-1-strong`. Neutral: `surface-3` bg, `border-1`. Ghost: transparent, `on-surface-2`, hover `surface-2`. Focus: 2px `focus-ring` outline, 2px offset.                                                                                         |
 | **Chip**            | Height 28, padding x `spacing-3`, `radius-pill`, mono `font-size-1` in sentence case or Inter `font-size-2`; default `surface-3` + `border-1`; selected `accent-1` 16% fill + `accent-1` border + `on-surface-1` text; optional leading 8px dot in cloud accent.                                                                                                  |
-| **CoverCard**       | `radius-lg`, `surface-2`, 8px inner padding around a 16:9 cover (`radius-md`), footer row: icon 20px + title (`font-size-3` 600) + subtitle (`font-size-2` `on-surface-2`). Hover: lift + glow. Matches `01-home-once-ui.jpg`.                                                                                                                                    |
-| **ProjectCard**     | `radius-md`, `surface-2`, cover 16:9 top, body padding `spacing-5`: title `font-size-5`, summary 3 lines max, cloud chips (max 3 + "+N"), footer: client (mono) left, category right. No dates.                                                                                                                                                                   |
-| **CloudCard**       | `radius-lg`, `surface-2`, `border-1`, inner glow in cloud accent at 12% on hover; icon 32px, name Geist `font-size-6`, stats row mono.                                                                                                                                                                                                                            |
-| **SnapshotBar**     | Grid of label/value pairs, labels mono sentence case `on-surface-3`, values `on-surface-1`; top and bottom `border-1`.                                                                                                                                                                                                                                            |
 | **PageHeader**      | h1 `font-size-8`, lead `font-size-4` `on-surface-2`, max 720px, optional actions row (ADR 0008).                                                                                                                                                                                                                                                                  |
 | **SectionRow**      | Grid `[label 11rem] [body]` on ≥ lg, stacked below; label `font-size-2` `on-surface-2`, sentence case; `border-1` top hairline.                                                                                                                                                                                                                                   |
 | **LedgerRow**       | Whole row is one link: title `font-size-5` 600, subtitle `on-surface-2`, meta `font-size-2`; tags as text on the right; arrow turns `accent-1` on hover. `border-1` bottom hairline.                                                                                                                                                                              |

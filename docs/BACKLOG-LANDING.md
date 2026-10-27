@@ -269,7 +269,7 @@ tokens. Astro portfolio themes found were paid; none adopted.
       principles as numbered rows; experience as a ledger without dates; photo only if approved.
 - [x] **L-27 Contact, calm and direct** (S): email (with copy), LinkedIn and resume rows; form
       without glass or glow, hidden without a key, intro text matching whether it shows.
-- [ ] **L-28 Retire unused patterns** (S): remove `CredentialTickets`, `SectionBand`, ticket CSS
+- [x] **L-28 Retire unused patterns** (S): remove `CredentialTickets`, `SectionBand`, ticket CSS
       and anything else left unused.
 - [ ] **L-29 Content questions for Shawn** (S): write to `docs/briefs/`; nothing invented.
       Open: team sizes (all empty); 2 to 4 decisions per featured project for "Approach";
@@ -706,6 +706,16 @@ continents. Each task below names what "done" means. Tasks run in the order give
   - `CloudBento`, `DecisionCards`, `Outcomes`, `SnapshotBar` and `StackChips`, if L-23 to L-27
     no longer use them, together with their tests and dev-gallery entries;
   - `CoverCard` (after L-40), and the cloud accent tokens if nothing uses them after L-25.
+  - Done. Removed: `CloudBento`, `CloudCard`, `CoverCard`, `ProjectCard`, `SectionBand`,
+    `SnapshotBar`, `StackChips`, `ui/Cover`, `src/lib/tilt.ts` and the `[data-tilt]` CSS,
+    `withBentoSize`, the `band-a`/`band-b` tokens, `--shadow-cloud-glow`, and the unused i18n
+    keys `about.history` and `about.historyLine` (en, pt, es), with their tests and gallery entries.
+    `Backdrop` and `DecisionCards` were already gone.
+  - Kept: `Outcomes` (still on case studies); `covers.css` (used by `src/dev/og.astro`); the ui
+    primitives and shadcn files (gallery and base kit); the cloud accent tokens, because
+    `skills.json` and its schema still carry `accent`. Dropping them needs a content and schema
+    change, so it is left open.
+  - ARCHITECTURE, DESIGN and PRODUCT_SPEC no longer list the removed components.
 - **L-29:** ask Shawn to confirm the reworded claim in pt and es.
 - **L-30:** add the globe hero to the visual QA.
 

@@ -31,8 +31,6 @@ const SEMANTIC_COLORS = [
   'error',
   'focus-ring',
   'glow-1',
-  'band-a',
-  'band-b',
   'globe-shade',
   'globe-lit',
   'globe-dot',

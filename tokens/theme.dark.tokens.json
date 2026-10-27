@@ -109,22 +109,6 @@
         "hex": "#4DA9FF",
         "alpha": 0.35
       }
-    },
-    "band-a": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [0.5451, 0.4863, 0.9647],
-        "hex": "#8B7CF6",
-        "alpha": 0.08
-      }
-    },
-    "band-b": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [0.3686, 0.8275, 0.7647],
-        "hex": "#5ED3C3",
-        "alpha": 0.08
-      }
     }
   },
   "shadow": {

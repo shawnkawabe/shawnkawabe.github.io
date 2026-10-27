@@ -62,8 +62,6 @@
   --color-error: var(--pf-g-color-error);
   --color-focus-ring: var(--pf-g-color-focus-ring);
   --color-glow-1: var(--pf-g-color-glow-1);
-  --color-band-a: var(--pf-g-color-band-a);
-  --color-band-b: var(--pf-g-color-band-b);
   --color-cloud-sales: var(--pf-g-color-cloud-sales);
   --color-cloud-service: var(--pf-g-color-cloud-service);
   --color-cloud-experience: var(--pf-g-color-cloud-experience);
@@ -143,9 +141,6 @@
   --shadow-1: var(--pf-g-shadow-1);
   --shadow-2: var(--pf-g-shadow-2);
   --shadow-glow: 0 0 0 1px var(--pf-g-color-border-2), 0 0 32px var(--pf-g-color-glow-1);
-  /* CloudCard hover (DESIGN §9): inner glow in the card's cloud accent at 12%. */
-  --shadow-cloud-glow: inset 0 0 48px
-    color-mix(in oklab, var(--pf-c-cloud-accent, transparent) 12%, transparent);
 
   --ease-*: initial;
   --ease-standard: var(--pf-g-easing-standard);
@@ -509,12 +504,6 @@
       }
     }
   }
-}
-
-/* DESIGN §6 card tilt: src/lib/tilt.ts sets the angles while a fine pointer hovers; without them
-   (touch, reduced motion, no JavaScript) the card stays flat. */
-[data-tilt] {
-  transform: perspective(900px) rotateX(var(--pf-tilt-x, 0deg)) rotateY(var(--pf-tilt-y, 0deg));
 }
 
 /* BACKLOG-LANDING L-02 collapsible rail: BaseLayout's head script sets data-rail before first

@@ -3,7 +3,7 @@
 // docs/reference/sculpted-gradients.md). Our own geometry as inline SVG: a gradient runs from the
 // lit side (`shape-lit`) to the shade (`shape-shade`) and fades out at the far end, which stands
 // in for the reference's shallow-focus blur without a costly filter. Decorative, so aria-hidden.
-// Its own layer clips it sideways only, reaching under the rail gutter on lg (as SectionBand did),
+// Its own layer clips it sideways only, reaching under the rail gutter on lg,
 // so no hard edge shows beside the rail; strokes may spill past the viewBox. The parent keeps it
 // behind its content (`isolate`).
 export type ShapeVariant = 'ring' | 'tube' | 'wave' | 'blob' | 'chevron';

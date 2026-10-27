@@ -51,7 +51,7 @@ Rule of dependency: **pages → layouts → patterns → ui → tokens**. A laye
 │   ├── lib/
 │   │   ├── schemas.ts            # all zod schemas, incl. siteSchema (imported by content.config.ts)
 │   │   ├── content.ts            # typed getters: getSite(), getProjects(), getProject(id), getSkills()…, publicFileExists(src)
-│   │   ├── derive.ts             # skillStats(), cloudStats(), withBentoSize(), sortProjects(), prevNext(), filterProjects()
+│   │   ├── derive.ts             # skillStats(), cloudStats(), sortProjects(), prevNext(), filterProjects()
 │   │   ├── motion.ts             # prefersReducedMotion(), splitWords(), bindReveal() (ADR 0005)
 │   │   ├── icons.ts              # IconName → Lucide component registry used by Icon.astro
 │   │   ├── utils.ts              # cn(): class merger aware of the token scales (shadcn components)
@@ -282,9 +282,8 @@ Cross-file integrity (checked in `tests/unit/content.test.ts`):
 | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- | --------------------------------------- |
 | `sortProjects(projects)`                                    | featured first, then file order of `projects.json`                                                                  | Work, Home                              |
 | `skillStats(skills, projects)`                              | `{ id, projectCount, projectIds }[]`                                                                                | Skills, constellation, chips            |
-| `cloudStats(skills, projects, certifications)`              | `skillStats` for `group === "clouds"` + linked certifications; excludes clouds with 0 projects and 0 certifications | Constellation, CloudCard, Work facets   |
-| `withBentoSize(clouds)`                                     | adds `size`: top cloud by projects `feature` (2×2), at least half as many `wide` (2×1, below lg only), else `base`  | CloudBento                              |
-| `plural(forms, count)` (`format.ts`)                        | `"1 project"` / `"7 projects"` via `Intl.PluralRules`; forms live in `src/i18n`                                     | CloudCard                               |
+| `cloudStats(skills, projects, certifications)`              | `skillStats` for `group === "clouds"` + linked certifications; excludes clouds with 0 projects and 0 certifications | Constellation, CloudPanels, Work facets |
+| `plural(forms, count)` (`format.ts`)                        | `"1 project"` / `"7 projects"` via `Intl.PluralRules`; forms live in `src/i18n`                                     | CloudPanels, ProductIndex, Work facets  |
 | `prevNext(id)`                                              | `{ prev, next }` by sort order                                                                                      | Case study footer                       |
 | `filterProjects(projects, state)`                           | OR within group, AND across groups                                                                                  | Work filter island                      |
 | `skillGroupChips(groups, skills, projects)`                 | groups in `site.skillGroups` order with `{ label, count, href? }` chips; `href` only when count > 0                 | Skills page                             |
@@ -308,43 +307,32 @@ All pure functions, 100% line coverage.
 
 ### 4.1 Static (.astro) vs island (.tsx)
 
-| Component                                                                                      | Kind                        | Hydration                      | Notes                                                                                                              |
-| ---------------------------------------------------------------------------------------------- | --------------------------- | ------------------------------ | ------------------------------------------------------------------------------------------------------------------ |
-| `NavRail`                                                                                      | astro                       | —                              | Tooltips CSS-only (`:hover`, `:focus-visible`); no shadcn Tooltip                                                  |
-| `MobileNav`                                                                                    | astro + module script       | — (inline script)              | Native modal `<dialog>` sheet; logic in `src/lib/mobile-nav.ts` (focus loop, Esc, backdrop, link, bfcache)         |
-| `ThemeToggle`                                                                                  | astro + module script       | — (inline script)              | Writes `data-theme` + localStorage; dispatches `pf-themechange` (`src/lib/theme.ts`)                               |
-| `LanguageSwitcher`                                                                             | astro + module script       | — (inline script)              | Links to the page in each built locale; a click stores `pf-locale` for the root redirect (`src/lib/i18n.ts`)       |
-| `Hero`                                                                                         | astro                       | —                              | Contains `HeroGlobe` slot                                                                                          |
-| `HeroGlobe` → `GlobeCanvas`                                                                    | astro + tsx (R3F)           | gate script, after load + idle | Poster and cloud links for everyone; live globe on desktop                                                         |
-| `CloudConstellation`                                                                           | tsx (R3F)                   | `client:visible`               | Shell island; bento as children/fallback; lazy `ConstellationCanvas`; roving-tabindex node list                    |
-| `CloudBento` / `CloudCard`                                                                     | astro                       | —                              | Fallback + Skills page                                                                                             |
-| `CloudPanel`                                                                                   | tsx                         | inside constellation           | Native modal `<dialog>`; certs, project links, `/work?cloud=`; focus return                                        |
-| `CoverCard`, `ProjectCard`                                                                     | astro                       | —                              | Whole card is one link                                                                                             |
-| `WorkFilters`                                                                                  | tsx                         | `client:load` on /work         | Reads/writes URL; filters server-rendered grid by `data-clouds` / `data-caps`                                      |
-| `Marquee`                                                                                      | astro + CSS                 | — (tiny inline script)         | CSS animation; pause button (`aria-pressed`, WCAG 2.2.2) and hover pause; wrapped static list under reduced motion |
-| `SnapshotBar`, `SectionBand`, `DecisionList`, `Outcomes`, `StackChips`, `Takeaway`, `PrevNext` | astro                       | —                              | Case study                                                                                                         |
-| `Gallery`                                                                                      | astro                       | —                              | Grid                                                                                                               |
-| `Lightbox` (inside `Gallery`)                                                                  | astro + module script       | — (inline script)              | Native modal `<dialog>`; logic in `src/lib/lightbox.ts` (arrows, Esc, focus loop, focus return)                    |
-| `CompanyList`                                                                                  | astro                       | —                              | About page: company + role + project chips                                                                         |
-| `ContactForm`                                                                                  | tsx                         | `client:visible`               | `zod/mini` schema + React state + Web3Forms (ADR 0004); rendered by `ContactFormSection` only when the key is set  |
-| `Reveal`                                                                                       | astro wrapper + tiny script | inline                         | IntersectionObserver sets `data-revealed`; CSS fades/rises; instant on reduced motion                              |
-| `SplitWords`                                                                                   | astro                       | —                              | Build-time word spans for the hero stagger; `sr-only` sentence, animated copy `aria-hidden`                        |
+| Component                                                                          | Kind                        | Hydration                      | Notes                                                                                                              |
+| ---------------------------------------------------------------------------------- | --------------------------- | ------------------------------ | ------------------------------------------------------------------------------------------------------------------ |
+| `NavRail`                                                                          | astro                       | —                              | Tooltips CSS-only (`:hover`, `:focus-visible`); no shadcn Tooltip                                                  |
+| `MobileNav`                                                                        | astro + module script       | — (inline script)              | Native modal `<dialog>` sheet; logic in `src/lib/mobile-nav.ts` (focus loop, Esc, backdrop, link, bfcache)         |
+| `ThemeToggle`                                                                      | astro + module script       | — (inline script)              | Writes `data-theme` + localStorage; dispatches `pf-themechange` (`src/lib/theme.ts`)                               |
+| `LanguageSwitcher`                                                                 | astro + module script       | — (inline script)              | Links to the page in each built locale; a click stores `pf-locale` for the root redirect (`src/lib/i18n.ts`)       |
+| `Hero`                                                                             | astro                       | —                              | Contains `HeroGlobe` slot                                                                                          |
+| `HeroGlobe` → `GlobeCanvas`                                                        | astro + tsx (R3F)           | gate script, after load + idle | Poster and cloud links for everyone; live globe on desktop                                                         |
+| `CloudConstellation`                                                               | tsx (R3F)                   | `client:visible`               | Shell island; bento as children/fallback; lazy `ConstellationCanvas`; roving-tabindex node list                    |
+| `CloudPanel`                                                                       | tsx                         | inside constellation           | Native modal `<dialog>`; certs, project links, `/work?cloud=`; focus return                                        |
+| `FeaturedIndex`, `LedgerRow`                                                       | astro                       | —                              | Whole row is one link                                                                                              |
+| `WorkFilters`                                                                      | tsx                         | `client:load` on /work         | Reads/writes URL; filters server-rendered grid by `data-clouds` / `data-caps`                                      |
+| `Marquee`                                                                          | astro + CSS                 | — (tiny inline script)         | CSS animation; pause button (`aria-pressed`, WCAG 2.2.2) and hover pause; wrapped static list under reduced motion |
+| `MetaList`, `SectionRow`, `DecisionList`, `Outcomes`, `InlineLinkList`, `PrevNext` | astro                       | —                              | Case study                                                                                                         |
+| `Gallery`                                                                          | astro                       | —                              | Grid                                                                                                               |
+| `Lightbox` (inside `Gallery`)                                                      | astro + module script       | — (inline script)              | Native modal `<dialog>`; logic in `src/lib/lightbox.ts` (arrows, Esc, focus loop, focus return)                    |
+| `CompanyList`                                                                      | astro                       | —                              | About page: company + role + project chips                                                                         |
+| `ContactForm`                                                                      | tsx                         | `client:visible`               | `zod/mini` schema + React state + Web3Forms (ADR 0004); rendered by `ContactFormSection` only when the key is set  |
+| `Reveal`                                                                           | astro wrapper + tiny script | inline                         | IntersectionObserver sets `data-revealed`; CSS fades/rises; instant on reduced motion                              |
+| `SplitWords`                                                                       | astro                       | —                              | Build-time word spans for the hero stagger; `sr-only` sentence, animated copy `aria-hidden`                        |
 
 Navigation and the theme toggle ship no React: React alone is ~68 KB gz, which would spend the whole §9 budget for non-3D pages on every page. They use plain module scripts (~0.7 KB gz inline) instead of shadcn Sheet; React is reserved for the filter bar, contact form and 3D scenes; the gallery lightbox uses the same native `<dialog>` approach, so case studies ship no React.
 
 ### 4.2 Key props contracts
 
 ```ts
-type CoverCardProps = {
-  title: string;
-  subtitle: string;
-  href: string;
-  cover: { preset: CoverPreset; image?: Image };
-  icon?: IconName;
-};
-
-type ProjectCardProps = { project: Project; cloudLabels: Record<string, string> };
-
 type CloudNode = {
   id: string;
   label: string;

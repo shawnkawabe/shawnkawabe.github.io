@@ -79,11 +79,11 @@ Sections in order:
    - Actions: the round "See my work" → `/work` (`RoundAction`, L-37) and a plain "Download resume" link (external).
    - No fact card: the clouds are the globe's moons.
    - Background: the cloud globe (BACKLOG-LANDING L-35). An Earth globe with recognisable continents rises from the bottom edge. The clouds Shawn works in are moons on an arc above it, and each is a link to Work filtered by that cloud. It is live in 3D on desktop with motion allowed and WebGL2; everyone else gets a static poster. Must not compete with the text; text contrast ≥ 7:1.
-2. **Featured work**: horizontal row of `CoverCard`s for projects with `featured: true` (max 4), scroll-snap on mobile, "All projects →" link. This is the most important section after the hero.
+2. **Featured work**: a numbered typographic index (`FeaturedIndex`, L-40) of projects with `featured: true` (max 4), titles at display size, "All projects →" link. This is the most important section after the hero.
 3. **Clouds constellation** (signature section — see §6)
 4. **Products and tools marquee**: infinite marquee of `skills` where `group = "products"` or `"tools"` (Gleamy-style). Pauses on hover/focus; static wrapped list when reduced motion.
 5. **Certifications**: a ledger grouped by domain (L-17); the issuer named once in the header; rows link to `site.links.credentials` when it is non-empty, otherwise plain text. No dates, no ticket or badge styling.
-6. **Contact CTA band**: `site.ctaLine` + button to `/contact`.
+6. **Contact**: `site.ctaLine` + the round action to `/contact`, over a sculpted shape (L-38).
 
 Acceptance:
 
@@ -167,7 +167,7 @@ Each node = one entry in `skills.json` with `group = "clouds"`. Node size ∝ `s
 
 Used when < 1024px, reduced motion, WebGL unavailable, or before the 3D bundle loads (as the poster):
 
-- Bento grid of `CloudCard`s; Sales Cloud (most projects) spans 2×2; others 1×1 or 2×1 by project count.
+- ~~Bento grid of `CloudCard`s~~ retired in L-28: clouds are shown by `CloudPanels` on Home and the Skills ledger.
 - Card: own icon (from `src/assets/icons/clouds/`, original artwork, never Salesforce logos), name, project count, cert chip if any, top 3 project chips, link.
 
 Acceptance:
