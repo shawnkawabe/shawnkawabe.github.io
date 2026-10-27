@@ -353,6 +353,68 @@ current data-core "neurons" scene is not aligned well and does not say that.
       that and name the closest openly licensed alternatives (for example Geist, already in use,
       and an open serif in the spirit of New York for the L-39 outlined word).
 
+- [ ] **L-43 Globe comes back after a jump to Intro** (M). Shawn's feedback after the merge:
+      clicking Intro, or scrolling quickly back to it, sometimes leaves the globe missing.
+  - Reproduced (2026-10-27, preview at 1440): load Home, scroll far down, then click the
+    section indicator's Intro (or `scrollTo(0, 0)`). The moon labels and the arc return, and
+    the L-41 scale/fade eases back to 0 in about 0.5 s, but the 3D sphere stays blank 2.6 s later.
+  - Likely cause, to confirm first: off-screen, `GlobeCanvas` sets `frameloop` to `never`
+    (`useOnScreen` in `src/components/three/scene.ts`), and once the scene is live
+    (`[data-live]`) the poster is hidden. On return the canvas is not redrawn, or the
+    IntersectionObserver misses a jump that skips over the hero.
+  - **Done when:**
+    - after any way of returning to Intro (rail or indicator link, Home link, `scrollTo`,
+      keyboard Home key, browser back), the sphere shows within one frame of the hero being on
+      screen, at 1440 and 1024 and in both themes;
+    - there is never a blank gap: the poster shows until the canvas has drawn again, or the
+      canvas never clears while paused;
+    - the L-41 ease still looks smooth when coming back, with no flash or pop;
+    - the render loop still pauses off-screen (CLAUDE.md rule 10);
+    - a Playwright test covers "scroll away, jump back, the globe is visible";
+    - `npm run ci` and `npm run test:a11y` pass.
+
+- [ ] **L-44 Rail handle morphs from three lines to three chevrons** (M). Shawn's feedback: collapsed,
+      the rail handle shows three horizontal lines (≡); expanded, it shows three stacked
+      chevrons (^ ^ ^), and the lines bend into the chevrons as the rail opens (and back as it
+      closes).
+  - Today: expanded shows Lucide `ChevronsUp` (`rail-collapse`). Collapsed shows the section
+    number on Home (L-09, followed by the section indicator) and the current page's icon
+    elsewhere.
+  - **Open decision for Shawn, before building:** the lines replace the section number on Home
+    and the page icon on other pages. Recommended: yes, because the right-hand section indicator
+    already shows the current section. The accessible name keeps "current: …" either way.
+  - **Plan:**
+    1. Our own inline SVG, not a Lucide icon, 24×24, `stroke="currentColor"`, round caps, at
+       the rail's 1.5 stroke. Three rows at y = 7, 12 and 17. Each row is **two half-strokes**
+       that meet at the centre x = 12, six `<line>`s in all.
+    2. Collapsed: every half is flat, so each row reads as one line (≡).
+    3. Expanded: each left half rotates about −35° and each right half +35° around the shared
+       centre point (`transform-box: fill-box`, origin at the inner end). The rows become ^.
+       The rows rise 1px so the chevron stack sits optically centred.
+    4. Drive it from `[data-rail]` on `<html>`, which already exists, with CSS `rotate`/`translate`
+       transitions on the halves, at `duration-slow` with the standard easing. Stagger the
+       rows by 40ms, top first when opening and bottom first when closing. This matches the
+       L-32 pill-to-circle fold, so both finish together.
+    5. Use transforms, not CSS `d: path()` morphing: Safari does not support `d` transitions,
+       and transforms run on the compositor.
+    6. Reduced motion: no transition, just the end state.
+    7. Removes: `rail-collapse`/`rail-expand` from `icons.ts`, if nothing else uses them; the
+       `[data-rail-icon]` swap CSS; and, if Shawn agrees, the Home section number swap (L-09)
+       and its `data-rail-section` code. The WCAG 2.5.3 label fix then goes back to
+       "current: Intro".
+  - **Done when:**
+    - the morph plays both ways with no jump at the start or end, at 1440 and 1024, in both
+      themes;
+    - the halves meet cleanly at the apex (no gap or overlap blob at 1× and 2× DPR);
+    - the handle stays 48px with a visible focus ring; `aria-expanded` and the labels are
+      unchanged;
+    - the static end states are correct under reduced motion and without JavaScript (no-JS
+      shows the expanded rail, so the chevrons);
+    - a test checks the SVG structure (six halves, three rows) and the e2e rail tests still
+      pass;
+    - `npm run ci` and `npm run test:a11y` pass, and screenshots of both states plus a mid-
+      transition frame are compared.
+
 ### Refined tasks (2026-10-27, before any build)
 
 Shawn chose these for the Intro: mock-up A, a blue accent, an outlined serif word and dot
@@ -784,3 +846,5 @@ screenshots at 375, 768 and 1440 on the built preview, a ticked box with notes, 
 | L-40         | Products and tools as benchmark | done   |
 | L-41         | Scroll-linked motion research   | done   |
 | L-42         | Apple fonts review              | done   |
+| L-43         | Globe back after jump to Intro  | to do  |
+| L-44         | Rail handle lines to chevrons   | to do  |
