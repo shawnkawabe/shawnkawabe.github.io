@@ -311,14 +311,14 @@ accent on a round action button. He also restated the original hero idea: "an ea
 can recognize the continents) with the Salesforce clouds floating around it like moons". The
 current data-core "neurons" scene is not aligned well and does not say that.
 
-- [ ] **L-35 Cloud globe hero scene** (L): replace the data core with an Earth globe whose
+- [x] **L-35 Cloud globe hero scene** (L): replace the data core with an Earth globe whose
       continents are recognisable, and the clouds Shawn worked in orbiting it as moons, each
       labelled with its name as text (no logos; ≤ 6 moons, from content). Land shapes baked once
       from Natural Earth (public domain) into a small committed asset; no map data fetched at
       runtime. Same gates as today: desktop, motion allowed, WebGL2, after load and idle, ≤ 1 MB,
       DPR ≤ 2, paused off-screen, poster first and as the fallback. Moons pause and name
       themselves on hover or focus, and link to Work filtered by the cloud.
-- [ ] **L-36 Charcoal, monochrome palette** (M): neutral charcoal surfaces (no blue tint), greys for
+- [x] **L-36 Charcoal, monochrome palette** (M): neutral charcoal surfaces (no blue tint), greys for
       text and lines, the accent kept for the primary action, links and focus only. No grid
       backdrop on any page.
 - [ ] **L-37 Round primary action** (S): the hero and contact primary actions become a large round
@@ -445,7 +445,7 @@ continents. Each task below names what "done" means. Tasks run in the order give
       on demand.
     - Token `font-family-serif`; CLAUDE.md rule 6 updated.
 
-- [ ] **L-36 Charcoal, monochrome palette** (M). **Done when:**
+- [x] **L-36 Charcoal, monochrome palette** (M). **Done when:**
   - **Dark theme:**
     - Surfaces move to neutral charcoal: `surface-0` is about `#131313`, with steps for
       `surface-1` and `surface-2`; chroma is 0 (no blue).
@@ -463,6 +463,18 @@ continents. Each task below names what "done" means. Tasks run in the order give
     - The token test checks AA contrast for every text/surface pair in both themes.
     - axe passes.
     - The OG images are regenerated.
+  - Notes (2026-10-27):
+    - The grey primitives were retuned to neutral, so every reference followed:
+      - dark `#131313` / `#1A1A1A` / `#212121` / `#2A2A2A`;
+      - light `#FAFAFA` / `#FFFFFF` / `#F4F4F4` / `#EBEBEB`;
+      - text `#F2F2F2` / `#A3A3A3` / `#949494` and `#141414` / `#575757` / `#666666`.
+    - New token tests:
+      - every text colour, accent included, meets AA (≥ 4.5) on every surface in both themes;
+      - the greys have equal R, G and B.
+    - The grid backdrop is removed: `Backdrop.astro`, `src/lib/backdrop.ts` and its test.
+    - Globe posters were regenerated; the OG cards came out unchanged.
+    - Cloud-colour accents on `CloudPanels` stay until L-40 decides them.
+
 - [ ] **L-39 Hero layout A** (M). **Done when:**
   - **Order:** a top meta row (name top left, where it does not clash with the rail, and
     location top right in mono), then role in mono, then the headline (`site.headline`), then
@@ -597,7 +609,7 @@ screenshots at 375, 768 and 1440 on the built preview, a ticked box with notes, 
 | L-33         | Contact full width              | done    |
 | L-34         | Footer notice                   | done    |
 | L-35         | Cloud globe hero                | done    |
-| L-36         | Charcoal palette                | planned |
+| L-36         | Charcoal palette                | done    |
 | L-37         | Round primary action            | planned |
 | L-38         | Sculpted section shapes         | planned |
 | L-39         | Hero layout A                   | planned |
