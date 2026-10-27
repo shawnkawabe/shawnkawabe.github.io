@@ -1,7 +1,6 @@
 ---
-// DESIGN §9 CloudCard / SPEC §6.3: icon, name, project count, certifications, top projects.
-// The whole card links to Work filtered by the cloud, so chips inside are plain text.
-import Chip from '@/components/ui/Chip.astro';
+// DESIGN §9 CloudCard / SPEC §6.3: icon, name and project count (L-18: no certifications or project
+// names). The whole card links to Work filtered by the cloud.
 import Icon from '@/components/ui/Icon.astro';
 import type { BentoSize, CloudStat } from '@/lib/derive';
 import { plural } from '@/lib/format';
@@ -17,16 +16,10 @@ interface Props {
   level?: 2 | 3;
 }
 
-const TOP_PROJECTS = 3;
-
 const { cloud, size = 'base', level = 3 } = Astro.props;
 const Title = `h${level}` as const;
 // Display style (tighter tracking) only where the name is at least 32px (CLAUDE.md rule 6): the 2×2 card.
 const display = size === 'feature';
-const stats = [plural(ui.cards.projects, cloud.projectCount)];
-if (cloud.certifications.length > 0) {
-  stats.push(plural(ui.cards.certifications, cloud.certifications.length));
-}
 ---
 
 <a
@@ -41,19 +34,9 @@ if (cloud.certifications.length > 0) {
   <Title class:list={[display ? 'font-display text-7 tracking-display' : 'text-5']}>
     {cloud.label}
   </Title>
-  <p class="font-mono text-1 tracking-label text-on-surface-2 uppercase">{stats.join(' · ')}</p>
-  {cloud.projects.length > 0 && (
-    <ul class="mt-auto flex flex-wrap gap-2">
-      {cloud.projects.slice(0, TOP_PROJECTS).map((project) => (
-        <li class="max-w-full min-w-0">
-          {/* Long titles truncate on narrow 1×1 cards; the full list is on the filtered Work page. */}
-          <Chip accent={cloud.accent} class="max-w-full">
-            <span class="truncate">{project.title}</span>
-          </Chip>
-        </li>
-      ))}
-    </ul>
-  )}
+  <p class="font-mono text-1 tracking-label text-on-surface-2 uppercase">
+    {plural(ui.cards.projects, cloud.projectCount)}
+  </p>
 </a>
 
 <script>

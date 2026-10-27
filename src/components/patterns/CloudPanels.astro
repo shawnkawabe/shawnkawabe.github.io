@@ -2,6 +2,7 @@
 // Home "Clouds I work in" (BACKLOG-LANDING L-05): expanding panels. From lg, a row of tall panels
 // where the open one widens; below lg, a stacked accordion. Each heading holds a disclosure button
 // (APG accordion). Without JavaScript every panel shows its details, so nothing depends on it.
+// The open panel names the cloud and its project count only (L-18); the projects are on Work.
 import Icon from '@/components/ui/Icon.astro';
 import type { CloudStat } from '@/lib/derive';
 import { plural } from '@/lib/format';
@@ -15,21 +16,15 @@ interface Props {
   clouds: CloudStat[];
 }
 
-const TOP_PROJECTS = 4;
-
 const { clouds } = Astro.props;
 const t = ui.cloudPanels;
 const workPath = localePath(locale, '/work');
-const projectPath = (id: string) => localePath(locale, `/work/${id}`);
 ---
 
 <ul data-cloud-panels class="flex flex-col gap-3 lg:h-[min(36rem,70svh)] lg:flex-row">
   {clouds.map((cloud, index) => {
     const id = `cloud-panel-${cloud.id}`;
-    const stats = [plural(ui.cards.projects, cloud.projectCount)];
-    if (cloud.certifications.length > 0) {
-      stats.push(plural(ui.cards.certifications, cloud.certifications.length));
-    }
+    const stats = plural(ui.cards.projects, cloud.projectCount);
     return (
       <li
         data-cloud-panel
@@ -62,7 +57,7 @@ const projectPath = (id: string) => localePath(locale, `/work/${id}`);
             </span>
             <span class="font-mono text-1 tracking-label text-on-surface-2 uppercase lg:mt-auto lg:group-data-open:hidden">
               <span aria-hidden="true">{String(cloud.projectCount).padStart(2, '0')}</span>
-              <span class="sr-only">{stats.join(', ')}</span>
+              <span class="sr-only">{stats}</span>
             </span>
             <span
               aria-hidden="true"
@@ -81,47 +76,7 @@ const projectPath = (id: string) => localePath(locale, `/work/${id}`);
           data-cloud-detail
           class="flex flex-col gap-5 px-5 pb-5 lg:w-[min(34rem,100%)] lg:flex-1"
         >
-          <p class="font-mono text-1 tracking-label text-on-surface-2 uppercase">
-            {stats.join(' · ')}
-          </p>
-          {cloud.projects.length > 0 && (
-            <div class="flex flex-col gap-2">
-              <h4 class="font-mono text-1 tracking-label text-on-surface-2 uppercase">
-                {t.projects}
-              </h4>
-              <ul class="flex flex-col">
-                {cloud.projects.slice(0, TOP_PROJECTS).map((project) => (
-                  <li>
-                    <a
-                      href={projectPath(project.id)}
-                      class="flex items-center justify-between gap-4 border-b border-border-1 py-2 text-3 text-on-surface-1 no-underline transition-colors duration-150 hover:text-(--pf-c-cloud-accent)"
-                    >
-                      <span class="truncate">{project.title}</span>
-                      <Icon name="arrow-up-right" size={16} class="text-on-surface-2" />
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-          {cloud.certifications.length > 0 && (
-            <div class="flex flex-col gap-2">
-              <h4 class="font-mono text-1 tracking-label text-on-surface-2 uppercase">
-                {t.certifications}
-              </h4>
-              <ul class="flex flex-col gap-1 text-2 text-on-surface-2">
-                {cloud.certifications.map((cert) => (
-                  <li class="flex items-baseline gap-2">
-                    <span
-                      aria-hidden="true"
-                      class="size-1.5 shrink-0 translate-y-[-0.15em] rounded-pill bg-(--pf-c-cloud-accent)"
-                    />
-                    {cert.label}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
+          <p class="font-mono text-1 tracking-label text-on-surface-2 uppercase">{stats}</p>
           <a
             href={`${workPath}?cloud=${cloud.id}`}
             class="mt-auto inline-flex items-center gap-2 self-start text-3 font-medium"

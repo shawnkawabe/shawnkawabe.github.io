@@ -41,20 +41,12 @@ describe('CloudPanels', () => {
     expect(html).toContain('--pf-c-cloud-accent: var(--pf-g-color-cloud-sales)');
   });
 
-  it('lists at most four projects, links them and the filtered Work page', async () => {
-    const html = await render([cloud('sales-cloud', 6)]);
-    expect(html.match(/href="\/en\/work\/sales-cloud-p\d"/g)).toHaveLength(4);
-    expect(html).toContain('href="/en/work?cloud=sales-cloud"');
+  it('shows the project count and the filtered Work link, no names (L-18)', async () => {
+    const html = await render([cloud('sales-cloud', 6, ['Administrator'])]);
     expect(html).toContain('6 projects');
-  });
-
-  it('shows certifications only when the cloud has some', async () => {
-    const without = await render([cloud('sales-cloud', 1)]);
-    expect(without).not.toContain('Certifications</h4>');
-    expect(without).toContain('1 project');
-    const withCert = await render([cloud('sales-cloud', 1, ['Administrator'])]);
-    expect(withCert).toContain('Certifications</h4>');
-    expect(withCert).toContain('Administrator');
-    expect(withCert).toContain('1 certification');
+    expect(html).toContain('href="/en/work?cloud=sales-cloud"');
+    expect(html).not.toMatch(/href="\/en\/work\/sales-cloud-p\d"/);
+    expect(html).not.toContain('Administrator');
+    expect(html).not.toContain('certification');
   });
 });

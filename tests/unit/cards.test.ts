@@ -111,22 +111,18 @@ describe('CloudCard', () => {
     expect(html).toContain('--pf-c-cloud-accent: var(--pf-g-color-cloud-sales)');
   });
 
-  it('lists certifications and at most three projects', async () => {
-    const projects = ['p1', 'p2', 'p3', 'p4'].map((id) => ({ id, title: `Title ${id}` }));
+  it('names neither certifications nor projects (L-18)', async () => {
     const html = await render(CloudCard, {
       cloud: cloud({
         id: 'platform',
         projectCount: 4,
-        certifications: [
-          { id: 'admin', label: 'Administrator' },
-          { id: 'dev', label: 'Developer' },
-        ],
-        projects,
+        certifications: [{ id: 'admin', label: 'Administrator' }],
+        projects: [{ id: 'p1', title: 'Title p1' }],
       }),
     });
-    expect(html).toContain('4 projects · 2 certifications');
-    expect(html).toContain('Title p3');
-    expect(html).not.toContain('Title p4');
+    expect(html).toContain('4 projects<');
+    expect(html).not.toContain('Administrator');
+    expect(html).not.toContain('Title p1');
   });
 
   it('sets the display style only on the 2×2 card', async () => {

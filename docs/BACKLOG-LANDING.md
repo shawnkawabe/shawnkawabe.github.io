@@ -192,9 +192,12 @@ Research behind L-05 to L-08 is summarised in [ADR 0006](adr/0006-landing-scroll
 - [ ] **L-17 Certifications section redesign** (research first)
   - Shawn does not like the current section (L-07). Diagnose it, propose alternatives with
     sketches; Shawn picks one.
-- [ ] **L-18 Clouds cards without certifications or project names**
+- [x] **L-18 Clouds cards without certifications or project names**
   - "Clouds I work in" cards show the cloud name, icon and project count only: drop the
     certification count and the top-project titles.
+  - Notes (2026-10-26): applied to the Home panels (open panel: name, project count, "See
+    projects") and to the Skills `CloudCard`. The `cloudPanels.projects` and `.certifications`
+    strings were removed from all three locales.
 
 ## Order and status
 
@@ -217,4 +220,4 @@ Research behind L-05 to L-08 is summarised in [ADR 0006](adr/0006-landing-scroll
 | L-15 | No em dash                 | done     |
 | L-16 | Intro redesign             | research |
 | L-17 | Certifications redesign    | research |
-| L-18 | Cloud cards simplified     | to do    |
+| L-18 | Cloud cards simplified     | done     |
