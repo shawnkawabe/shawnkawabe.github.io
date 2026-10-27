@@ -6,6 +6,7 @@ import CredentialLedger from '@/components/patterns/CredentialLedger.astro';
 import CompanyList from '@/components/patterns/CompanyList.astro';
 import Hero from '@/components/patterns/Hero.astro';
 import HeroGlobe from '@/components/patterns/HeroGlobe.astro';
+import RoundAction from '@/components/ui/RoundAction.astro';
 import SkillGroups from '@/components/patterns/SkillGroups.astro';
 import SplitWords from '@/components/ui/SplitWords.astro';
 
@@ -31,24 +32,37 @@ describe('Hero', () => {
     links: { resume: 'https://example.com/cv.pdf' },
   };
 
-  it('renders the name as h1, the headline, the intro emphasis and both actions', async () => {
+  it('names Ada in the h1, outlines the last word of the claim and offers both actions', async () => {
     const html = await render(Hero, { site });
     expect(html).toMatch(/<h1[^>]*><span class="sr-only">Ada Lovelace<\/span>/);
-    expect(html).toContain('Engines that compute.');
+    expect(html).toMatch(/Engines that <span class="pf-outline[^"]*">compute\.<\/span>/);
     expect(html).toMatch(/<strong[^>]*>engines<\/strong> that work\./);
+    expect(html).toContain('London');
     expect(html).toContain('href="/en/work"');
     expect(html).toMatch(/href="https:\/\/example\.com\/cv\.pdf" target="_blank"/);
+    expect(html).not.toContain('<aside');
   });
 
-  it('lists the facts it has in the card and drops empty rows (L-16)', async () => {
-    const html = await render(Hero, {
-      site,
-      facts: { clouds: ['Sales Cloud', 'Data Cloud'], certifications: [] },
-    });
-    expect(html).toContain('<aside aria-label="At a glance"');
-    expect(html).toMatch(/<dt[^>]*>Clouds<\/dt>\s*<dd[^>]*>Sales Cloud, Data Cloud<\/dd>/);
-    expect(html).toMatch(/<dt[^>]*>Based in<\/dt>\s*<dd[^>]*>London<\/dd>/);
-    expect(html).not.toContain('>Certifications</dt>');
+  it('drops the claim and the location when they are empty', async () => {
+    const html = await render(Hero, { site: { ...site, headline: '', location: '' } });
+    expect(html).not.toContain('pf-outline');
+    expect(html).not.toContain('London');
+  });
+});
+
+describe('RoundAction (L-37)', () => {
+  it('is one link named by its visible label, with the circle hidden from assistive tech', async () => {
+    const html = await render(RoundAction, { href: '/en/work', label: 'See my work' });
+    expect(html).toMatch(/<a href="\/en\/work"[^>]*>/);
+    expect(html).not.toContain('target="_blank"');
+    expect(html).toMatch(/<span aria-hidden="true"[^>]*bg-accent-1/);
+    expect(html).toMatch(/See my work\s*<\/span>/);
+  });
+
+  it('opens external targets in a new tab and says so', async () => {
+    const html = await render(RoundAction, { href: 'https://x.dev', label: 'CV', external: true });
+    expect(html).toContain('target="_blank" rel="noopener noreferrer"');
+    expect(html).toContain('(opens in a new tab)');
   });
 });
 

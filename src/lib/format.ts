@@ -40,3 +40,13 @@ export function credentialParts(label: string): { issuer: string; title: string 
   const match = /^(.*\bCertified)\s+(.+)$/.exec(label.trim());
   return match ? { issuer: match[1], title: match[2] } : { issuer: '', title: label.trim() };
 }
+
+/**
+ * A headline split before its last word, which the hero sets in the outlined serif (L-39). The
+ * space stays with `lead`, so joining the two gives the sentence back.
+ */
+export function lastWordParts(text: string): { lead: string; last: string } {
+  const trimmed = text.trim();
+  const cut = trimmed.lastIndexOf(' ') + 1;
+  return { lead: trimmed.slice(0, cut), last: trimmed.slice(cut) };
+}

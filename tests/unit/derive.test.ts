@@ -2,7 +2,6 @@ import { describe, expect, it } from 'vitest';
 import {
   cloudStats,
   credentialSkills,
-  credentialTitles,
   filterProjects,
   inFileOrder,
   prevNext,
@@ -214,32 +213,5 @@ describe('credentialSkills', () => {
     );
     expect(result.map((entry) => entry.id)).toEqual(['sales-cloud', 'apex']);
     expect(result[0].accent).toBe('cloud-sales');
-  });
-});
-
-describe('credentialTitles (L-16)', () => {
-  const cert = (id: string, label: string, domain: 'development' | 'data-ai' | 'admin') => ({
-    ...certification(id, []),
-    label,
-    domain,
-  });
-
-  it('orders titles by ledger domain and strips a shared issuer', () => {
-    expect(
-      credentialTitles([
-        cert('admin', 'Salesforce Certified Administrator', 'admin'),
-        cert('dev', 'Salesforce Certified Platform Developer I', 'development'),
-        cert('ai', 'Salesforce Certified AI Associate', 'data-ai'),
-      ]),
-    ).toEqual(['Platform Developer I', 'AI Associate', 'Administrator']);
-  });
-
-  it('keeps full labels when issuers differ', () => {
-    expect(
-      credentialTitles([
-        cert('admin', 'Salesforce Certified Administrator', 'admin'),
-        cert('other', 'Other credential', 'admin'),
-      ]),
-    ).toEqual(['Salesforce Certified Administrator', 'Other credential']);
   });
 });

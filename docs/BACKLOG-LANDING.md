@@ -321,12 +321,12 @@ current data-core "neurons" scene is not aligned well and does not say that.
 - [x] **L-36 Charcoal, monochrome palette** (M): neutral charcoal surfaces (no blue tint), greys for
       text and lines, the accent kept for the primary action, links and focus only. No grid
       backdrop on any page.
-- [ ] **L-37 Round primary action** (S): the hero and contact primary actions become a large round
+- [x] **L-37 Round primary action** (S): the hero and contact primary actions become a large round
       accent button with an arrow and a visible text label beside it.
 - [ ] **L-38 Sculpted section shapes** (M): one large soft monochrome shape behind each Home
       section, our own geometry (rendered once to optimised images, not extra live 3D scenes),
       bleeding off the edges. Hidden behind text contrast checks (WCAG AA).
-- [ ] **L-39 Hero layout for the globe** (S): Shawn chose mock-up A, "planet horizon"
+- [x] **L-39 Hero layout for the globe** (S): Shawn chose mock-up A, "planet horizon"
       (2026-10-27). The headline, intro and actions sit centred at the top, and the globe rises from
       the bottom edge with the cloud moons along an arc above it. The location goes top right and
       the fact card is dropped. The accent stays blue, and the globe uses dot continents. The last
@@ -475,7 +475,7 @@ continents. Each task below names what "done" means. Tasks run in the order give
     - Globe posters were regenerated; the OG cards came out unchanged.
     - Cloud-colour accents on `CloudPanels` stay until L-40 decides them.
 
-- [ ] **L-39 Hero layout A** (M). **Done when:**
+- [x] **L-39 Hero layout A** (M). **Done when:**
   - **Order:** a top meta row (name top left, where it does not clash with the rail, and
     location top right in mono), then role in mono, then the headline (`site.headline`), then
     the intro, then the actions.
@@ -496,7 +496,19 @@ continents. Each task below names what "done" means. Tasks run in the order give
   - **Layout below lg:** left-aligned and stacked, poster at the bottom, cloud list inline
     (L-35).
   - **Locales:** pt and es fit without overflow.
-- [ ] **L-37 Round primary action** (S). **Done when:**
+  - Notes (2026-10-27):
+    - The claim now reads "CRM solutions that teams actually adopt." (pt and es to match).
+    - No moon overlaps the text: the cap and arc are sized from the hero width (`CAP_OF_WIDTH`,
+      `ROOM_OF_WIDTH`), and the globe wrapper reserves that room under the text. On short screens
+      such as 1280×720 the hero grows a little past one screen instead.
+    - Measured gaps between the text and the nearest moon: 64 px at 1440×900, 60 px at
+      1280×720, 60 px at 1024×768 (es), 61 px at 1440×900 (pt).
+    - Below lg:
+      - the hero's h1 is visually hidden, because the sticky top bar already shows the name;
+      - the hero has top padding, because scroll-snap puts it under that bar.
+    - The fact card is gone: `facts` prop, `credentialTitles`, i18n `home.facts` and their tests.
+
+- [x] **L-37 Round primary action** (S). **Done when:**
   - A new `RoundAction.astro` exists:
     - a 112px accent circle with an arrow icon, 72px below lg;
     - a visible text label beside it that is part of the same link, so its accessible name is
@@ -506,6 +518,11 @@ continents. Each task below names what "done" means. Tasks run in the order give
   - It is used for the hero "See my work" action and the Home contact action. Download resume
     stays a ghost text link.
   - It has a dev-gallery entry and a Container test (label, href, external variant).
+  - Notes (2026-10-27):
+    - Built as specified, with `RoundAction.astro` in `src/components/ui`.
+    - Used for the hero "See my work" and the Home contact action.
+    - The contact band keeps its `band-a` tint until L-38 replaces it with a shape.
+
 - [ ] **L-41 Scroll-linked motion** (M). Research first, then build one effect. **Done when:**
   - A short research note in `docs/reference/scroll-motion.md` compares:
     - CSS `animation-timeline: view()`/`scroll()`: support is Chromium and Safari 26; Firefox
@@ -610,9 +627,9 @@ screenshots at 375, 768 and 1440 on the built preview, a ticked box with notes, 
 | L-34         | Footer notice                   | done    |
 | L-35         | Cloud globe hero                | done    |
 | L-36         | Charcoal palette                | done    |
-| L-37         | Round primary action            | planned |
+| L-37         | Round primary action            | done    |
 | L-38         | Sculpted section shapes         | planned |
-| L-39         | Hero layout A                   | planned |
+| L-39         | Hero layout A                   | done    |
 | L-40         | Products and tools as benchmark | planned |
 | L-41         | Scroll-linked motion research   | planned |
 | L-42         | Apple fonts review              | done    |

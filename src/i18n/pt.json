@@ -47,12 +47,6 @@
     "empty": "Nenhum projeto corresponde a esses filtros"
   },
   "home": {
-    "facts": {
-      "label": "Em resumo",
-      "clouds": "Clouds",
-      "certifications": "Certificações",
-      "location": "Onde estou"
-    },
     "sections": "Seções",
     "intro": "Início",
     "seeWork": "Ver meus projetos",

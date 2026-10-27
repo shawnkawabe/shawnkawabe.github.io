@@ -71,9 +71,13 @@ Centred, small: "© {year} Shawn Kawabe", links (LinkedIn, GitHub, email), trade
 Sections in order:
 
 1. **Hero**
-   - Name at display size (Geist, ADR 0007), role line, a one-line claim (`site.headline`) and a short intro (`site.intro`, at most two `**terms**`).
-   - Fact card (L-16, direction B): solid `surface-2`, rows Clouds (cloud skills with projects), Certifications (names from `certifications.json`) and Based in (`site.location`). No availability line.
-   - Two actions: primary "See my work" → `/work`; secondary "Download resume" (external).
+   - Layout A, "planet horizon" (L-39):
+     - a meta row with the name (the `h1`) at the top left and `site.location` at the top right;
+     - then the role in mono, the claim (`site.headline`) at display size with its last word in the outlined serif (ADR 0009), and the intro (`site.intro`, at most two `**terms**`);
+     - centred from lg, left-aligned below.
+   - The claim names no Salesforce product, so Shawn's name stays the most prominent brand (rule 8).
+   - Actions: the round "See my work" → `/work` (`RoundAction`, L-37) and a plain "Download resume" link (external).
+   - No fact card: the clouds are the globe's moons.
    - Background: the cloud globe (BACKLOG-LANDING L-35). An Earth globe with recognisable continents rises from the bottom edge. The clouds Shawn works in are moons on an arc above it, and each is a link to Work filtered by that cloud. It is live in 3D on desktop with motion allowed and WebGL2; everyone else gets a static poster. Must not compete with the text; text contrast ≥ 7:1.
 2. **Featured work**: horizontal row of `CoverCard`s for projects with `featured: true` (max 4), scroll-snap on mobile, "All projects →" link. This is the most important section after the hero.
 3. **Clouds constellation** (signature section — see §6)

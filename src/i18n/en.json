@@ -47,12 +47,6 @@
     "empty": "No projects match these filters"
   },
   "home": {
-    "facts": {
-      "label": "At a glance",
-      "clouds": "Clouds",
-      "certifications": "Certifications",
-      "location": "Based in"
-    },
     "sections": "Sections",
     "intro": "Intro",
     "seeWork": "See my work",

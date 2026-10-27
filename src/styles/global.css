@@ -297,6 +297,23 @@
   }
 }
 
+/* L-39 / ADR 0009: one display word in the outlined serif. The stroke uses the text colour, so it
+   meets the large-text contrast of the filled words; without text-stroke support, or in forced
+   colours, the word stays filled. */
+@supports (-webkit-text-stroke: 1px currentColor) {
+  .pf-outline {
+    color: transparent;
+    -webkit-text-stroke: 0.025em var(--pf-g-color-on-surface-1);
+  }
+}
+
+@media (forced-colors: active) {
+  .pf-outline {
+    color: CanvasText;
+    -webkit-text-stroke: 0;
+  }
+}
+
 /* BACKLOG-LANDING L-35 hero cloud globe. HeroGlobe sets the framing (--pf-globe-r, -cap, -orbit,
    from src/lib/globe.ts); the stage and the moon list each cover the hero as size containers, so
    their cq units match the canvas, which reads the same box. Angles are clockwise from 3 o'clock
@@ -381,6 +398,13 @@
 }
 
 @media (min-width: 64rem) {
+  /* The wrapper keeps the cap and the arc's room free under the text (plus label clearance); the
+     hero grows past one screen only when the text needs it. */
+  .pf-globe {
+    flex: none;
+    height: calc(var(--pf-globe-room) + var(--pf-g-spacing-12));
+  }
+
   .pf-globe__stage,
   .pf-globe__moons {
     position: absolute;

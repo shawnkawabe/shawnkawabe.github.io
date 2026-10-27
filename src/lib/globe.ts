@@ -6,10 +6,15 @@
 /** Globe radius as a share of the hero width, capped as a share of its height (wide screens). */
 export const RADIUS_OF_WIDTH = 0.46;
 export const RADIUS_OF_HEIGHT = 0.95;
-/** How much of the hero height the visible cap of the globe takes, from the bottom edge. */
-export const CAP_OF_HEIGHT = 0.3;
+/** Height of the visible cap of the globe above the hero's bottom edge, as a share of its width. */
+export const CAP_OF_WIDTH = 0.15;
 /** The moons' arc radius as a multiple of the globe radius. */
-export const ORBIT = 1.14;
+export const ORBIT = 1.1;
+/**
+ * Room the hero keeps free under its text for the cap and the moons' arc, as a share of its
+ * width (plus a fixed clearance for the labels, in CSS), so the moons never overlap the text.
+ */
+export const ROOM_OF_WIDTH = CAP_OF_WIDTH + (ORBIT - 1) * RADIUS_OF_WIDTH;
 /** Full turn of the globe, in seconds: "very slow" (DESIGN §7). */
 export const GLOBE_TURN_SECONDS = 120;
 /** Starting view: the meridian facing the viewer and the tilt toward them, in degrees. */
@@ -28,7 +33,7 @@ export const turnRate = (seconds: number) => (2 * Math.PI) / seconds;
 /** Globe radius and centre in pixels for a hero of `width` × `height`; the centre sits below it. */
 export function framing(width: number, height: number) {
   const radius = Math.min(width * RADIUS_OF_WIDTH, height * RADIUS_OF_HEIGHT);
-  return { radius, cx: width / 2, cy: height + radius - height * CAP_OF_HEIGHT };
+  return { radius, cx: width / 2, cy: height + radius - width * CAP_OF_WIDTH };
 }
 
 /** Home angles for `count` moons: centred on the top of the globe, evenly spaced. */

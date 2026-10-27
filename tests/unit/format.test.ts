@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { credentialParts, emphasisParts, employerNames, plural } from '@/lib/format';
+import { credentialParts, emphasisParts, employerNames, lastWordParts, plural } from '@/lib/format';
 import { experience } from './fixtures';
 
 describe('employerNames', () => {
@@ -53,5 +53,18 @@ describe('credentialParts', () => {
 
   it('keeps a name without "Certified" whole', () => {
     expect(credentialParts(' Scrum Master ')).toEqual({ issuer: '', title: 'Scrum Master' });
+  });
+});
+
+describe('lastWordParts', () => {
+  it('splits before the last word and keeps the space with the lead', () => {
+    expect(lastWordParts(' CRM solutions that teams actually adopt. ')).toEqual({
+      lead: 'CRM solutions that teams actually ',
+      last: 'adopt.',
+    });
+  });
+
+  it('returns a single word as the last part', () => {
+    expect(lastWordParts('Hello')).toEqual({ lead: '', last: 'Hello' });
   });
 });

@@ -11,12 +11,12 @@ import ProductIndex from '@/components/patterns/ProductIndex.astro';
 import ProductTicker from '@/components/patterns/ProductTicker.astro';
 import SectionBand from '@/components/patterns/SectionBand.astro';
 import SectionIndicator from '@/components/patterns/SectionIndicator.astro';
-import { buttonVariants } from '@/components/ui/button';
 import Icon from '@/components/ui/Icon.astro';
+import RoundAction from '@/components/ui/RoundAction.astro';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { getCertifications, getProjects, getSite, getSkills, siteLocales } from '@/lib/content';
 import { localePath, strings, toLocale } from '@/lib/i18n';
-import { cloudStats, credentialTitles, skillStats, sortProjects } from '@/lib/derive';
+import { cloudStats, skillStats, sortProjects } from '@/lib/derive';
 import { pageMeta, personJsonLd } from '@/lib/seo';
 
 export function getStaticPaths() {
@@ -47,13 +47,8 @@ const products = skillStats(productSkills, projects).map((stat, index) => ({
   label: productSkills[index].label,
   projectCount: stat.projectCount,
 }));
-// Hero fact card (L-16) and globe moons (L-35): clouds with projects, and certification titles in
-// ledger order.
+// The hero globe's moons (L-35): clouds with at least one project.
 const workedClouds = clouds.filter((cloud) => cloud.projectCount > 0);
-const facts = {
-  clouds: workedClouds.map((cloud) => cloud.label),
-  certifications: credentialTitles(certifications),
-};
 const t = ui.home;
 const sections = [
   { id: 'intro', label: t.intro },
@@ -69,7 +64,7 @@ const sections = [
   meta={pageMeta(site, { page: 'home' }, ui.titleTemplate)}
   jsonLd={personJsonLd(site, siteUrl)}
 >
-  <Hero site={site} facts={facts}>
+  <Hero site={site}>
     <HeroGlobe slot="globe" clouds={workedClouds} />
   </Hero>
 
@@ -135,13 +130,7 @@ const sections = [
       <SectionBand tone="a">
         <div class="mx-auto flex w-full max-w-180 flex-col items-start gap-6 px-4 sm:px-6 lg:px-8">
           <p class="font-heading text-6 text-balance">{site.ctaLine}</p>
-          <a
-            href={localePath(locale, '/contact')}
-            class:list={[buttonVariants({ variant: 'brand', size: 'lg' }), 'no-underline']}
-          >
-            {t.contact}
-            <Icon name="arrow-right" />
-          </a>
+          <RoundAction href={localePath(locale, '/contact')} label={t.contact} />
         </div>
       </SectionBand>
     </LandingSection>

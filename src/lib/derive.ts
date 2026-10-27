@@ -169,13 +169,3 @@ export function sharedIssuer(certifications: readonly Pick<Certification, 'label
   const issuers = new Set(certifications.map((c) => credentialParts(c.label).issuer));
   return issuers.size === 1 ? [...issuers][0] : '';
 }
-
-/** Certification titles in ledger order, without the shared issuer (hero fact card, L-16). */
-export function credentialTitles(certifications: readonly Certification[]): string[] {
-  const issuer = sharedIssuer(certifications);
-  return CREDENTIAL_DOMAINS.flatMap((domain) =>
-    certifications
-      .filter((c) => c.domain === domain)
-      .map((c) => (issuer ? credentialParts(c.label).title : c.label)),
-  );
-}
