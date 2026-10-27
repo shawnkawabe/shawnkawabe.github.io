@@ -484,24 +484,17 @@
     z-index: 10;
   }
   /* L-41 (docs/reference/scroll-motion.md): as the hero scrolls away, the globe and its moons
-     grow from the bottom centre and fade in the second half, handing over to the next sections. Both layers
-     share the keyframes, so the poster, canvas and labels stay aligned. They follow the hero's
-     named timeline (the hero clips its overflow, so its own view() would never move). CSS only;
-     where view() is unsupported (Firefox) or motion is reduced, the globe simply scrolls away. */
-  @supports (animation-timeline: view()) {
-    @media (prefers-reduced-motion: no-preference) {
-      .pf-globe__stage,
-      .pf-globe__moons {
-        transform-origin: 50% 100%;
-        /* Longhands: the minifier would fold animation-timeline into an `animation` shorthand,
-           which browsers reject (the timeline is reset-only there). */
-        animation-name: pf-globe-away;
-        animation-duration: auto;
-        animation-timing-function: linear;
-        animation-fill-mode: both;
-        animation-timeline: --pf-section;
-        animation-range: exit 0% exit 100%;
-      }
+     grow from the bottom centre and fade in the second half, handing over to the next sections.
+     src/lib/globe-scroll.ts eases --pf-globe-away (0 to 1) toward the scroll position, so the
+     globe glides instead of jumping with each wheel notch. Both layers read it, so the poster,
+     canvas and labels stay aligned. Unset (reduced motion, no JavaScript), the globe is still. */
+  @media (prefers-reduced-motion: no-preference) {
+    .pf-globe__stage,
+    .pf-globe__moons {
+      transform-origin: 50% 100%;
+      scale: calc(1 + 0.35 * var(--pf-globe-away, 0));
+      opacity: clamp(0, 2 - 2 * var(--pf-globe-away, 0), 1);
+      will-change: scale, opacity;
     }
   }
 }
@@ -732,16 +725,5 @@ html:has([data-landing-section]) {
 @keyframes pf-ticker {
   to {
     translate: -50% 0;
-  }
-}
-
-@keyframes pf-globe-away {
-  50% {
-    opacity: 1;
-  }
-
-  to {
-    scale: 1.35;
-    opacity: 0;
   }
 }

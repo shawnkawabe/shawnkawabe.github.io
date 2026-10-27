@@ -546,6 +546,10 @@ continents. Each task below names what "done" means. Tasks run in the order give
     - Research: `docs/reference/scroll-motion.md`.
     - Built: the globe hand-off. The stage and the moon layer follow the hero's named timeline,
       grow to 1.35 from the bottom centre and fade out in the second half.
+    - Changed (2026-10-27, Shawn's request for a smoother, slower globe): the hand-off is now
+      eased by `src/lib/globe-scroll.ts` instead of a CSS scroll timeline, so the globe glides
+      after each wheel notch instead of jumping. It settles about 1.5 s after the scroll stops and
+      now also runs in Firefox. See the update in `docs/reference/scroll-motion.md`.
     - Not built:
       - the rail progress arrow, since the section indicator already marks the current section;
       - a Firefox fallback, since the effect is decorative and Firefox simply shows the static

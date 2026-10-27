@@ -98,8 +98,13 @@ const posters = [
   import { canRunScene, DESKTOP_QUERY, hasWebGL2 } from '@/lib/webgl';
   import { afterLoadIdle } from '@/lib/idle';
   import { REDUCED_MOTION_QUERY } from '@/lib/motion';
+  import { bindGlobeScroll } from '@/lib/globe-scroll';
 
   for (const root of document.querySelectorAll<HTMLElement>('[data-hero-globe]')) {
+    const section = root.closest<HTMLElement>('[data-landing-section]');
+    if (section && !window.matchMedia(REDUCED_MOTION_QUERY).matches) {
+      bindGlobeScroll(root, section);
+    }
     const toggle = root.querySelector<HTMLButtonElement>('[data-globe-toggle]');
     toggle?.addEventListener('click', () => {
       toggle.setAttribute('aria-pressed', String(toggle.getAttribute('aria-pressed') !== 'true'));

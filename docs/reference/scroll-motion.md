@@ -47,3 +47,17 @@ what fits a calm, professional portfolio.
 Sources: [caniuse: animation-timeline view()](https://caniuse.com/mdn-css_properties_animation-timeline_view),
 [MDN: view()](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-timeline/view),
 [Mozilla Connect thread](https://connect.mozilla.org/t5/discussions/why-doesn-t-firefox-support-the-css-animation-timeline/m-p/63761).
+
+## Update (2026-10-27): eased instead of scrubbed
+
+Shawn asked for a smoother, slower globe while scrolling. A scroll timeline follows the scroll
+position exactly, so each wheel notch (about 100px) moved the globe in one jump, and CSS cannot
+smooth that. The hand-off is now driven by `src/lib/globe-scroll.ts`:
+
+- On scroll, a `requestAnimationFrame` loop eases a value toward the hero's scroll-out progress
+  with a frame-rate independent exponential (time constant 0.5 s), then applies smoothstep.
+- It writes `--pf-globe-away` (0 to 1) on the globe root. CSS maps it to the same effect as before:
+  scale up to 1.35 from the bottom centre, fade in the second half.
+- The loop stops once the globe has settled, so nothing runs while the page is still.
+- It is not bound under reduced motion, where the globe simply scrolls away. Firefox now gets the
+  effect too, since it no longer depends on `animation-timeline`.
