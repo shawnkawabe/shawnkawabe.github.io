@@ -317,12 +317,12 @@ L-25 (and on Home).
 | L-13         | Remove availability chip   | done     |
 | L-14         | Favicon                    | done     |
 | L-15         | No em dash                 | done     |
-| L-16         | Intro redesign             | decision |
+| L-16         | Intro redesign             | chosen B |
 | L-17         | Certifications redesign    | done     |
 | L-18         | Cloud cards simplified     | done     |
 | L-19         | Rail toggle icon           | done     |
 | L-20 to L-30 | Professional inner pages   | planned  |
-| L-31         | Better favicon             | to do    |
-| L-32         | Better transitions         | to do    |
-| L-33         | Contact full width         | to do    |
+| L-31         | Better favicon             | done     |
+| L-32         | Better transitions         | done     |
+| L-33         | Contact full width         | done     |
 | L-34         | Footer notice              | done     |
