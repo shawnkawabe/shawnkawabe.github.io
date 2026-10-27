@@ -30,3 +30,13 @@ export function emphasisParts(text: string): TextPart[] {
     .map((part, index) => ({ text: part, strong: index % 2 === 1 }))
     .filter((part) => part.text !== '');
 }
+
+/**
+ * Splits a credential name at its issuer for the ticket layout: "Salesforce Certified
+ * Administrator" → issuer "Salesforce Certified", title "Administrator". Names without
+ * "Certified" stay whole as the title.
+ */
+export function credentialParts(label: string): { issuer: string; title: string } {
+  const match = /^(.*\bCertified)\s+(.+)$/.exec(label.trim());
+  return match ? { issuer: match[1], title: match[2] } : { issuer: '', title: label.trim() };
+}

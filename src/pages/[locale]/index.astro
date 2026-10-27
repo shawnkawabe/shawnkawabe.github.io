@@ -1,8 +1,8 @@
 ---
 // SPEC §5.1: hero, featured work, clouds, products, certifications, contact CTA. A landing page
 // (BACKLOG-LANDING L-08, ADR 0006): every section fills the screen and snaps by proximity.
-import CertificationStrip from '@/components/patterns/CertificationStrip.astro';
 import CloudPanels from '@/components/patterns/CloudPanels.astro';
+import CredentialTickets from '@/components/patterns/CredentialTickets.astro';
 import CoverCard from '@/components/patterns/CoverCard.astro';
 import Hero from '@/components/patterns/Hero.astro';
 import LandingSection from '@/components/patterns/LandingSection.astro';
@@ -113,8 +113,9 @@ const sections = [
     {certifications.length > 0 && (
       <LandingSection id="certifications" aria-labelledby="certifications-title">
         <h2 id="certifications-title">{t.certifications}</h2>
-        <CertificationStrip
+        <CredentialTickets
           certifications={certifications}
+          skills={skills}
           credentialsUrl={site.links.credentials}
         />
       </LandingSection>

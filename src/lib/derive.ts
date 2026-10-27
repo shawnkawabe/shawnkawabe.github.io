@@ -145,3 +145,17 @@ export function skillGroupChips(
     })
     .filter((group) => group.skills.length > 0);
 }
+
+export type CredentialSkill = { id: string; label: string; accent: string | undefined };
+
+/** A certification's skills that exist in skills.json, clouds first (they carry an accent). */
+export function credentialSkills(
+  certification: Pick<Certification, 'skills'>,
+  skills: readonly Skill[],
+): CredentialSkill[] {
+  const byId = new Map(skills.map((skill) => [skill.id, skill]));
+  return certification.skills
+    .flatMap((id) => byId.get(id) ?? [])
+    .sort((a, b) => Number(b.group === 'clouds') - Number(a.group === 'clouds'))
+    .map(({ id, label, accent }) => ({ id, label, accent }));
+}

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { emphasisParts, employerNames, plural } from '@/lib/format';
+import { credentialParts, emphasisParts, employerNames, plural } from '@/lib/format';
 import { experience } from './fixtures';
 
 describe('employerNames', () => {
@@ -40,5 +40,18 @@ describe('emphasisParts', () => {
   it('returns plain text unchanged and drops empty parts', () => {
     expect(emphasisParts('No emphasis')).toEqual([{ text: 'No emphasis', strong: false }]);
     expect(emphasisParts('**All**')).toEqual([{ text: 'All', strong: true }]);
+  });
+});
+
+describe('credentialParts', () => {
+  it('splits the issuer off at "Certified"', () => {
+    expect(credentialParts('Salesforce Certified Platform Developer I')).toEqual({
+      issuer: 'Salesforce Certified',
+      title: 'Platform Developer I',
+    });
+  });
+
+  it('keeps a name without "Certified" whole', () => {
+    expect(credentialParts(' Scrum Master ')).toEqual({ issuer: '', title: 'Scrum Master' });
   });
 });

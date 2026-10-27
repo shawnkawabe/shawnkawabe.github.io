@@ -2,7 +2,7 @@ import { experimental_AstroContainer as AstroContainer } from 'astro/container';
 import { getContainerRenderer } from '@astrojs/react/container-renderer';
 import { loadRenderers } from 'astro:container';
 import { beforeAll, describe, expect, it } from 'vitest';
-import CertificationStrip from '@/components/patterns/CertificationStrip.astro';
+import CredentialTickets from '@/components/patterns/CredentialTickets.astro';
 import CompanyList from '@/components/patterns/CompanyList.astro';
 import Hero from '@/components/patterns/Hero.astro';
 import SkillGroups from '@/components/patterns/SkillGroups.astro';
@@ -60,18 +60,35 @@ describe('SplitWords', () => {
   });
 });
 
-describe('CertificationStrip', () => {
-  const certifications = [{ id: 'admin', label: 'Administrator' }];
+describe('CredentialTickets', () => {
+  const skills = [
+    { id: 'platform', label: 'Salesforce Platform', group: 'development' as const },
+    { id: 'sales-cloud', label: 'Sales Cloud', group: 'clouds' as const, accent: 'cloud-sales' },
+  ];
+  const certifications = [
+    {
+      id: 'admin',
+      label: 'Salesforce Certified Administrator',
+      skills: ['platform', 'sales-cloud', 'unknown'],
+    },
+  ];
 
-  it('renders plain chips when there is no credentials page', async () => {
-    const html = await render(CertificationStrip, { certifications, credentialsUrl: '' });
-    expect(html).toContain('Administrator');
+  it('splits the issuer off the title and lists known skills, clouds first', async () => {
+    const html = await render(CredentialTickets, { certifications, skills, credentialsUrl: '' });
+    expect(html).toContain('Salesforce Certified</p>');
+    expect(html).toMatch(
+      /<h3[^>]*><span class="sr-only">Salesforce Certified <\/span>Administrator<\/h3>/,
+    );
+    expect(html.indexOf('Sales Cloud')).toBeLessThan(html.indexOf('Salesforce Platform'));
+    expect(html).not.toContain('unknown');
+    expect(html).toContain('--pf-c-cloud-accent: var(--pf-g-color-cloud-sales)');
     expect(html).not.toContain('<a');
   });
 
-  it('links every chip to the credentials page in a new tab', async () => {
-    const html = await render(CertificationStrip, {
+  it('links the whole ticket to the credentials page in a new tab', async () => {
+    const html = await render(CredentialTickets, {
       certifications,
+      skills,
       credentialsUrl: 'https://example.com/badges',
     });
     expect(html).toMatch(/<a href="https:\/\/example\.com\/badges" target="_blank"/);

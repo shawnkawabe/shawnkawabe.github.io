@@ -430,3 +430,20 @@ html:has([data-landing-section]) {
     translate: calc(var(--pf-g-spacing-6) * -1) 0;
   }
 }
+
+/* BACKLOG-LANDING L-07 credential tickets: two half-circle notches cut where the 4rem stub meets the
+   body, so the dashed edge reads as a perforation. The mask also cuts the border, as a real
+   ticket's edge would be. */
+.pf-ticket {
+  --pf-ticket-notch: 0.625rem;
+  --pf-ticket-at: calc(100% - 4rem);
+  mask:
+    radial-gradient(circle var(--pf-ticket-notch) at var(--pf-ticket-at) 0, transparent 98%, black)
+      top / 100% 51% no-repeat,
+    radial-gradient(
+        circle var(--pf-ticket-notch) at var(--pf-ticket-at) 100%,
+        transparent 98%,
+        black
+      )
+      bottom / 100% 51% no-repeat;
+}

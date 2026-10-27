@@ -11,7 +11,7 @@ import SplitWords from '@/components/ui/SplitWords.astro';
 import { getCertifications, getExperience, getProjects, getSite, getSkills } from '@/lib/content';
 import { cloudStats, skillGroupChips, sortProjects } from '@/lib/derive';
 import { brandIcons, icons, type CloudIconName, type IconName } from '@/lib/icons';
-import CertificationStrip from '@/components/patterns/CertificationStrip.astro';
+import CredentialTickets from '@/components/patterns/CredentialTickets.astro';
 import CloudBento from '@/components/patterns/CloudBento.astro';
 import CloudPanels from '@/components/patterns/CloudPanels.astro';
 import CompanyList from '@/components/patterns/CompanyList.astro';
@@ -261,12 +261,19 @@ const accents = ['cloud-sales', 'cloud-service', 'cloud-data', 'cloud-membership
         <SkillGroups
           groups={skillGroupChips(getSite().skillGroups, skills, projects).slice(0, 2)}
         />
-        <CertificationStrip
-          certifications={[{ id: 'admin', label: 'Plain chip (no credentials page)' }]}
+        <CredentialTickets
+          certifications={[
+            { id: 'plain', label: 'Salesforce Certified Plain Ticket', skills: ['sales-cloud'] },
+            { id: 'whole', label: 'A name without the issuer word', skills: ['apex'] },
+          ]}
+          skills={skills}
           credentialsUrl=""
         />
-        <CertificationStrip
-          certifications={[{ id: 'admin', label: 'Linked chip' }]}
+        <CredentialTickets
+          certifications={[
+            { id: 'linked', label: 'Salesforce Certified Linked Ticket', skills: ['data-cloud'] },
+          ]}
+          skills={skills}
           credentialsUrl="https://example.com"
         />
       </section>

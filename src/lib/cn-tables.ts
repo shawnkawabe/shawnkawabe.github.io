@@ -25,7 +25,7 @@ const DZ = (s: string): Int32Array => {
     }
     return out
 }
-const GROUP_COUNT = 161
+const GROUP_COUNT = 162
 const customValidatorNames: string[] = []
 const edgeStart = PS(U("D030004000215000000222000000320000212002100012002200210082000200000003000600000022003001032100200030020202001000"))
 const labelStart = PS(U(":1118411151111111911565<131441111112524342331321111225111115222631311111111165611111111324515113372443225255117"))
@@ -62,7 +62,7 @@ const nodeVlist = (() => {
     for (let i = 0; i < A.length; i++) out[A[i]!] = V[i]!
     return out
 })()
-const SETS = "container |break-inside-a uto void void-column void-page| block contents flow-root hidden inline inline-block inline-flex inline-grid inline-table table table-caption table-cell table-column table-column-group table-footer-group table-header-group table-row table-row-group| not-sr-only sr-only|isolat e ion-auto|object- contain cover fill none scale-down|overflow- auto clip hidden scroll visible|overflow-x- auto clip hidden scroll visible|overflow-y- auto clip hidden scroll visible| absolute fixed relative static sticky| collapse invisible visible|justify- around baseline between center center-safe end end-safe evenly normal start stretch|items- baseline baseline-last center center-safe end end-safe start stretch|self- auto baseline baseline-last center center-safe end end-safe start stretch| no-underline overline| capitalize lowercase normal-case uppercase|truncate |whitespace- break-spaces normal nowrap pre pre-line pre-wrap|break- all keep normal words|field-sizing- content fixed|pointer-events- auto none|snap- align-none center end start|snap- both none x y|snap- mandatory proximity|select- all auto none text| normal size| accordion-down accordion-up bounce caret-blink collapsible-down collapsible-up in none out ping pulse spin| auto square video|none |clip- border content padding text| auto full px|auto |full | alias all-scroll auto cell col-resize context-menu copy crosshair default e-resize ew-resize grab grabbing help move n-resize ne-resize nesw-resize no-drop none not-allowed ns-resize nw-resize nwse-resize pointer progress row-resize s-resize se-resize sw-resize text vertical-text w-resize wait zoom-in zoom-out|initial | emphasised initial linear standard| col col-reverse row row-reverse| nowrap wrap wrap-reverse| auto initial none| black bold medium regular semibold|px |flow- col col-dense dense row row-dense| none subgrid| auto dvh dvw fit full lh lvh lvw max min px screen svh svw| loose none normal px relaxed snug tight|through |item | decimal disc none| auto px| auto dvh dvw fit full lh lvh lvw max min none px screen svh svw| auto dvh dvw fit full lvh lvw max min none prose px screen screen-2xl screen-lg screen-md screen-sm screen-xl svh svw| auto dvh dvw fit full lvh lvw max min none px screen svh svw| bottom bottom-left bottom-right center left left-bottom left-top right right-bottom right-top top top-left top-right| dashed dotted double hidden none solid| full lg md none pill sm| 1 2 cloud-glow glow inner none| auto dvh dvw fit full lvh lvw max min px svh svw| 1 2 3 4 5 6 7 8 9 base| center end justify left right start| clip ellipsis| balance nowrap pretty wrap| display label normal tight tighter wide wider widest| all colors none opacity shadow transform| full px| auto dvh dvw fit full lvh lvw max min px screen svh svw".split('|').map((s) => {
+const SETS = "container |break-inside-a uto void void-column void-page| block contents flow-root hidden inline inline-block inline-flex inline-grid inline-table table table-caption table-cell table-column table-column-group table-footer-group table-header-group table-row table-row-group| not-sr-only sr-only|isolat e ion-auto|object- contain cover fill none scale-down|overflow- auto clip hidden scroll visible|overflow-x- auto clip hidden scroll visible|overflow-y- auto clip hidden scroll visible| absolute fixed relative static sticky| collapse invisible visible|justify- around baseline between center center-safe end end-safe evenly normal start stretch|items- baseline baseline-last center center-safe end end-safe start stretch|self- auto baseline baseline-last center center-safe end end-safe start stretch| no-underline overline| capitalize lowercase normal-case uppercase|truncate |whitespace- break-spaces normal nowrap pre pre-line pre-wrap|break- all keep normal words|field-sizing- content fixed|pointer-events- auto none|snap- align-none center end start|snap- both none x y|snap- mandatory proximity|select- all auto none text| normal size| accordion-down accordion-up bounce caret-blink collapsible-down collapsible-up in none out ping pulse spin| auto square video|none |clip- border content padding text| dashed dotted double hidden none solid| auto full px|auto |full | alias all-scroll auto cell col-resize context-menu copy crosshair default e-resize ew-resize grab grabbing help move n-resize ne-resize nesw-resize no-drop none not-allowed ns-resize nw-resize nwse-resize pointer progress row-resize s-resize se-resize sw-resize text vertical-text w-resize wait zoom-in zoom-out|initial | emphasised initial linear standard| col col-reverse row row-reverse| nowrap wrap wrap-reverse| auto initial none| black bold medium regular semibold|px |flow- col col-dense dense row row-dense| none subgrid| auto dvh dvw fit full lh lvh lvw max min px screen svh svw| loose none normal px relaxed snug tight|through |item | decimal disc none| auto px| auto dvh dvw fit full lh lvh lvw max min none px screen svh svw| auto dvh dvw fit full lvh lvw max min none prose px screen screen-2xl screen-lg screen-md screen-sm screen-xl svh svw| auto dvh dvw fit full lvh lvw max min none px screen svh svw| bottom bottom-left bottom-right center left left-bottom left-top right right-bottom right-top top top-left top-right| full lg md none pill sm| 1 2 cloud-glow glow inner none| auto dvh dvw fit full lvh lvw max min px svh svw| 1 2 3 4 5 6 7 8 9 base| center end justify left right start| clip ellipsis| balance nowrap pretty wrap| display label normal tight tighter wide wider widest| all colors none opacity shadow transform| full px| auto dvh dvw fit full lvh lvw max min px screen svh svw".split('|').map((s) => {
     const tails = s.split(' ')
     const prefix = tails.shift()!
     for (let i = 0; i < tails.length; i++) {
@@ -70,12 +70,12 @@ const SETS = "container |break-inside-a uto void void-column void-page| block co
     }
     return tails
 })
-const AA = DZ("0000000000000000000000000262422B4422222622002442424242624220242242222226222222226622262244400024442422")
-const AG = DZ("Ø222222222222222222222222ą422ĀûB202222222Ü2Û2422ÔÑ422222¨¥222222222224¨£22222226220222242KN}2222222")
-const AS = DZ("022222222222222222222222222222142210422=0@222200222I00LKNQT22223245000082I000000C3d]270HN22222kn220orq")
-const litAnchor = new Int32Array(450)
-const litGroup = new Int32Array(450)
-const litPool = new Int32Array(450)
+const AA = DZ("00000000000000000000000002624224>4422222622002442424242624220242242222226222222226622262244400024442422")
+const AG = DZ("Ø222222222222222222222222ą422Āûþë202222222Þ2Ý2422ÖÓ422222¨¥222222222224ª¥22222226220222242MP2222222")
+const AS = DZ("0222222222222222222222222222221422210422?0B222200222I00LKNSV2222324500008]F000000C5d[290JL22222il220mpo")
+const litAnchor = new Int32Array(456)
+const litGroup = new Int32Array(456)
+const litPool = new Int32Array(456)
 let poolText = ''
 const poolOffsets = new Int32Array(548)
 {
@@ -102,7 +102,7 @@ const poolOffsets = new Int32Array(548)
 // conflict adjacency (engine builds claim bitmask CSR at init)
 const adjGid = DZ("0@2<D6<2264B28:2:862P")
 const adjStart = PS(U("1::432:442:44:44>4212"))
-const adjTgt = DZ("2ŌįĲ222Ļ132ł22222Ņň22C2Ļ5Čß2:2Ð222K\\Ð2¡_Ì2§¼82Ä222Í176Ì2Ë1Ð2Í9P2¨222±132°2¯1´2±5Â2222222222222N222Ë82")
+const adjTgt = DZ("2ŎıĴ222Ľ132ń22222ŇŊ22C2Ľ5Ďá2:2Ò222K\\Ò2£_Î2§¼82Æ222Ï176Î2Í1Ò2Ï9P2ª222³132²2±1¶2³5Ä2222222222222N222Í82")
 const patGid = U("z")
 const patTgt = U("U")
 const postfixLookupGroups = U("1")

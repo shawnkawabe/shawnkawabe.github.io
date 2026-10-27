@@ -87,13 +87,17 @@ Research behind L-05 to L-08 is summarised in [ADR 0006](adr/0006-landing-scroll
     tagged on a project today, so GRAX, Nimble AMS, Fonteva and Nonprofit Cloud render as plain
     rows. **[H]** If those were used on projects, tag them in `capabilities` and they link.
 
-- [ ] **L-07 Certifications**
+- [x] **L-07 Certifications**
   - Replace the chip row with credential "tickets": text-only cards (no logos, no dates) with a
     CSS-drawn perforated stub, a mono serial (`CERT·01`), the certification name, and the clouds it
     covers as small accent dots with text labels.
   - The whole card links to the credentials page when `site.links.credentials` is set.
   - Grid: 1 column on mobile, 2 at `md`, 3 at `lg`; hover lifts the ticket and lights its accent
     edge (no tilt, no 3D).
+  - Notes (2026-10-26): used on Home and Skills; `CertificationStrip` deleted. The issuer
+    ("Salesforce Certified") becomes a mono eyebrow by splitting at "Certified"; skills shown are
+    the certification's own, clouds first. `site.links.credentials` is empty, so tickets are not
+    links yet. **[H]** Add the Trailhead/Credly URL to make them link.
 
 ## Order and status
 
@@ -106,4 +110,4 @@ Research behind L-05 to L-08 is summarised in [ADR 0006](adr/0006-landing-scroll
 | L-08 | Landing structure          | done   |
 | L-05 | Clouds                     | done   |
 | L-06 | Products & tools           | done   |
-| L-07 | Certifications             | to do  |
+| L-07 | Certifications             | done   |
