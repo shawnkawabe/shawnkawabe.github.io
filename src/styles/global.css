@@ -552,10 +552,12 @@
     transition-delay: calc((2 - var(--pf-mark-row)) * 40ms);
   }
 
+  /* The handle grows with the fold, over the same time, so its hover shape changes smoothly. It is
+     shrink-0 in NavRail: as a flex item it was squeezed to its icon while the height animated. */
   [data-rail-toggle] {
     transition:
-      width var(--pf-g-duration-base) var(--pf-g-easing-standard),
-      height var(--pf-g-duration-base) var(--pf-g-easing-standard),
+      width var(--pf-g-duration-slow) var(--pf-g-easing-standard),
+      height var(--pf-g-duration-slow) var(--pf-g-easing-standard),
       background-color var(--pf-g-duration-fast) var(--pf-g-easing-standard),
       color var(--pf-g-duration-fast) var(--pf-g-easing-standard);
   }
