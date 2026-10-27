@@ -55,6 +55,7 @@ const OTHER = [
   'font-family-heading',
   'font-family-body',
   'font-family-mono',
+  'font-family-serif',
 ];
 
 beforeAll(() => {

@@ -120,12 +120,13 @@ Cover title: Geist 700, `font-size-8` desktop / `font-size-6` mobile, `#FFFFFF`;
 
 ## 4. Typography
 
-| Role                             | Family                | Weights | Token                 |
-| -------------------------------- | --------------------- | ------- | --------------------- |
-| Display (hero name, cloud names) | Geist Sans (variable) | 600–800 | `font-family-display` |
-| Headings                         | Geist Sans (variable) | 500–700 | `font-family-heading` |
-| Body, UI                         | Geist Sans (variable) | 400–600 | `font-family-body`    |
-| Labels, code, data               | Geist Mono (variable) | 400–600 | `font-family-mono`    |
+| Role                               | Family                | Weights | Token                          |
+| ---------------------------------- | --------------------- | ------- | ------------------------------ |
+| Display (hero name, cloud names)   | Geist Sans (variable) | 600–800 | `font-family-display`          |
+| Headings                           | Geist Sans (variable) | 500–700 | `font-family-heading`          |
+| Body, UI                           | Geist Sans (variable) | 400–600 | `font-family-body`             |
+| Labels, code, data                 | Geist Mono (variable) | 400–600 | `font-family-mono`             |
+| One outlined display word (≥ 48px) | Instrument Serif      | 400     | `font-family-serif` (ADR 0009) |
 
 Self-host via Fontsource packages (ADR 0007); preload the Geist variable WOFF2 (Latin subset) only. `font-display: swap`. Fallbacks: `'Geist Fallback'` (Arial with metric overrides, so the swap moves no text), then `ui-sans-serif, system-ui, sans-serif` / `ui-monospace, monospace`.
 

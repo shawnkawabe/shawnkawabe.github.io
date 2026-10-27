@@ -2,6 +2,8 @@
 /* ADR 0007 typography: Geist Sans for display, headings and body; Geist Mono for labels and data. */
 @import '@fontsource-variable/geist';
 @import '@fontsource-variable/geist-mono';
+/* ADR 0009: one outlined display word per page. */
+@import '@fontsource/instrument-serif/400.css';
 
 @import './tokens.css';
 @import './covers.css';
@@ -83,6 +85,7 @@
   --font-heading: var(--pf-g-font-family-heading);
   --font-body: var(--pf-g-font-family-body);
   --font-mono: var(--pf-g-font-family-mono);
+  --font-serif: var(--pf-g-font-family-serif);
 
   --text-*: initial;
   --text-1: var(--pf-g-font-size-1);

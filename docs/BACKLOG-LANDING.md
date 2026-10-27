@@ -346,7 +346,7 @@ current data-core "neurons" scene is not aligned well and does not say that.
       handing off to the Clouds section. Rules: no scroll-jacking or pinned scroll traps, nothing
       that hides content until it animates, full static result under `prefers-reduced-motion`, no
       new animation library without an ADR, and no layout shift (CLS stays at 0).
-- [ ] **L-42 Apple fonts review** (S): check whether anything at
+- [x] **L-42 Apple fonts review** (S): check whether anything at
       https://developer.apple.com/fonts/ (SF Pro, SF Compact, SF Mono, New York) can be used here.
       Read the licence first: Apple licenses these fonts for designing and mocking up UIs for
       Apple platforms, which likely excludes self-hosting them on a public website. If so, record
@@ -426,7 +426,7 @@ continents. Each task below names what "done" means. Tasks run in the order give
       React preamble is missing in dev, so check the scene on `npm run preview`.
     - `npm run og` and `npm run globe:poster` now share `scripts/dev-server.mjs`.
 
-- [ ] **L-42 Apple fonts review** (S). Do this before L-39, which needs the serif. **Done when:**
+- [x] **L-42 Apple fonts review** (S). Do this before L-39, which needs the serif. **Done when:**
   - Apple's font licence has been read and quoted in a new ADR 0009, "Display serif".
   - SF Pro, SF Compact, SF Mono and New York are each marked usable or not on a public website.
     Expected answer: not usable, because they are licensed for mock-ups of Apple platform UIs.
@@ -438,6 +438,13 @@ continents. Each task below names what "done" means. Tasks run in the order give
   - A token `font.family.serif` is added.
   - CLAUDE.md rule 6 is updated to allow the serif for one outlined display word per page,
     at 48px or more.
+  - Notes (2026-10-27):
+    - None of Apple's fonts can be used. Their licence allows mock-ups of Apple platform UIs only
+      and forbids embedding them; quoted in ADR 0009.
+    - Instrument Serif 400 (OFL) was chosen: Latin is 21 KB, and Latin Extended (12 KB) loads only
+      on demand.
+    - Token `font-family-serif`; CLAUDE.md rule 6 updated.
+
 - [ ] **L-36 Charcoal, monochrome palette** (M). **Done when:**
   - **Dark theme:**
     - Surfaces move to neutral charcoal: `surface-0` is about `#131313`, with steps for
@@ -596,4 +603,4 @@ screenshots at 375, 768 and 1440 on the built preview, a ticked box with notes, 
 | L-39         | Hero layout A                   | planned |
 | L-40         | Products and tools as benchmark | planned |
 | L-41         | Scroll-linked motion research   | planned |
-| L-42         | Apple fonts review              | planned |
+| L-42         | Apple fonts review              | done    |
