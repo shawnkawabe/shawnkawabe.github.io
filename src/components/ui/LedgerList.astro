@@ -1,0 +1,12 @@
+---
+// DESIGN §10 ledger list (ADR 0008): LedgerRows divided by hairlines, with one above the first.
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<ul class:list={['border-t border-border-1', className]}>
+  <slot />
+</ul>

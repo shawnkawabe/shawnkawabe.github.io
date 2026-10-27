@@ -33,6 +33,12 @@ import { strings } from '@/lib/i18n';
 import HeroGlobe from '@/components/patterns/HeroGlobe.astro';
 import RoundAction from '@/components/ui/RoundAction.astro';
 import SculptedShape from '@/components/ui/SculptedShape.astro';
+import InlineLinkList from '@/components/ui/InlineLinkList.astro';
+import LedgerList from '@/components/ui/LedgerList.astro';
+import LedgerRow from '@/components/ui/LedgerRow.astro';
+import MetaList from '@/components/ui/MetaList.astro';
+import PageHeader from '@/components/ui/PageHeader.astro';
+import SectionRow from '@/components/ui/SectionRow.astro';
 import LanguageSwitcher from '@/components/patterns/LanguageSwitcher.astro';
 import MobileNav from '@/components/patterns/MobileNav.astro';
 import ProjectCard from '@/components/patterns/ProjectCard.astro';
@@ -361,6 +367,47 @@ const accents = ['cloud-sales', 'cloud-service', 'cloud-data', 'cloud-membership
         <StackChips links={stackLinks(sample, skills)} />
         <PrevNext prev={projects[0]} next={projects[1]} />
         <PrevNext prev={undefined} next={projects[1]} />
+      </section>
+
+      <section class="flex flex-col gap-10">
+        <Heading level={2} size={6}>
+          Inner-page primitives
+        </Heading>
+        <Text size={2} tone={2}>
+          ADR 0008 (L-21): PageHeader, SectionRow, LedgerList with LedgerRow, MetaList and
+          InlineLinkList. Hairlines and type only; the accent appears on links and hover.
+        </Text>
+        <PageHeader title="Page title" lead="One lead paragraph in grey, at most 720px wide.">
+          <RoundAction slot="actions" href="#" label="Primary action" />
+        </PageHeader>
+        <MetaList
+          items={[
+            { label: 'Client', value: 'Sample client' },
+            { label: 'Role', value: 'Senior Salesforce Developer' },
+            { label: 'Team size', value: '' },
+            { label: 'Clouds', value: ['Service Cloud', 'Experience Cloud'] },
+          ]}
+        />
+        <SectionRow label="Section label" id="gallery-section-row" level={3}>
+          <p>The body column holds prose, lists or a ledger.</p>
+          <InlineLinkList
+            items={[
+              { label: 'Linked item', href: '#' },
+              { label: 'Plain item' },
+              { label: 'Another', href: '#' },
+            ]}
+          />
+        </SectionRow>
+        <LedgerList>
+          <LedgerRow
+            href="#"
+            title="Ledger row"
+            subtitle="Subtitle"
+            meta="Client · Employer"
+            tags={['Tag one', 'Tag two']}
+          />
+          <LedgerRow href="#" title="External row" external />
+        </LedgerList>
       </section>
 
       <section class="flex flex-col gap-6">

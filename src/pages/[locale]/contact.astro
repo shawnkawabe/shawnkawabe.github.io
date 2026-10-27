@@ -19,7 +19,7 @@ const site = getSite(locale);
 const web3formsKey = import.meta.env.PUBLIC_WEB3FORMS_KEY ?? '';
 const t = ui.contact;
 const link =
-  'flex items-center gap-4 rounded-md border border-border-1 bg-surface-2 p-5 no-underline transition-[border-color,box-shadow] duration-250 ease-standard hover:border-border-2 hover:shadow-glow';
+  'flex items-center gap-4 rounded-md border border-border-1 bg-surface-2 p-5 no-underline transition-[border-color] duration-250 ease-standard hover:border-border-2';
 ---
 
 <BaseLayout meta={pageMeta(site, { page: 'contact' }, ui.titleTemplate)}>
@@ -39,9 +39,7 @@ const link =
           <a href={`mailto:${site.links.email}`} class={link}>
             <Icon name="contact" size={24} />
             <span class="flex flex-col">
-              <span class="font-mono text-1 tracking-label text-on-surface-2 uppercase">
-                {t.emailLabel}
-              </span>
+              <span class="font-mono text-1 text-on-surface-2">{t.emailLabel}</span>
               <span class="text-3 break-all text-on-surface-1">{site.links.email}</span>
             </span>
           </a>
@@ -50,9 +48,7 @@ const link =
           <a href={site.links.linkedin} target="_blank" rel="noopener noreferrer" class={link}>
             <Icon name="linkedin" size={24} />
             <span class="flex flex-col">
-              <span class="font-mono text-1 tracking-label text-on-surface-2 uppercase">
-                {t.linkedinLabel}
-              </span>
+              <span class="font-mono text-1 text-on-surface-2">{t.linkedinLabel}</span>
               <span class="text-3 break-all text-on-surface-1">
                 {site.links.linkedin.replace(/^https?:\/\/(www\.)?/, '')}
               </span>

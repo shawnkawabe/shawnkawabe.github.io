@@ -17,14 +17,14 @@ interface Props {
 const { prev, next } = Astro.props;
 const t = ui.caseStudy;
 const link =
-  'group flex flex-col gap-1 rounded-md border border-border-1 bg-surface-2 p-5 no-underline transition-[border-color,box-shadow] duration-250 ease-standard hover:border-border-2 hover:shadow-glow';
+  'group flex flex-col gap-1 rounded-md border border-border-1 bg-surface-2 p-5 no-underline transition-[border-color] duration-250 ease-standard hover:border-border-2';
 ---
 
 {(prev || next) && (
   <nav aria-label={t.pagerLabel} class="grid gap-4 sm:grid-cols-2">
     {prev && (
       <a href={localePath(locale, `/work/${prev.id}`)} rel="prev" class={link}>
-        <span class="flex items-center gap-2 font-mono text-1 tracking-label text-on-surface-2 uppercase">
+        <span class="flex items-center gap-2 font-mono text-1 text-on-surface-2">
           <Icon name="arrow-left" size={16} />
           {t.previous}
         </span>
@@ -37,7 +37,7 @@ const link =
         rel="next"
         class:list={[link, 'text-right sm:col-start-2']}
       >
-        <span class="flex items-center justify-end gap-2 font-mono text-1 tracking-label text-on-surface-2 uppercase">
+        <span class="flex items-center justify-end gap-2 font-mono text-1 text-on-surface-2">
           {t.next}
           <Icon name="arrow-right" size={16} />
         </span>

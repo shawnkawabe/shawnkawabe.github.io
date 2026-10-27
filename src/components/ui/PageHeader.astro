@@ -1,0 +1,21 @@
+---
+// DESIGN §9 PageHeader (ADR 0008): the inner pages' h1, one lead paragraph in grey and an optional
+// actions row (`actions` slot, e.g. a RoundAction). Left-aligned, at most 720px, no cover.
+interface Props {
+  title: string;
+  lead?: string;
+  class?: string;
+}
+
+const { title, lead, class: className } = Astro.props;
+---
+
+<header class:list={['flex max-w-180 flex-col gap-6', className]}>
+  <h1>{title}</h1>
+  {lead && <p class="text-4 text-on-surface-2">{lead}</p>}
+  {Astro.slots.has('actions') && (
+    <div class="flex flex-wrap items-center gap-x-8 gap-y-4 pt-2">
+      <slot name="actions" />
+    </div>
+  )}
+</header>

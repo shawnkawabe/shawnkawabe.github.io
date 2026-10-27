@@ -1,0 +1,29 @@
+---
+// DESIGN §9 SectionRow (ADR 0008): a narrow label column beside a 720px body, split from the row
+// above by a hairline; stacked below lg. The label is the section's heading, in sentence case.
+interface Props {
+  label: string;
+  /** Heading id, for `aria-labelledby` and in-page links. */
+  id: string;
+  level?: 2 | 3;
+  class?: string;
+}
+
+const { label, id, level = 2, class: className } = Astro.props;
+const Tag = `h${level}` as const;
+---
+
+<section
+  aria-labelledby={id}
+  class:list={[
+    'grid gap-4 border-t border-border-1 pt-6 lg:grid-cols-[11rem_minmax(0,45rem)] lg:gap-12',
+    className,
+  ]}
+>
+  <Tag id={id} class="font-body text-2 font-medium tracking-normal text-on-surface-2">
+    {label}
+  </Tag>
+  <div class="flex min-w-0 flex-col gap-6">
+    <slot />
+  </div>
+</section>

@@ -22,14 +22,12 @@ const t = ui.caseStudy;
       </p>
       <dl class="flex flex-col gap-3 text-2">
         <div class="flex flex-col gap-1">
-          <dt class="font-mono text-1 tracking-label text-on-surface-2 uppercase">{t.why}</dt>
+          <dt class="font-mono text-1 text-on-surface-2">{t.why}</dt>
           <dd>{item.why}</dd>
         </div>
         {item.tradeoff && (
           <div class="flex flex-col gap-1">
-            <dt class="font-mono text-1 tracking-label text-on-surface-2 uppercase">
-              {t.tradeoff}
-            </dt>
+            <dt class="font-mono text-1 text-on-surface-2">{t.tradeoff}</dt>
             <dd class="text-on-surface-2">{item.tradeoff}</dd>
           </div>
         )}

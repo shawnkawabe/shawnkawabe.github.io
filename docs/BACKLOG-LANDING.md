@@ -251,10 +251,10 @@ tokens. Astro portfolio themes found were paid; none adopted.
 
 - [x] **L-20 ADR 0008 and docs** (S): "Professional inner pages". DESIGN §6, §9, §10 and SPEC
       §5.2 to §5.6 updated (including the §5.6 "glass, glow" contact line).
-- [ ] **L-21 Shared primitives** (M): `PageHeader`, `SectionRow` (label column plus body),
+- [x] **L-21 Shared primitives** (M): `PageHeader`, `SectionRow` (label column plus body),
       `LedgerList`/`LedgerRow`, `MetaList` (`dl`), `InlineLinkList`. Tokens only, dev-gallery
       entries, Container tests where they branch.
-- [ ] **L-22 Calm shell on inner pages** (S): backdrop on Home only; no `shadow-glow` or
+- [x] **L-22 Calm shell on inner pages** (S): backdrop on Home only; no `shadow-glow` or
       `data-tilt` on inner pages; sentence-case labels.
 - [ ] **L-23 Work as a ledger** (M): one row per project (title, subtitle, client and employer,
       clouds), featured first; no gradient covers, no counts on filters; `?cap=` still filters;
@@ -616,10 +616,24 @@ continents. Each task below names what "done" means. Tasks run in the order give
 
 - **L-21:** add `RoundAction` (L-37) to the shared primitives. The primitives use the L-36
   palette.
+  - Done (2026-10-27):
+    - New in `src/components/ui/`: `PageHeader` (with an `actions` slot for `RoundAction`),
+      `SectionRow`, `LedgerList` with `LedgerRow`, `MetaList` and `InlineLinkList`.
+    - They use tokens only and follow DESIGN §9.
+    - `MetaList` and `InlineLinkList` render nothing when they have nothing to show.
+    - Container tests in `tests/unit/inner-primitives.test.ts`; dev-gallery entries.
+    - No page uses them yet: L-23 to L-27 adopt them.
 - **L-22:**
   - The backdrop is already removed by L-36.
   - What's left is removing `shadow-glow` and `data-tilt` (`src/lib/tilt.ts`) from `CloudCard`,
     `CoverCard`, `ProjectCard` and `PrevNext`, and sentence-case labels.
+  - Done (2026-10-27):
+    - Removed tilt, hover glow and lift from `CloudCard`, `CoverCard`, `ProjectCard`,
+      `PrevNext` and the contact rows; hover now changes the border only.
+    - Mono labels on the inner pages are sentence case without tracking, `Chip` included.
+    - `tests/unit/calm-shell.test.ts` guards the inner pages and their parts.
+    - Left for L-27: the contact form's glass and its focus glow.
+    - Left for L-28: `src/lib/tilt.ts` and its test (now unused).
 - **L-23 and L-24:** follow the L-40 audit gaps for Work and the case study.
 - **L-25:** reuses `CredentialLedger` as it is. `CloudBento` and `StackChips` are retired if
   nothing else uses them.

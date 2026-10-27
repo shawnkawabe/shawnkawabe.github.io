@@ -1,0 +1,33 @@
+---
+// DESIGN §9 MetaList (ADR 0008): facts as a `dl` in an auto-fit grid between two hairlines; labels
+// in grey sentence case, values in full text colour. Empty values are left out, and with nothing
+// to show it renders nothing (rule 2: never a blank fact).
+interface Props {
+  items: { label: string; value?: string | string[] | null }[];
+  class?: string;
+}
+
+const { items, class: className } = Astro.props;
+const shown = items
+  .map(({ label, value }) => ({
+    label,
+    value: (Array.isArray(value) ? value : [value]).filter(Boolean).join(', '),
+  }))
+  .filter((item) => item.value);
+---
+
+{shown.length > 0 && (
+  <dl
+    class:list={[
+      'grid grid-cols-[repeat(auto-fit,minmax(10rem,1fr))] gap-x-8 gap-y-5 border-y border-border-1 py-6',
+      className,
+    ]}
+  >
+    {shown.map((item) => (
+      <div class="flex flex-col gap-1">
+        <dt class="text-2 text-on-surface-2">{item.label}</dt>
+        <dd class="text-3 text-on-surface-1">{item.value}</dd>
+      </div>
+    ))}
+  </dl>
+)}

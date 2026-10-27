@@ -25,8 +25,7 @@ const display = size === 'feature';
 <a
   href={`${localePath(locale, '/work')}?cloud=${cloud.id}`}
   style={cloud.accent && `--pf-c-cloud-accent: var(--pf-g-color-${cloud.accent})`}
-  data-tilt
-  class="group flex h-full flex-col gap-4 rounded-lg border border-border-1 bg-surface-2 p-6 no-underline transition-[translate,border-color,box-shadow,transform] duration-250 ease-standard hover:-translate-y-0.5 hover:border-border-2 hover:shadow-cloud-glow focus-visible:shadow-cloud-glow"
+  class="group flex h-full flex-col gap-4 rounded-lg border border-border-1 bg-surface-2 p-6 no-underline transition-[border-color] duration-250 ease-standard hover:border-border-2"
 >
   <span class="text-(--pf-c-cloud-accent)">
     <Icon name={cloud.id as CloudIconName} size={32} />
@@ -34,13 +33,5 @@ const display = size === 'feature';
   <Title class:list={[display ? 'font-display text-7 tracking-display' : 'text-5']}>
     {cloud.label}
   </Title>
-  <p class="font-mono text-1 tracking-label text-on-surface-2 uppercase">
-    {plural(ui.cards.projects, cloud.projectCount)}
-  </p>
+  <p class="font-mono text-1 text-on-surface-2">{plural(ui.cards.projects, cloud.projectCount)}</p>
 </a>
-
-<script>
-  import { bindTilt } from '@/lib/tilt';
-
-  bindTilt();
-</script>

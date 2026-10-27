@@ -122,11 +122,7 @@ export default function WorkFilters({
         onToggle={(id) => update({ ...filters, caps: toggle(filters.caps, id) })}
       />
       <div className="flex items-center gap-4">
-        <p
-          aria-live="polite"
-          aria-atomic="true"
-          className="font-mono text-1 tracking-label text-on-surface-2 uppercase"
-        >
+        <p aria-live="polite" aria-atomic="true" className="font-mono text-1 text-on-surface-2">
           {plural(ui.cards.projects, count)}
         </p>
         <button ref={clearRef} type="button" className={GHOST} onClick={() => update(NONE)}>
@@ -164,7 +160,7 @@ function FacetGroup({ label, options, selected, onToggle }: FacetGroupProps) {
   const labelId = useId();
   return (
     <div role="group" aria-labelledby={labelId} className="flex flex-col gap-2">
-      <p id={labelId} className="font-mono text-1 tracking-label text-on-surface-2 uppercase">
+      <p id={labelId} className="font-mono text-1 text-on-surface-2">
         {label}
       </p>
       <ul className="flex flex-wrap gap-2">
