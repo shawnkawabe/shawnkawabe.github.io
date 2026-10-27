@@ -76,13 +76,16 @@ Research behind L-05 to L-08 is summarised in [ADR 0006](adr/0006-landing-scroll
     tests are removed; `canRunScene`/`hasWebGL2` moved to `src/lib/webgl.ts` for the hero scene.
     Checked at 1440×900 (section exactly one screen) and 375px (accordion).
 
-- [ ] **L-06 Products & tools**
+- [x] **L-06 Products & tools**
   - No chips/badges and no marquee; the "Pause scrolling list" button goes away.
   - An indexed typographic list: mono number (`01`), the name in Space Grotesk at display size, and
     on hover or focus an accent rule plus the number of projects that used it (derived from
     content, nothing invented). Two columns from `lg`, one on mobile; entrance staggered by the
     L-08 scroll animation.
   - Each row links to `/work?cap=<id>` when at least one project uses it; otherwise it is plain text.
+  - Notes (2026-10-26): `Marquee` and its keyframes are deleted. Only Own Data and D4Sign are
+    tagged on a project today, so GRAX, Nimble AMS, Fonteva and Nonprofit Cloud render as plain
+    rows. **[H]** If those were used on projects, tag them in `capabilities` and they link.
 
 - [ ] **L-07 Certifications**
   - Replace the chip row with credential "tickets": text-only cards (no logos, no dates) with a
@@ -102,5 +105,5 @@ Research behind L-05 to L-08 is summarised in [ADR 0006](adr/0006-landing-scroll
 | L-02 | Rail + language menu       | done   |
 | L-08 | Landing structure          | done   |
 | L-05 | Clouds                     | done   |
-| L-06 | Products & tools           | to do  |
+| L-06 | Products & tools           | done   |
 | L-07 | Certifications             | to do  |

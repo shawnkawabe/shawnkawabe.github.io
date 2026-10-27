@@ -17,7 +17,7 @@ import CloudPanels from '@/components/patterns/CloudPanels.astro';
 import CompanyList from '@/components/patterns/CompanyList.astro';
 import ContactForm from '@/components/patterns/ContactForm';
 import Hero from '@/components/patterns/Hero.astro';
-import Marquee from '@/components/patterns/Marquee.astro';
+import ProductIndex from '@/components/patterns/ProductIndex.astro';
 import SkillGroups from '@/components/patterns/SkillGroups.astro';
 import CoverCard from '@/components/patterns/CoverCard.astro';
 import DecisionCards from '@/components/patterns/DecisionCards.astro';
@@ -251,7 +251,12 @@ const accents = ['cloud-sales', 'cloud-service', 'cloud-data', 'cloud-membership
         <Surface class="overflow-hidden">
           <Hero site={getSite()} />
         </Surface>
-        <Marquee items={['GRAX', 'D4Sign', 'Nimble AMS', 'Fonteva']} id="dev-marquee" />
+        <ProductIndex
+          items={[
+            { id: 'grax', label: 'GRAX (linked: used by a project)', projectCount: 2 },
+            { id: 'aura', label: 'Unused product (plain text)', projectCount: 0 },
+          ]}
+        />
         <CompanyList experience={(await getExperience()).slice(0, 2)} projects={projects} />
         <SkillGroups
           groups={skillGroupChips(getSite().skillGroups, skills, projects).slice(0, 2)}

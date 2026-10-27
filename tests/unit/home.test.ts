@@ -5,7 +5,6 @@ import { beforeAll, describe, expect, it } from 'vitest';
 import CertificationStrip from '@/components/patterns/CertificationStrip.astro';
 import CompanyList from '@/components/patterns/CompanyList.astro';
 import Hero from '@/components/patterns/Hero.astro';
-import Marquee from '@/components/patterns/Marquee.astro';
 import SkillGroups from '@/components/patterns/SkillGroups.astro';
 import SplitWords from '@/components/ui/SplitWords.astro';
 
@@ -77,15 +76,6 @@ describe('CertificationStrip', () => {
     });
     expect(html).toMatch(/<a href="https:\/\/example\.com\/badges" target="_blank"/);
     expect(html).toContain('opens in a new tab');
-  });
-});
-
-describe('Marquee', () => {
-  it('announces the list once and controls it with a pause button', async () => {
-    const html = await render(Marquee, { items: ['GRAX', 'D4Sign'], id: 'm' });
-    expect(html.match(/GRAX/g)).toHaveLength(2);
-    expect(html).toMatch(/<ul aria-hidden="true"/);
-    expect(html).toMatch(/aria-controls="m"[^>]*aria-pressed="false"/);
   });
 });
 

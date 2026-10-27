@@ -124,14 +124,6 @@
   --ease-*: initial;
   --ease-standard: var(--pf-g-easing-standard);
   --ease-emphasised: var(--pf-g-easing-emphasised);
-
-  /* DESIGN §7 marquee: 40s per loop, linear. The track holds the list twice, so −50% loops. */
-  --animate-marquee: pf-marquee 40s linear infinite;
-  @keyframes pf-marquee {
-    to {
-      translate: -50% 0;
-    }
-  }
 }
 
 /* Media queries cannot read var(), so breakpoints repeat the token values as literals. */
@@ -416,5 +408,25 @@ html:has([data-landing-section]) {
     @starting-style {
       opacity: 0;
     }
+  }
+}
+
+/* BACKLOG-LANDING L-06: product rows slide in one after another as the list scrolls into view.
+   Each row starts a little later in the same range, which staggers rows that share a line. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    [data-product-row] {
+      animation: pf-row-in auto linear both;
+      animation-timeline: view();
+      animation-range: entry calc(var(--pf-row-index, 0) * 6%) entry
+        calc(70% + var(--pf-row-index, 0) * 6%);
+    }
+  }
+}
+
+@keyframes pf-row-in {
+  from {
+    opacity: 0;
+    translate: calc(var(--pf-g-spacing-6) * -1) 0;
   }
 }
