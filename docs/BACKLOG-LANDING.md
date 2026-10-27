@@ -194,11 +194,26 @@ Research behind L-05 to L-08 is summarised in [ADR 0006](adr/0006-landing-scroll
     left. Now chevrons-up to collapse and chevrons-down as the collapsed fallback (inner pages
     without a matching icon still show their own page icon; Home shows the section number).
 
-- [ ] **L-16 Intro section redesign** (research first)
-  - Study professional portfolio templates; propose directions with sketches; Shawn picks one.
-- [ ] **L-17 Certifications section redesign** (research first)
-  - Shawn does not like the current section (L-07). Diagnose it, propose alternatives with
-    sketches; Shawn picks one.
+- [ ] **L-16 Intro section redesign** (research done 2026-10-27; **[H]** Shawn picks A, B or C)
+  - Diagnosis: the intro is one long sentence with seven bold terms, so emphasis stops working;
+    a 30-second reader cannot find "which clouds, which credentials".
+  - A. Statement first (Brittany Chiang, Rauno): name, role, one-line claim, one stack line,
+    two actions. Needs a new `site.headline`; `intro` shortened.
+  - B. Outcome split with a fact card (recommended): name, role, claim on the left; a solid
+    `surface-2` card on the right lists Clouds, Certifications and Based in. The 3D scene sits
+    behind the card at lower opacity. Needs `site.headline`; rows derived from content.
+  - C. Capability index: six numbered capabilities linking to `/work?cap=`. Competes with the
+    products list lower on Home.
+- [ ] **L-17 Certifications section redesign** (research done 2026-10-27; **[H]** Shawn confirms)
+  - Diagnosis (`CredentialTickets.astro`): "Salesforce Certified" repeats five times; the ticket
+    stub, vertical `CERT·01` serial and check icon are ornament; cards lift on hover but are not
+    links; five cards in three columns leave an orphan row; no lead line.
+  - Recommended: a ledger grouped by domain (Development, Data and AI, Admin and Foundations):
+    one row per credential, title left, related skills right as text, issuer named once in the
+    section header. Rows link once `links.credentials` has a Trailhead or Credly URL.
+    Alternatives considered: a cloud coverage matrix (dense on mobile), count plus disclosure
+    (hides content from scanners).
+
 - [x] **L-18 Clouds cards without certifications or project names**
   - "Clouds I work in" cards show the cloud name, icon and project count only: drop the
     certification count and the top-project titles.
@@ -206,26 +221,71 @@ Research behind L-05 to L-08 is summarised in [ADR 0006](adr/0006-landing-scroll
     projects") and to the Skills `CloudCard`. The `cloudPanels.projects` and `.certifications`
     strings were removed from all three locales.
 
+## Round 4: professional inner pages (plan 2026-10-27; **[H]** Shawn approves before L-20)
+
+Shawn: Work, Skills, About and Contact read as "gamified"; they must look professional and
+attractive for any position. Audit (screenshots in `.playwright-mcp/audit-*.png`) found the
+signals: grid backdrop with a pointer spotlight, glow and lift on hover, tilt, mono uppercase
+labels everywhere, counters on filters and chips ("7 PROJECTS · 1 CERTIFICATION"), ticket-style
+certifications, gradient covers repeating the client name three times, achievement-style
+outcome boxes. Direction: Linear, Vercel and Stripe customer stories, Brittany Chiang's
+list-first layout. Calm `surface-0`, one accent for links and focus, hairline rules instead of
+boxes, mono only for small metadata in sentence case, hover changes colour or underline only.
+Home keeps its landing motion and 3D scene.
+
+- [ ] **L-20 ADR 0008 and docs** (S): "Professional inner pages". DESIGN §6, §9, §10 and SPEC
+      §5.2 to §5.6 updated (including the §5.6 "glass, glow" contact line).
+- [ ] **L-21 Shared primitives** (M): `PageHeader`, `SectionRow` (label column plus body),
+      `LedgerList`/`LedgerRow`, `MetaList` (`dl`), `InlineLinkList`. Tokens only, dev-gallery
+      entries, Container tests where they branch.
+- [ ] **L-22 Calm shell on inner pages** (S): backdrop on Home only; no `shadow-glow` or
+      `data-tilt` on inner pages; sentence-case labels.
+- [ ] **L-23 Work as a ledger** (M): one row per project (title, subtitle, client and employer,
+      clouds), featured first; no gradient covers, no counts on filters; `?cap=` still filters;
+      no-JS shows everything.
+- [ ] **L-24 Case study as a consultancy page** (L): meta list (client, role, delivered via,
+      industry), then Problem, Approach, Outcome, Stack, Gallery, Next, each a `SectionRow`.
+      No cover block, tilted band or outcome boxes. Sections hide when data is absent.
+- [ ] **L-25 Skills as a capability index** (M): clouds on one line, skill groups as label plus
+      list, certifications as the L-17 ledger, languages. No bento, counts, tickets or
+      duplicate cloud group. Mobile page about a third of today's height.
+- [ ] **L-26 About as a professional bio** (M): bio, location and resume action first;
+      principles as numbered rows; experience as a ledger without dates; photo only if approved.
+- [ ] **L-27 Contact, calm and direct** (S): email (with copy), LinkedIn and resume rows; form
+      without glass or glow, hidden without a key, intro text matching whether it shows.
+- [ ] **L-28 Retire unused patterns** (S): remove `CredentialTickets`, `SectionBand`, ticket CSS
+      and anything else left unused.
+- [ ] **L-29 Content questions for Shawn** (S): write to `docs/briefs/`; nothing invented.
+      Open: team sizes (all empty); 2 to 4 decisions per featured project for "Approach";
+      an approved portrait; a Trailhead or Credly URL; Nescara and Globant list the same
+      projects (one row "Nescara, via Globant"?); Orchid component library has no sections.
+- [ ] **L-30 Accessibility and visual QA** (S): axe on all routes, heading order, screenshots at
+      375, 768 and 1440 against the sketches, pt and es overflow check.
+
+Order: L-20, L-21 with L-22, L-23 with L-24, L-25 to L-27, then L-28 to L-30. L-17 ships inside
+L-25 (and on Home).
+
 ## Order and status
 
-| #    | Task                       | Status   |
-| ---- | -------------------------- | -------- |
-| L-01 | Resume link                | done     |
-| L-03 | Drop solution architecture | done     |
-| L-04 | AWS label                  | done     |
-| L-02 | Rail + language menu       | done     |
-| L-08 | Landing structure          | done     |
-| L-05 | Clouds                     | done     |
-| L-06 | Products & tools           | done     |
-| L-07 | Certifications             | done     |
-| L-09 | Collapsed rail as a circle | done     |
-| L-10 | Products moving list       | done     |
-| L-11 | Typography                 | done     |
-| L-12 | Background                 | done     |
-| L-13 | Remove availability chip   | done     |
-| L-14 | Favicon                    | done     |
-| L-15 | No em dash                 | done     |
-| L-16 | Intro redesign             | research |
-| L-17 | Certifications redesign    | research |
-| L-18 | Cloud cards simplified     | done     |
-| L-19 | Rail toggle icon           | done     |
+| #            | Task                       | Status   |
+| ------------ | -------------------------- | -------- |
+| L-01         | Resume link                | done     |
+| L-03         | Drop solution architecture | done     |
+| L-04         | AWS label                  | done     |
+| L-02         | Rail + language menu       | done     |
+| L-08         | Landing structure          | done     |
+| L-05         | Clouds                     | done     |
+| L-06         | Products & tools           | done     |
+| L-07         | Certifications             | done     |
+| L-09         | Collapsed rail as a circle | done     |
+| L-10         | Products moving list       | done     |
+| L-11         | Typography                 | done     |
+| L-12         | Background                 | done     |
+| L-13         | Remove availability chip   | done     |
+| L-14         | Favicon                    | done     |
+| L-15         | No em dash                 | done     |
+| L-16         | Intro redesign             | decision |
+| L-17         | Certifications redesign    | decision |
+| L-18         | Cloud cards simplified     | done     |
+| L-19         | Rail toggle icon           | done     |
+| L-20 to L-30 | Professional inner pages   | planned  |
