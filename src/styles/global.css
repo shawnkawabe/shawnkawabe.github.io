@@ -503,10 +503,32 @@
    paint, so a collapsed rail never flashes open. L-32: the pill folds into the circle instead of
    switching. Its height animates between auto and 4rem (interpolate-size; elsewhere it snaps), the
    body fades out before it is removed, and on reopening the items fade in one after another. */
-[data-rail='collapsed'] [data-rail-body],
-[data-rail='collapsed'] [data-rail-icon='collapse'],
-:root:not([data-rail='collapsed']) [data-rail-icon='expand'] {
+[data-rail='collapsed'] [data-rail-body] {
   display: none;
+}
+
+/* L-44: the handle's mark. Expanded (also the no-JavaScript state), each row's halves rotate up
+   about the shared centre into a chevron, and the stack rises 2 units so it sits centred;
+   collapsed, the halves lie flat as three lines. fill-box puts each origin at the inner end. */
+[data-rail-mark] line {
+  transform-box: fill-box;
+  rotate: var(--pf-mark-turn, 0deg);
+  translate: 0 -2px;
+}
+
+[data-rail-mark] [data-half='start'] {
+  transform-origin: 100% 50%;
+  --pf-mark-turn: -35deg;
+}
+
+[data-rail-mark] [data-half='end'] {
+  transform-origin: 0% 50%;
+  --pf-mark-turn: 35deg;
+}
+
+[data-rail='collapsed'] [data-rail-mark] line {
+  rotate: 0deg;
+  translate: 0 0;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -515,6 +537,19 @@
     transition:
       height var(--pf-g-duration-slow) var(--pf-g-easing-standard),
       border-radius var(--pf-g-duration-slow) var(--pf-g-easing-standard);
+  }
+
+  /* Rows move one after another, top first when opening and bottom first when closing, over the
+     same time as the pill folds (L-32), so both finish together. */
+  [data-rail-mark] line {
+    transition:
+      rotate var(--pf-g-duration-slow) var(--pf-g-easing-standard),
+      translate var(--pf-g-duration-slow) var(--pf-g-easing-standard);
+    transition-delay: calc(var(--pf-mark-row) * 40ms);
+  }
+
+  [data-rail='collapsed'] [data-rail-mark] line {
+    transition-delay: calc((2 - var(--pf-mark-row)) * 40ms);
   }
 
   [data-rail-toggle] {
@@ -667,8 +702,7 @@ html:has([data-landing-section]) {
   }
 }
 
-/* BACKLOG-LANDING L-09: collapsed, the rail is a perfect circle around a larger handle that shows
-   where the reader is. A new section number rises into place. */
+/* BACKLOG-LANDING L-09: collapsed, the rail is a perfect circle around a larger handle. */
 /* The padding stays as expanded (0.5rem) and the 3rem handle fills the rest, so the circle is
    4rem without the handle jumping while the height animates (L-32). */
 [data-rail='collapsed'] [data-rail-nav] {
@@ -679,13 +713,6 @@ html:has([data-landing-section]) {
 [data-rail='collapsed'] [data-rail-toggle] {
   width: 3rem;
   height: 3rem;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  [data-rail-section][data-swapped] {
-    display: inline-block;
-    animation: pf-rise var(--pf-g-duration-base) var(--pf-g-easing-emphasised);
-  }
 }
 
 /* BACKLOG-LANDING L-10 moving product list. It shows only with JavaScript (for the pause toggle)

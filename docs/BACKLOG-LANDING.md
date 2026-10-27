@@ -382,7 +382,7 @@ current data-core "neurons" scene is not aligned well and does not say that.
       reallocation.
     - The new Playwright test fails without the fix and passes with it.
 
-- [ ] **L-44 Rail handle morphs from three lines to three chevrons** (M). Shawn's feedback: collapsed,
+- [x] **L-44 Rail handle morphs from three lines to three chevrons** (M). Shawn's feedback: collapsed,
       the rail handle shows three horizontal lines (≡); expanded, it shows three stacked
       chevrons (^ ^ ^), and the lines bend into the chevrons as the rail opens (and back as it
       closes).
@@ -423,6 +423,19 @@ current data-core "neurons" scene is not aligned well and does not say that.
       pass;
     - `npm run ci` and `npm run test:a11y` pass, and screenshots of both states plus a mid-
       transition frame are compared.
+  - Done (2026-10-27):
+    - Open decision taken as recommended (Shawn said to build, without objecting): the lines
+      replace the Home section number and the page icon. The handle's name still says
+      "current: <section or page>", now without the number, since no number is visible.
+    - Built as planned: an inline SVG in `NavRail` with six half-strokes rotating ±35° around the
+      shared centre (`transform-box: fill-box`), driven by `<html data-rail>`. The rows are
+      staggered 40ms (top first when opening, bottom first when closing) over `duration-slow`.
+      Reduced motion and no-JS show the end states.
+    - Removed: the `rail-collapse`/`rail-expand` icons (Lucide `ChevronsUp`/`ChevronsDown`), the
+      `[data-rail-icon]` swap CSS, and the section-number swap in `rail.ts` and its CSS.
+      `pf-rise` stays because the hero uses it.
+    - The e2e test checks all six halves flat when collapsed and turned ±35° when expanded.
+      Screenshots at 2× in both themes show the chevron tips meeting cleanly.
 
 ### Refined tasks (2026-10-27, before any build)
 
@@ -856,4 +869,4 @@ screenshots at 375, 768 and 1440 on the built preview, a ticked box with notes, 
 | L-41         | Scroll-linked motion research   | done   |
 | L-42         | Apple fonts review              | done   |
 | L-43         | Globe back after jump to Intro  | done   |
-| L-44         | Rail handle lines to chevrons   | to do  |
+| L-44         | Rail handle lines to chevrons   | done   |

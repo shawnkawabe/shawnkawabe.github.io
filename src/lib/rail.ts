@@ -47,18 +47,8 @@ export function bindRailToggles(scope: ParentNode = document): void {
     }),
   );
   window.addEventListener(SECTION_EVENT, (event) => {
-    const { number, label } = (event as CustomEvent<SectionChange>).detail;
-    buttons.forEach((button) => {
-      button.dataset.current = `${number} ${label}`;
-      const section = button.querySelector<HTMLElement>('[data-rail-section]');
-      if (section && section.textContent?.trim() !== number) {
-        section.textContent = number;
-        // Restart the swap animation in global.css for the new number.
-        section.removeAttribute('data-swapped');
-        void section.offsetWidth;
-        section.setAttribute('data-swapped', '');
-      }
-    });
+    const { label } = (event as CustomEvent<SectionChange>).detail;
+    buttons.forEach((button) => (button.dataset.current = label));
     sync();
   });
   sync();

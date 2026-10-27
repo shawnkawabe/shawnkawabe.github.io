@@ -127,7 +127,7 @@ test('the desktop rail starts collapsed, and an expanded rail stays expanded on 
   await expect(rail.getByRole('link', { name: 'Work' })).toBeHidden();
 });
 
-test('collapsed, the rail is a circle that follows the Home section', async ({
+test('collapsed, the rail is a circle of three lines that names the Home section', async ({
   page,
 }, testInfo) => {
   test.skip(testInfo.project.name === 'mobile', 'The rail is desktop only.');
@@ -140,13 +140,20 @@ test('collapsed, the rail is a circle that follows the Home section', async ({
       return Math.round(box.height) - Math.round(box.width);
     })
     .toBe(0);
+  // L-44: collapsed, every half-stroke lies flat, so the rows read as three lines.
+  const turns = () =>
+    rail
+      .locator('[data-rail-mark] line')
+      .evaluateAll((lines) => lines.map((line) => getComputedStyle(line).rotate));
+  await expect.poll(turns).toEqual(Array(6).fill('0deg'));
   await page.locator('#clouds').scrollIntoViewIfNeeded();
   await expect(rail.locator('[data-rail-toggle]')).toHaveAttribute(
     'aria-label',
-    /^Expand menu, current: /,
+    /^Expand menu, current: (?!Intro)/,
   );
-  await expect(rail.locator('[data-rail-section]')).not.toHaveText('01');
+  // Expanded, the halves turn up into three chevrons.
   await rail.locator('[data-rail-toggle]').click();
+  await expect.poll(turns).toEqual(['-35deg', '35deg', '-35deg', '35deg', '-35deg', '35deg']);
 });
 
 test('the hero globe shows its poster and cloud links, and its toggle stops the moons', async ({
