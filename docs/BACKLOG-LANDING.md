@@ -283,6 +283,10 @@ L-25 (and on Home).
 - [ ] **L-33 Contact section full width**: the Home contact section's background must span the
       whole viewport width, not the content column.
 
+- [x] **L-34 Footer notice as an independent professional**: the trademark notice now opens
+      with "I work as an independent Salesforce professional", says the marks are named only to
+      describe the platforms, and states no affiliation, sponsorship or endorsement (en, pt, es).
+
 ## Order and status
 
 | #            | Task                       | Status   |
@@ -310,3 +314,4 @@ L-25 (and on Home).
 | L-31         | Better favicon             | to do    |
 | L-32         | Better transitions         | to do    |
 | L-33         | Contact full width         | to do    |
+| L-34         | Footer notice              | done     |
