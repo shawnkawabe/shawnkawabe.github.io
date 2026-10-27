@@ -1,6 +1,7 @@
 ---
 // DESIGN §9 InlineLinkList (ADR 0008): items in a wrapping line split by a grey middot; items with
-// a destination are links, the rest plain text. The middots are decorative.
+// a destination are links, the rest plain text. The middots are decorative and follow their item,
+// so a wrapped line never starts with one.
 interface Props {
   items: { label: string; href?: string }[];
   class?: string;
@@ -13,15 +14,15 @@ const { items, class: className } = Astro.props;
   <ul class:list={['flex flex-wrap items-baseline gap-y-2 text-3', className]}>
     {items.map((item, index) => (
       <li class="flex items-baseline">
-        {index > 0 && (
-          <span aria-hidden="true" class="px-3 text-on-surface-3">
-            ·
-          </span>
-        )}
         {item.href ? (
           <a href={item.href}>{item.label}</a>
         ) : (
           <span class="text-on-surface-1">{item.label}</span>
+        )}
+        {index < items.length - 1 && (
+          <span aria-hidden="true" class="px-3 text-on-surface-3">
+            ·
+          </span>
         )}
       </li>
     ))}

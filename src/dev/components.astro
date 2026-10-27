@@ -21,7 +21,7 @@ import ProductIndex from '@/components/patterns/ProductIndex.astro';
 import SkillGroups from '@/components/patterns/SkillGroups.astro';
 import CoverCard from '@/components/patterns/CoverCard.astro';
 import FeaturedIndex from '@/components/patterns/FeaturedIndex.astro';
-import DecisionCards from '@/components/patterns/DecisionCards.astro';
+import DecisionList from '@/components/patterns/DecisionList.astro';
 import Gallery from '@/components/patterns/Gallery.astro';
 import Outcomes from '@/components/patterns/Outcomes.astro';
 import PrevNext from '@/components/patterns/PrevNext.astro';
@@ -341,7 +341,7 @@ const accents = ['cloud-sales', 'cloud-service', 'cloud-data', 'cloud-membership
           Case study
         </Heading>
         <SnapshotBar project={sample} deliveredVia="Nescara · Globant" skills={skills} />
-        <DecisionCards
+        <DecisionList
           items={[
             {
               decision: 'Sample decision written as one sentence',

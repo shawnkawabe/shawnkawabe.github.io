@@ -16,6 +16,20 @@ export function employerNames(
     .join(' · ');
 }
 
+/**
+ * Work ledger meta line (SPEC §5.2): "Client · Employer · Employer". The client appears once, so an
+ * employer with the client's name (an in-house project) is left out.
+ */
+export function projectMeta(
+  project: Pick<Project, 'client' | 'employers'>,
+  experience: readonly Experience[],
+): string {
+  const employers = employerNames(project, experience)
+    .split(' · ')
+    .filter((name) => name && name !== project.client);
+  return [project.client, ...employers].join(' · ');
+}
+
 /** "1 project" / "7 projects": picks the CLDR plural form, then fills `{count}`. */
 export function plural(forms: { one: string; other: string }, count: number): string {
   return format(pluralRules.select(count) === 'one' ? forms.one : forms.other, { count });

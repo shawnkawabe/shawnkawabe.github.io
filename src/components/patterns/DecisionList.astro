@@ -1,0 +1,41 @@
+---
+// SPEC §5.3 item 4 "Approach" (ADR 0008, L-24): numbered prose, each decision followed by why and,
+// when given, the trade-off. Hairline rows, no cards.
+import type { ProjectSection } from '@/lib/schemas';
+import { localeFromPath, strings } from '@/lib/i18n';
+
+const ui = strings(localeFromPath(Astro.url.pathname));
+
+interface Props {
+  items: Extract<ProjectSection, { type: 'decisions' }>['items'];
+}
+
+const { items } = Astro.props;
+const t = ui.caseStudy;
+---
+
+<ol class="border-t border-border-1">
+  {items.map((item, index) => (
+    <li class="grid grid-cols-[2.5rem_1fr] gap-x-4 border-b border-border-1 py-6">
+      <span aria-hidden="true" class="font-mono text-1 text-on-surface-2">
+        {String(index + 1).padStart(2, '0')}
+      </span>
+      <div class="flex flex-col gap-3">
+        <p class="text-4 font-semibold text-balance">
+          <span class="sr-only">{t.decision}: </span>
+          {item.decision}
+        </p>
+        <p class="text-3">
+          <span class="text-on-surface-2">{t.why}: </span>
+          {item.why}
+        </p>
+        {item.tradeoff && (
+          <p class="text-3 text-on-surface-2">
+            <span>{t.tradeoff}: </span>
+            {item.tradeoff}
+          </p>
+        )}
+      </div>
+    </li>
+  ))}
+</ol>

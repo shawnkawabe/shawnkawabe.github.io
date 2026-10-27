@@ -32,14 +32,14 @@ case study, Skills, About, Contact).
 
 ## Inner pages (fed into L-21 to L-27)
 
-| Page            | Gaps                                                                                                                                                                                                                               | Goes to    |
-| --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
-| All inner pages | No shared header or row primitives yet, so each page invents its own boxes; `shadow-glow` and tilt on cards.                                                                                                                       | L-21, L-22 |
-| Work            | `ProjectCard` boxes with gradient covers that repeat the client name; cloud chips; capability filters as chips with badge counts; cloud-coloured dots.                                                                             | L-23       |
-| Case study      | A large gradient cover that only repeats the title; clouds as coloured-dot chips in the meta row; the gallery shows empty framed boxes while screenshots are unapproved; outcomes in boxes; stack as chips; next project in a box. | L-24       |
-| Skills          | Cloud tiles (`CloudBento`) with coloured icons and counts; skill chips with "N projects" badge counts; languages in boxes. Certifications already follow the benchmark.                                                            | L-25       |
-| About           | "How I work" in four boxes; companies in boxes with project chips; the resume action is a pill button instead of the round action.                                                                                                 | L-26       |
-| Contact         | Email and LinkedIn in boxes with accent icons.                                                                                                                                                                                     | L-27       |
+| Page            | Gaps                                                                                                                                                                            | Goes to    |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
+| All inner pages | No shared header or row primitives yet, so each page invents its own boxes; `shadow-glow` and tilt on cards.                                                                    | L-21, L-22 |
+| Work            | `ProjectCard` boxes with gradient covers that repeat the client name; cloud chips; capability filters as chips with badge counts; cloud-coloured dots.                          | L-23       |
+| Case study      | A large gradient cover that only repeats the title; clouds as coloured-dot chips in the meta row; decisions as cards; outcomes in boxes; stack as chips; next project in a box. | L-24       |
+| Skills          | Cloud tiles (`CloudBento`) with coloured icons and counts; skill chips with "N projects" badge counts; languages in boxes. Certifications already follow the benchmark.         | L-25       |
+| About           | "How I work" in four boxes; companies in boxes with project chips; the resume action is a pill button instead of the round action.                                              | L-26       |
+| Contact         | Email and LinkedIn in boxes with accent icons.                                                                                                                                  | L-27       |
 
 The inner-page fixes follow one pattern: names at display size on hairline rows (`SectionRow`,
 `LedgerRow`, `MetaList`, `InlineLinkList` from DESIGN §9), counts as quiet mono meta or gone, and

@@ -2,7 +2,7 @@ import { experimental_AstroContainer as AstroContainer } from 'astro/container';
 import { getContainerRenderer } from '@astrojs/react/container-renderer';
 import { loadRenderers } from 'astro:container';
 import { beforeAll, describe, expect, it } from 'vitest';
-import DecisionCards from '@/components/patterns/DecisionCards.astro';
+import DecisionList from '@/components/patterns/DecisionList.astro';
 import Gallery from '@/components/patterns/Gallery.astro';
 import Outcomes from '@/components/patterns/Outcomes.astro';
 import PrevNext from '@/components/patterns/PrevNext.astro';
@@ -55,17 +55,26 @@ describe('Outcomes', () => {
     expect(html).toContain('Happier team');
     expect(html).not.toContain('99%');
   });
+
+  it('is a plain hairline list without boxes or check icons (L-24)', async () => {
+    const html = await render(Outcomes, { items: [{ label: 'Shipped', measured: false }] });
+    expect(html).not.toContain('bg-surface-2');
+    expect(html).not.toContain('<svg');
+  });
 });
 
-describe('DecisionCards', () => {
+describe('DecisionList', () => {
   it('renders the trade-off only when given', async () => {
-    const html = await render(DecisionCards, {
+    const html = await render(DecisionList, {
       items: [
         { decision: 'Use Flow', why: 'Admins maintain it', tradeoff: 'Less control' },
         { decision: 'Use Apex', why: 'Volume' },
       ],
     });
     expect(html.match(/Trade-off/g)).toHaveLength(1);
+    expect(html).toContain('>01<');
+    expect(html).toContain('>02<');
+    expect(html).not.toContain('bg-surface-2');
   });
 });
 

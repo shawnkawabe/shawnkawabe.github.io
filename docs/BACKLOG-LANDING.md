@@ -256,10 +256,10 @@ tokens. Astro portfolio themes found were paid; none adopted.
       entries, Container tests where they branch.
 - [x] **L-22 Calm shell on inner pages** (S): backdrop on Home only; no `shadow-glow` or
       `data-tilt` on inner pages; sentence-case labels.
-- [ ] **L-23 Work as a ledger** (M): one row per project (title, subtitle, client and employer,
+- [x] **L-23 Work as a ledger** (M): one row per project (title, subtitle, client and employer,
       clouds), featured first; no gradient covers, no counts on filters; `?cap=` still filters;
       no-JS shows everything.
-- [ ] **L-24 Case study as a consultancy page** (L): meta list (client, role, delivered via,
+- [x] **L-24 Case study as a consultancy page** (L): meta list (client, role, delivered via,
       industry), then Problem, Approach, Outcome, Stack, Gallery, Next, each a `SectionRow`.
       No cover block, tilted band or outcome boxes. Sections hide when data is absent.
 - [ ] **L-25 Skills as a capability index** (M): clouds on one line, skill groups as label plus
@@ -635,6 +635,30 @@ continents. Each task below names what "done" means. Tasks run in the order give
     - Left for L-27: the contact form's glass and its focus glow.
     - Left for L-28: `src/lib/tilt.ts` and its test (now unused).
 - **L-23 and L-24:** follow the L-40 audit gaps for Work and the case study.
+  - Done (2026-10-27):
+    - **Work:**
+      - `PageHeader` and a `LedgerList` of `LedgerRow`s.
+      - Each row shows the title, the subtitle, and a meta line (`projectMeta`: the client, then
+        the employers, with the client named once).
+      - The clouds appear as text on the right.
+    - **Filters (`WorkFilters`):**
+      - Cloud chips only, with no counts and no colour dots.
+      - A `cap` in the URL still filters and shows as a chip.
+      - The result count is announced but visually hidden.
+      - The empty state is not a box.
+      - `site.workFacets.capabilities` is now unused, but the content field is kept.
+    - **Case study:**
+      - A back link, `PageHeader` and a `MetaList`: client, role, team size, delivered via,
+        industry (new i18n key) and clouds.
+      - Then challenge, approach (`DecisionList`, renamed from `DecisionCards`, as numbered
+        prose), outcomes (hairline list; numbers only when measured), stack (`InlineLinkList`),
+        gallery and takeaway, each a `SectionRow`.
+      - Prev and next are plain links.
+      - No cover, band or boxes.
+    - Unused now, for L-28: `ProjectCard`, `SnapshotBar`, `StackChips`, `Cover` (if Home
+      no longer needs it), and `SectionBand`.
+    - For L-29: the Work intro still says "Filter by cloud or capability". Shawn should reword
+      it, since capability filtering now only comes from links.
 - **L-25:** reuses `CredentialLedger` as it is. `CloudBento` and `StackChips` are retired if
   nothing else uses them.
 - **L-27:** the contact action is the `RoundAction`.

@@ -15,7 +15,7 @@ const INNER = [
   'src/components/patterns/PrevNext.astro',
   'src/components/patterns/SnapshotBar.astro',
   'src/components/patterns/Gallery.astro',
-  'src/components/patterns/DecisionCards.astro',
+  'src/components/patterns/DecisionList.astro',
   'src/components/patterns/WorkFilters.tsx',
   'src/components/ui/Chip.astro',
 ];

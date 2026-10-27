@@ -6,12 +6,8 @@ import en from '@/i18n/en.json';
 
 const props: WorkFiltersProps = {
   clouds: [
-    { id: 'sales-cloud', label: 'Sales Cloud', count: 2, accent: 'cloud-sales' },
-    { id: 'service-cloud', label: 'Service Cloud', count: 1 },
-  ],
-  capabilities: [
-    { id: 'lwc', label: 'LWC', count: 2 },
-    { id: 'apex', label: 'Apex', count: 1 },
+    { id: 'sales-cloud', label: 'Sales Cloud' },
+    { id: 'service-cloud', label: 'Service Cloud' },
   ],
   allSkills: { lwc: 'LWC', apex: 'Apex', gearset: 'Gearset' },
   total: 3,
@@ -62,17 +58,22 @@ describe('WorkFilters', () => {
   it('adds a valid skill id outside the facets as a selected chip and ignores unknown ids', () => {
     setup('?cap=gearset,nonsense&cloud=bogus');
     expect(chip(/^Gearset/)).toHaveAttribute('aria-pressed', 'true');
-    expect(chip(/^Gearset/)).toHaveTextContent('1');
+    expect(chip(/^Gearset/)).toHaveTextContent(/^Gearset$/);
     expect(screen.queryByRole('button', { name: /nonsense|bogus/ })).toBeNull();
     expect(shown()).toEqual(['c']);
   });
 
-  it('toggles chips, writes the URL and restores the previous state on Back', async () => {
-    const { user } = setup();
-    expect(shown()).toEqual(['a', 'b', 'c']);
+  it('shows only cloud chips, without counts or colour dots, until the URL names a capability (L-23)', () => {
+    setup();
+    expect(chip(/^Sales Cloud/)).toHaveTextContent(/^Sales Cloud$/);
+    expect(chip(/^Sales Cloud/).querySelector('[aria-hidden]')).toBeNull();
+    expect(screen.queryByRole('group', { name: 'Capability' })).toBeNull();
+    expect(screen.getByText('3 projects')).toHaveClass('sr-only');
+  });
 
-    await user.click(chip(/^LWC/));
-    expect(window.location.search).toBe('?cap=lwc');
+  it('toggles chips, writes the URL and restores the previous state on Back', async () => {
+    const { user } = setup('?cap=lwc');
+    expect(chip(/^LWC/)).toHaveAttribute('aria-pressed', 'true');
     expect(shown()).toEqual(['a', 'b']);
 
     await user.click(chip(/^Service Cloud/));

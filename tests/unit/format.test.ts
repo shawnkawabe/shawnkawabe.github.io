@@ -1,5 +1,12 @@
 import { describe, expect, it } from 'vitest';
-import { credentialParts, emphasisParts, employerNames, lastWordParts, plural } from '@/lib/format';
+import {
+  credentialParts,
+  emphasisParts,
+  employerNames,
+  lastWordParts,
+  plural,
+  projectMeta,
+} from '@/lib/format';
 import { experience } from './fixtures';
 
 describe('employerNames', () => {
@@ -66,5 +73,23 @@ describe('lastWordParts', () => {
 
   it('returns a single word as the last part', () => {
     expect(lastWordParts('Hello')).toEqual({ lead: '', last: 'Hello' });
+  });
+});
+
+describe('projectMeta', () => {
+  const experience = [
+    { id: 'globant', employer: 'Globant', role: 'Developer', projectIds: [] },
+    { id: 'nescara', employer: 'Nescara', role: 'Developer', projectIds: [] },
+    { id: 'orchid', employer: 'Orchid', role: 'Developer', projectIds: [] },
+  ];
+
+  it('names the client, then the delivering employers', () => {
+    expect(projectMeta({ client: 'BRF S.A.', employers: ['nescara', 'globant'] }, experience)).toBe(
+      'BRF S.A. · Nescara · Globant',
+    );
+  });
+
+  it('names the client once when the employer is the client', () => {
+    expect(projectMeta({ client: 'Orchid', employers: ['orchid'] }, experience)).toBe('Orchid');
   });
 });

@@ -2,10 +2,12 @@
 // DESIGN §9 LedgerRow (ADR 0008): one list item whose whole row is one link. Title, optional
 // subtitle and meta line, optional tags as plain text on the right, and an arrow that turns
 // `accent-1` on hover and focus. A hairline under each row; LedgerList draws the top one.
+import type { HTMLAttributes } from 'astro/types';
 import Icon from '@/components/ui/Icon.astro';
 import { localeFromPath, strings } from '@/lib/i18n';
 
-interface Props {
+// Other attributes (e.g. `data-*` for WorkFilters) go on the list item.
+type Props = Omit<HTMLAttributes<'li'>, 'title'> & {
   href: string;
   title: string;
   subtitle?: string;
@@ -14,14 +16,24 @@ interface Props {
   /** Opens in a new tab, with an up-right arrow and a "new tab" note for screen readers. */
   external?: boolean;
   level?: 2 | 3;
-}
+};
 
 const ui = strings(localeFromPath(Astro.url.pathname));
-const { href, title, subtitle, meta, tags = [], external = false, level = 3 } = Astro.props;
+const {
+  href,
+  title,
+  subtitle,
+  meta,
+  tags = [],
+  external = false,
+  level = 3,
+  class: className,
+  ...rest
+} = Astro.props;
 const Tag = `h${level}` as const;
 ---
 
-<li class="border-b border-border-1">
+<li class:list={['border-b border-border-1', className]} {...rest}>
   <a
     href={href}
     {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
