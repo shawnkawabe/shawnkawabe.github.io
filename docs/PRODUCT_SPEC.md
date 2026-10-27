@@ -62,7 +62,7 @@ Centred, small: "© {year} Shawn Kawabe", links (LinkedIn, GitHub, email), trade
 
 ### 4.5 SEO per page
 
-`<title>` pattern `"{site.seo.pages.{page}.title} — Shawn Kawabe"` (Home: `site.seo.homeTitle`; case studies: `"{project.title} — Shawn Kawabe"`), meta description from `site.seo.description` (Home), `site.seo.pages.{page}.description`, or `project.summary`, canonical URL, Open Graph + Twitter card (one default image `public/og/default.png` until P3-05 adds per-page images at `public/og/{route}.png`, 1200×630), `sitemap.xml` via `@astrojs/sitemap`, `robots.txt`, JSON-LD `Person` on Home and `CreativeWork` per case study.
+`<title>` pattern `"{site.seo.pages.{page}.title} | Shawn Kawabe"` (Home: `site.seo.homeTitle`; case studies: `"{project.title} | Shawn Kawabe"`), meta description from `site.seo.description` (Home), `site.seo.pages.{page}.description`, or `project.summary`, canonical URL, Open Graph + Twitter card (one default image `public/og/default.png` until P3-05 adds per-page images at `public/og/{route}.png`, 1200×630), `sitemap.xml` via `@astrojs/sitemap`, `robots.txt`, JSON-LD `Person` on Home and `CreativeWork` per case study.
 
 ## 5. Pages
 

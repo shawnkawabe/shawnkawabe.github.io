@@ -16,7 +16,7 @@ export function format(template: string, values: Record<string, string | number>
   );
 }
 
-/** `titleTemplate` comes from the page's locale strings ("{title} — {name}"). */
+/** `titleTemplate` comes from the page's locale strings ("{title} | {name}"). */
 export function pageMeta(site: Site, source: MetaSource, titleTemplate: string): PageMeta {
   if ('project' in source) {
     const { title, summary } = source.project;

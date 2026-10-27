@@ -1,5 +1,5 @@
 {
-  "titleTemplate": "{title} — {name}",
+  "titleTemplate": "{title} | {name}",
   "skipLink": "Saltar al contenido",
   "nav": {
     "collapse": "Contraer menú",

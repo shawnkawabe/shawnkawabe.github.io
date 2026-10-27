@@ -1,8 +1,8 @@
 {
   "name": "Shawn Kawabe",
   "role": "Desarrollador Salesforce Sénior y Especialista Funcional",
-  "location": "São Paulo, Brasil — trabajo de forma remota con clientes de EE. UU. y Brasil",
-  "intro": "Diseño y desarrollo **soluciones Salesforce** que los equipos realmente adoptan — desde **Lightning Web Components** y **Apex** hasta **integraciones con SAP**, **Data Cloud** y **migraciones de datos** — en **Sales, Service, Experience y Commerce Cloud**, siempre con base en las **buenas prácticas de Salesforce**.",
+  "location": "São Paulo, Brasil, trabajando de forma remota con clientes de EE. UU. y Brasil",
+  "intro": "Diseño y desarrollo **soluciones Salesforce** que los equipos realmente adoptan. Mi trabajo va desde **Lightning Web Components** y **Apex** hasta **integraciones con SAP**, **Data Cloud** y **migraciones de datos**, en **Sales, Service, Experience y Commerce Cloud**, siempre con base en las **buenas prácticas de Salesforce**.",
   "bio": [
     "Soy Desarrollador Salesforce Sénior y Especialista Funcional, con licenciatura en Ciencias de la Computación por el Centro Universitário FEI. He entregado proyectos Salesforce para empresas de los sectores automotriz, agronegocios, servicios financieros, alimentos, educación y comunicaciones.",
     "Trabajo en todo el ciclo de entrega: levanto requerimientos con los equipos de negocio, modelo datos, desarrollo con herramientas declarativas y programáticas, integro con ERPs y servicios en la nube, y documento para que el siguiente equipo pueda darle continuidad."
@@ -98,11 +98,11 @@
   "contact": {
     "intro": "¿Está contratando para un rol de Salesforce o necesita ayuda en un proyecto? Envíeme un mensaje o escríbame directamente por correo.",
     "projectTypes": ["Puesto de tiempo completo", "Contrato", "Consultoría", "Otro"],
-    "successMessage": "Gracias — su mensaje fue enviado. Normalmente, respondo en un plazo de dos días hábiles.",
+    "successMessage": "¡Gracias! Su mensaje fue enviado. Normalmente, respondo en un plazo de dos días hábiles.",
     "errorMessage": "Algo salió mal al enviar su mensaje. Inténtelo de nuevo o escríbame directamente por correo."
   },
   "seo": {
-    "homeTitle": "Shawn Kawabe — Desarrollador Salesforce Sénior",
+    "homeTitle": "Shawn Kawabe | Desarrollador Salesforce Sénior",
     "description": "Desarrollador Salesforce Sénior y Especialista Funcional: LWC, Apex, integraciones, Data Cloud y migración de datos en Sales, Service, Experience y Commerce Cloud.",
     "pages": {
       "work": {

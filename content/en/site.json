@@ -1,8 +1,8 @@
 {
   "name": "Shawn Kawabe",
   "role": "Senior Salesforce Developer & Functional Specialist",
-  "location": "São Paulo, Brazil — working remotely with US and Brazilian clients",
-  "intro": "I design and build **Salesforce solutions** that teams actually adopt — from **Lightning Web Components** and **Apex** to **SAP integrations**, **Data Cloud** and **data migrations** — across **Sales, Service, Experience and Commerce Cloud**, always grounded in **Salesforce best practices**.",
+  "location": "São Paulo, Brazil, working remotely with US and Brazilian clients",
+  "intro": "I design and build **Salesforce solutions** that teams actually adopt. My work runs from **Lightning Web Components** and **Apex** to **SAP integrations**, **Data Cloud** and **data migrations**, across **Sales, Service, Experience and Commerce Cloud**, always grounded in **Salesforce best practices**.",
   "bio": [
     "I'm a Senior Salesforce Developer and Functional Specialist with a Bachelor's in Computer Science from Centro Universitário FEI. I've delivered Salesforce work for automotive, agribusiness, financial services, food, education and communications companies.",
     "I work across the whole delivery: gathering requirements with business teams, modeling data, building with declarative and programmatic tools, integrating with ERPs and cloud services, and documenting so the next team can carry it forward."
@@ -98,11 +98,11 @@
   "contact": {
     "intro": "Hiring for a Salesforce role, or need help on a project? Send a message or email me directly.",
     "projectTypes": ["Full-time role", "Contract", "Consulting", "Other"],
-    "successMessage": "Thanks — your message is on its way. I usually reply within two working days.",
+    "successMessage": "Thanks, your message is on its way. I usually reply within two working days.",
     "errorMessage": "Something went wrong sending your message. Please try again, or email me directly."
   },
   "seo": {
-    "homeTitle": "Shawn Kawabe — Senior Salesforce Developer",
+    "homeTitle": "Shawn Kawabe | Senior Salesforce Developer",
     "description": "Senior Salesforce Developer and Functional Specialist: LWC, Apex, integrations, Data Cloud and data migration across Sales, Service, Experience and Commerce Cloud.",
     "pages": {
       "work": {
