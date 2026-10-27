@@ -280,8 +280,11 @@ L-25 (and on Home).
       items fading in sequence) rather than switch; hover transitions consistent across links,
       buttons and rows (one duration and easing, colour plus underline offset). Reduced motion
       keeps them instant.
-- [ ] **L-33 Contact section full width**: the Home contact section's background must span the
+- [x] **L-33 Contact section full width**: the Home contact section's background must span the
       whole viewport width, not the content column.
+  - Notes (2026-10-27): an untilted `SectionBand` now reaches under the rail gutter
+    (`lg:-left-30`); the contact band lost its −1° tilt, since a rotated band cannot touch both
+    edges without corner gaps (ADR 0008 retires the rotation anyway).
 
 - [x] **L-34 Footer notice as an independent professional**: the trademark notice now opens
       with "I work as an independent Salesforce professional", says the marks are named only to

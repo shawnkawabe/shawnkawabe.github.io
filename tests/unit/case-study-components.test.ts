@@ -92,6 +92,15 @@ describe('SectionBand', () => {
     expect(html).toContain('bg-band-b');
     expect(html).toMatch(/aria-hidden="true"[^>]*><\/div>/);
   });
+
+  it('reaches under the rail gutter only when flat (L-33)', async () => {
+    const flat = await render(SectionBand, { tone: 'a' });
+    expect(flat).toContain('lg:-left-30');
+    expect(flat).not.toContain('overflow-x-clip');
+    const tilted = await render(SectionBand, { tone: 'a', tilt: 1 });
+    expect(tilted).not.toContain('lg:-left-30');
+    expect(tilted).toContain('overflow-x-clip');
+  });
 });
 
 describe('Gallery', () => {
