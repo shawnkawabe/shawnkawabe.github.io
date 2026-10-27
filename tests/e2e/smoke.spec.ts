@@ -98,9 +98,25 @@ test('the language switcher keeps the page and remembers the choice', async ({
   test.skip((await switcher.count()) === 0, 'Only one language is built.');
   if (testInfo.project.name === 'mobile')
     await page.getByRole('button', { name: 'Open menu' }).click();
+  await page.locator('[data-language-menu] summary:visible').click();
   await page.locator('[data-locale-link="pt"]:visible').click();
   await expect(page).toHaveURL((url) => url.pathname === '/pt/work/');
   await expect(page.locator('html')).toHaveAttribute('lang', 'pt-BR');
   await page.goto('/');
   await expect(page).toHaveURL((url) => url.pathname === '/pt/');
+});
+
+test('the desktop rail collapses and stays collapsed on the next page', async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name === 'mobile', 'The rail is desktop only.');
+  await page.goto('/en/');
+  const rail = page.locator('nav:has([data-rail-toggle])');
+  await rail.getByRole('button', { name: 'Collapse menu' }).click();
+  await expect(rail.getByRole('link', { name: 'Work' })).toBeHidden();
+  await page.goto('/en/work/');
+  const toggle = rail.getByRole('button', { name: 'Expand menu' });
+  await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+  await toggle.click();
+  await expect(rail.getByRole('link', { name: 'Work' })).toBeVisible();
 });
