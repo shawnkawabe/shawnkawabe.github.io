@@ -1,8 +1,9 @@
 ---
 // Desktop nav rail (SPEC §4.1, DESIGN §9): floating pill, icon links with CSS-only tooltips.
 // Collapsible to a single handle (BACKLOG-LANDING L-02); global.css hides the body on <html data-rail>.
-// Collapsed, the handle is a circle showing where the reader is (L-09): the page's icon, or on Home
-// the current section's number, which src/lib/rail.ts keeps in sync with the section indicator.
+// The handle's mark is three lines when collapsed and bends into three chevrons as the rail opens
+// (L-44): each row is two half-strokes that rotate about the shared centre, driven by data-rail.
+// Collapsed, its name says where the reader is; on Home src/lib/rail.ts follows the section.
 import Icon from '@/components/ui/Icon.astro';
 import { getSite } from '@/lib/content';
 import { externalLinks, isActive, pageLinks } from '@/lib/nav';
@@ -16,9 +17,8 @@ const ui = strings(locale);
 const pathname = Astro.url.pathname;
 const groups = [pageLinks(locale), externalLinks(getSite(locale), locale)];
 const current = groups[0].find((link) => isActive(pathname, link.href));
-const onHome = current?.icon === 'home';
-// On Home the handle shows the section number, so the name includes it (WCAG 2.5.3 label in name).
-const currentName = onHome ? `01 ${ui.home.intro}` : current?.label;
+const currentName = current?.icon === 'home' ? ui.home.intro : current?.label;
+const rows = [7, 12, 17];
 
 const item =
   'group relative flex size-10 items-center justify-center rounded-pill text-on-surface-2 no-underline transition-colors duration-150 ease-standard hover:bg-surface-3 hover:text-on-surface-1';
@@ -41,20 +41,26 @@ const tooltip =
     aria-controls="rail-body"
     aria-expanded="true"
     aria-label={ui.nav.collapse}
-    class:list={[item, 'cursor-pointer']}
+    class:list={[item, 'shrink-0 cursor-pointer']}
   >
-    <span data-rail-icon="collapse">
-      <Icon name="rail-collapse" />
-    </span>
-    <span data-rail-icon="expand">
-      {onHome ? (
-        <span data-rail-section class="font-mono text-2 tracking-label text-on-surface-1">
-          01
-        </span>
-      ) : (
-        <Icon name={current?.icon ?? 'rail-expand'} />
-      )}
-    </span>
+    <svg
+      data-rail-mark
+      aria-hidden="true"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.5"
+      stroke-linecap="round"
+    >
+      {rows.map((y, row) => (
+        <g style={`--pf-mark-row: ${row}`}>
+          <line data-half="start" x1="5" y1={y} x2="12" y2={y} />
+          <line data-half="end" x1="12" y1={y} x2="19" y2={y} />
+        </g>
+      ))}
+    </svg>
   </button>
   <div id="rail-body" data-rail-body class="flex flex-col items-center gap-2">
     <span class="my-1 h-px w-6 bg-border-1" aria-hidden="true"></span>

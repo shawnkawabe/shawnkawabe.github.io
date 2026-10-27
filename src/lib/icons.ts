@@ -8,8 +8,6 @@ import {
   ChevronDown,
   ChevronLeft,
   ChevronRight,
-  ChevronsDown,
-  ChevronsUp,
   ExternalLink,
   FileText,
   House,
@@ -53,8 +51,6 @@ export const icons = {
   'chevron-left': ChevronLeft,
   'chevron-right': ChevronRight,
   // The rail folds upward into a circle (L-09), so its toggle points up and down (L-19).
-  'rail-collapse': ChevronsUp,
-  'rail-expand': ChevronsDown,
   pause: Pause,
   play: Play,
 } satisfies Record<string, LucideIcon>;

@@ -127,7 +127,7 @@ test('the desktop rail starts collapsed, and an expanded rail stays expanded on 
   await expect(rail.getByRole('link', { name: 'Work' })).toBeHidden();
 });
 
-test('collapsed, the rail is a circle that follows the Home section', async ({
+test('collapsed, the rail is a circle of three lines that names the Home section', async ({
   page,
 }, testInfo) => {
   test.skip(testInfo.project.name === 'mobile', 'The rail is desktop only.');
@@ -140,13 +140,20 @@ test('collapsed, the rail is a circle that follows the Home section', async ({
       return Math.round(box.height) - Math.round(box.width);
     })
     .toBe(0);
+  // L-44: collapsed, every half-stroke lies flat, so the rows read as three lines.
+  const turns = () =>
+    rail
+      .locator('[data-rail-mark] line')
+      .evaluateAll((lines) => lines.map((line) => getComputedStyle(line).rotate));
+  await expect.poll(turns).toEqual(Array(6).fill('0deg'));
   await page.locator('#clouds').scrollIntoViewIfNeeded();
   await expect(rail.locator('[data-rail-toggle]')).toHaveAttribute(
     'aria-label',
-    /^Expand menu, current: /,
+    /^Expand menu, current: (?!Intro)/,
   );
-  await expect(rail.locator('[data-rail-section]')).not.toHaveText('01');
+  // Expanded, the halves turn up into three chevrons.
   await rail.locator('[data-rail-toggle]').click();
+  await expect.poll(turns).toEqual(['-35deg', '35deg', '-35deg', '35deg', '-35deg', '35deg']);
 });
 
 test('the hero globe shows its poster and cloud links, and its toggle stops the moons', async ({
@@ -170,4 +177,35 @@ test('the hero globe shows its poster and cloud links, and its toggle stops the 
   const before = await moon.evaluate((element) => element.style.transform);
   await page.waitForTimeout(600);
   expect(await moon.evaluate((element) => element.style.transform)).toBe(before);
+});
+
+// L-43: the hand-off scales the stage; the canvas must keep its layout size, or a jump back to
+// Intro left it oversized with the sphere framed off screen.
+test('the hero globe is whole again after scrolling away and jumping back to Intro', async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name !== 'desktop', 'the live globe is desktop-only');
+  await page.goto('/en/');
+  const webgl2 = await page.evaluate(() => !!document.createElement('canvas').getContext('webgl2'));
+  test.skip(!webgl2, 'no WebGL2 in this browser');
+  const globe = page.locator('[data-hero-globe]');
+  await expect(globe).toHaveAttribute('data-live', '', { timeout: 15_000 });
+  const scene = globe.locator('[data-globe-scene]');
+  const canvasFitsScene = () =>
+    scene.evaluate((host: HTMLElement) => {
+      const canvas = host.querySelector('canvas')!;
+      return canvas.offsetWidth === host.offsetWidth && canvas.offsetHeight === host.offsetHeight;
+    });
+
+  await page.evaluate(() => window.scrollTo(0, window.innerHeight / 2));
+  await page.waitForTimeout(400);
+  expect(await canvasFitsScene()).toBe(true);
+  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+  await page.waitForTimeout(600);
+  await page.evaluate(() => window.scrollTo(0, 0));
+
+  await expect.poll(canvasFitsScene).toBe(true);
+  await expect
+    .poll(() => globe.locator('.pf-globe__stage').evaluate((el) => getComputedStyle(el).opacity))
+    .toBe('1');
 });
