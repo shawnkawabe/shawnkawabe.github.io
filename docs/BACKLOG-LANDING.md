@@ -194,7 +194,12 @@ Research behind L-05 to L-08 is summarised in [ADR 0006](adr/0006-landing-scroll
     left. Now chevrons-up to collapse and chevrons-down as the collapsed fallback (inner pages
     without a matching icon still show their own page icon; Home shows the section number).
 
-- [ ] **L-16 Intro section redesign** (research done 2026-10-27; Shawn chose **B**)
+- [x] **L-16 Intro section redesign** (research done 2026-10-27; Shawn chose **B**)
+  - Notes (2026-10-27): new `site.headline` ("Salesforce solutions that teams actually adopt.",
+    reworded from the old intro) in all locales; `intro` shortened to one sentence with two bold
+    terms. The fact card lists clouds with projects, certification titles in ledger order and
+    `site.location`; empty rows hide. It covers the data core on desktop; the scene stays visible
+    around it. No live template pairs a hero with a fact panel, so it follows our tokens.
   - Diagnosis: the intro is one long sentence with seven bold terms, so emphasis stops working;
     a 30-second reader cannot find "which clouds, which credentials".
   - A. Statement first (Brittany Chiang, Rauno): name, role, one-line claim, one stack line,
@@ -300,29 +305,29 @@ L-25 (and on Home).
 
 ## Order and status
 
-| #            | Task                       | Status   |
-| ------------ | -------------------------- | -------- |
-| L-01         | Resume link                | done     |
-| L-03         | Drop solution architecture | done     |
-| L-04         | AWS label                  | done     |
-| L-02         | Rail + language menu       | done     |
-| L-08         | Landing structure          | done     |
-| L-05         | Clouds                     | done     |
-| L-06         | Products & tools           | done     |
-| L-07         | Certifications             | done     |
-| L-09         | Collapsed rail as a circle | done     |
-| L-10         | Products moving list       | done     |
-| L-11         | Typography                 | done     |
-| L-12         | Background                 | done     |
-| L-13         | Remove availability chip   | done     |
-| L-14         | Favicon                    | done     |
-| L-15         | No em dash                 | done     |
-| L-16         | Intro redesign             | chosen B |
-| L-17         | Certifications redesign    | done     |
-| L-18         | Cloud cards simplified     | done     |
-| L-19         | Rail toggle icon           | done     |
-| L-20 to L-30 | Professional inner pages   | planned  |
-| L-31         | Better favicon             | done     |
-| L-32         | Better transitions         | done     |
-| L-33         | Contact full width         | done     |
-| L-34         | Footer notice              | done     |
+| #            | Task                       | Status  |
+| ------------ | -------------------------- | ------- |
+| L-01         | Resume link                | done    |
+| L-03         | Drop solution architecture | done    |
+| L-04         | AWS label                  | done    |
+| L-02         | Rail + language menu       | done    |
+| L-08         | Landing structure          | done    |
+| L-05         | Clouds                     | done    |
+| L-06         | Products & tools           | done    |
+| L-07         | Certifications             | done    |
+| L-09         | Collapsed rail as a circle | done    |
+| L-10         | Products moving list       | done    |
+| L-11         | Typography                 | done    |
+| L-12         | Background                 | done    |
+| L-13         | Remove availability chip   | done    |
+| L-14         | Favicon                    | done    |
+| L-15         | No em dash                 | done    |
+| L-16         | Intro redesign             | done    |
+| L-17         | Certifications redesign    | done    |
+| L-18         | Cloud cards simplified     | done    |
+| L-19         | Rail toggle icon           | done    |
+| L-20 to L-30 | Professional inner pages   | planned |
+| L-31         | Better favicon             | done    |
+| L-32         | Better transitions         | done    |
+| L-33         | Contact full width         | done    |
+| L-34         | Footer notice              | done    |

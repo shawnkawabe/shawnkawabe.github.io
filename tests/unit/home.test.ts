@@ -24,16 +24,30 @@ describe('Hero', () => {
   const site = {
     name: 'Ada Lovelace',
     role: 'Engineer',
+    headline: 'Engines that compute.',
     intro: 'I build **engines** that work.',
+    location: 'London',
     links: { resume: 'https://example.com/cv.pdf' },
   };
 
-  it('renders the name as h1, the intro emphasis and both actions', async () => {
+  it('renders the name as h1, the headline, the intro emphasis and both actions', async () => {
     const html = await render(Hero, { site });
     expect(html).toMatch(/<h1[^>]*><span class="sr-only">Ada Lovelace<\/span>/);
+    expect(html).toContain('Engines that compute.');
     expect(html).toMatch(/<strong[^>]*>engines<\/strong> that work\./);
     expect(html).toContain('href="/en/work"');
     expect(html).toMatch(/href="https:\/\/example\.com\/cv\.pdf" target="_blank"/);
+  });
+
+  it('lists the facts it has in the card and drops empty rows (L-16)', async () => {
+    const html = await render(Hero, {
+      site,
+      facts: { clouds: ['Sales Cloud', 'Data Cloud'], certifications: [] },
+    });
+    expect(html).toContain('<aside aria-label="At a glance"');
+    expect(html).toMatch(/<dt[^>]*>Clouds<\/dt>\s*<dd[^>]*>Sales Cloud, Data Cloud<\/dd>/);
+    expect(html).toMatch(/<dt[^>]*>Based in<\/dt>\s*<dd[^>]*>London<\/dd>/);
+    expect(html).not.toContain('>Certifications</dt>');
   });
 });
 

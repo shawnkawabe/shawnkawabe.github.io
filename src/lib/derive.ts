@@ -1,5 +1,6 @@
 // Pure functions over content (ARCHITECTURE §3.2). No dates anywhere: order is curated.
 import type { Certification, Project, Skill } from './schemas';
+import { credentialParts } from './format';
 
 export type SkillStat = { id: string; projectCount: number; projectIds: string[] };
 
@@ -158,4 +159,23 @@ export function credentialSkills(
     .flatMap((id) => byId.get(id) ?? [])
     .sort((a, b) => Number(b.group === 'clouds') - Number(a.group === 'clouds'))
     .map(({ id, label, accent }) => ({ id, label, accent }));
+}
+
+/** Ledger order for certifications (BACKLOG-LANDING L-17). */
+export const CREDENTIAL_DOMAINS = ['development', 'data-ai', 'admin'] as const;
+
+/** The issuer every label shares ("Salesforce Certified"), or '' when they differ or are absent. */
+export function sharedIssuer(certifications: readonly Pick<Certification, 'label'>[]): string {
+  const issuers = new Set(certifications.map((c) => credentialParts(c.label).issuer));
+  return issuers.size === 1 ? [...issuers][0] : '';
+}
+
+/** Certification titles in ledger order, without the shared issuer (hero fact card, L-16). */
+export function credentialTitles(certifications: readonly Certification[]): string[] {
+  const issuer = sharedIssuer(certifications);
+  return CREDENTIAL_DOMAINS.flatMap((domain) =>
+    certifications
+      .filter((c) => c.domain === domain)
+      .map((c) => (issuer ? credentialParts(c.label).title : c.label)),
+  );
 }

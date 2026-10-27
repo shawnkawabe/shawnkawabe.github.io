@@ -1,8 +1,9 @@
 ---
-// SPEC §5.1 hero: name at display size, role, intro with **terms** brighter, two
-// actions. Static HTML so the name is the LCP element; the gradient poster sits behind it, and the
-// page passes the data-core scene (HeroScene) into the `scene` slot. The first full-viewport
-// landing section (BACKLOG-LANDING L-08).
+// SPEC §5.1 hero (BACKLOG-LANDING L-16, direction B): name at display size, role, a one-line claim,
+// a short intro with **terms** brighter, two actions, and a solid fact card (clouds,
+// certifications, location) a recruiter can scan. Static HTML so the name is the LCP element; the
+// gradient poster sits behind it, and the page passes the data-core scene (HeroScene) into the
+// `scene` slot. The first full-viewport landing section (L-08).
 import { buttonVariants } from '@/components/ui/button';
 import Icon from '@/components/ui/Icon.astro';
 import SplitWords from '@/components/ui/SplitWords.astro';
@@ -15,11 +16,18 @@ const locale = localeFromPath(Astro.url.pathname);
 const ui = strings(locale);
 
 interface Props {
-  site: Pick<Site, 'name' | 'role' | 'intro' | 'links'>;
+  site: Pick<Site, 'name' | 'role' | 'headline' | 'intro' | 'location' | 'links'>;
+  /** Cloud and certification names for the fact card; an empty list hides its row. */
+  facts?: { clouds: string[]; certifications: string[] };
 }
 
-const { site } = Astro.props;
+const { site, facts = { clouds: [], certifications: [] } } = Astro.props;
 const t = ui.home;
+const rows = [
+  { label: t.facts.clouds, value: facts.clouds.join(', ') },
+  { label: t.facts.certifications, value: facts.certifications.join(', ') },
+  { label: t.facts.location, value: site.location },
+].filter((row) => row.value);
 ---
 
 <section
@@ -33,43 +41,65 @@ const t = ui.home;
   </div>
   <div
     data-landing-content
-    class="mx-auto flex w-full max-w-300 flex-col items-start gap-6 px-4 py-20 sm:px-6 lg:px-8 lg:py-24"
+    class="mx-auto grid w-full max-w-300 items-center gap-12 px-4 py-20 sm:px-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,24rem)] lg:px-8 lg:py-24"
   >
-    <div class="flex max-w-180 flex-col gap-4">
-      <h1 class="font-display text-9 font-bold tracking-display text-balance">
-        <SplitWords text={site.name} />
-      </h1>
-      <p class="font-heading text-5 text-on-surface-1">
-        <SplitWords text={site.role} offset={splitWords(site.name).length} />
-      </p>
-    </div>
-    <p class="max-w-180 text-4 text-on-surface-2">
-      {emphasisParts(site.intro).map((part) =>
-        part.strong ? (
-          <strong class="font-medium text-on-surface-1">{part.text}</strong>
-        ) : (
-          part.text
-        ),
+    <div class="flex flex-col items-start gap-6">
+      <div class="flex max-w-180 flex-col gap-4">
+        <h1 class="font-display text-9 font-bold tracking-display text-balance">
+          <SplitWords text={site.name} />
+        </h1>
+        <p class="font-heading text-5 text-on-surface-1">
+          <SplitWords text={site.role} offset={splitWords(site.name).length} />
+        </p>
+      </div>
+      {site.headline && (
+        <p class="max-w-180 font-heading text-6 font-semibold tracking-display text-balance text-on-surface-1">
+          {site.headline}
+        </p>
       )}
-    </p>
-    <div class="flex flex-wrap gap-3 pt-2">
-      <a
-        href={localePath(locale, '/work')}
-        class:list={[buttonVariants({ variant: 'brand', size: 'lg' }), 'no-underline']}
-      >
-        {t.seeWork}
-        <Icon name="arrow-right" />
-      </a>
-      <a
-        href={site.links.resume}
-        target="_blank"
-        rel="noopener noreferrer"
-        class:list={[buttonVariants({ variant: 'neutral', size: 'lg' }), 'no-underline']}
-      >
-        {t.resume}
-        <Icon name="external" />
-        <span class="sr-only"> ({ui.nav.newTab})</span>
-      </a>
+      <p class="max-w-160 text-4 text-on-surface-2">
+        {emphasisParts(site.intro).map((part) =>
+          part.strong ? (
+            <strong class="font-medium text-on-surface-1">{part.text}</strong>
+          ) : (
+            part.text
+          ),
+        )}
+      </p>
+      <div class="flex flex-wrap gap-3 pt-2">
+        <a
+          href={localePath(locale, '/work')}
+          class:list={[buttonVariants({ variant: 'brand', size: 'lg' }), 'no-underline']}
+        >
+          {t.seeWork}
+          <Icon name="arrow-right" />
+        </a>
+        <a
+          href={site.links.resume}
+          target="_blank"
+          rel="noopener noreferrer"
+          class:list={[buttonVariants({ variant: 'neutral', size: 'lg' }), 'no-underline']}
+        >
+          {t.resume}
+          <Icon name="external" />
+          <span class="sr-only"> ({ui.nav.newTab})</span>
+        </a>
+      </div>
     </div>
+    {rows.length > 0 && (
+      <aside
+        aria-label={t.facts.label}
+        class="rounded-lg border border-border-1 bg-surface-2 p-6 shadow-1"
+      >
+        <dl class="flex flex-col">
+          {rows.map((row) => (
+            <div class="grid gap-1 border-b border-border-1 py-4 first:pt-0 last:border-b-0 last:pb-0">
+              <dt class="font-mono text-1 tracking-label text-on-surface-2">{row.label}</dt>
+              <dd class="text-3 text-on-surface-1">{row.value}</dd>
+            </div>
+          ))}
+        </dl>
+      </aside>
+    )}
   </div>
 </section>

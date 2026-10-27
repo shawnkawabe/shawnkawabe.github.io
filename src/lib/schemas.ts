@@ -107,6 +107,7 @@ export const siteSchema = z.object({
   name: z.string(),
   role: z.string(),
   location: z.string(),
+  headline: z.string(), // one-line claim under the role (BACKLOG-LANDING L-16)
   intro: z.string(), // **term** = brighter highlight
   bio: z.array(z.string()).min(1),
   principles: z.array(z.object({ title: z.string(), body: z.string() })),

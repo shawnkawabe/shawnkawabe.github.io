@@ -16,7 +16,7 @@ import Icon from '@/components/ui/Icon.astro';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { getCertifications, getProjects, getSite, getSkills, siteLocales } from '@/lib/content';
 import { localePath, strings, toLocale } from '@/lib/i18n';
-import { cloudStats, skillStats, sortProjects } from '@/lib/derive';
+import { cloudStats, credentialTitles, skillStats, sortProjects } from '@/lib/derive';
 import { pageMeta, personJsonLd } from '@/lib/seo';
 
 export function getStaticPaths() {
@@ -47,6 +47,11 @@ const products = skillStats(productSkills, projects).map((stat, index) => ({
   label: productSkills[index].label,
   projectCount: stat.projectCount,
 }));
+// Hero fact card (L-16): clouds with projects, and certification titles in ledger order.
+const facts = {
+  clouds: clouds.filter((cloud) => cloud.projectCount > 0).map((cloud) => cloud.label),
+  certifications: credentialTitles(certifications),
+};
 const t = ui.home;
 const sections = [
   { id: 'intro', label: t.intro },
@@ -62,7 +67,7 @@ const sections = [
   meta={pageMeta(site, { page: 'home' }, ui.titleTemplate)}
   jsonLd={personJsonLd(site, siteUrl)}
 >
-  <Hero site={site}>
+  <Hero site={site} facts={facts}>
     <HeroScene slot="scene" />
   </Hero>
 
