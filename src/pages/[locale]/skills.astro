@@ -1,12 +1,16 @@
 ---
-// SPEC §5.4: clouds bento, skill groups with derived counts, certifications and languages.
-import CloudBento from '@/components/patterns/CloudBento.astro';
+// SPEC §5.4 (ADR 0008, L-25): a capability index. Clouds with projects on one line, then each
+// skill group, the certifications ledger and the languages, each a SectionRow. No bento, counts,
+// tickets or second clouds group.
 import CredentialLedger from '@/components/patterns/CredentialLedger.astro';
 import SkillGroups from '@/components/patterns/SkillGroups.astro';
+import InlineLinkList from '@/components/ui/InlineLinkList.astro';
+import PageHeader from '@/components/ui/PageHeader.astro';
+import SectionRow from '@/components/ui/SectionRow.astro';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { getCertifications, getProjects, getSite, getSkills, siteLocales } from '@/lib/content';
 import { localePath, strings, toLocale } from '@/lib/i18n';
-import { cloudStats, skillGroupChips } from '@/lib/derive';
+import { skillGroupChips } from '@/lib/derive';
 import { pageMeta } from '@/lib/seo';
 
 export function getStaticPaths() {
@@ -22,53 +26,52 @@ const [projects, skills, certifications] = await Promise.all([
   getSkills(locale),
   getCertifications(locale),
 ]);
-const clouds = cloudStats(skills, projects, certifications);
 const groups = skillGroupChips(site.skillGroups, skills, projects, localePath(locale, '/work'));
+const clouds = (groups.find((group) => group.id === 'clouds')?.skills ?? []).filter(
+  (cloud) => cloud.href,
+);
+const otherGroups = groups.filter((group) => group.id !== 'clouds');
 const t = ui.skills;
 ---
 
 <BaseLayout meta={pageMeta(site, { page: 'skills' }, ui.titleTemplate)}>
-  <div class="mx-auto flex w-full max-w-300 flex-col gap-16 px-4 py-16 sm:px-6 lg:gap-20 lg:px-8 lg:py-24">
-    <header class="flex max-w-180 flex-col gap-4">
-      <h1>{site.seo.pages.skills.title}</h1>
-      <p class="text-4 text-on-surface-2">{site.seo.pages.skills.description}</p>
-    </header>
+  <div class="mx-auto flex w-full max-w-300 flex-col gap-12 px-4 py-16 sm:px-6 lg:gap-16 lg:px-8 lg:py-24">
+    <PageHeader title={site.seo.pages.skills.title} lead={site.seo.pages.skills.description} />
 
-    {clouds.length > 0 && (
-      <section aria-labelledby="clouds-title" class="flex flex-col gap-8">
-        <h2 id="clouds-title">{t.clouds}</h2>
-        <CloudBento clouds={clouds} />
-      </section>
-    )}
+    <div class="flex flex-col gap-12">
+      {clouds.length > 0 && (
+        <SectionRow label={t.clouds} id="clouds-title">
+          <InlineLinkList
+            items={clouds.map(({ label, href }) => ({ label, href }))}
+            class="text-5"
+          />
+        </SectionRow>
+      )}
 
-    <section aria-labelledby="groups-title" class="flex flex-col gap-8">
-      <h2 id="groups-title">{t.groups}</h2>
-      <SkillGroups groups={groups} />
-    </section>
+      <SkillGroups groups={otherGroups} />
 
-    {certifications.length > 0 && (
-      <section aria-labelledby="certifications-title" class="flex flex-col gap-8">
-        <h2 id="certifications-title">{t.certifications}</h2>
-        <CredentialLedger
-          certifications={certifications}
-          skills={skills}
-          credentialsUrl={site.links.credentials}
-        />
-      </section>
-    )}
+      {certifications.length > 0 && (
+        <SectionRow label={t.certifications} id="certifications-title" stacked>
+          <CredentialLedger
+            certifications={certifications}
+            skills={skills}
+            credentialsUrl={site.links.credentials}
+          />
+        </SectionRow>
+      )}
 
-    {site.languages.length > 0 && (
-      <section aria-labelledby="languages-title" class="flex flex-col gap-8">
-        <h2 id="languages-title">{t.languages}</h2>
-        <dl class="grid gap-4 sm:grid-cols-2">
-          {site.languages.map((language) => (
-            <div class="flex flex-col gap-1 rounded-md border border-border-1 bg-surface-2 p-5">
-              <dt class="text-4 font-semibold">{language.label}</dt>
-              <dd class="text-2 text-on-surface-2">{language.level}</dd>
-            </div>
-          ))}
-        </dl>
-      </section>
-    )}
+      {site.languages.length > 0 && (
+        <SectionRow label={t.languages} id="languages-title">
+          <dl class="flex flex-col gap-3">
+            {site.languages.map((language) => (
+              <div class="flex flex-wrap items-baseline gap-x-3">
+                <dt class="text-4">{language.label}</dt>
+                <dd class="text-3 text-on-surface-2">{language.level}</dd>
+              </div>
+            ))}
+          </dl>
+        </SectionRow>
+      )}
+    </div>
   </div>
 </BaseLayout>

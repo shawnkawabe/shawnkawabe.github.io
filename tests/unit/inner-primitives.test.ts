@@ -56,6 +56,12 @@ describe('SectionRow', () => {
     expect(html).toContain('aria-labelledby="approach"');
     expect(html).toMatch(/<h3 id="approach"[^>]*>\s*Approach\s*<\/h3>/);
     expect(html).toContain('<p>Body</p>');
+    expect(html).toContain('lg:grid-cols-[11rem_minmax(0,45rem)]');
+  });
+
+  it('keeps the label above a full-width body when stacked', async () => {
+    const html = await render(SectionRow, { label: 'Certifications', id: 'c', stacked: true });
+    expect(html).not.toContain('lg:grid-cols');
   });
 });
 
@@ -110,7 +116,7 @@ describe('InlineLinkList', () => {
     const html = await render(InlineLinkList, {
       items: [{ label: 'Apex', href: '/en/work/?cap=apex' }, { label: 'Shell' }],
     });
-    expect(html).toContain('<a href="/en/work/?cap=apex">Apex</a>');
+    expect(html).toMatch(/<a href="\/en\/work\/\?cap=apex" class="underline">\s*Apex\s*<\/a>/);
     expect(html).toMatch(/<span class="text-on-surface-1">Shell<\/span>/);
     expect(html.match(/aria-hidden="true"/g)).toHaveLength(1);
     expect(await render(InlineLinkList, { items: [] })).not.toContain('<ul');

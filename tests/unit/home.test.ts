@@ -158,7 +158,7 @@ describe('CredentialLedger (L-17)', () => {
 });
 
 describe('SkillGroups (Skills page)', () => {
-  it('links skills with projects, with a pluralised count, and leaves the rest as text', async () => {
+  it('gives each group a labelled row and links only skills with projects, with no counts (L-25)', async () => {
     const html = await render(SkillGroups, {
       groups: [
         {
@@ -171,9 +171,10 @@ describe('SkillGroups (Skills page)', () => {
         },
       ],
     });
-    expect(html).toMatch(/<a href="\/en\/work\?cap=apex"[^>]*>[\s\S]*Apex[\s\S]*1 project</);
-    expect(html).toMatch(/<span[^>]*>\s*Aura\s*<\/span>/);
-    expect(html).not.toContain('0 projects');
+    expect(html).toContain('aria-labelledby="skills-development"');
+    expect(html).toMatch(/<a href="\/en\/work\?cap=apex" class="underline">\s*Apex\s*<\/a>/);
+    expect(html).toMatch(/<span class="text-on-surface-1">Aura<\/span>/);
+    expect(html).not.toMatch(/\d project/);
   });
 });
 

@@ -1,12 +1,9 @@
 ---
-// SPEC §5.4 item 2: one row of chips per skill group. "Label · N projects"; a chip links to the
-// filtered Work page only when the skill has projects. No ratings of any kind.
-import Chip from '@/components/ui/Chip.astro';
+// SPEC §5.4 item 2 (ADR 0008, L-25): one SectionRow per skill group, its skills as an inline list.
+// A skill links to the filtered Work page only when it has projects. No counts or ratings.
+import InlineLinkList from '@/components/ui/InlineLinkList.astro';
+import SectionRow from '@/components/ui/SectionRow.astro';
 import type { SkillChip } from '@/lib/derive';
-import { plural } from '@/lib/format';
-import { localeFromPath, strings } from '@/lib/i18n';
-
-const ui = strings(localeFromPath(Astro.url.pathname));
 
 interface Props {
   groups: { id: string; label: string; skills: SkillChip[] }[];
@@ -15,24 +12,8 @@ interface Props {
 const { groups } = Astro.props;
 ---
 
-<div class="flex flex-col gap-10">
-  {groups.map((group) => (
-    <div class="flex flex-col gap-4">
-      <h3 class="text-5">{group.label}</h3>
-      <ul class="flex flex-wrap gap-2">
-        {group.skills.map((skill) => (
-          <li>
-            <Chip href={skill.href} accent={skill.accent} wrap>
-              {skill.label}
-              {skill.count > 0 && (
-                <span class="font-mono text-1 text-on-surface-2">
-                  · {plural(ui.cards.projects, skill.count)}
-                </span>
-              )}
-            </Chip>
-          </li>
-        ))}
-      </ul>
-    </div>
-  ))}
-</div>
+{groups.map((group) => (
+  <SectionRow label={group.label} id={`skills-${group.id}`}>
+    <InlineLinkList items={group.skills.map(({ label, href }) => ({ label, href }))} />
+  </SectionRow>
+))}

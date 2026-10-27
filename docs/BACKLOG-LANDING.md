@@ -262,7 +262,7 @@ tokens. Astro portfolio themes found were paid; none adopted.
 - [x] **L-24 Case study as a consultancy page** (L): meta list (client, role, delivered via,
       industry), then Problem, Approach, Outcome, Stack, Gallery, Next, each a `SectionRow`.
       No cover block, tilted band or outcome boxes. Sections hide when data is absent.
-- [ ] **L-25 Skills as a capability index** (M): clouds on one line, skill groups as label plus
+- [x] **L-25 Skills as a capability index** (M): clouds on one line, skill groups as label plus
       list, certifications as the L-17 ledger, languages. No bento, counts, tickets or
       duplicate cloud group. Mobile page about a third of today's height.
 - [ ] **L-26 About as a professional bio** (M): bio, location and resume action first;
@@ -661,6 +661,20 @@ continents. Each task below names what "done" means. Tasks run in the order give
       it, since capability filtering now only comes from links.
 - **L-25:** reuses `CredentialLedger` as it is. `CloudBento` and `StackChips` are retired if
   nothing else uses them.
+  - Done (2026-10-27):
+    - `PageHeader`, then one `SectionRow` each for:
+      - Clouds: clouds with projects, linked, at `font-size-5`;
+      - every skill group except clouds, so clouds are not listed twice (`SkillGroups`, rewritten);
+      - Certifications: `CredentialLedger`, in the new `stacked` SectionRow variant, since the
+        ledger has its own label column;
+      - Languages: plain text.
+    - No bento, counts, chips or tickets.
+    - `InlineLinkList` now flows inline like text, so long items wrap within the line. Its links
+      are underlined, to pass axe `link-in-text-block` (WCAG 1.4.1).
+    - Mobile height at 375 is 3,226px. Not verified against "a third of today's height": the
+      pre-change mobile height was not measured.
+    - Unused now, for L-28: `CloudBento`, `CloudCard`, and the `count` and `accent` fields of
+      `SkillChip`.
 - **L-27:** the contact action is the `RoundAction`.
 - **L-28:** `CredentialTickets` is already gone. Remove what is now unused:
   - `SectionBand` (after L-38);
