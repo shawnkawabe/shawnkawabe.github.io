@@ -9,7 +9,6 @@ const onDisk = (src: string) => !src.includes('missing');
 const sections: ProjectSection[] = [
   { type: 'challenge', body: 'First challenge' },
   { type: 'challenge', body: 'Second challenge is ignored' },
-  { type: 'architecture', body: 'Diagram text', image: img('/img/p/arch-missing.webp') },
   { type: 'decisions', items: [{ decision: 'D', why: 'W' }] },
   {
     type: 'gallery',
@@ -32,15 +31,9 @@ describe('caseStudySections (SPEC §5.3)', () => {
   it('keeps the first section of each type and only visible images', () => {
     const result = caseStudySections(project({ id: 'p', depth: 'case-study', sections }), onDisk);
     expect(result.challenge?.body).toBe('First challenge');
-    expect(result.architecture).toEqual({
-      type: 'architecture',
-      body: 'Diagram text',
-      image: undefined,
-    });
     expect(result.gallery?.images.map((image) => image.src)).toEqual(['/img/p/01.webp']);
     expect(Object.keys(result)).toEqual([
       'challenge',
-      'architecture',
       'decisions',
       'gallery',
       'outcomes',
@@ -55,7 +48,6 @@ describe('caseStudySections (SPEC §5.3)', () => {
 
   it('drops sections left empty', () => {
     const empty: ProjectSection[] = [
-      { type: 'architecture', image: img('/img/p/missing.webp') },
       { type: 'gallery', images: [img('/img/p/01.webp', false)] },
       { type: 'outcomes', items: [] },
     ];

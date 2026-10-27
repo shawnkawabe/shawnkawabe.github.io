@@ -5,7 +5,6 @@ type Section<T extends ProjectSection['type']> = Extract<ProjectSection, { type:
 
 export type CaseStudySections = {
   challenge?: Section<'challenge'>;
-  architecture?: Section<'architecture'>;
   decisions?: Section<'decisions'>;
   gallery?: Section<'gallery'>;
   outcomes?: Section<'outcomes'>;
@@ -28,10 +27,6 @@ function withVisibleImages(
   isAvailable: (src: string) => boolean,
 ): ProjectSection | undefined {
   switch (section.type) {
-    case 'architecture': {
-      const image = visibleImage(section.image, isAvailable);
-      return section.body || image ? { ...section, image } : undefined;
-    }
     case 'gallery': {
       const images = section.images.filter((image) => visibleImage(image, isAvailable));
       return images.length > 0 ? { ...section, images } : undefined;

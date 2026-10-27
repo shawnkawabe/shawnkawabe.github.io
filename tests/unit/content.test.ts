@@ -99,7 +99,7 @@ describe('cross-file references', () => {
   });
 });
 
-/** Every `src` anywhere in a JSON value (gallery images, covers, architecture diagrams). */
+/** Every `src` anywhere in a JSON value (gallery images, covers). */
 function sources(value: unknown): string[] {
   if (Array.isArray(value)) return value.flatMap(sources);
   if (!value || typeof value !== 'object') return [];

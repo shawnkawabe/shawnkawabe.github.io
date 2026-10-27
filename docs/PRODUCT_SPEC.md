@@ -110,17 +110,16 @@ Fixed order — sections render only when their data exists:
 1. **Cover**: large gradient/image cover with title + subtitle (Once UI cover style).
 2. **Snapshot bar**: Client · Role · Team size · Delivered via (employer names, e.g. "Nescara · Globant") · Clouds (chips). No dates.
 3. **Context and challenge** (`sections[type=challenge]`).
-4. **Solution architecture** (`type=architecture`): image or SVG diagram with caption.
-5. **Key decisions** (`type=decisions`): 2–4 cards, each "Decision → Why → Trade-off".
-6. **Build highlights** (`type=gallery`): masonry gallery, approved images only, lightbox on click (keyboard: arrows, Esc).
-7. **Outcomes** (`type=outcomes`): list; numbers only when `measured: true`.
-8. **Stack**: chips for every skill id in `clouds` + `capabilities`, each linking to `/work?…`.
-9. **Takeaway** (`type=takeaway`): tinted band, one paragraph.
-10. **Prev / Next** project links (by sort order).
+4. **Key decisions** (`type=decisions`): 2–4 cards, each "Decision → Why → Trade-off".
+5. **Build highlights** (`type=gallery`): masonry gallery, approved images only, lightbox on click (keyboard: arrows, Esc).
+6. **Outcomes** (`type=outcomes`): list; numbers only when `measured: true`.
+7. **Stack**: chips for every skill id in `clouds` + `capabilities`, each linking to `/work?…`.
+8. **Takeaway** (`type=takeaway`): tinted band, one paragraph.
+9. **Prev / Next** project links (by sort order).
 
 Tinted section bands alternate tone (`band-a`, `band-b`) and may be rotated −2° to 2° on ≥ 1024px only (Once UI style); never rotate text itself.
 
-Projects with `"depth": "card"` (non-flagship) still get a page, but only sections 1, 2, 3, 7, 8, 10.
+Projects with `"depth": "card"` (non-flagship) still get a page, but only sections 1, 2, 3, 6, 7, 9. No solution-architecture section: the site stays at showcase depth (removed 2026-10-26).
 
 ### 5.4 Skills `/skills`
 

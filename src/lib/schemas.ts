@@ -36,11 +36,6 @@ export const skillSchema = z.object({
 const section = z.discriminatedUnion('type', [
   z.object({ type: z.literal('challenge'), body: z.string() }),
   z.object({
-    type: z.literal('architecture'),
-    body: z.string().optional(),
-    image: image.optional(),
-  }),
-  z.object({
     type: z.literal('decisions'),
     items: z
       .array(

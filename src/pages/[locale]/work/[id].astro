@@ -43,7 +43,7 @@ const [projects, skills, experience] = await Promise.all([
 ]);
 const { prev, next } = prevNext(projects, project.id);
 const sections = caseStudySections(project, publicFileExists);
-const { challenge, architecture, decisions, gallery, outcomes, takeaway } = sections;
+const { challenge, decisions, gallery, outcomes, takeaway } = sections;
 const galleryImages = await Promise.all(
   (gallery?.images ?? []).map(async (image) => ({
     ...image,
@@ -70,28 +70,6 @@ const media = `${column} max-w-300`;
       <h2>{t.challenge}</h2>
       <p class="text-3">{challenge.body}</p>
     </section>
-  )}
-  {architecture && (
-    <SectionBand tone="a" tilt={-1}>
-      <section class={media}>
-        <h2 class="max-w-180">{t.architecture}</h2>
-        {architecture.body && <p class="max-w-180 text-3">{architecture.body}</p>}
-        {architecture.image && (
-          <figure class="flex flex-col gap-2">
-            <img
-              src={architecture.image.src}
-              alt={architecture.image.alt}
-              loading="lazy"
-              decoding="async"
-              class="w-full rounded-md border border-border-1"
-            />
-            {architecture.image.caption && (
-              <figcaption class="text-2 text-on-surface-2">{architecture.image.caption}</figcaption>
-            )}
-          </figure>
-        )}
-      </section>
-    </SectionBand>
   )}
   {decisions && (
     <section class={media}>
