@@ -9,7 +9,15 @@
     "id": "orchid",
     "employer": "Orchid",
     "role": "Senior Salesforce Developer",
-    "projectIds": ["orchid-component-library"]
+    "projectIds": [
+      "membership-sso-integration",
+      "member-community-platform",
+      "exhibitor-onboarding-framework",
+      "orchid-component-library",
+      "content-visibility-framework-port",
+      "config-driven-datalist",
+      "delegate-counting-framework"
+    ]
   },
   {
     "id": "cit",
