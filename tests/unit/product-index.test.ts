@@ -4,6 +4,7 @@ import { loadRenderers } from 'astro:container';
 import { beforeAll, describe, expect, it } from 'vitest';
 import ProductIndex from '@/components/patterns/ProductIndex.astro';
 import ProductTicker from '@/components/patterns/ProductTicker.astro';
+import type { ProductEntry } from '@/lib/derive';
 
 let container: AstroContainer;
 
@@ -12,7 +13,7 @@ beforeAll(async () => {
   container = await AstroContainer.create({ renderers });
 });
 
-const render = (items: { id: string; label: string; projectCount: number }[]) =>
+const render = (items: ProductEntry[]) =>
   container.renderToString(ProductIndex, {
     props: { items },
     request: new Request('https://shawnkawabe.github.io/pt/'),
@@ -21,8 +22,8 @@ const render = (items: { id: string; label: string; projectCount: number }[]) =>
 describe('ProductIndex', () => {
   it('numbers rows and links used products to Work filtered by them', async () => {
     const html = await render([
-      { id: 'grax', label: 'GRAX', projectCount: 2 },
-      { id: 'fonteva', label: 'Fonteva', projectCount: 1 },
+      { id: 'grax', label: 'GRAX', projectCount: 2, state: 'linked' },
+      { id: 'fonteva', label: 'Fonteva', projectCount: 1, state: 'linked' },
     ]);
     expect(html).toMatch(/<ol/);
     expect(html).toContain('href="/pt/work?cap=grax"');
@@ -33,19 +34,48 @@ describe('ProductIndex', () => {
     expect(html).toContain('1 projeto');
   });
 
-  it('renders an unused product as plain text with no count', async () => {
-    const html = await render([{ id: 'aura', label: 'Aura', projectCount: 0 }]);
+  it('renders a dormant product as plain text with no count', async () => {
+    const html = await render([{ id: 'aura', label: 'Aura', projectCount: 0, state: 'dormant' }]);
     expect(html).not.toContain('<a ');
     expect(html).toContain('Aura');
+    expect(html).not.toMatch(/projeto/);
+  });
+
+  it('lists a release tool plainly even when it has projects (decision 22)', async () => {
+    const html = await render([
+      { id: 'gearset', label: 'Gearset', projectCount: 4, state: 'listed' },
+    ]);
+    expect(html).toContain('Gearset');
+    expect(html).not.toContain('<a ');
+    // The count would under-report a tool used far more widely than its tags say.
     expect(html).not.toMatch(/projeto/);
   });
 });
 
 describe('ProductTicker', () => {
-  const items = [
-    { id: 'grax', label: 'GRAX', projectCount: 2 },
-    { id: 'fonteva', label: 'Fonteva', projectCount: 0 },
+  const items: ProductEntry[] = [
+    { id: 'grax', label: 'GRAX', projectCount: 2, state: 'linked' },
+    { id: 'fonteva', label: 'Fonteva', projectCount: 0, state: 'dormant' },
   ];
+
+  const ticker = (props: ProductEntry[]) =>
+    container.renderToString(ProductTicker, {
+      props: { items: props, id: 'ticker' },
+      request: new Request('https://shawnkawabe.github.io/en/'),
+    });
+
+  it('dims a dormant entry but not a listed tool, which is used (decision 22)', async () => {
+    const html = await ticker([
+      { id: 'gearset', label: 'Gearset', projectCount: 4, state: 'listed' },
+      { id: 'fonteva', label: 'Fonteva', projectCount: 0, state: 'dormant' },
+    ]);
+    const span = (label: string) =>
+      html.match(new RegExp(`<span class="([^"]*)"[^>]*>\\s*${label}\\s*</span>`))?.[1] ?? '';
+    expect(span('Gearset')).toContain('text-on-surface-1');
+    expect(span('Fonteva')).toContain('text-on-surface-2');
+    // Neither is a link: a listed tool is bright but not filterable.
+    expect(html).not.toContain('cap=gearset');
+  });
 
   it('announces and focuses only the first copy, with counts for screen readers', async () => {
     const html = await container.renderToString(ProductTicker, {

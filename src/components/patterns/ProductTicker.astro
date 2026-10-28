@@ -1,10 +1,11 @@
 ---
 // Home "Products and tools" as a moving typographic list (BACKLOG-LANDING L-10). Two rows drift in
-// opposite directions; used products are bright, linked and carry their project count, the rest are
-// dimmer plain text. A round toggle pauses the motion (WCAG 2.2.2), and a row also pauses on hover
+// opposite directions; `linked` products are bright and carry their project count, the rest are
+// dimmer plain text (release tooling is always listed this way, decision 22). A round toggle pauses the motion (WCAG 2.2.2), and a row also pauses on hover
 // or focus inside it. With reduced motion or no JavaScript, global.css shows the static index
 // (passed in the default slot) instead, so the list is never read twice.
 import Icon from '@/components/ui/Icon.astro';
+import type { ProductEntry } from '@/lib/derive';
 import { plural } from '@/lib/format';
 import { localeFromPath, localePath, strings } from '@/lib/i18n';
 
@@ -12,7 +13,7 @@ const locale = localeFromPath(Astro.url.pathname);
 const ui = strings(locale);
 
 interface Props {
-  items: { id: string; label: string; projectCount: number }[];
+  items: ProductEntry[];
   id: string;
 }
 
@@ -46,7 +47,7 @@ const rows = [items, [...items.slice(half), ...items.slice(0, half)]];
               >
                 {row.map((item) => (
                   <li class="flex items-center">
-                    {item.projectCount > 0 ? (
+                    {item.state === 'linked' ? (
                       <a
                         href={`${workPath}?cap=${item.id}`}
                         tabindex={echo ? -1 : undefined}
@@ -64,7 +65,14 @@ const rows = [items, [...items.slice(half), ...items.slice(0, half)]];
                         </sup>
                       </a>
                     ) : (
-                      <span class="px-6 font-heading text-8 whitespace-nowrap text-on-surface-2">
+                      <span
+                        class:list={[
+                          'px-6 font-heading text-8 whitespace-nowrap',
+                          // A listed tool is used, just not filterable, so it reads as brightly as
+                          // a linked one. Only a dormant entry is dimmed.
+                          item.state === 'dormant' ? 'text-on-surface-2' : 'text-on-surface-1',
+                        ]}
+                      >
                         {item.label}
                       </span>
                     )}

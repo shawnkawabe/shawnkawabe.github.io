@@ -5,6 +5,7 @@ import {
   filterProjects,
   inFileOrder,
   prevNext,
+  productIndex,
   skillGroupChips,
   skillStats,
   sortProjects,
@@ -64,6 +65,61 @@ describe('skillStats', () => {
       { id: 'sales-cloud', projectCount: 2, projectIds: ['p1', 'p2'] },
       { id: 'apex', projectCount: 0, projectIds: [] },
     ]);
+  });
+});
+
+describe('productIndex (L-47)', () => {
+  const skills = [
+    skill('gearset', 'devops'),
+    skill('fonteva', 'products'),
+    skill('aws', 'integration'),
+  ];
+  const projects = [
+    project({ id: 'p1', clouds: [], capabilities: ['gearset', 'aws'] }),
+    project({ id: 'p2', clouds: [], capabilities: ['aws'] }),
+  ];
+
+  it('keeps the curated order, not the order of skills.json', () => {
+    expect(ids(productIndex(['aws', 'gearset'], skills, projects))).toEqual(['aws', 'gearset']);
+  });
+
+  it('carries each label and project count', () => {
+    expect(productIndex(['gearset', 'fonteva', 'aws'], skills, projects)).toEqual([
+      { id: 'gearset', label: 'gearset', projectCount: 1, state: 'listed' },
+      { id: 'fonteva', label: 'fonteva', projectCount: 0, state: 'dormant' },
+      { id: 'aws', label: 'aws', projectCount: 2, state: 'linked' },
+    ]);
+  });
+
+  it('lists release tooling without linking it, however many projects it has', () => {
+    // Decision 22: Gearset runs on every Orchid project without any being tagged, so a count
+    // would under-report it. `gearset` has a project here and is still `listed`, not `linked`.
+    const [gearset, aws] = productIndex(['gearset', 'aws'], skills, projects);
+    expect(gearset).toMatchObject({ projectCount: 1, state: 'listed' });
+    expect(aws).toMatchObject({ projectCount: 2, state: 'linked' });
+  });
+
+  it('separates a listed tool from a dormant product, which only looks the same', () => {
+    // Both render without a link, but only `dormant` means "no project uses this yet".
+    const [gearset, fonteva] = productIndex(['gearset', 'fonteva'], skills, projects);
+    expect(gearset.state).toBe('listed');
+    expect(fonteva.state).toBe('dormant');
+  });
+
+  it('draws from any group, so a tool keeps its capability group', () => {
+    // gearset is `devops` and aws is `integration`; neither is in the `products` group.
+    expect(ids(productIndex(['gearset', 'aws'], skills, projects))).toHaveLength(2);
+  });
+
+  it('skips ids missing from skills.json rather than rendering a blank row', () => {
+    expect(ids(productIndex(['gearset', 'retired-id', 'aws'], skills, projects))).toEqual([
+      'gearset',
+      'aws',
+    ]);
+  });
+
+  it('returns nothing for an empty list, which hides the section', () => {
+    expect(productIndex([], skills, projects)).toEqual([]);
   });
 });
 
@@ -165,7 +221,8 @@ describe('skillGroupChips (SPEC §5.4)', () => {
     skill('sales-cloud', 'clouds', 'cloud-sales'),
     skill('apex', 'development'),
     skill('aura', 'development'),
-    skill('jira', 'tools'),
+    // A valid group that `groups` below does not list, proving such skills are not rendered.
+    skill('jira', 'delivery'),
   ];
   const projects = [project({ id: 'p', clouds: ['sales-cloud'], capabilities: ['apex'] })];
   const groups = [

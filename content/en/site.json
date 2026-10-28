@@ -75,6 +75,19 @@
       "label": "Programming languages"
     }
   ],
+  "productIndex": [
+    "own-data",
+    "d4sign",
+    "fonteva",
+    "nimble-ams",
+    "grax",
+    "gearset",
+    "salesforce-dx",
+    "aws",
+    "gitlab",
+    "bitbucket",
+    "jenkins"
+  ],
   "notFound": {
     "title": "Page not found",
     "body": "This page doesn't exist or has moved. Try the home page or my work."

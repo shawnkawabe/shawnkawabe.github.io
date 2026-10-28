@@ -18,7 +18,6 @@ export const skillGroup = z.enum([
   'data',
   'delivery',
   'products',
-  'tools',
   'languages-programming',
 ]);
 
@@ -115,6 +114,11 @@ export const siteSchema = z.object({
   ctaLine: z.string(),
   workFacets: z.object({ clouds: z.string(), capabilities: z.array(id) }),
   skillGroups: z.array(z.object({ id: skillGroup, label: z.string() })),
+  // Home "Products and tools" (L-47): curated skill ids, in display order. Skills is the
+  // capability taxonomy (by `group`); this is the showcase of named things he has worked in, so a
+  // tool keeps its capability group and still appears here. Ids absent from skills.json are
+  // skipped; an empty list hides the section.
+  productIndex: z.array(id).default([]),
   notFound: z.object({ title: z.string(), body: z.string() }),
   languages: z.array(z.object({ label: z.string(), level: z.string() })),
   links: z.object({

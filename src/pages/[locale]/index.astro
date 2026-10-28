@@ -15,7 +15,7 @@ import PrimaryAction from '@/components/ui/PrimaryAction.astro';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { getCertifications, getProjects, getSite, getSkills, siteLocales } from '@/lib/content';
 import { localePath, strings, toLocale } from '@/lib/i18n';
-import { cloudStats, skillStats, sortProjects } from '@/lib/derive';
+import { cloudStats, productIndex, sortProjects } from '@/lib/derive';
 import { pageMeta, personJsonLd } from '@/lib/seo';
 
 export function getStaticPaths() {
@@ -38,14 +38,7 @@ const featured = sortProjects(projects)
   .filter((project) => project.featured)
   .slice(0, MAX_FEATURED);
 const clouds = cloudStats(skills, projects, certifications);
-const productSkills = skills.filter(
-  (skill) => skill.group === 'products' || skill.group === 'tools',
-);
-const products = skillStats(productSkills, projects).map((stat, index) => ({
-  id: stat.id,
-  label: productSkills[index].label,
-  projectCount: stat.projectCount,
-}));
+const products = productIndex(site.productIndex, skills, projects);
 // The hero globe's moons (L-35): clouds with at least one project.
 const workedClouds = clouds.filter((cloud) => cloud.projectCount > 0);
 const t = ui.home;
