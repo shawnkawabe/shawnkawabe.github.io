@@ -12,6 +12,9 @@ export default defineConfig([
     'playwright-report/',
     'test-results/',
     '.lighthouseci/',
+    // Agent worktrees are checkouts of this same repo nested inside it; linting them
+    // reports every file twice and resolves no config of their own.
+    '.claude/',
     'docs/claude-agent/',
     'src/styles/tokens.css',
     'src/lib/cn-tables.ts',
