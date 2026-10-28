@@ -1,3 +1,4 @@
+import { existsSync, readFileSync } from 'node:fs';
 import { getContainerRenderer } from '@astrojs/react/container-renderer';
 import { experimental_AstroContainer as AstroContainer } from 'astro/container';
 import { loadRenderers } from 'astro:container';
@@ -64,10 +65,30 @@ describe('BaseLayout', () => {
     expect(html).toContain('<script type="application/ld+json">{"@type":"Person","name":"Shawn"}');
   });
 
-  it('carries the trademark notice in the footer', async () => {
+  it('keeps the footer to links and the copyright, with no trademark notice', async () => {
     const html = await render({ meta });
     const footer = html.slice(html.indexOf('<footer'));
-    expect(footer).toContain(siteJson.trademarkNotice);
+    expect(footer).toContain(`© ${new Date().getFullYear()} ${siteJson.name}`);
+    expect(footer).not.toMatch(/trademark/i);
+  });
+
+  it('links site icons and a manifest that all exist in public/', async () => {
+    const html = await render({ meta });
+    const hrefs = [
+      ...html.matchAll(/<link rel="(?:icon|apple-touch-icon|manifest)"[^>]*href="([^"?]+)/g),
+    ];
+    expect(hrefs.map(([, href]) => href)).toEqual([
+      '/favicon.ico',
+      '/favicon.svg',
+      '/apple-touch-icon.png',
+      '/site.webmanifest',
+    ]);
+    const manifest = JSON.parse(readFileSync('public/site.webmanifest', 'utf8'));
+    for (const href of [
+      ...hrefs.map(([, href]) => href),
+      ...manifest.icons.map((icon: { src: string }) => icon.src),
+    ])
+      expect(existsSync(`public${href}`), href).toBe(true);
   });
 
   it('falls back to the default card for routes without a generated one', async () => {

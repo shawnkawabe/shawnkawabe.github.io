@@ -19,6 +19,8 @@ import {
   switchLocalePath,
 } from '@/lib/i18n';
 
+/** The SK Ribbon mark (docs/brand/ICON.md). */
+const ICON_VERSION = 7;
 const locale = localeFromPath(Astro.url.pathname);
 const ui = strings(locale);
 
@@ -91,9 +93,11 @@ const ogImageAlt = isDefaultOgImage(ogImage)
     {preloadFonts.map((href) => (
       <link rel="preload" href={href} as="font" type="font/woff2" crossorigin />
     ))}
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    {/* Built by scripts/icons.mjs. Bump ICON_VERSION when the icons change: browsers cache them hard. */}
+    <link rel="icon" href={`/favicon.ico?v=${ICON_VERSION}`} sizes="48x48" />
+    <link rel="icon" type="image/svg+xml" href={`/favicon.svg?v=${ICON_VERSION}`} />
+    <link rel="apple-touch-icon" href={`/apple-touch-icon.png?v=${ICON_VERSION}`} />
+    <link rel="manifest" href="/site.webmanifest" />
     <link rel="sitemap" href="/sitemap-index.xml" />
 
     <meta property="og:type" content="website" />

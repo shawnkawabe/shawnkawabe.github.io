@@ -147,7 +147,6 @@ export const siteSchema = z.object({
       notFound: seoPage,
     }),
   }),
-  trademarkNotice: z.string(),
   photo: image.nullable().default(null),
   todo,
 });

@@ -2,13 +2,13 @@
 
 All text, dates and facts about Shawn live in `content/{locale}/*.json` (`en`, `pt`, `es`; every locale has the same files and ids). English is the source; the other locales are translations of it and go live only after Shawn sets `reviewed: true` in `src/i18n/locales.json`. Components never contain this information. Schemas in `src/content.config.ts` validate everything at build; a mistake fails the build with a message pointing to the field.
 
-| File                             | Holds                                                                  |
-| -------------------------------- | ---------------------------------------------------------------------- |
-| `content/en/site.json`           | Name, role, intro, bio, links, principles, languages, trademark notice |
-| `content/en/projects.json`       | One object per project / case study                                    |
-| `content/en/skills.json`         | Every skill, cloud, product and tool, with its group                   |
-| `content/en/experience.json`     | Companies you delivered through: name, role, projects (no dates)       |
-| `content/en/certifications.json` | Certifications, their domain (ledger group) and related skills         |
+| File                             | Holds                                                            |
+| -------------------------------- | ---------------------------------------------------------------- |
+| `content/en/site.json`           | Name, role, intro, bio, links, principles, languages             |
+| `content/en/projects.json`       | One object per project / case study                              |
+| `content/en/skills.json`         | Every skill, cloud, product and tool, with its group             |
+| `content/en/experience.json`     | Companies you delivered through: name, role, projects (no dates) |
+| `content/en/certifications.json` | Certifications, their domain (ledger group) and related skills   |
 
 ## Add a project in five steps
 
