@@ -333,31 +333,411 @@
     "todo": []
   },
   {
+    "id": "membership-sso-integration",
+    "title": "Login único para uma plataforma de eventos",
+    "subtitle": "Salesforce como provedor de identidade SAML, com um pipeline de atributos de Contato para Usuário",
+    "client": "Associação profissional de filiados",
+    "employers": ["orchid"],
+    "role": "Senior Salesforce Developer",
+    "industry": "Associações profissionais",
+    "clouds": ["experience-cloud", "membership"],
+    "capabilities": [
+      "apex",
+      "apex-async",
+      "apex-triggers",
+      "flow",
+      "soql-sosl",
+      "platform",
+      "saml-sso",
+      "salesforce-dx",
+      "git",
+      "sharing-model",
+      "data-modeling",
+      "requirements",
+      "technical-documentation",
+      "fonteva"
+    ],
+    "category": "Integração de sistemas",
+    "featured": false,
+    "depth": "case-study",
+    "summary": "Os filiados passaram a acessar uma plataforma de eventos de terceiros sem um segundo login. O Salesforce virou provedor de identidade SAML, com um pipeline que leva 18 atributos de filiação a cada asserção.",
+    "cover": {
+      "preset": "indigo"
+    },
+    "sections": [
+      {
+        "type": "challenge",
+        "body": "Os filiados entram em uma comunidade Experience Cloud e precisavam chegar à plataforma de terceiros usada para inscrição em congressos sem fazer login de novo, levando consigo os dados de filiação para que a inscrição fosse precificada e liberada corretamente. O Salesforce pode atuar como provedor de identidade SAML, mas a asserção é montada a partir dos campos de Usuário, e apenas nome, sobrenome e e-mail são preenchidos automaticamente em um usuário de comunidade. Os outros quinze atributos que a plataforma queria ficam no Contato: cargo, empresa, categoria e validade da filiação, tratamento, resumo de carreira, celular e um endereço de quatro linhas. A plataforma ainda esperava a rua em três linhas distintas, enquanto o Salesforce guarda um único campo de múltiplas linhas, e dezenas de milhares de contatos existentes nunca tinham sido convertidos para esse formato."
+      },
+      {
+        "type": "decisions",
+        "items": [
+          {
+            "decision": "Sincronizar os valores nos campos de Usuário em vez de ler o Contato no login",
+            "why": "Os atributos personalizados do app só conseguem referenciar campos de mesclagem de Usuário. Não existe um salto para o Contato no momento da asserção, então o dado precisa estar fisicamente no registro de Usuário antes do login.",
+            "tradeoff": "Quinze campos de dados do filiado ficam duplicados no Usuário e precisam permanecer sincronizados. A alternativa que consulta o Contato foi escrita e deixada deliberadamente desconectada."
+          },
+          {
+            "decision": "Estender o trigger de Contato que já existia em vez de adicionar um segundo",
+            "why": "Um trigger por objeto. Um segundo trigger em Contato tornaria não determinística a ordem de execução entre o novo parser de endereço e a validação de endereço que já existia.",
+            "tradeoff": "O recurso ficou entrelaçado com código não relacionado, e o plano de rollback precisa restaurar o trigger original como uma fase própria antes de qualquer exclusão."
+          },
+          {
+            "decision": "Converter o endereço em Apex before-save e sincronizar os campos em Flow",
+            "why": "O Apex before-save grava no registro em trânsito sem DML extra. A sincronização entre objetos é trabalho declarativo que um admin consegue ler e estender, e exigia uma fórmula entre objetos.",
+            "tradeoff": "Duas tecnologias de automação em um objeto. O Flow dispara por registro, o que obrigou um escopo de lote pequeno no backfill para ficar dentro dos limites de CPU."
+          },
+          {
+            "decision": "Escrever o plano de rollback antes do deploy, não depois",
+            "why": "A mudança mexeu em um trigger de produção ativo e acrescentou campos ao objeto padrão Usuário em uma org com logins de comunidade em uso.",
+            "tradeoff": "Esforço inicial em artefatos que, no melhor cenário, nunca serão usados."
+          }
+        ]
+      },
+      {
+        "type": "outcomes",
+        "items": [
+          {
+            "label": "Atributos de filiação entregues em cada asserção",
+            "value": "18",
+            "measured": true
+          },
+          {
+            "label": "Testes Apex aprovados no pacote de deploy",
+            "value": "17/17",
+            "measured": true
+          },
+          {
+            "label": "Cobertura no Apex novo e alterado",
+            "value": "100%",
+            "measured": true
+          },
+          {
+            "label": "Validado contra produção em dry run antes do deploy",
+            "measured": false
+          },
+          {
+            "label": "Entregue com plano de rollback em quatro fases e destructive changes escopadas",
+            "measured": false
+          }
+        ]
+      },
+      {
+        "type": "takeaway",
+        "body": "O difícil em uma integração de SSO não é o handshake SAML: é que o provedor de identidade só vê os campos do registro de Usuário, e uma permissão de campo ausente é idêntica a um campo inexistente. Passei a tratar o conjunto de permissões como parte do contrato da integração, e escrevo o mapa de atributos como tabela antes de escrever código, porque essa tabela é o único artefato que o outro lado da integração consegue conferir."
+      }
+    ],
+    "todo": ["Resultado de negócio não medido, perguntar ao Shawn"]
+  },
+  {
+    "id": "member-community-platform",
+    "title": "Páginas de comunidade e jornadas de e-mail para filiados",
+    "subtitle": "Seis páginas de comunidade, dezesseis Lightning Web Components e e-mail automatizado",
+    "client": "Associação profissional de indicações",
+    "employers": ["orchid"],
+    "role": "Senior Salesforce Developer",
+    "industry": "Associações profissionais",
+    "clouds": ["experience-cloud", "membership"],
+    "capabilities": [
+      "lwc",
+      "component-library",
+      "apex",
+      "apex-async",
+      "apex-triggers",
+      "flow",
+      "soql-sosl",
+      "visualforce",
+      "lightning-pages",
+      "data-modeling",
+      "salesforce-dx",
+      "git",
+      "packages",
+      "sharing-model",
+      "requirements",
+      "technical-documentation",
+      "ux",
+      "javascript",
+      "nimble-ams"
+    ],
+    "category": "Desenvolvimento de plataforma",
+    "featured": false,
+    "depth": "case-study",
+    "summary": "Seis páginas de comunidade, 16 Lightning Web Components e jornadas automatizadas de e-mail em um portal de associação baseado em pacote gerenciado, em produção com 255/255 testes Apex aprovados.",
+    "cover": {
+      "preset": "aurora"
+    },
+    "sections": [
+      {
+        "type": "challenge",
+        "body": "A associação mantém a comunidade de filiados em um portal de pacote gerenciado cujas páginas padrão não conseguiam expressar como a organização realmente funciona. Os filiados precisavam se encontrar por profissão e região, inscrever grupos inteiros em reuniões recorrentes, ver suas próprias inscrições e recibos e receber o e-mail certo de lembrete e de boas-vindas. Quase tudo ficava atrás de metadados de pacote gerenciado: objetos, consultas, cards, botões e navegação são configurados como registros de metadados personalizados, os nomes de API carregam prefixos de namespace que mudam de contexto, e a comunidade é servida em dois hostnames ativos com prefixos de URL diferentes. Um implementador anterior deixou uma base de código grande, então cada mudança tinha de coexistir com código que ninguém da equipe havia escrito."
+      },
+      {
+        "type": "outcomes",
+        "items": [
+          {
+            "label": "Testes Apex aprovados na entrega",
+            "value": "255/255",
+            "measured": true
+          },
+          {
+            "label": "Páginas de comunidade entregues",
+            "value": "6",
+            "measured": true
+          },
+          {
+            "label": "Lightning Web Components construídos",
+            "value": "16",
+            "measured": true
+          },
+          {
+            "label": "Jornadas de e-mail para filiados automatizadas de ponta a ponta",
+            "measured": false
+          }
+        ]
+      }
+    ],
+    "todo": ["Resultado de negócio não medido, perguntar ao Shawn"]
+  },
+  {
+    "id": "exhibitor-onboarding-framework",
+    "title": "Framework configurável de onboarding de expositores",
+    "subtitle": "Ordem das etapas, regras de conclusão e alertas saíram do código para registros",
+    "client": "Associação profissional de farmácia de gestão de saúde",
+    "employers": ["orchid"],
+    "role": "Senior Salesforce Developer",
+    "industry": "Associações profissionais",
+    "clouds": ["experience-cloud", "sales-cloud", "membership"],
+    "capabilities": [
+      "apex",
+      "apex-async",
+      "apex-triggers",
+      "lwc",
+      "aura",
+      "flow",
+      "soql-sosl",
+      "platform",
+      "component-library",
+      "lightning-pages",
+      "rest-soap",
+      "salesforce-dx",
+      "git",
+      "gearset",
+      "sharing-model",
+      "data-modeling",
+      "requirements",
+      "technical-documentation",
+      "ux",
+      "fonteva"
+    ],
+    "category": "Desenvolvimento de plataforma",
+    "featured": false,
+    "depth": "case-study",
+    "summary": "Transformei um onboarding de expositores controlado à mão em um framework configurável: admins mudam ordem de etapas, regras, alertas e filtros editando registros, sem esperar um deploy.",
+    "cover": {
+      "preset": "violet-edge"
+    },
+    "sections": [
+      {
+        "type": "challenge",
+        "body": "A associação opera filiação, eventos, e-commerce e a operação de expositores de feiras em uma plataforma de associação fortemente customizada, com cerca de 8.800 arquivos de classe Apex, quase todos metadados de pacote gerenciado de sete ou mais fornecedores. O onboarding de expositores era o ponto de pressão: o expositor se inscreve por um portal, vira lead, converte em conta e oportunidade, precisa de um usuário de portal provisionado e tem de ser conduzido por escolha de estande, contrato, pagamento e conformidade, enquanto a equipe interna precisa ver num relance quais expositores estão travados e onde. O processo era controlado à mão, e cada mudança na sequência de etapas ou em quem vê o quê exigia um deploy em uma org onde o ruído de pacotes gerenciados torna os manifests frágeis."
+      },
+      {
+        "type": "outcomes",
+        "items": [
+          {
+            "label": "Ordem de etapas, regras de conclusão, alertas e filtros passaram a ser configuração, não código",
+            "measured": false
+          },
+          {
+            "label": "Provisionamento de usuário de portal encadeado em jobs assíncronos para respeitar a regra de DML em objetos de setup",
+            "measured": false
+          },
+          {
+            "label": "A equipe vê quais expositores estão travados, e onde, sem precisar perguntar",
+            "measured": false
+          }
+        ]
+      },
+      {
+        "type": "takeaway",
+        "body": "Entregue com uma equipe de seis desenvolvedores em uma plataforma de associação com cerca de 8.800 classes Apex; fui responsável pelo framework de checklist do onboarding, pela cadeia de provisionamento de usuários de portal e pelo motor de visibilidade de conteúdo. Escrever o mesmo padrão de configuração-em-vez-de-código três vezes na mesma org me ensinou onde ele compensa: em todo lugar onde um usuário de negócio abriria um ticket só para reordenar uma lista."
+      }
+    ],
+    "todo": ["Resultado de negócio não medido, perguntar ao Shawn"]
+  },
+  {
     "id": "orchid-component-library",
-    "title": "Orchid",
-    "subtitle": "Biblioteca de componentes Salesforce reutilizáveis",
+    "title": "Engenharia de produto em pacote gerenciado Salesforce",
+    "subtitle": "Empacotamento, CI/CD e documentação de security review para um produto de componentes",
     "client": "Orchid",
     "employers": ["orchid"],
     "role": "Senior Salesforce Developer",
-    "clouds": [],
+    "industry": "ISV Salesforce",
+    "clouds": ["experience-cloud"],
     "capabilities": [
-      "platform",
-      "component-library",
       "lwc",
       "apex",
-      "flow",
+      "apex-triggers",
+      "platform",
+      "packages",
+      "salesforce-dx",
+      "ci-cd",
+      "git",
+      "sharing-model",
       "data-modeling",
-      "process-mapping"
+      "typescript",
+      "javascript",
+      "technical-documentation",
+      "component-library"
     ],
     "category": "Desenvolvimento de plataforma",
     "featured": false,
     "depth": "card",
-    "summary": "Construindo e organizando uma biblioteca de componentes Salesforce reutilizáveis e aprimorando uma aplicação Salesforce interna.",
+    "summary": "Cuidei do empacotamento, do CI/CD e da documentação de security review de um produto Salesforce em pacote gerenciado instalável em todas as edições, e construí seu componente de diretório de filiados.",
+    "cover": {
+      "preset": "aurora"
+    },
+    "sections": [],
+    "todo": ["Implementation detail beyond the public surface needs Orchid's clearance"]
+  },
+  {
+    "id": "content-visibility-framework-port",
+    "title": "Framework de visibilidade de conteúdo portado entre orgs",
+    "subtitle": "Um port de 194 componentes, e a biblioteca compartilhada que a cópia sobrescreveria",
+    "client": "Organização sem fins lucrativos de defesa da água limpa",
+    "employers": ["orchid"],
+    "role": "Senior Salesforce Developer",
+    "industry": "Terceiro setor",
+    "clouds": ["experience-cloud", "membership"],
+    "capabilities": [
+      "apex",
+      "lwc",
+      "lwr",
+      "aura",
+      "flow",
+      "soql-sosl",
+      "component-library",
+      "platform",
+      "lightning-pages",
+      "salesforce-dx",
+      "git",
+      "packages",
+      "data-modeling",
+      "sharing-model",
+      "technical-documentation",
+      "data-migration"
+    ],
+    "category": "Desenvolvimento de plataforma",
+    "featured": false,
+    "depth": "case-study",
+    "summary": "Portei um framework de conteúdo de 194 componentes entre orgs Salesforce. Flagrei uma biblioteca compartilhada que a cópia sobrescreveria em silêncio, quebrando 57 componentes em um deploy bem-sucedido.",
+    "cover": {
+      "preset": "indigo"
+    },
+    "sections": [
+      {
+        "type": "challenge",
+        "body": "A org Salesforce da organização era grande, antiga e não estava sob controle de versão. O primeiro problema era tornar aquele estado revisável e comparável sem despejar cerca de sete mil arquivos em um único commit ilegível. O segundo era que a organização precisava de um recurso de visibilidade e conteúdo dinâmico já construído para outra org, então a verdadeira questão de engenharia era como portar um recurso de 194 componentes entre duas orgs que tinham incorporado, cada uma por conta própria, a mesma biblioteca de componentes-base não gerenciada, e depois a deixaram divergir."
+      },
+      {
+        "type": "outcomes",
+        "items": [
+          {
+            "label": "Componentes portados",
+            "value": "194",
+            "measured": true
+          },
+          {
+            "label": "Arquivos que a cópia sobrescreveria em silêncio",
+            "value": "51",
+            "measured": true
+          },
+          {
+            "label": "Componentes não relacionados que importavam a biblioteca compartilhada",
+            "value": "57",
+            "measured": true
+          },
+          {
+            "label": "Org colocada sob controle de versão em commits revisáveis",
+            "measured": false
+          }
+        ]
+      },
+      {
+        "type": "takeaway",
+        "body": "Um deploy que relata sucesso ainda pode estar destruindo coisas, e uma lista de dependências é uma hipótese até que uma org ingênua discorde dela. Os componentes que me pediram para mover estavam bem; o que quase quebrou foi uma biblioteca utilitária que as duas orgs incorporaram em separado e depois editaram, que nenhum manifest mencionava e de que nenhum deploy reclamaria."
+      }
+    ],
+    "todo": [
+      "Nunca implantado: não descrever como entregue",
+      "Org de origem deliberadamente não nomeada"
+    ]
+  },
+  {
+    "id": "config-driven-datalist",
+    "title": "Componente de lista configurável pronto para Flow",
+    "subtitle": "Uma lista relacionada em Aura reconstruída como LWC que funciona em Screen Flows",
+    "client": "Organização de filiados de fraternidade universitária",
+    "employers": ["orchid"],
+    "role": "Senior Salesforce Developer",
+    "industry": "Organizações de filiados",
+    "clouds": ["experience-cloud", "membership"],
+    "capabilities": [
+      "lwc",
+      "aura",
+      "apex",
+      "flow",
+      "soql-sosl",
+      "component-library",
+      "lightning-pages",
+      "data-modeling",
+      "requirements",
+      "technical-documentation",
+      "salesforce-dx",
+      "git",
+      "fonteva"
+    ],
+    "category": "Desenvolvimento de plataforma",
+    "featured": false,
+    "depth": "card",
+    "summary": "Reconstruí um componente de lista relacionada configurável como LWC que funciona em páginas de portal e dentro de Screen Flows, devolvendo as linhas editadas ao Flow para cada tela ter suas regras.",
     "cover": {
       "preset": "aurora"
     },
     "sections": [],
     "todo": []
+  },
+  {
+    "id": "delegate-counting-framework",
+    "title": "Framework de contagem de delegados e status de capítulos",
+    "subtitle": "Contagem em lote com campos isolados sob um orquestrador, exibida nas páginas dos capítulos",
+    "client": "Associação de filiados com capítulos regionais",
+    "employers": ["orchid"],
+    "role": "Senior Salesforce Developer",
+    "industry": "Organizações de filiados",
+    "clouds": ["experience-cloud", "membership"],
+    "capabilities": [
+      "apex",
+      "apex-async",
+      "aura",
+      "flow",
+      "soql-sosl",
+      "sharing-model",
+      "salesforce-dx",
+      "requirements",
+      "technical-documentation",
+      "tdd",
+      "fonteva"
+    ],
+    "category": "Desenvolvimento de plataforma",
+    "featured": false,
+    "depth": "card",
+    "summary": "Contagens regionais e de delegados independentes sob um único orquestrador em lote, com um componente voltado aos capítulos e um toggle no Experience Builder que tirou uma regra de visibilidade do código.",
+    "cover": {
+      "preset": "violet-edge"
+    },
+    "sections": [],
+    "todo": ["Framework está em commits de WIP sem branch: confirmar se chegou à produção"]
   },
   {
     "id": "lavoro-agro",

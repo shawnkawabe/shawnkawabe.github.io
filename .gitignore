@@ -12,6 +12,10 @@ test-results/
 docs/source-images/
 # Licensed design references (Envato, Figma Community): look, never ship
 docs/source-figma/
+# Orchid client research: raw briefs hold client names, org ids, member PII and
+# employer IP. This repo is a PUBLIC Pages site, so "not rendered" is not "not
+# public" -- keep them local until each fact is cleared for publication.
+docs/briefs/orchid/
 .DS_Store
 .playwright-mcp/
 

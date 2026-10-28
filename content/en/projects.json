@@ -333,31 +333,408 @@
     "todo": []
   },
   {
+    "id": "membership-sso-integration",
+    "title": "Single sign-on to an event platform",
+    "subtitle": "Salesforce as SAML identity provider, with a Contact-to-User attribute pipeline",
+    "client": "Professional membership association",
+    "employers": ["orchid"],
+    "role": "Senior Salesforce Developer",
+    "industry": "Professional associations",
+    "clouds": ["experience-cloud", "membership"],
+    "capabilities": [
+      "apex",
+      "apex-async",
+      "apex-triggers",
+      "flow",
+      "soql-sosl",
+      "platform",
+      "saml-sso",
+      "salesforce-dx",
+      "git",
+      "sharing-model",
+      "data-modeling",
+      "requirements",
+      "technical-documentation",
+      "fonteva"
+    ],
+    "category": "System integration",
+    "featured": false,
+    "depth": "case-study",
+    "summary": "Members reached a third-party event platform without a second login. Salesforce became the SAML identity provider, with a Contact-to-User pipeline carrying 18 membership attributes into every assertion.",
+    "cover": {
+      "preset": "indigo"
+    },
+    "sections": [
+      {
+        "type": "challenge",
+        "body": "Members sign in to a Salesforce Experience Cloud community, and needed to reach the third-party platform used for conference registration without signing in again, carrying their membership data with them so registration could be priced and gated correctly. Salesforce can act as the SAML identity provider, but the assertion is built from User fields, and only first name, last name and email are populated automatically on a community user. The other fifteen attributes the event platform wanted live on the Contact: title, company, membership category and expiry, appellation, career statement, mobile and a four-line mailing address. The platform also expected the street as three discrete lines where Salesforce stores one multi-line field, and tens of thousands of existing contacts had never been parsed into that shape."
+      },
+      {
+        "type": "decisions",
+        "items": [
+          {
+            "decision": "Sync the values onto User fields rather than read the Contact at login",
+            "why": "The app's custom attributes can only reference User merge fields. There is no Contact hop available at assertion time, so the data has to be physically present on the User record before login.",
+            "tradeoff": "Fifteen fields of member data are duplicated onto User and have to stay in sync. The Contact-querying alternative was written and deliberately left unwired."
+          },
+          {
+            "decision": "Extend the Contact trigger that already existed instead of adding a second one",
+            "why": "One trigger per object. A second trigger on Contact would have made execution order between the new address parser and the existing address-verification logic non-deterministic.",
+            "tradeoff": "The feature is now entangled with unrelated code, and the rollback plan has to restore the original trigger as its own phase before anything can be deleted."
+          },
+          {
+            "decision": "Parse the address in before-save Apex, sync the fields in Flow",
+            "why": "Before-save Apex writes to the record in flight with no extra DML. The cross-object sync to a different object is declarative work an admin can read and extend, and it needed a cross-object formula.",
+            "tradeoff": "Two automation technologies on one object. The Flow fires per record, which is what forced a small batch scope on the backfill to stay inside CPU limits."
+          },
+          {
+            "decision": "Write the rollback plan before deploying, not after",
+            "why": "The change touched a live production trigger and added fields to the standard User object on an org with live community logins.",
+            "tradeoff": "Up-front effort on artefacts that ideally are never used."
+          }
+        ]
+      },
+      {
+        "type": "outcomes",
+        "items": [
+          {
+            "label": "Member attributes delivered into each assertion",
+            "value": "18",
+            "measured": true
+          },
+          {
+            "label": "Apex tests passing on the deployment package",
+            "value": "17/17",
+            "measured": true
+          },
+          {
+            "label": "Coverage on the new and modified Apex",
+            "value": "100%",
+            "measured": true
+          },
+          {
+            "label": "Validated against production as a dry run before deploying",
+            "measured": false
+          },
+          {
+            "label": "Shipped with a four-phase rollback plan and scoped destructive changes",
+            "measured": false
+          }
+        ]
+      },
+      {
+        "type": "takeaway",
+        "body": "The hard part of an SSO integration is not the SAML handshake: it is that the identity provider can only see the fields on the User record, and a missing field-level permission looks exactly like a missing field. I now treat the permission set as part of the integration contract rather than as access admin, and I write the attribute map as a table before I write any code, because that table is the only artefact the other side of the integration can check against."
+      }
+    ],
+    "todo": ["Business outcome (login or support-ticket reduction) not measured, ask Shawn"]
+  },
+  {
+    "id": "member-community-platform",
+    "title": "Member community pages and email journeys",
+    "subtitle": "Six community pages, sixteen Lightning Web Components and automated member email",
+    "client": "Professional referral association",
+    "employers": ["orchid"],
+    "role": "Senior Salesforce Developer",
+    "industry": "Professional associations",
+    "clouds": ["experience-cloud", "membership"],
+    "capabilities": [
+      "lwc",
+      "component-library",
+      "apex",
+      "apex-async",
+      "apex-triggers",
+      "flow",
+      "soql-sosl",
+      "visualforce",
+      "lightning-pages",
+      "data-modeling",
+      "salesforce-dx",
+      "git",
+      "packages",
+      "sharing-model",
+      "requirements",
+      "technical-documentation",
+      "ux",
+      "javascript",
+      "nimble-ams"
+    ],
+    "category": "Platform development",
+    "featured": false,
+    "depth": "case-study",
+    "summary": "Six custom community pages, 16 Lightning Web Components and automated member email journeys on a managed-package association portal, shipped to production with 255/255 Apex tests passing.",
+    "cover": {
+      "preset": "aurora"
+    },
+    "sections": [
+      {
+        "type": "challenge",
+        "body": "The association runs its member community on a managed-package association portal whose out-of-the-box pages could not express how the organisation actually works. Members needed to find each other by profession and region, register whole groups for recurring meetings, see their own registrations and receipts, and receive the right reminder and welcome email. Almost everything lived behind managed-package metadata: objects, queries, cards, buttons and navigation are all configured as custom metadata records, field API names carry namespace prefixes that differ between contexts, and the community is served on two live hostnames with different URL path prefixes. A previous implementer had left a large existing codebase, so every change had to coexist with code nobody on the team had written."
+      },
+      {
+        "type": "outcomes",
+        "items": [
+          {
+            "label": "Apex tests passing at release",
+            "value": "255/255",
+            "measured": true
+          },
+          {
+            "label": "Custom community pages delivered",
+            "value": "6",
+            "measured": true
+          },
+          {
+            "label": "Lightning Web Components built",
+            "value": "16",
+            "measured": true
+          },
+          {
+            "label": "Member email journeys automated end to end",
+            "measured": false
+          }
+        ]
+      }
+    ],
+    "todo": ["Business outcome (member engagement, support load) not measured, ask Shawn"]
+  },
+  {
+    "id": "exhibitor-onboarding-framework",
+    "title": "Configurable exhibitor onboarding framework",
+    "subtitle": "Step order, completion rules and gap alerts moved from code into records",
+    "client": "Professional association in managed care pharmacy",
+    "employers": ["orchid"],
+    "role": "Senior Salesforce Developer",
+    "industry": "Professional associations",
+    "clouds": ["experience-cloud", "sales-cloud", "membership"],
+    "capabilities": [
+      "apex",
+      "apex-async",
+      "apex-triggers",
+      "lwc",
+      "aura",
+      "flow",
+      "soql-sosl",
+      "platform",
+      "component-library",
+      "lightning-pages",
+      "rest-soap",
+      "salesforce-dx",
+      "git",
+      "gearset",
+      "sharing-model",
+      "data-modeling",
+      "requirements",
+      "technical-documentation",
+      "ux",
+      "fonteva"
+    ],
+    "category": "Platform development",
+    "featured": false,
+    "depth": "case-study",
+    "summary": "Turned a hand-tracked exhibitor onboarding process into a configurable framework: admins now change step order, completion rules, gap alerts and filters by editing records instead of waiting on a deploy.",
+    "cover": {
+      "preset": "violet-edge"
+    },
+    "sections": [
+      {
+        "type": "challenge",
+        "body": "The association runs membership, events, e-commerce and trade-show exhibitor operations on a heavily customised association platform of roughly 8,800 Apex class files, nearly all of it managed-package metadata from seven or more vendors. Exhibitor onboarding was the pressure point: an exhibitor signs up through a portal, becomes a lead, converts to an account and opportunity, needs a provisioned portal user, and must be walked through booth selection, contract, payment and compliance, while internal staff need to see at a glance which exhibitors are stuck and where. The process was tracked by hand, and every change to the step sequence or to who sees what required a code deploy into an org where managed-package noise makes deployment manifests fragile."
+      },
+      {
+        "type": "outcomes",
+        "items": [
+          {
+            "label": "Step order, completion rules, gap alerts and filters became record configuration, not code",
+            "measured": false
+          },
+          {
+            "label": "Portal-user provisioning chained as asynchronous jobs to respect the setup-object DML rule",
+            "measured": false
+          },
+          {
+            "label": "Staff can see which exhibitors are stuck, and where, without asking",
+            "measured": false
+          }
+        ]
+      },
+      {
+        "type": "takeaway",
+        "body": "Delivered with a six-developer team on an association platform of roughly 8,800 Apex classes; I owned the onboarding checklist framework, the portal-user provisioning chain and the content-visibility engine. Writing the same configuration-over-code pattern three times in one org taught me where it pays: anywhere a business user would otherwise file a ticket to reorder a list."
+      }
+    ],
+    "todo": ["Business outcome (onboarding time, staff hours) not measured, ask Shawn"]
+  },
+  {
     "id": "orchid-component-library",
-    "title": "Orchid",
-    "subtitle": "Reusable Salesforce component library",
+    "title": "Salesforce managed-package product engineering",
+    "subtitle": "Packaging, CI/CD and security-review documentation for a component product",
     "client": "Orchid",
     "employers": ["orchid"],
     "role": "Senior Salesforce Developer",
-    "clouds": [],
+    "industry": "Salesforce ISV",
+    "clouds": ["experience-cloud"],
     "capabilities": [
-      "platform",
-      "component-library",
       "lwc",
       "apex",
-      "flow",
+      "apex-triggers",
+      "platform",
+      "packages",
+      "salesforce-dx",
+      "ci-cd",
+      "git",
+      "sharing-model",
       "data-modeling",
-      "process-mapping"
+      "typescript",
+      "javascript",
+      "technical-documentation",
+      "component-library"
     ],
     "category": "Platform development",
     "featured": false,
     "depth": "card",
-    "summary": "Building and organizing a library of reusable Salesforce components and enhancing an internal Salesforce application.",
+    "summary": "Engineered packaging, CI/CD and security-review documentation for a Salesforce managed-package product installable on every edition, and built its member-directory component for Experience Cloud.",
+    "cover": {
+      "preset": "aurora"
+    },
+    "sections": [],
+    "todo": ["Implementation detail beyond the public surface needs Orchid's clearance"]
+  },
+  {
+    "id": "content-visibility-framework-port",
+    "title": "Content visibility framework ported between orgs",
+    "subtitle": "A 194-component port, and the shared library the copy would have overwritten",
+    "client": "Clean-water advocacy nonprofit",
+    "employers": ["orchid"],
+    "role": "Senior Salesforce Developer",
+    "industry": "Nonprofit",
+    "clouds": ["experience-cloud", "membership"],
+    "capabilities": [
+      "apex",
+      "lwc",
+      "lwr",
+      "aura",
+      "flow",
+      "soql-sosl",
+      "component-library",
+      "platform",
+      "lightning-pages",
+      "salesforce-dx",
+      "git",
+      "packages",
+      "data-modeling",
+      "sharing-model",
+      "technical-documentation",
+      "data-migration"
+    ],
+    "category": "Platform development",
+    "featured": false,
+    "depth": "case-study",
+    "summary": "Ported a 194-component content framework between Salesforce orgs. Caught a shared component library the copy would have silently overwritten, breaking 57 unrelated components on a deploy that reports success.",
+    "cover": {
+      "preset": "indigo"
+    },
+    "sections": [
+      {
+        "type": "challenge",
+        "body": "The organisation's Salesforce org was large, long-lived and not under source control. The first problem was making that state reviewable and diffable without dumping some seven thousand files into one unreadable commit. The second was that the organisation needed a content-visibility and dynamic-content feature that had already been built for a different org, so the real engineering question was how to port a 194-component feature between two orgs that had independently vendored the same unmanaged base-component library and then let it drift apart."
+      },
+      {
+        "type": "outcomes",
+        "items": [
+          {
+            "label": "Components ported",
+            "value": "194",
+            "measured": true
+          },
+          {
+            "label": "Files the copy would have silently overwritten",
+            "value": "51",
+            "measured": true
+          },
+          {
+            "label": "Unrelated components importing the shared utility library",
+            "value": "57",
+            "measured": true
+          },
+          {
+            "label": "Org brought under source control in reviewable, diffable commits",
+            "measured": false
+          }
+        ]
+      },
+      {
+        "type": "takeaway",
+        "body": "A deploy that reports success can still be destroying things, and a dependency list is a hypothesis until a naive org disagrees with it. The components I was asked to move were fine; what nearly broke was a utility library both orgs had vendored separately and then edited, which no manifest mentioned and no deploy would have complained about."
+      }
+    ],
+    "todo": ["Never deployed: do not describe as shipped", "Source org deliberately unnamed"]
+  },
+  {
+    "id": "config-driven-datalist",
+    "title": "Flow-ready configurable list component",
+    "subtitle": "An Aura related-list rebuilt as an LWC that works inside Screen Flows",
+    "client": "Collegiate fraternity membership organisation",
+    "employers": ["orchid"],
+    "role": "Senior Salesforce Developer",
+    "industry": "Membership organisations",
+    "clouds": ["experience-cloud", "membership"],
+    "capabilities": [
+      "lwc",
+      "aura",
+      "apex",
+      "flow",
+      "soql-sosl",
+      "component-library",
+      "lightning-pages",
+      "data-modeling",
+      "requirements",
+      "technical-documentation",
+      "salesforce-dx",
+      "git",
+      "fonteva"
+    ],
+    "category": "Platform development",
+    "featured": false,
+    "depth": "card",
+    "summary": "Rebuilt a configurable related-list component as an LWC that works on portal pages and inside Screen Flows, handing edited rows back to the Flow so each screen keeps its own save rules.",
     "cover": {
       "preset": "aurora"
     },
     "sections": [],
     "todo": []
+  },
+  {
+    "id": "delegate-counting-framework",
+    "title": "Delegate counting and chapter status framework",
+    "subtitle": "Field-isolated batch counting behind one orchestrator, surfaced on chapter pages",
+    "client": "Membership association with regional chapters",
+    "employers": ["orchid"],
+    "role": "Senior Salesforce Developer",
+    "industry": "Membership organisations",
+    "clouds": ["experience-cloud", "membership"],
+    "capabilities": [
+      "apex",
+      "apex-async",
+      "aura",
+      "flow",
+      "soql-sosl",
+      "sharing-model",
+      "salesforce-dx",
+      "requirements",
+      "technical-documentation",
+      "tdd",
+      "fonteva"
+    ],
+    "category": "Platform development",
+    "featured": false,
+    "depth": "card",
+    "summary": "Independent regional and delegate counts behind a single batch orchestrator, with a chapter-facing component and an Experience Builder toggle that moved a visibility rule out of code.",
+    "cover": {
+      "preset": "violet-edge"
+    },
+    "sections": [],
+    "todo": ["Framework lives in WIP commits on no branch: confirm whether it reached production"]
   },
   {
     "id": "lavoro-agro",
