@@ -4,6 +4,9 @@ Context for designing the site icon (favicon and app icons) of **shawnkawabe.git
 covers the brand, the constraints, every direction tried so far with Shawn's reaction, and what
 to hand back. Written 2026-10-27 (BACKLOG-LANDING L-45).
 
+> **Superseded 2026-10-28:** the site now uses the SK Ribbon mark; its spec is
+> `docs/brand/ICON.md`. This brief stays as the record of the rounds before it.
+
 ## 1. Who and what
 
 - **Shawn Kawabe**, Senior Salesforce Developer and Functional Specialist, based in São Paulo,

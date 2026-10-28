@@ -848,6 +848,11 @@ screenshots at 375, 768 and 1440 on the built preview, a ticked box with notes, 
     `apple-touch-icon.png` (full bleed), `icon-192/512.png`, a maskable 512 and
     `site.webmanifest`. Head links carry `?v=` so returning visitors get the new icon; bump
     `ICON_VERSION` in BaseLayout on the next change.
+  - Notes (2026-10-28): replaced by the **SK Ribbon** mark from a design hand-off, Shawn's pick:
+    one rounded stroke (3 units, round caps) that draws the S and runs on into the K stem, flat
+    accent-1 on a surface-0 squircle, scaled to 112% for the 16/32px master. Same script and
+    outputs, plus `src/assets/logo-mark.svg` (no tile, `currentColor`) for a future header lockup.
+    The spec and construction sheets are in `docs/brand/ICON.md`; `ICON_VERSION` is 7.
 - [x] **L-46 Footer: links and copyright only** (XS). The company's legal name was tried under the
       copyright and removed (did not fit the layout). The trademark notice is removed too:
       Shawn's call, decisions log #20. CLAUDE.md rule 8 keeps the logo and plain-text rules.
