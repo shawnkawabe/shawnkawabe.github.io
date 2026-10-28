@@ -75,6 +75,19 @@
       "label": "Lenguajes de programación"
     }
   ],
+  "productIndex": [
+    "own-data",
+    "d4sign",
+    "fonteva",
+    "nimble-ams",
+    "grax",
+    "gearset",
+    "salesforce-dx",
+    "aws",
+    "gitlab",
+    "bitbucket",
+    "jenkins"
+  ],
   "notFound": {
     "title": "Página no encontrada",
     "body": "Esta página no existe o fue movida. Pruebe con la página de inicio o con mis proyectos."

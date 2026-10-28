@@ -236,8 +236,24 @@ const accents = ['cloud-sales', 'cloud-service', 'cloud-data', 'cloud-membership
         </div>
         <ProductIndex
           items={[
-            { id: 'grax', label: 'GRAX (linked: used by a project)', projectCount: 2 },
-            { id: 'aura', label: 'Unused product (plain text)', projectCount: 0 },
+            {
+              id: 'grax',
+              label: 'linked: used, filterable, counted',
+              projectCount: 2,
+              state: 'linked',
+            },
+            {
+              id: 'gearset',
+              label: 'listed: used, never filterable',
+              projectCount: 4,
+              state: 'listed',
+            },
+            {
+              id: 'aura',
+              label: 'dormant: no project uses it yet',
+              projectCount: 0,
+              state: 'dormant',
+            },
           ]}
         />
         <CompanyList experience={(await getExperience()).slice(0, 2)} projects={projects} />

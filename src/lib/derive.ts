@@ -67,6 +67,70 @@ export function cloudStats(
     .filter((cloud) => cloud.projectCount > 0 || cloud.certifications.length > 0);
 }
 
+/**
+ * How a Home product row reads:
+ * - `linked`  used, and the projects are worth filtering to, so the row links and carries a count;
+ * - `listed`  used, but deliberately not tagged per project, so the row is plain and countless;
+ * - `dormant` no published project uses it yet, so the row is dimmed.
+ *
+ * `listed` and `dormant` both render without a link and must not look alike: dimming Gearset would
+ * say Shawn has never used it.
+ */
+export type ProductState = 'linked' | 'listed' | 'dormant';
+
+export type ProductEntry = {
+  id: string;
+  label: string;
+  projectCount: number;
+  state: ProductState;
+};
+
+/**
+ * Release tooling is listed on Home, never linked through to projects (decision 22). Gearset runs
+ * on every Orchid project without any of them being tagged with it, so a count here would
+ * under-report it and the link would imply the one tagged project was the whole story. The group is
+ * already exactly this class of tool (Gearset, Salesforce DX, Git, GitLab, Bitbucket, Jenkins,
+ * CI/CD), so the Skills taxonomy carries the policy and nothing new has to be curated.
+ */
+const LISTED_ONLY_GROUP = 'devops';
+
+function productState(skill: Skill, projectCount: number): ProductState {
+  if (skill.group === LISTED_ONLY_GROUP) return 'listed';
+  return projectCount > 0 ? 'linked' : 'dormant';
+}
+
+/**
+ * Home "Products and tools" (L-47): the ids of `site.productIndex`, in that curated order, with
+ * their project counts. Unknown ids are skipped rather than rendered blank, so a typo or a retired
+ * skill cannot leave an empty row on the landing page.
+ *
+ * Deliberately not a `group` filter: Skills groups skills by capability, so a release tool belongs
+ * in DevOps there. Reading a curated list here lets the same tool appear on Home without being
+ * moved out of its group, which a single-valued `group` would otherwise force.
+ */
+export function productIndex(
+  ids: readonly string[],
+  skills: readonly Skill[],
+  projects: readonly Project[],
+): ProductEntry[] {
+  // One map carrying label, count and state, so a hit cannot be half-resolved and there is no
+  // unreachable fallback. skillStats() maps over `skills`, so the indices align (as in cloudStats).
+  const byId = new Map(
+    skillStats(skills, projects).map((stat, index) => [
+      stat.id,
+      {
+        label: skills[index].label,
+        projectCount: stat.projectCount,
+        state: productState(skills[index], stat.projectCount),
+      },
+    ]),
+  );
+  return ids.flatMap((id) => {
+    const entry = byId.get(id);
+    return entry ? [{ id, ...entry }] : [];
+  });
+}
+
 /** Neighbours in sort order; no wrap-around at either end. */
 export function prevNext<T extends Pick<Project, 'id' | 'featured'>>(
   projects: readonly T[],

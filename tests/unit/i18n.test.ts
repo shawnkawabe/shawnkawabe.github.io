@@ -124,6 +124,16 @@ describe('translation parity (P4-02)', () => {
       );
     }
   });
+
+  // keys() collapses an array to its key name, so the check above sees that `productIndex` exists
+  // but not what is in it. These are skill ids, never translated prose, so they must match exactly
+  // or Home shows a different list per language (L-47).
+  it.each(LOCALES)('content/%s site.productIndex matches English exactly', (locale) => {
+    const productIndex = (file: unknown) => (file as { productIndex: string[] }).productIndex;
+    expect(productIndex(readJson(join('content', locale, 'site.json')))).toEqual(
+      productIndex(readJson(join('content', 'en', 'site.json'))),
+    );
+  });
 });
 
 describe('alternates', () => {

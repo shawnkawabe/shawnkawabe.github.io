@@ -1,8 +1,10 @@
 ---
 // Home "Products and tools" (BACKLOG-LANDING L-06): an indexed typographic list, not chips and not a
 // marquee. Mono number, the name at display size, and the number of projects that used it, all from
-// content. Rows link to Work filtered by the product when a project used it; otherwise plain text.
+// content. Rows link to Work filtered by the product when `linked` says so (derive.productIndex
+// decides; release tooling is listed without a count, decision 22); otherwise plain text.
 import Icon from '@/components/ui/Icon.astro';
+import type { ProductEntry } from '@/lib/derive';
 import { plural } from '@/lib/format';
 import { localeFromPath, localePath, strings } from '@/lib/i18n';
 
@@ -10,7 +12,7 @@ const locale = localeFromPath(Astro.url.pathname);
 const ui = strings(locale);
 
 interface Props {
-  items: { id: string; label: string; projectCount: number }[];
+  items: ProductEntry[];
 }
 
 const { items } = Astro.props;
@@ -22,7 +24,7 @@ const row =
 <ol class="grid gap-x-12 lg:grid-cols-2">
   {items.map((item, index) => {
     const number = String(index + 1).padStart(2, '0');
-    const count = item.projectCount > 0 && plural(ui.cards.projects, item.projectCount);
+    const count = item.state === 'linked' && plural(ui.cards.projects, item.projectCount);
     const body = (
       <>
         <span aria-hidden="true" class="font-mono text-1 tracking-label text-on-surface-2">

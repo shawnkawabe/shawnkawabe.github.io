@@ -74,6 +74,19 @@ role ("Desenvolvedor Salesforce Sênior"). Which do you want?
 - [ ] Keep the official English titles, as on contracts and LinkedIn.
 - [ ] Translate them. Give the pt and es wording you use, per company.
 
+### B4. What Third Republic ran on AWS (found in L-50)
+
+`projects.json` tags `third-republic-data-cloud` with the `aws` capability, but nothing in that
+entry's subtitle, summary or outcomes mentions AWS. The Skills page therefore links "AWS" to a
+project whose own text never says what was done there. Lavoro Agro is the opposite: its text names
+"a Python Flask API on AWS App Runner" twice.
+
+- [ ] Nothing substantial happened on AWS there: drop the `aws` capability from that project.
+- [ ] It was a specific service. Which, and one publishable sentence about what it did? - Service: - Sentence:
+
+Answering this is what makes a split possible: `aws` could become the services actually used,
+across all three locales. Until then it stays one coarse entry (decision 21).
+
 ## C. Optional depth (decision 13: sections render only when data exists)
 
 Leave blank to keep the case studies as they are.

@@ -106,6 +106,16 @@ describe('cross-file references', () => {
     const used = new Set(skills.map((skill) => skill.group));
     expect(site.skillGroups.map((group) => group.id).filter((id) => !used.has(id))).toEqual([]);
   });
+
+  it('every site.productIndex id exists in skills.json (L-47)', () => {
+    // derive.productIndex() skips unknown ids so the page cannot break, which would also hide a
+    // typo. This is the gate that makes the silence loud.
+    expect(site.productIndex.filter((id) => !skillById.has(id))).toEqual([]);
+  });
+
+  it('site.productIndex has no duplicates', () => {
+    expect(duplicates(site.productIndex)).toEqual([]);
+  });
 });
 
 /** Every `src` anywhere in a JSON value (gallery images, covers). */
