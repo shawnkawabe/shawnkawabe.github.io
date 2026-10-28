@@ -54,7 +54,7 @@ Content field names below refer to `content/site.json` as `site.*`.
 
 ### 4.3 Footer
 
-Centred, small: "© {year} Shawn Kawabe", links (LinkedIn, GitHub, email), trademark notice from `site.json.trademarkNotice`.
+Centred, small: "© {year} Shawn Kawabe", links (LinkedIn, GitHub, email). No trademark notice (decisions log #20).
 
 ### 4.4 Skip link and focus
 

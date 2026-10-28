@@ -23,6 +23,7 @@ Every question raised while planning has been settled. The Code Agent follows th
 | 17  | Old Experience Cloud site                                                                             | Disposable: v2 replaces it. No metadata retrieval needed.                                                                                                                                                                                   |
 | 18  | Contact form without a Web3Forms key                                                                  | The page shows email and LinkedIn; the form appears once the key is set.                                                                                                                                                                    |
 | 19  | Site languages                                                                                        | English, Portuguese and Spanish. All URLs prefixed (`/en/`, `/pt/`, `/es/`); `/` redirects by browser language. The agent drafts PT and ES; each ships only after Shawn approves it. Built after the English MVP pages (Phase 4, ADR 0003). |
+| 20  | Footer trademark notice and company name                                                              | Removed (Shawn, 2026-10-27). Product names stay plain text and no Salesforce logo is drawn (CLAUDE.md rule 8); the footer is links and copyright only.                                                                                      |
 
 ## Setup steps only Shawn can do (not questions)
 

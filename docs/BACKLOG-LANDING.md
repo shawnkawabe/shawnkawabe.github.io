@@ -832,6 +832,31 @@ L-35 → L-42 → L-36 → L-39 with L-37 → L-41 → L-38 → L-40 → L-21 wi
 L-25 → L-26 → L-27 → L-28 → L-29 → L-30. Each task ends with `npm run ci`, `npm run test:a11y`,
 screenshots at 375, 768 and 1440 on the built preview, a ticked box with notes, and one commit.
 
+## Round 7: site icon and footer (Shawn, 2026-10-27)
+
+- [x] **L-45 Site icon redesign and a reproducible icon set** (S). Shawn's feedback: fix the site
+      icon. The L-31 tile (white rounded SK on a blue gradient) blurred at 16px and read as a
+      generic app icon; the PNG and ICO were one-off exports and there was no manifest.
+  - Notes (2026-10-27): after two drawn-letter rounds (a dark-tile SK with an accent underline,
+    an orbit badge) and an interlocked upright serif SK, Shawn picked from a list of six serif
+    ideas: an "Sk" signature in Instrument Serif Italic (ADR 0009), a white capital S with an
+    accent-1 lowercase k tucked into it, parted by a thin cut in the tile colour, on a dark
+    rounded tile. A light same-colour stroke thickens the hairlines for 16px. The outlines are
+    baked into the script (OFL font), so the icon needs no font at runtime.
+    `npm run icons` (`scripts/icons.mjs`) builds every file from that one drawing and the dark
+    theme tokens: `favicon.svg`, a real `favicon.ico` (16/32/48 PNG frames),
+    `apple-touch-icon.png` (full bleed), `icon-192/512.png`, a maskable 512 and
+    `site.webmanifest`. Head links carry `?v=` so returning visitors get the new icon; bump
+    `ICON_VERSION` in BaseLayout on the next change.
+  - Notes (2026-10-28): replaced by the **SK Ribbon** mark from a design hand-off, Shawn's pick:
+    one rounded stroke (3 units, round caps) that draws the S and runs on into the K stem, flat
+    accent-1 on a surface-0 squircle, scaled to 112% for the 16/32px master. Same script and
+    outputs, plus `src/assets/logo-mark.svg` (no tile, `currentColor`) for a future header lockup.
+    The spec and construction sheets are in `docs/brand/ICON.md`; `ICON_VERSION` is 7.
+- [x] **L-46 Footer: links and copyright only** (XS). The company's legal name was tried under the
+      copyright and removed (did not fit the layout). The trademark notice is removed too:
+      Shawn's call, decisions log #20. CLAUDE.md rule 8 keeps the logo and plain-text rules.
+
 ## Order and status
 
 | #            | Task                            | Status |
@@ -870,3 +895,5 @@ screenshots at 375, 768 and 1440 on the built preview, a ticked box with notes, 
 | L-42         | Apple fonts review              | done   |
 | L-43         | Globe back after jump to Intro  | done   |
 | L-44         | Rail handle lines to chevrons   | done   |
+| L-45         | Site icon redesign              | done   |
+| L-46         | Footer links and copyright only | done   |

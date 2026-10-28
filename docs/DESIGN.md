@@ -232,5 +232,5 @@ Rules: display style only at `font-size-7` and above. Letter-spacing tightens wi
 
 - Product names as plain text; never styled to imitate a Salesforce wordmark.
 - Shawn's name is the most prominent brand on every page.
-- Footer notice from `content/site.json`.
+- No trademark notice on the site (decisions log #20).
 - No client logos unless `approved: true` on the project.

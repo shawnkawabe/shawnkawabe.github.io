@@ -1,5 +1,5 @@
 ---
-// SPEC §4.3: centred, small; copyright, contact links and the trademark notice from site.json.
+// SPEC §4.3: centred, small; contact links and the copyright.
 import { getSite } from '@/lib/content';
 import { format } from '@/lib/seo';
 import { localeFromPath, strings } from '@/lib/i18n';
@@ -28,5 +28,4 @@ const links = [
     </ul>
   </nav>
   <p>{format(ui.footer.copyright, { year: new Date().getFullYear(), name: site.name })}</p>
-  <p class="text-1">{site.trademarkNotice}</p>
 </footer>
