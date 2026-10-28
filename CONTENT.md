@@ -63,9 +63,15 @@ There are no dates in the content. Projects appear in the order of `content/en/p
 
 Page titles and descriptions, the Home CTA line, the contact intro, the 404 text, the Work filter capabilities (`workFacets.capabilities`) and the Skills page groups and labels (`skillGroups`) all live in `content/en/site.json`.
 
+`productIndex` is the curated list of skill ids shown in Home's "Products and tools" section, in display order. Put a named product or tool there (`fonteva`, `gearset`, `aws`), not a practice (`ci-cd`, `requirements`). An id that is not in `skills.json` is skipped, and an empty list hides the section.
+
+A row's appearance follows from its group and its project count, never from content: a product used by a project links to filtered Work and shows the count; a tool in the `devops` group is listed plainly, with no count and no link, however many projects use it (decision 22); anything else is dimmed as not yet used. So adding `gearset` to a project's `capabilities` changes the Skills page, never Home.
+
 ## Skills
 
-`content/en/skills.json` entries: `id`, `label`, `group`, optional `accent` (clouds only), optional `aliases`. Groups: `clouds`, `development`, `integration`, `devops`, `data`, `delivery`, `products`, `tools`, `languages-programming`. Project counts are computed; never type them.
+`content/en/skills.json` entries: `id`, `label`, `group`, optional `accent` (clouds only), optional `aliases`. Groups: `clouds`, `development`, `integration`, `devops`, `data`, `delivery`, `products`, `languages-programming`. Project counts are computed; never type them.
+
+A skill has exactly one `group`, and the Skills page groups by it — so a release tool belongs under `devops` there, not in a bucket of its own. Home's "Products and tools" section reads `productIndex` in `site.json` instead (below), which is why a tool can appear on Home without leaving its group.
 
 ## Translations
 

@@ -826,6 +826,79 @@ continents. Each task below names what "done" means. Tasks run in the order give
     - Found: job titles stay English on pt/es About. Added as B3 to
       `docs/briefs/CONTENT_QUESTIONS.md`; content not changed.
 
+- [x] **L-47 Home products list reads a curated id list** (S). The section is titled "Products
+      and tools", and `index.astro` filled it with `group === 'products' || group === 'tools'` --
+      but no skill carried `group: "tools"`, so it rendered the six `products` entries and nothing
+      else, four of them with no projects and therefore dim and unlinked. Two live rows on the
+      flagship section.
+  - `productIndex` on `siteSchema`: curated skill ids in display order. Skills groups by `group`
+    (a capability taxonomy); Home now reads the curated list (a showcase of named things worked
+    in). A release tool keeps its `devops` group _and_ appears on Home -- which a single-valued
+    `group` cannot express without moving it out of DevOps, where a Salesforce reader looks for it.
+  - `derive.productIndex()` resolves ids to label plus count, preserves the curated order, and
+    skips ids missing from `skills.json` so a typo cannot leave a blank row. `content.test.ts`
+    then asserts no id is missing, which is what makes that skipping safe rather than silent.
+  - Retired `group: "tools"` from the enum and from `CONTENT.md`, which documented it as available
+    even though `site.skillGroups` never listed it -- so the Skills page could not have rendered
+    it either way. Its only consumer in the repo was one test fixture using it as "a valid group
+    the site does not list"; that now uses `delivery`.
+  - Cross-locale guard: the parity test's `keys()` collapses an array to its key name, so it saw
+    that `productIndex` exists but not what was in it. These are ids, never translated prose, so
+    `i18n.test.ts` now asserts pt and es match English exactly.
+
+- [x] **L-48 Populate the curated list with what is already evidenced** (S). Eleven ids, every one
+      already in `skills.json` and already referenced by a project (or deliberately dormant):
+      products first (`own-data`, `d4sign`, `fonteva`, `nimble-ams`, `grax`), then tools
+      (`gearset`, `salesforce-dx`, `aws`, `gitlab`, `bitbucket`, `jenkins`). No new facts, so no
+      content approval was needed.
+  - Home goes from 6 rows / 2 live to **11 rows / 8 live**, verified against the built `dist` in
+    all three locales. `fonteva`, `nimble-ams` and `grax` stay dim until a project references them.
+  - `nonprofit-cloud` was deliberately left out: NPSP and Nonprofit Cloud are different products
+    on different data models, and the existing entry conflates them. It still appears on Skills
+    under `products`; correcting that needs a new `npsp` id and Shawn's input (L-49).
+
+- [ ] **L-49 Add newly evidenced tools** (M) -- **blocked on Shawn.** Candidates and their evidence
+      are in the research notes; each needs him to confirm what he actually did with the tool
+      before it is published (CLAUDE.md rule 2). Includes the `npsp` id correction above.
+  - Narrowed by decision 22: the Gearset half is settled and needs no per-project work. What is
+    left is BookStack (what was his, and whether the documentation centre is publishable at all),
+    the `npsp` correction, and whether `grax` is real experience or an entry to delete.
+
+- [x] **L-50 Decide whether `aws` stays one coarse entry** (S). `aws` reads as a bare three-letter
+      label on a Salesforce portfolio; a hiring manager cannot tell S3 from Lambda from API
+      Gateway. Resolved as decision 21: it stays one entry, and no content changed.
+  - Two projects carry the capability, and they are not symmetrical. Lavoro Agro's approved text
+    already names the service twice ("a Python Flask API on AWS App Runner"), so the specifics
+    reach the reader where they belong -- in the project, not in a chip. `third-republic-data-cloud`
+    names no service anywhere in its subtitle, summary or outcomes.
+  - That asymmetry is what decides it. A split would move the label to the evidenced service, but
+    Third Republic links to the same skill, so any service name would claim something about that
+    project which no source states (CLAUDE.md rule 2). One coarse entry is the only option that
+    invents nothing.
+  - The gap is now a precise question rather than a silent one: CONTENT_QUESTIONS B4 asks what
+    Third Republic ran on AWS, with dropping the capability as an explicit option. An answer
+    unblocks the split; silence leaves the site correct.
+
+- [x] **L-51 Release tooling is listed, never linked** (S). Shawn: every Orchid project uses
+      Gearset, but tools for version and deployment management should not be linked per project --
+      just listed under "Products and tools". Tagging eleven Orchid projects with `gearset` is
+      therefore not wanted, and the link that was already there was wrong.
+  - The link had become the misleading part. `gearset` is tagged on one project (Adtalem), so Home
+    linked it to a filtered Work page showing one project, while the truth is "that one plus every
+    Orchid project". A count that under-reports is worse than no count.
+  - `ProductEntry.state` replaces the count-driven link test with three states, because two were
+    not enough: `linked` (used, filterable, keeps its count), `listed` (used, never filterable, no
+    count) and `dormant` (no project uses it yet). The first version of this change used a single
+    `linked` boolean and made Gearset render dim -- the treatment that means "never used", which is
+    the opposite of what Shawn said. `listed` and `dormant` look different for that reason.
+  - The class needs no new curation: the `devops` group is already exactly version and deployment
+    tooling, so `derive.productState()` reads the Skills taxonomy and no second list can drift from
+    it. `LISTED_ONLY_GROUP` is the one place the policy lives.
+  - Home: 11 rows, 3 linked (`own-data`, `d4sign`, `aws`), 5 release tools listed bright and
+    countless, 3 products dimmed. Verified in the built `dist` for all three locales. The Skills
+    page is untouched -- Gearset still sits in DevOps with its count and link, because there a
+    count means "projects tagged with this", which is literally true.
+
 #### Execution order
 
 L-35 → L-42 → L-36 → L-39 with L-37 → L-41 → L-38 → L-40 → L-21 with L-22 → L-23 with L-24 →
@@ -870,3 +943,8 @@ screenshots at 375, 768 and 1440 on the built preview, a ticked box with notes, 
 | L-42         | Apple fonts review              | done   |
 | L-43         | Globe back after jump to Intro  | done   |
 | L-44         | Rail handle lines to chevrons   | done   |
+| L-47         | Curated products list           | done   |
+| L-48         | Populate products & tools       | done   |
+| L-49         | Newly evidenced tools           | open   |
+| L-50         | AWS granularity                 | done   |
+| L-51         | Release tooling listed only     | done   |
