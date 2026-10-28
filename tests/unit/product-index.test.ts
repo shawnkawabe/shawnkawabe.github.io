@@ -77,7 +77,7 @@ describe('ProductTicker', () => {
     expect(html).not.toContain('cap=gearset');
   });
 
-  it('announces and focuses only the first copy, with counts for screen readers', async () => {
+  it('announces and focuses only the first copy, with counts for screen readers only', async () => {
     const html = await container.renderToString(ProductTicker, {
       props: { items, id: 'ticker' },
       request: new Request('https://shawnkawabe.github.io/en/'),
@@ -87,6 +87,9 @@ describe('ProductTicker', () => {
     expect(links).toHaveLength(4);
     expect(links.filter(([, attrs]) => !attrs.includes('tabindex="-1"'))).toHaveLength(1);
     expect(html).toContain('(2 projects)');
+    // The count is not shown: no superscript number beside the name (2026-10-28).
+    expect(html).not.toContain('<sup');
+    expect(html).toMatch(/<span class="sr-only">\s*\(2 projects\)/);
     expect(html.match(/aria-hidden="true"/g)!.length).toBeGreaterThan(2);
     expect(html).toMatch(/data-ticker-toggle[^>]*aria-pressed="false"/);
     expect(html).not.toMatch(/href="\/en\/work\?cap=fonteva"/);

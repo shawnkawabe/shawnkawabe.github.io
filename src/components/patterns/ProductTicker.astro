@@ -1,7 +1,7 @@
 ---
 // Home "Products and tools" as a moving typographic list (BACKLOG-LANDING L-10). Two rows drift in
-// opposite directions; `linked` products are bright and carry their project count, the rest are
-// dimmer plain text (release tooling is always listed this way, decision 22). A round toggle pauses the motion (WCAG 2.2.2), and a row also pauses on hover
+// opposite directions; `linked` products are bright links to Work filtered by the product (their
+// project count is for screen readers only), the rest are plain text (release tooling is always listed this way, decision 22). A round toggle pauses the motion (WCAG 2.2.2), and a row also pauses on hover
 // or focus inside it. With reduced motion or no JavaScript, global.css shows the static index
 // (passed in the default slot) instead, so the list is never read twice.
 import Icon from '@/components/ui/Icon.astro';
@@ -51,18 +51,14 @@ const rows = [items, [...items.slice(half), ...items.slice(0, half)]];
                       <a
                         href={`${workPath}?cap=${item.id}`}
                         tabindex={echo ? -1 : undefined}
-                        class="group/item flex items-start gap-1 px-6 font-heading text-8 whitespace-nowrap text-on-surface-1 no-underline transition-colors duration-250 hover:text-accent-1 focus-visible:text-accent-1"
+                        class="px-6 font-heading text-8 whitespace-nowrap text-on-surface-1 no-underline transition-colors duration-250 hover:text-accent-1 focus-visible:text-accent-1"
                       >
                         {item.label}
-                        <sup class="font-mono text-1 tracking-label text-on-surface-2 group-hover/item:text-accent-1">
-                          <span aria-hidden="true">
-                            {String(item.projectCount).padStart(2, '0')}
-                          </span>
-                          <span class="sr-only">
-                            {' '}
-                            ({plural(ui.cards.projects, item.projectCount)})
-                          </span>
-                        </sup>
+                        {/* No visible count (Shawn, 2026-10-28); screen readers still hear it. */}
+                        <span class="sr-only">
+                          {' '}
+                          ({plural(ui.cards.projects, item.projectCount)})
+                        </span>
                       </a>
                     ) : (
                       <span
