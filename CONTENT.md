@@ -16,6 +16,7 @@ All text, dates and facts about Shawn live in `content/{locale}/*.json` (`en`, `
 2. **Add images** to `public/img/{slug}/`: `cover.webp` (1600×900) optional, gallery `01.webp`, `02.webp`… (max width 1600px, WebP quality 80). Blur client or personal data.
 3. **Add the object** to `content/en/projects.json` (copy an existing one). Required fields: `id`, `title`, `subtitle`, `client`, `employers`, `role`, `industry`, `clouds`, `capabilities`, `category`, `depth`, `summary`, `cover`.
 4. **Use ids, not labels**, in `clouds` and `capabilities`. If a skill is missing, add it to `content/en/skills.json` first.
+   4a. **When the client cannot be named**, `title` names the implementation instead and `client` describes the client's area or market ("Professional membership association"); `industry` still takes the short sector noun. This is the Orchid rule (decision 23), and it is why those entries do not follow the title-is-the-client pattern of the rest. Do not "fix" them by moving a client name in.
 5. **Run** `npm run validate:content && npm run dev`, open `/work/{slug}`, check it at mobile width.
 
 ## Field rules
