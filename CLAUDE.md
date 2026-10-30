@@ -2,7 +2,7 @@
 
 You are building the personal portfolio of **Shawn Kawabe, Senior Salesforce Developer and Functional Specialist**, published at `https://shawnkawabe.github.io` (GitHub Pages user site, served from the domain root).
 
-**Repository:** `shawnkawabe/shawnkawabe.github.io`. Work on branch `rebuild`, merge to `main` to deploy. Today the repo holds only a placeholder (`index.html`, `styles/index.css`, `.vscode/settings.json`, `README.md`, `LICENSE`). The previous Salesforce LWC version lives in the private repo `shawnkawabe/portfolio`; use it only as reference for old project text, never copy its code or images.
+**Repository:** `shawnkawabe/shawnkawabe.github.io`. Work on a short-lived `feat/*` or `fix/*` branch and merge it into `main` with `--no-ff`; `main` is what GitHub Pages deploys, and the push is Shawn's to make. The MVP is built, so read the code before assuming something is missing: pages, content layer, three locales, tests and CI are all in place. `rebuild` is a historical branch, abandoned at P3-07 and over a hundred commits behind `main`; never target it. The previous Salesforce LWC version lives in the private repo `shawnkawabe/portfolio`; use it only as reference for old project text, never copy its code or images.
 
 Read this file at the start of every session. Read the linked docs before working in their area.
 

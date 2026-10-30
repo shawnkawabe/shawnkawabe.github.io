@@ -113,6 +113,46 @@ why / trade-off. A copy of `_TEMPLATE.md` per project works too.
 - Cooxupé:
 - BRF:
 
+## D. The Orchid entries (decision 23)
+
+Seven entries describe Orchid work without naming the end clients: the title names the
+implementation and `client` carries the area or market. As everywhere else here, a blank answer
+leaves the entry reading exactly as it does today.
+
+### D1. Business outcomes, and team size
+
+Every one of the seven has an outcome list with nothing measured, and `teamSize` empty. A repo
+proves what shipped, not what changed for the client, and neither number is recoverable from git.
+Give an outcome only if you can defend it in an interview; the qualitative labels already render
+without one. Team size takes the same form as C1 ("1 dev, 2 admins, 1 QA, 1 PO").
+
+| Entry                                            | What changed for the client | Team |
+| ------------------------------------------------ | --------------------------- | ---- |
+| Single sign-on to an event platform              |                             |      |
+| Member community pages and email journeys        |                             |      |
+| Configurable exhibitor onboarding framework      |                             |      |
+| Content visibility framework ported between orgs |                             |      |
+| Flow-ready configurable list component           |                             |      |
+| Delegate counting and chapter status framework   |                             |      |
+| Salesforce managed-package product engineering   |                             |      |
+
+### D2. Did the delegate counting framework reach production?
+
+It sits in WIP commits on no branch, so git cannot answer. The card describes what was built and
+claims no outcome. If it shipped, it can say so.
+
+### D3. How much CYRIL detail does Orchid clear?
+
+The managed-package entry stays a `card` covering only the public marketing surface, because nothing
+in the brief clears the internals. If Orchid clears implementation detail, it becomes the fuller case
+study the brief argues for.
+
+### D4. Three proposed skill ids need your call
+
+`ai-assisted-development` and `context-engineering`, only if you want that work visible on the
+Skills page. `absorb-lms`, only if your authorship of the LMS integration is confirmed. The other
+proposed ids need no decision from you and are listed under P3-06 in `docs/BACKLOG.md`.
+
 ## Already decided, nothing needed
 
 - Portrait: none (decision 7). The About page shows a photo only once `site.photo` points at an

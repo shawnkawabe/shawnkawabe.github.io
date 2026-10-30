@@ -16,6 +16,11 @@ docs/source-figma/
 # employer IP. This repo is a PUBLIC Pages site, so "not rendered" is not "not
 # public" -- keep them local until each fact is cleared for publication.
 docs/briefs/orchid/
+# Agent worktrees and local agent material. `.claude/` holds a nested checkout of
+# this same repo, and `docs/claude-agent/` holds licensed UI references; a bare
+# `git add .` has already swept the latter in once.
+.claude/
+docs/claude-agent/
 .DS_Store
 .playwright-mcp/
 
