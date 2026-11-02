@@ -34,7 +34,7 @@
     "*.{css,json,md}": "prettier --write"
   },
   "dependencies": {
-    "@astrojs/react": "^7.1.1",
+    "@astrojs/react": "^7.1.2",
     "@astrojs/sitemap": "^3.7.4",
     "@fontsource-variable/geist": "^5.3.0",
     "@fontsource-variable/geist-mono": "^5.3.0",
@@ -44,15 +44,15 @@
     "@tailwindcss/vite": "^4.3.3",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
-    "astro": "^7.4.2",
+    "astro": "^7.4.4",
     "class-variance-authority": "^0.7.1",
-    "cn": "^0.5.0",
-    "lucide-react": "^1.61.0",
+    "cn": "^0.5.1",
+    "lucide-react": "^1.65.0",
     "radix-ui": "^1.8.1",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "tailwindcss": "^4.3.3",
-    "three": "^0.186.1",
+    "three": "^0.187.0",
     "tw-animate-css": "^1.4.0",
     "zod": "^4.6.7"
   },
@@ -78,11 +78,11 @@
     "prettier": "^3.9.10",
     "prettier-plugin-astro": "^1.1.2",
     "prettier-plugin-tailwindcss": "^0.8.1",
-    "shadcn": "^4.22.1",
+    "shadcn": "^4.23.0",
     "style-dictionary": "^5.7.1",
     "topojson-client": "^3.1.0",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.72.0",
+    "typescript-eslint": "^8.72.1",
     "vitest": "^5.0.5",
     "world-atlas": "^2.0.2"
   }
